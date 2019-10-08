@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name" translatable="false">Parley demo</string>
+
+    <!-- Defaults -->
+    <string name="default_ok">Ok</string>
+    <string name="default_identifier">Identification code</string>
+
+    <!-- IdentifierActivity -->
+    <string name="identifier_hello">Hello!</string>
+    <string name="identifier_enter_your_own_identifier">Enter your identification code to start a chat session.</string>
+    <string name="identifier_start_chat">Start chat</string>
+
+    <string name="identifier_invalid_identifier_title">Incorrect identification code</string>
+    <string name="identifier_invalid_identifier_body">You have entered an incorrect identification code. Try again.</string>
+
+    <!-- ChatActivity -->
+    <string name="chat_title">Chat</string>
+    <string name="chat_something_went_wrong">Something went wrong while initializing the chat. Check your internet connection and try again.</string>
+</resources>

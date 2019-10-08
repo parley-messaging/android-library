@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Parley - Base -->
+
+    <declare-styleable name="Parley">
+        <attr name="parley_background" format="reference" />
+        <attr name="parley_background_tint_color" format="color" />
+
+        <attr name="parley_margin" format="dimension" />
+        <attr name="parley_margin_top" format="dimension" />
+        <attr name="parley_margin_right" format="dimension" />
+        <attr name="parley_margin_bottom" format="dimension" />
+        <attr name="parley_margin_left" format="dimension" />
+        <attr name="parley_content_padding" format="dimension" />
+        <attr name="parley_content_padding_top" format="dimension" />
+        <attr name="parley_content_padding_right" format="dimension" />
+        <attr name="parley_content_padding_bottom" format="dimension" />
+        <attr name="parley_content_padding_left" format="dimension" />
+
+        <attr name="parley_icon" format="reference" />
+        <attr name="parley_icon_tint_color" format="color" />
+
+        <attr name="parley_text_size" format="dimension" />
+        <attr name="parley_text_color" format="color" />
+        <attr name="parley_tint_color" format="color" />
+
+        <attr name="parley_font_family" format="reference">
+            <enum name="normal" value="0" />
+            <enum name="sans" value="1" />
+            <enum name="serif" value="2" />
+            <enum name="monospace" value="3" />
+        </attr>
+
+        <attr name="parley_font_style">
+            <flag name="normal" value="0" />
+            <flag name="bold" value="1" />
+            <flag name="italic" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <!-- Parley - View -->
+    <declare-styleable name="ParleyView">
+        <attr name="parley_background_color" format="color" />
+        <attr name="parley_loader_tint_color" format="color" />
+
+        <attr name="parley_images_enabled" format="boolean" />
+    </declare-styleable>
+
+    <!-- Parley - Notification View -->
+    <declare-styleable name="ParleyNotificationView">
+        <attr name="parley_background" />
+        <attr name="parley_background_tint_color" />
+
+        <attr name="parley_content_padding" />
+        <attr name="parley_content_padding_top" />
+        <attr name="parley_content_padding_right" />
+        <attr name="parley_content_padding_bottom" />
+        <attr name="parley_content_padding_left" />
+
+        <attr name="parley_icon" />
+        <attr name="parley_icon_tint_color" />
+
+        <attr name="parley_font_family" />
+        <attr name="parley_font_style" />
+        <attr name="parley_text_size" />
+        <attr name="parley_text_color" />
+    </declare-styleable>
+
+    <!-- Parley - Sticky View -->
+    <declare-styleable name="ParleyStickyView">
+        <attr name="parley_background" />
+        <attr name="parley_background_tint_color" />
+
+        <attr name="parley_content_padding" />
+        <attr name="parley_content_padding_top" />
+        <attr name="parley_content_padding_right" />
+        <attr name="parley_content_padding_bottom" />
+        <attr name="parley_content_padding_left" />
+
+        <attr name="parley_icon" />
+        <attr name="parley_icon_tint_color" />
+
+        <attr name="parley_font_family" />
+        <attr name="parley_font_style" />
+        <attr name="parley_text_size" />
+        <attr name="parley_text_color" />
+        <attr name="parley_text_tint_color" />
+    </declare-styleable>
+
+    <!-- Parley - Compose View -->
+    <declare-styleable name="ParleyComposeView">
+        <attr name="parley_background" />
+        <attr name="parley_background_tint_color" />
+
+        <attr name="parley_content_padding" />
+        <attr name="parley_content_padding_top" />
+        <attr name="parley_content_padding_right" />
+        <attr name="parley_content_padding_bottom" />
+        <attr name="parley_content_padding_left" />
+
+        <attr name="parley_input_padding" />
+        <attr name="parley_input_padding_top" />
+        <attr name="parley_input_padding_right" />
+        <attr name="parley_input_padding_bottom" />
+        <attr name="parley_input_padding_left" />
+
+        <attr name="parley_font_family" />
+        <attr name="parley_font_style" />
+        <attr name="parley_text_size" />
+        <attr name="parley_text_color" />
+        <attr name="parley_hint_text_color" format="color" />
+
+        <attr name="parley_input_background" format="reference" />
+        <attr name="parley_input_background_tint_color" format="color" />
+        <attr name="parley_send_background_tint_color" format="color" />
+        <attr name="parley_send_icon" format="reference" />
+        <attr name="parley_send_icon_tint_color" format="color" />
+        <attr name="parley_camera_icon" format="reference" />
+        <attr name="parley_camera_icon_tint_color" format="color" />
+    </declare-styleable>
+
+    <!-- Parley - Messages -->
+
+    <declare-styleable name="ParleyInfoMessage">
+        <attr name="parley_content_padding" />
+        <attr name="parley_content_padding_top" />
+        <attr name="parley_content_padding_right" />
+        <attr name="parley_content_padding_bottom" />
+        <attr name="parley_content_padding_left" />
+
+        <attr name="parley_font_family" />
+        <attr name="parley_font_style" />
+        <attr name="parley_text_size" />
+        <attr name="parley_text_color" />
+        <attr name="parley_text_tint_color" />
+    </declare-styleable>
+
+    <declare-styleable name="ParleyDateMessage">
+        <attr name="parley_background" />
+        <attr name="parley_background_tint_color" />
+
+        <attr name="parley_content_padding" />
+        <attr name="parley_content_padding_top" />
+        <attr name="parley_content_padding_right" />
+        <attr name="parley_content_padding_bottom" />
+        <attr name="parley_content_padding_left" />
+
+        <attr name="parley_font_family" />
+        <attr name="parley_font_style" />
+        <attr name="parley_text_size" />
+        <attr name="parley_text_color" />
+    </declare-styleable>
+
+    <declare-styleable name="ParleyLoadingMessage">
+        <attr name="parley_content_padding" />
+        <attr name="parley_content_padding_top" />
+        <attr name="parley_content_padding_right" />
+        <attr name="parley_content_padding_bottom" />
+        <attr name="parley_content_padding_left" />
+
+        <attr name="parley_tint_color" />
+    </declare-styleable>
+
+    <!-- User or Agent Message-->
+    <declare-styleable name="ParleyMessageBase">
+        <attr name="parley_background" />
+        <attr name="parley_background_tint_color" />
+
+        <attr name="parley_margin" />
+        <attr name="parley_margin_top" />
+        <attr name="parley_margin_right" />
+        <attr name="parley_margin_bottom" />
+        <attr name="parley_margin_left" />
+        <attr name="parley_message_content_padding" format="dimension" />
+        <attr name="parley_message_content_padding_top" format="dimension" />
+        <attr name="parley_message_content_padding_right" format="dimension" />
+        <attr name="parley_message_content_padding_bottom" format="dimension" />
+        <attr name="parley_message_content_padding_left" format="dimension" />
+        <attr name="parley_message_meta_padding" format="dimension" />
+        <attr name="parley_message_meta_padding_top" format="dimension" />
+        <attr name="parley_message_meta_padding_right" format="dimension" />
+        <attr name="parley_message_meta_padding_bottom" format="dimension" />
+        <attr name="parley_message_meta_padding_left" format="dimension" />
+        <attr name="parley_image_content_padding" format="dimension" />
+        <attr name="parley_image_content_padding_top" format="dimension" />
+        <attr name="parley_image_content_padding_right" format="dimension" />
+        <attr name="parley_image_content_padding_bottom" format="dimension" />
+        <attr name="parley_image_content_padding_left" format="dimension" />
+        <attr name="parley_image_meta_padding" format="dimension" />
+        <attr name="parley_image_meta_padding_top" format="dimension" />
+        <attr name="parley_image_meta_padding_right" format="dimension" />
+        <attr name="parley_image_meta_padding_bottom" format="dimension" />
+        <attr name="parley_image_meta_padding_left" format="dimension" />
+
+        <attr name="parley_image_corner_radius" format="dimension" />
+        <attr name="parley_image_placeholder" format="reference" />
+        <attr name="parley_image_loader_tint_color" format="color" />
+
+        <attr name="parley_font_family" />
+        <attr name="parley_font_style" />
+        <attr name="parley_text_size" />
+        <attr name="parley_text_color" />
+        <attr name="parley_tint_color" />
+
+        <attr name="parley_time_font_family" />
+        <attr name="parley_time_font_style" />
+        <attr name="parley_time_text_size" format="dimension" />
+        <attr name="parley_message_time_color" format="color" />
+        <attr name="parley_image_time_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ParleyMessageUser">
+        <attr name="parley_message_status_color" format="color" />
+        <attr name="parley_image_status_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ParleyMessageAgent">
+        <attr name="parley_image_name_padding" format="dimension" />
+        <attr name="parley_image_name_padding_top" format="dimension" />
+        <attr name="parley_image_name_padding_right" format="dimension" />
+        <attr name="parley_image_name_padding_bottom" format="dimension" />
+        <attr name="parley_image_name_padding_left" format="dimension" />
+
+        <attr name="parley_show_name" format="boolean" />
+        <attr name="parley_name_color" format="color" />
+        <attr name="parley_name_font_family" />
+        <attr name="parley_name_font_style" />
+        <attr name="parley_name_text_size" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ParleyMessageAgentTyping">
+        <attr name="parley_background" />
+        <attr name="parley_background_tint_color" />
+
+        <attr name="parley_margin" />
+        <attr name="parley_margin_top" />
+        <attr name="parley_margin_right" />
+        <attr name="parley_margin_bottom" />
+        <attr name="parley_margin_left" />
+        <attr name="parley_content_padding" />
+        <attr name="parley_content_padding_top" />
+        <attr name="parley_content_padding_right" />
+        <attr name="parley_content_padding_bottom" />
+        <attr name="parley_content_padding_left" />
+
+        <attr name="parley_dot_color" format="color" />
+    </declare-styleable>
+
+    <!-- Fonts -->
+
+    <!-- Unsupported font values: -->
+    <!--<enum name="casual" value="casual" />-->
+    <!--<enum name="cursive" value="cursive" />-->
+    <!--<enum name="monospace" value="monospace" />-->
+    <!--<enum name="serif" value="serif" />-->
+    <!--<enum name="serif-monospace" value="serif-monospace" />-->
+    <!--<enum name="sans-serif" value="sans-serif" />-->
+    <!--<enum name="sans-serif-black" value="sans-serif-black" />-->
+    <!--<enum name="sans-serif-light" value="sans-serif-light" />-->
+    <!--<enum name="sans-serif-medium" value="sans-serif-medium" />-->
+    <!--<enum name="sans-serif-smallcaps" value="sans-serif-smallcaps" />-->
+    <!--<enum name="sans-serif-thin" value="sans-serif-thin" />-->
+    <!--<enum name="sans-serif-condensed" value="sans-serif-condensed" />-->
+    <!--<enum name="sans-serif-condensed-light" value="sans-serif-condensed-light" />-->
+    <!--<enum name="sans-serif-condensed-medium" value="sans-serif-condensed-medium" />-->
+
+    <attr name="parley_name_font_family" format="reference">
+        <enum name="normal" value="0" />
+        <enum name="sans" value="1" />
+        <enum name="serif" value="2" />
+        <enum name="monospace" value="3" />
+    </attr>
+
+    <attr name="parley_time_font_family" format="reference">
+        <enum name="normal" value="0" />
+        <enum name="sans" value="1" />
+        <enum name="serif" value="2" />
+        <enum name="monospace" value="3" />
+    </attr>
+
+    <attr name="parley_name_font_style">
+        <flag name="normal" value="0" />
+        <flag name="bold" value="1" />
+        <flag name="italic" value="2" />
+    </attr>
+
+    <attr name="parley_time_font_style">
+        <flag name="normal" value="0" />
+        <flag name="bold" value="1" />
+        <flag name="italic" value="2" />
+    </attr>
+
+</resources>

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="ImageViewer" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.8</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
+    </style>
+
+    <!--
+    ** Advanced - View specific configuration **
+    The styles below can be overridden optionally to directly style a view in Parley. Note that it
+    is required to override all the properties that are defined in the style. The default values, as
+    configured here, can be used.
+
+    ** Advanced - View specific fonts **
+    To use different fonts for specific views, the style of that specific view should be overridden.
+    Thus in turn, it should define every property as stated in this file. Thus to only change
+    the font, copy the style definition of that view and only change the font property.
+    -->
+
+    <style name="ParleyViewStyle">
+        <item name="parley_background_color">@color/parley_background</item>
+        <item name="parley_loader_tint_color">@color/parley_loader_tint</item>
+
+        <item name="parley_images_enabled">@bool/parley_images_enabled</item>
+    </style>
+
+    <style name="ParleyNotificationViewStyle" parent="ParleyStyle">
+        <item name="parley_background">@drawable/parley_notification_background</item>
+        <item name="parley_background_tint_color">@color/parley_notification_background_tint</item>
+
+        <item name="parley_content_padding">@dimen/parley_notification_padding</item>
+        <item name="parley_content_padding_top">@dimen/parley_notification_padding_top</item>
+        <item name="parley_content_padding_bottom">@dimen/parley_notification_padding_bottom</item>
+        <item name="parley_content_padding_right">@dimen/parley_notification_padding_right</item>
+        <item name="parley_content_padding_left">@dimen/parley_notification_padding_left</item>
+
+        <item name="parley_icon">@drawable/parley_notification_icon</item>
+        <item name="parley_icon_tint_color">@color/parley_notification_icon_tint</item>
+
+        <!--<item name="parley_font_family">sans</item>-->
+        <!--<item name="parley_font_style">normal</item>-->
+        <item name="parley_text_size">@dimen/parley_notification_text_size</item>
+        <item name="parley_text_color">@color/parley_notification_text</item>
+    </style>
+
+    <style name="ParleyStickyViewStyle" parent="ParleyStyle">
+        <item name="parley_background">@drawable/parley_sticky_background</item>
+        <item name="parley_background_tint_color">@color/parley_sticky_background_tint</item>
+
+        <item name="parley_content_padding">@dimen/parley_sticky_padding_top</item>
+        <item name="parley_content_padding_top">@dimen/parley_sticky_padding_top</item>
+        <item name="parley_content_padding_bottom">@dimen/parley_sticky_padding_bottom</item>
+        <item name="parley_content_padding_right">@dimen/parley_sticky_padding_right</item>
+        <item name="parley_content_padding_left">@dimen/parley_sticky_padding_left</item>
+
+        <item name="parley_icon">@drawable/parley_sticky_icon</item>
+        <item name="parley_icon_tint_color">@color/parley_sticky_icon_tint</item>
+
+        <!--<item name="parley_font_family">sans</item>-->
+        <!--<item name="parley_font_style">normal</item>-->
+        <item name="parley_text_size">@dimen/parley_sticky_text_size</item>
+        <item name="parley_text_color">@color/parley_sticky_text</item>
+    </style>
+
+    <style name="ParleyComposeViewStyle" parent="ParleyStyle">
+        <item name="parley_background">@drawable/parley_compose_background</item>
+        <item name="parley_background_tint_color">@color/parley_compose_background_tint</item>
+
+        <item name="parley_content_padding">@dimen/parley_compose_padding</item>
+        <item name="parley_content_padding_top">@dimen/parley_compose_padding_top</item>
+        <item name="parley_content_padding_bottom">@dimen/parley_compose_padding_bottom</item>
+        <item name="parley_content_padding_right">@dimen/parley_compose_padding_right</item>
+        <item name="parley_content_padding_left">@dimen/parley_compose_padding_left</item>
+
+        <item name="parley_input_padding">@dimen/parley_compose_input_padding</item>
+        <item name="parley_input_padding_top">@dimen/parley_compose_input_padding_top</item>
+        <item name="parley_input_padding_bottom">@dimen/parley_compose_input_padding_bottom</item>
+        <item name="parley_input_padding_left">@dimen/parley_compose_input_padding_left</item>
+        <item name="parley_input_padding_right">@dimen/parley_compose_input_padding_right</item>
+
+        <!--<item name="parley_font_family">sans</item>-->
+        <!--<item name="parley_font_style">normal</item>-->
+        <item name="parley_text_size">@dimen/parley_compose_text_size</item>
+        <item name="parley_text_color">@color/parley_compose_text</item>
+        <item name="parley_hint_text_color">@color/parley_compose_hint_text</item>
+
+        <item name="parley_input_background">@drawable/parley_compose_input_background</item>
+        <item name="parley_input_background_tint_color">
+            @color/parley_compose_input_background_tint
+        </item>
+        <item name="parley_send_background_tint_color">@color/parley_compose_send_background_tint
+        </item>
+        <item name="parley_send_icon">@drawable/parley_compose_send_icon</item>
+        <item name="parley_send_icon_tint_color">@color/parley_compose_send_icon_tint</item>
+        <item name="parley_camera_icon">@drawable/parley_compose_camera_icon</item>
+        <item name="parley_camera_icon_tint_color">@color/parley_compose_camera_icon_tint</item>
+    </style>
+
+    <style name="ParleyMessageLoadingStyle">
+        <item name="parley_content_padding">@dimen/parley_loading_padding</item>
+        <item name="parley_content_padding_top">@dimen/parley_loading_padding_top</item>
+        <item name="parley_content_padding_bottom">@dimen/parley_loading_padding_bottom</item>
+        <item name="parley_content_padding_right">@dimen/parley_loading_padding_right</item>
+        <item name="parley_content_padding_left">@dimen/parley_loading_padding_left</item>
+
+        <item name="parley_tint_color">@color/parley_loading_tint</item>
+    </style>
+
+    <style name="ParleyMessageInfoStyle" parent="ParleyStyle">
+        <item name="parley_content_padding">@dimen/parley_info_padding</item>
+        <item name="parley_content_padding_top">@dimen/parley_info_padding_top</item>
+        <item name="parley_content_padding_bottom">@dimen/parley_info_padding_bottom</item>
+        <item name="parley_content_padding_right">@dimen/parley_info_padding_right</item>
+        <item name="parley_content_padding_left">@dimen/parley_info_padding_left</item>
+
+        <!--<item name="parley_font_family">sans</item>-->
+        <!--<item name="parley_font_style">normal</item>-->
+        <item name="parley_text_size">@dimen/parley_info_text_size</item>
+        <item name="parley_text_color">@color/parley_info_text</item>
+        <item name="parley_text_tint_color">@color/parley_info_tint</item>
+    </style>
+
+    <style name="ParleyMessageDateStyle" parent="ParleyStyle">
+        <item name="parley_background">@drawable/parley_date_background</item>
+        <item name="parley_background_tint_color">@color/parley_date_background_tint</item>
+
+        <item name="parley_content_padding">@dimen/parley_date_padding</item>
+        <item name="parley_content_padding_top">@dimen/parley_date_padding_top</item>
+        <item name="parley_content_padding_bottom">@dimen/parley_date_padding_bottom</item>
+        <item name="parley_content_padding_right">@dimen/parley_date_padding_right</item>
+        <item name="parley_content_padding_left">@dimen/parley_date_padding_left</item>
+
+        <!--<item name="parley_font_family">sans</item>-->
+        <item name="parley_font_style">bold</item>
+        <item name="parley_text_size">@dimen/parley_date_text_size</item>
+        <item name="parley_text_color">@color/parley_date_text</item>
+    </style>
+
+    <style name="ParleyMessageUserStyle" parent="ParleyStyle">
+        <!-- Message values -->
+        <item name="parley_background">@drawable/parley_user_background</item>
+        <item name="parley_background_tint_color">@color/parley_user_background_tint</item>
+
+        <item name="parley_margin">@dimen/parley_user_margin</item>
+        <item name="parley_margin_top">@dimen/parley_user_margin_top</item>
+        <item name="parley_margin_bottom">@dimen/parley_user_margin_bottom</item>
+        <item name="parley_margin_right">@dimen/parley_user_margin_right</item>
+        <item name="parley_margin_left">@dimen/parley_user_margin_left</item>
+        <item name="parley_message_content_padding">@dimen/parley_user_message_content_padding</item>
+        <item name="parley_message_content_padding_top">@dimen/parley_user_message_content_padding_top</item>
+        <item name="parley_message_content_padding_bottom">@dimen/parley_user_message_content_padding_bottom</item>
+        <item name="parley_message_content_padding_right">@dimen/parley_user_message_content_padding_right</item>
+        <item name="parley_message_content_padding_left">@dimen/parley_user_message_content_padding_left</item>
+        <item name="parley_message_meta_padding">@dimen/parley_user_message_meta_padding</item>
+        <item name="parley_message_meta_padding_top">@dimen/parley_user_message_meta_padding_top</item>
+        <item name="parley_message_meta_padding_bottom">@dimen/parley_user_message_meta_padding_bottom</item>
+        <item name="parley_message_meta_padding_right">@dimen/parley_user_message_meta_padding_right</item>
+        <item name="parley_message_meta_padding_left">@dimen/parley_user_message_meta_padding_left</item>
+        <item name="parley_image_content_padding">@dimen/parley_user_image_content_padding</item>
+        <item name="parley_image_content_padding_top">@dimen/parley_user_image_content_padding_top</item>
+        <item name="parley_image_content_padding_bottom">@dimen/parley_user_image_content_padding_bottom</item>
+        <item name="parley_image_content_padding_right">@dimen/parley_user_image_content_padding_right</item>
+        <item name="parley_image_content_padding_left">@dimen/parley_user_image_content_padding_left</item>
+        <item name="parley_image_meta_padding">@dimen/parley_user_image_meta_padding</item>
+        <item name="parley_image_meta_padding_top">@dimen/parley_user_image_meta_padding_top</item>
+        <item name="parley_image_meta_padding_bottom">@dimen/parley_user_image_meta_padding_bottom</item>
+        <item name="parley_image_meta_padding_right">@dimen/parley_user_image_meta_padding_right</item>
+        <item name="parley_image_meta_padding_left">@dimen/parley_user_image_meta_padding_left</item>
+
+        <item name="parley_image_corner_radius">@dimen/parley_user_image_corner_radius</item>
+        <item name="parley_image_placeholder">@drawable/parley_user_image_placeholder</item>
+        <item name="parley_image_loader_tint_color">@color/parley_user_image_loader_tint</item>
+
+        <!--<item name="parley_font_family">sans</item>-->
+        <!--<item name="parley_font_style">normal</item>-->
+        <item name="parley_text_size">@dimen/parley_user_text_size</item>
+        <item name="parley_text_color">@color/parley_user_text</item>
+        <item name="parley_tint_color">@color/parley_user_text_tint</item>
+
+        <!--<item name="parley_time_font_family">sans</item>-->
+        <!--<item name="parley_time_font_style">normal</item>-->
+        <item name="parley_time_text_size">@dimen/parley_user_time_text_size</item>
+        <item name="parley_message_time_color">@color/parley_user_message_time</item>
+        <item name="parley_image_time_color">@color/parley_user_image_time</item>
+
+        <!-- User values -->
+        <item name="parley_message_status_color">@color/parley_user_message_status</item>
+        <item name="parley_image_status_color">@color/parley_user_image_status</item>
+    </style>
+
+    <style name="ParleyMessageAgentStyle" parent="ParleyStyle">
+        <!-- Message values -->
+        <item name="parley_background">@drawable/parley_agent_background</item>
+        <item name="parley_background_tint_color">@color/parley_agent_background_tint</item>
+
+        <item name="parley_margin">@dimen/parley_agent_margin</item>
+        <item name="parley_margin_top">@dimen/parley_agent_margin_top</item>
+        <item name="parley_margin_bottom">@dimen/parley_agent_margin_bottom</item>
+        <item name="parley_margin_right">@dimen/parley_agent_margin_right</item>
+        <item name="parley_margin_left">@dimen/parley_agent_margin_left</item>
+        <item name="parley_message_content_padding">@dimen/parley_agent_message_content_padding</item>
+        <item name="parley_message_content_padding_top">@dimen/parley_agent_message_content_padding_top</item>
+        <item name="parley_message_content_padding_bottom">@dimen/parley_agent_message_content_padding_bottom</item>
+        <item name="parley_message_content_padding_right">@dimen/parley_agent_message_content_padding_right</item>
+        <item name="parley_message_content_padding_left">@dimen/parley_agent_message_content_padding_left</item>
+        <item name="parley_message_meta_padding">@dimen/parley_agent_message_meta_padding</item>
+        <item name="parley_message_meta_padding_top">@dimen/parley_agent_message_meta_padding_top</item>
+        <item name="parley_message_meta_padding_bottom">@dimen/parley_agent_message_meta_padding_bottom</item>
+        <item name="parley_message_meta_padding_right">@dimen/parley_agent_message_meta_padding_right</item>
+        <item name="parley_message_meta_padding_left">@dimen/parley_agent_message_meta_padding_left</item>
+        <item name="parley_image_content_padding">@dimen/parley_agent_image_content_padding</item>
+        <item name="parley_image_content_padding_top">@dimen/parley_agent_image_content_padding_top</item>
+        <item name="parley_image_content_padding_bottom">@dimen/parley_agent_image_content_padding_bottom</item>
+        <item name="parley_image_content_padding_right">@dimen/parley_agent_image_content_padding_right</item>
+        <item name="parley_image_content_padding_left">@dimen/parley_agent_image_content_padding_left</item>
+        <item name="parley_image_meta_padding">@dimen/parley_agent_image_meta_padding</item>
+        <item name="parley_image_meta_padding_top">@dimen/parley_agent_image_meta_padding_top</item>
+        <item name="parley_image_meta_padding_bottom">@dimen/parley_agent_image_meta_padding_bottom</item>
+        <item name="parley_image_meta_padding_right">@dimen/parley_agent_image_meta_padding_right</item>
+        <item name="parley_image_meta_padding_left">@dimen/parley_agent_image_meta_padding_left</item>
+
+        <item name="parley_image_corner_radius">@dimen/parley_agent_image_corner_radius</item>
+        <item name="parley_image_placeholder">@drawable/parley_agent_image_placeholder</item>
+        <item name="parley_image_loader_tint_color">@color/parley_agent_image_loader_tint</item>
+
+        <!--<item name="parley_font_family">sans</item>-->
+        <!--<item name="parley_font_style">normal</item>-->
+        <item name="parley_text_size">@dimen/parley_agent_text_size</item>
+        <item name="parley_text_color">@color/parley_agent_text</item>
+        <item name="parley_tint_color">@color/parley_agent_text_tint</item>
+
+        <!--<item name="parley_time_font_family">sans</item>-->
+        <!--<item name="parley_time_font_style">normal</item>-->
+        <item name="parley_time_text_size">@dimen/parley_agent_time_text_size</item>
+        <item name="parley_message_time_color">@color/parley_agent_message_time</item>
+        <item name="parley_image_time_color">@color/parley_agent_image_time</item>
+
+        <!-- Agent values -->
+        <item name="parley_image_name_padding">@dimen/parley_agent_image_name_padding</item>
+        <item name="parley_image_name_padding_top">@dimen/parley_agent_image_name_padding_top</item>
+        <item name="parley_image_name_padding_bottom">@dimen/parley_agent_image_name_padding_bottom</item>
+        <item name="parley_image_name_padding_right">@dimen/parley_agent_image_name_padding_right</item>
+        <item name="parley_image_name_padding_left">@dimen/parley_agent_image_name_padding_left</item>
+
+        <item name="parley_show_name">@bool/parley_agent_show_name</item>
+        <item name="parley_name_color">@color/parley_agent_name</item>
+        <!--<item name="parley_name_font_family">sans</item>-->
+        <!--<item name="parley_name_font_style">bold</item>-->
+        <item name="parley_name_text_size">@dimen/parley_agent_name_text_size</item>
+    </style>
+
+    <style name="ParleyMessageAgentTypingStyle">
+        <item name="parley_background">@drawable/parley_ic_balloon_agent</item>
+        <item name="parley_background_tint_color">@color/parley_agent_typing_background_tint</item>
+
+        <item name="parley_margin">@dimen/parley_agent_typing_margin</item>
+        <item name="parley_margin_top">@dimen/parley_agent_typing_margin_top</item>
+        <item name="parley_margin_bottom">@dimen/parley_agent_typing_margin_bottom</item>
+        <item name="parley_margin_right">@dimen/parley_agent_typing_margin_right</item>
+        <item name="parley_margin_left">@dimen/parley_agent_typing_margin_left</item>
+        <item name="parley_content_padding">@dimen/parley_agent_typing_content_padding</item>
+        <item name="parley_content_padding_top">@dimen/parley_agent_typing_content_padding_top</item>
+        <item name="parley_content_padding_bottom">@dimen/parley_agent_typing_content_padding_bottom</item>
+        <item name="parley_content_padding_right">@dimen/parley_agent_typing_content_padding_right</item>
+        <item name="parley_content_padding_left">@dimen/parley_agent_typing_content_padding_left</item>
+
+        <item name="parley_dot_color">@color/parley_agent_typing_dot</item>
+    </style>
+
+</resources>

@@ -1,0 +1,93 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'com.novoda.bintray-release'
+
+ext {
+    libraryPackageIdentifier = 'nu.parley.android'
+    libraryVersion = '3.0.0'
+}
+
+publish {
+    userOrg = 'parley'
+    repoName = 'Parley'
+    uploadName = libraryPackageIdentifier
+    groupId = libraryPackageIdentifier
+    artifactId = 'parley'
+    publishVersion = libraryVersion
+    desc = 'Parley Messaging Android library'
+    website = 'https://www.parley.nu'
+    licences = ['MIT']
+    issueTracker = 'https://github.com/parley-messaging/android-library/issues'
+    repository = 'https://github.com/parley-messaging/android-library.git'
+    dryRun = false
+}
+
+Properties localProperties = new Properties()
+if (project.rootProject.file('local.properties').canRead()) {
+    localProperties.load(new FileInputStream(project.rootProject.file('local.properties')))
+    publish.bintrayUser = localProperties['bintray.user']
+    publish.bintrayKey = localProperties['bintray.apikey']
+}
+
+group = libraryPackageIdentifier
+version = libraryVersion
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName libraryVersion
+
+        vectorDrawables.useSupportLibrary true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+ext {
+    versionRetrofit = '2.6.0'
+    versionGlide = '4.9.0'
+    versionMarkwon = '4.0.2'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // AndroidX artifacts
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    // Android Material
+    implementation 'com.google.android.material:material:1.0.0'
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:${versionRetrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${versionRetrofit}"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:${versionGlide}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${versionGlide}"
+
+    // TrustKit
+    implementation 'com.datatheorem.android.trustkit:trustkit:1.1.2'
+
+    // Markdown support
+    implementation "io.noties.markwon:core:${versionMarkwon}"
+
+    // Image Viewer
+    implementation 'com.github.MikeOrtiz:TouchImageView:2.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    testImplementation 'junit:junit:4.12'
+}

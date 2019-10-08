@@ -1,0 +1,14 @@
+<resources>
+    <string name="parley_type_message">Typ een bericht…</string>
+    <string name="parley_notification_offline">Controleer uw internetverbinding</string>
+    <string name="parley_select_photo">Selecteer een foto</string>
+    <string name="parley_take_photo">Maak een foto</string>
+    <string name="parley_notification_channel_name">Chat berichten</string>
+    <string name="parley_state_unconfigured">De chat is niet geconfigureerd.</string>
+    <string name="parley_state_failed">De chat kan op het moment niet weergegeven worden.</string>
+    <string name="parley_general_cancel">Annuleren</string>
+    <string name="parley_photo">Foto</string>
+
+    <!-- Image Viewer -->
+    <string name="image_viewer_title">Afbeelding</string>
+</resources>

@@ -1,0 +1,30 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="nu.parley.android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <application>
+        <provider
+            android:name=".util.TakePictureFileProvider"
+            android:authorities="${applicationId}.parley_file_provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/parley_provider_paths" />
+        </provider>
+
+        <!-- Note: Only used on API < 20 -->
+        <receiver android:name=".util.ConnectivityMonitor$ParleyConnectivityBroadcastReceiver" />
+
+    </application>
+</manifest>

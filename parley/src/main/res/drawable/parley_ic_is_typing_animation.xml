@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/parley_ic_is_typing">
+
+    <target
+        android:name="dot_1"
+        android:animation="@anim/ic_is_typing_dot_1" />
+
+    <target
+        android:name="dot_2"
+        android:animation="@anim/ic_is_typing_dot_2" />
+
+    <target
+        android:name="dot_3"
+        android:animation="@anim/ic_is_typing_dot_3" />
+</animated-vector>
