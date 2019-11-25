@@ -14,26 +14,44 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+import nu.parley.ParleyCustomerAuthorization;
 import nu.parley.R;
 import nu.parley.android.Parley;
 import nu.parley.android.ParleyCallback;
 import nu.parley.android.ParleyNetwork;
 import nu.parley.android.data.messages.ParleyEncryptedDataSource;
+import nu.parley.repository.PreferenceRepository;
 
 public final class IdentifierActivity extends BaseActivity {
 
     private static final String REGEX_IDENTIFIER = "^[a-zA-Z0-9]{20}$";
 
     private EditText identifierEditText;
+    private EditText customerIdEditText;
     private Button startChatButton;
     private ProgressBar startChatLoader;
+
+    private TextView.OnEditorActionListener submitActionListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                dismissKeyboard(identifierEditText);
+                openChatActivity();
+                return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,29 +59,22 @@ public final class IdentifierActivity extends BaseActivity {
         setContentView(R.layout.activity_identifier);
 
         identifierEditText = findViewById(R.id.identifier_edit_text);
+        customerIdEditText = findViewById(R.id.customer_id_edit_text);
         startChatButton = findViewById(R.id.start_chat_button);
         startChatLoader = findViewById(R.id.start_chat_loader);
 
-        setupIdentifierEditText();
-        setupStartChatButton();
+        setupView();
     }
 
-    private void setupIdentifierEditText() {
-        identifierEditText.setText(getIdentifierFromSharedPreferences());
-        identifierEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    dismissKeyboard(identifierEditText);
-                    openChatActivity();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
+    private void setupView() {
+        PreferenceRepository preferenceRepository = new PreferenceRepository();
 
-    private void setupStartChatButton() {
+        identifierEditText.setText(preferenceRepository.getIdentifier(this));
+        identifierEditText.setOnEditorActionListener(submitActionListener);
+
+        customerIdEditText.setText(preferenceRepository.getCustomerId(this));
+        customerIdEditText.setOnEditorActionListener(submitActionListener);
+
         startChatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,13 +86,22 @@ public final class IdentifierActivity extends BaseActivity {
     private void openChatActivity() {
         String identifier = identifierEditText.getText().toString();
         if (validateIdentifier(identifier)) {
-            saveIdentifierInSharedPreferences(identifier);
+            String customerId = customerIdEditText.getText().toString();
+
+            savePreferences(identifier, customerId);
 
             Intent intent = new Intent(this, ChatActivity.class);
             startActivity(intent);
 
             initParley();
         }
+    }
+
+    private void savePreferences(String identifier, String customerId) {
+        PreferenceRepository preferenceRepository = new PreferenceRepository();
+
+        preferenceRepository.setIdentifier(this, identifier);
+        preferenceRepository.setCustomerId(this, customerId);
     }
 
     private Boolean validateIdentifier(String identifier) {
@@ -109,11 +129,13 @@ public final class IdentifierActivity extends BaseActivity {
 //        setOfflineMessagingEnabled(); // Optional, default off
 //        Parley.disableOfflineMessaging();
 
-//        setUserInformation(); // Optional, default off
+        registerUserWithCustomerId(); // Optional, default off
 
         startChatButton.setEnabled(false);
         startChatLoader.setVisibility(View.VISIBLE);
-        Parley.configure(this, getIdentifierFromSharedPreferences(), new ParleyCallback() {
+
+        String identifier = new PreferenceRepository().getIdentifier(this);
+        Parley.configure(this, identifier, new ParleyCallback() {
             @Override
             public void onSuccess() {
                 startChatButton.setEnabled(true);
@@ -172,5 +194,30 @@ public final class IdentifierActivity extends BaseActivity {
     @SuppressWarnings("unused")
     private void setOfflineMessagingEnabled() {
         Parley.enableOfflineMessaging(new ParleyEncryptedDataSource(this, "1234567890123456"));
+    }
+
+    /**
+     * Registers a user for the chat with the provided customer id.
+     * Here, the user authorization is generated by the device itself. However, generation of it
+     * should be done elsewhere, as noted in {@link ParleyCustomerAuthorization}.
+     *
+     * Check out `setUserInformation()` for a simple example when the user authorization is known.
+     */
+    private void registerUserWithCustomerId() {
+        String customerId = new PreferenceRepository().getCustomerId(this);
+        if (customerId == null || customerId.trim().isEmpty()) {
+            // Unregister, if previously was registered
+            Parley.clearUserInformation();
+            return;
+        }
+
+        final String sharedSecret = "d13acc9e59d422cdec0d71a44bb571a5ab1de02f2e025198a610191fdf831e18ce84569b8af0893b85425a080f3d18055ba1bc44541b9c12373d3ec8045cb320"; // Shared secret with Parley
+        try {
+            String userAuthorization = new ParleyCustomerAuthorization().generate(customerId, sharedSecret);
+            Parley.setUserInformation(userAuthorization);
+        } catch (InvalidKeyException | NoSuchAlgorithmException e) {
+            showAlertDialog(R.string.default_error_title, R.string.identifier_customer_id_error_encryption);
+            e.printStackTrace();
+        }
     }
 }

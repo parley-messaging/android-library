@@ -2,8 +2,10 @@
 <resources>
 
     <!-- Defaults -->
-    <string name="default_ok">Ok</string>
+    <string name="default_ok">OK</string>
     <string name="default_identifier">Identificatie code</string>
+    <string name="default_customer_id">Customer id</string>
+    <string name="default_error_title">Oops!</string>
 
     <!-- IdentifierActivity -->
     <string name="identifier_hello">Hallo!</string>
@@ -12,6 +14,7 @@
 
     <string name="identifier_invalid_identifier_title">Foutieve identificatie code</string>
     <string name="identifier_invalid_identifier_body">Je hebt een foutieve identificatie code ingevoerd. Probeer opnieuw.</string>
+    <string name="identifier_customer_id_error_encryption">Er is iets fout gegaan bij het instellen van de ingevoerde identificatie. Controleer de gegevens en probeer opnieuw.</string>
 
     <!-- ChatActivity -->
     <string name="chat_title">Chat</string>

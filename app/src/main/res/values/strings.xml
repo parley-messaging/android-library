@@ -2,8 +2,10 @@
     <string name="app_name" translatable="false">Parley demo</string>
 
     <!-- Defaults -->
-    <string name="default_ok">Ok</string>
+    <string name="default_ok">OK</string>
     <string name="default_identifier">Identification code</string>
+    <string name="default_customer_id">Customer id</string>
+    <string name="default_error_title">Oops!</string>
 
     <!-- IdentifierActivity -->
     <string name="identifier_hello">Hello!</string>
@@ -12,6 +14,7 @@
 
     <string name="identifier_invalid_identifier_title">Incorrect identification code</string>
     <string name="identifier_invalid_identifier_body">You have entered an incorrect identification code. Try again.</string>
+    <string name="identifier_customer_id_error_encryption">Something went wrong with configuring the identification. Check your input and try again.</string>
 
     <!-- ChatActivity -->
     <string name="chat_title">Chat</string>

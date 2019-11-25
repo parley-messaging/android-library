@@ -64,6 +64,18 @@
                 android:lines="1"
                 android:maxLength="20" />
 
+            <EditText
+                android:id="@+id/customer_id_edit_text"
+                style="@style/AppTheme.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_small"
+                android:hint="@string/default_customer_id"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLength="20" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -49,14 +49,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .show();
     }
 
-    protected String getIdentifierFromSharedPreferences() {
-        return new PreferenceRepository().getIdentifier(this);
-    }
-
-    protected void saveIdentifierInSharedPreferences(String identifier) {
-        new PreferenceRepository().setIdentifier(this, identifier);
-    }
-
     protected void dismissKeyboard(View view) {
         InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputManager != null) {
