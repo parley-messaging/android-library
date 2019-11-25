@@ -28,7 +28,7 @@ public final class MessageViewHolderFactory {
         return message.getTypeId();
     }
 
-    static ParleyBaseViewHolder getViewHolder(int viewType, View itemView) {
+    public static ParleyBaseViewHolder getViewHolder(int viewType, View itemView) {
         switch (viewType) {
             case MESSAGE_TYPE_INFO:
                 return new InfoViewHolder(itemView);

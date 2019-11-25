@@ -4,7 +4,7 @@ apply plugin: 'com.novoda.bintray-release'
 
 ext {
     libraryPackageIdentifier = 'nu.parley.android'
-    libraryVersion = '3.0.0'
+    libraryVersion = '3.0.1'
 }
 
 publish {
@@ -48,7 +48,7 @@ android {
 
 ext {
     versionRetrofit = '2.6.0'
-    versionGlide = '4.9.0'
+    versionGlide = '4.10.0'
     versionMarkwon = '4.0.2'
 }
 

@@ -30,16 +30,23 @@ public final class Message {
     @SerializedName("time")
     private long timeStamp;
 
+    @SerializedName("title")
+    @Nullable
+    private String title;
+
     @SerializedName("message")
+    @Nullable
     private String message;
 
     @SerializedName("image")
+    @Nullable
     private String imageUrl;
 
     @SerializedName("typeId")
     private int typeId;
 
     @SerializedName("agent")
+    @Nullable
     private Agent agent;
 
     @SerializedName("send_status")
@@ -49,8 +56,18 @@ public final class Message {
         // Hide constructor
     }
 
-    private Message(UUID uuid, @Nullable Integer id, long timeStamp, String message, String imageUrl, int typeId, Agent agent, int sendStatus) {
+    private Message(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String imageUrl, int typeId, @Nullable Agent agent, int sendStatus) {
         this.uuid = uuid;
+        this.id = id;
+        this.timeStamp = timeStamp;
+        this.message = message;
+        this.imageUrl = imageUrl;
+        this.typeId = typeId;
+        this.agent = agent;
+        this.sendStatus = sendStatus;
+    }
+
+    Message(@Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String imageUrl, int typeId, @Nullable Agent agent, int sendStatus) {
         this.id = id;
         this.timeStamp = timeStamp;
         this.message = message;
@@ -135,6 +152,12 @@ public final class Message {
         return id;
     }
 
+    @Nullable
+    public String getTitle() {
+        return title;
+    }
+
+    @Nullable
     public String getMessage() {
         return message;
     }
@@ -143,6 +166,7 @@ public final class Message {
         return typeId;
     }
 
+    @Nullable
     public Agent getAgent() {
         return agent;
     }
@@ -186,6 +210,18 @@ public final class Message {
 
     public int getSendStatus() {
         return sendStatus;
+    }
+
+    /**
+     * Determine whether this message consists of only an image as body. However, the message might still have
+     * buttons or other content attached.
+     *
+     * @return `true` if it only consists of an image, `false` otherwise.
+     */
+    public boolean isImageOnly() {
+        return imageUrl != null &&
+                (title == null || title.trim().isEmpty()) &&
+                (message == null || message.trim().isEmpty());
     }
 
     public boolean isEqualVisually(Message other) {

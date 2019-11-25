@@ -156,21 +156,16 @@
         <item name="parley_message_content_padding_bottom">@dimen/parley_user_message_content_padding_bottom</item>
         <item name="parley_message_content_padding_right">@dimen/parley_user_message_content_padding_right</item>
         <item name="parley_message_content_padding_left">@dimen/parley_user_message_content_padding_left</item>
-        <item name="parley_message_meta_padding">@dimen/parley_user_message_meta_padding</item>
-        <item name="parley_message_meta_padding_top">@dimen/parley_user_message_meta_padding_top</item>
-        <item name="parley_message_meta_padding_bottom">@dimen/parley_user_message_meta_padding_bottom</item>
-        <item name="parley_message_meta_padding_right">@dimen/parley_user_message_meta_padding_right</item>
-        <item name="parley_message_meta_padding_left">@dimen/parley_user_message_meta_padding_left</item>
         <item name="parley_image_content_padding">@dimen/parley_user_image_content_padding</item>
         <item name="parley_image_content_padding_top">@dimen/parley_user_image_content_padding_top</item>
         <item name="parley_image_content_padding_bottom">@dimen/parley_user_image_content_padding_bottom</item>
         <item name="parley_image_content_padding_right">@dimen/parley_user_image_content_padding_right</item>
         <item name="parley_image_content_padding_left">@dimen/parley_user_image_content_padding_left</item>
-        <item name="parley_image_meta_padding">@dimen/parley_user_image_meta_padding</item>
-        <item name="parley_image_meta_padding_top">@dimen/parley_user_image_meta_padding_top</item>
-        <item name="parley_image_meta_padding_bottom">@dimen/parley_user_image_meta_padding_bottom</item>
-        <item name="parley_image_meta_padding_right">@dimen/parley_user_image_meta_padding_right</item>
-        <item name="parley_image_meta_padding_left">@dimen/parley_user_image_meta_padding_left</item>
+        <item name="parley_meta_padding">@dimen/parley_user_meta_padding</item>
+        <item name="parley_meta_padding_top">@dimen/parley_user_meta_padding_top</item>
+        <item name="parley_meta_padding_bottom">@dimen/parley_user_meta_padding_bottom</item>
+        <item name="parley_meta_padding_right">@dimen/parley_user_meta_padding_right</item>
+        <item name="parley_meta_padding_left">@dimen/parley_user_meta_padding_left</item>
 
         <item name="parley_image_corner_radius">@dimen/parley_user_image_corner_radius</item>
         <item name="parley_image_placeholder">@drawable/parley_user_image_placeholder</item>
@@ -208,21 +203,16 @@
         <item name="parley_message_content_padding_bottom">@dimen/parley_agent_message_content_padding_bottom</item>
         <item name="parley_message_content_padding_right">@dimen/parley_agent_message_content_padding_right</item>
         <item name="parley_message_content_padding_left">@dimen/parley_agent_message_content_padding_left</item>
-        <item name="parley_message_meta_padding">@dimen/parley_agent_message_meta_padding</item>
-        <item name="parley_message_meta_padding_top">@dimen/parley_agent_message_meta_padding_top</item>
-        <item name="parley_message_meta_padding_bottom">@dimen/parley_agent_message_meta_padding_bottom</item>
-        <item name="parley_message_meta_padding_right">@dimen/parley_agent_message_meta_padding_right</item>
-        <item name="parley_message_meta_padding_left">@dimen/parley_agent_message_meta_padding_left</item>
         <item name="parley_image_content_padding">@dimen/parley_agent_image_content_padding</item>
         <item name="parley_image_content_padding_top">@dimen/parley_agent_image_content_padding_top</item>
         <item name="parley_image_content_padding_bottom">@dimen/parley_agent_image_content_padding_bottom</item>
         <item name="parley_image_content_padding_right">@dimen/parley_agent_image_content_padding_right</item>
         <item name="parley_image_content_padding_left">@dimen/parley_agent_image_content_padding_left</item>
-        <item name="parley_image_meta_padding">@dimen/parley_agent_image_meta_padding</item>
-        <item name="parley_image_meta_padding_top">@dimen/parley_agent_image_meta_padding_top</item>
-        <item name="parley_image_meta_padding_bottom">@dimen/parley_agent_image_meta_padding_bottom</item>
-        <item name="parley_image_meta_padding_right">@dimen/parley_agent_image_meta_padding_right</item>
-        <item name="parley_image_meta_padding_left">@dimen/parley_agent_image_meta_padding_left</item>
+        <item name="parley_meta_padding">@dimen/parley_agent_meta_padding</item>
+        <item name="parley_meta_padding_top">@dimen/parley_agent_meta_padding_top</item>
+        <item name="parley_meta_padding_bottom">@dimen/parley_agent_meta_padding_bottom</item>
+        <item name="parley_meta_padding_right">@dimen/parley_agent_meta_padding_right</item>
+        <item name="parley_meta_padding_left">@dimen/parley_agent_meta_padding_left</item>
 
         <item name="parley_image_corner_radius">@dimen/parley_agent_image_corner_radius</item>
         <item name="parley_image_placeholder">@drawable/parley_agent_image_placeholder</item>
@@ -241,11 +231,11 @@
         <item name="parley_image_time_color">@color/parley_agent_image_time</item>
 
         <!-- Agent values -->
-        <item name="parley_image_name_padding">@dimen/parley_agent_image_name_padding</item>
-        <item name="parley_image_name_padding_top">@dimen/parley_agent_image_name_padding_top</item>
-        <item name="parley_image_name_padding_bottom">@dimen/parley_agent_image_name_padding_bottom</item>
-        <item name="parley_image_name_padding_right">@dimen/parley_agent_image_name_padding_right</item>
-        <item name="parley_image_name_padding_left">@dimen/parley_agent_image_name_padding_left</item>
+        <item name="parley_name_padding">@dimen/parley_agent_name_padding</item>
+        <item name="parley_name_padding_top">@dimen/parley_agent_name_padding_top</item>
+        <item name="parley_name_padding_bottom">@dimen/parley_agent_name_padding_bottom</item>
+        <item name="parley_name_padding_right">@dimen/parley_agent_name_padding_right</item>
+        <item name="parley_name_padding_left">@dimen/parley_agent_name_padding_left</item>
 
         <item name="parley_show_name">@bool/parley_agent_show_name</item>
         <item name="parley_name_color">@color/parley_agent_name</item>

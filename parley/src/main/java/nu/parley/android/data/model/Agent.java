@@ -33,4 +33,13 @@ public final class Agent {
     public Date getIsTyping() {
         return new Date(isTyping * 1000);
     }
+
+    Agent(String name) {
+        this(name, null);
+    }
+
+    Agent(String name, String avatarUrl) {
+        this.name = name;
+        this.avatar = avatarUrl;
+    }
 }

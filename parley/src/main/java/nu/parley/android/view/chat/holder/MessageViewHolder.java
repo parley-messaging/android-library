@@ -40,9 +40,8 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         StyleUtil.StyleSpacing styleSpacingMargin = StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageBase_parley_margin, R.styleable.ParleyMessageBase_parley_margin_top, R.styleable.ParleyMessageBase_parley_margin_right, R.styleable.ParleyMessageBase_parley_margin_bottom, R.styleable.ParleyMessageBase_parley_margin_left);
         itemView.setPadding(styleSpacingMargin.left, styleSpacingMargin.top, styleSpacingMargin.right, styleSpacingMargin.bottom);
         balloonView.setMessageContentPadding(StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageBase_parley_message_content_padding, R.styleable.ParleyMessageBase_parley_message_content_padding_top, R.styleable.ParleyMessageBase_parley_message_content_padding_right, R.styleable.ParleyMessageBase_parley_message_content_padding_bottom, R.styleable.ParleyMessageBase_parley_message_content_padding_left));
-        balloonView.setMessageMetaPadding(StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageBase_parley_message_meta_padding, R.styleable.ParleyMessageBase_parley_message_meta_padding_top, R.styleable.ParleyMessageBase_parley_message_meta_padding_right, R.styleable.ParleyMessageBase_parley_message_meta_padding_bottom, R.styleable.ParleyMessageBase_parley_message_meta_padding_left));
         balloonView.setImageContentPadding(StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageBase_parley_image_content_padding, R.styleable.ParleyMessageBase_parley_image_content_padding_top, R.styleable.ParleyMessageBase_parley_image_content_padding_right, R.styleable.ParleyMessageBase_parley_image_content_padding_bottom, R.styleable.ParleyMessageBase_parley_image_content_padding_left));
-        balloonView.setImageMetaPadding(StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageBase_parley_image_meta_padding, R.styleable.ParleyMessageBase_parley_image_meta_padding_top, R.styleable.ParleyMessageBase_parley_image_meta_padding_right, R.styleable.ParleyMessageBase_parley_image_meta_padding_bottom, R.styleable.ParleyMessageBase_parley_image_meta_padding_left));
+        balloonView.setMetaPadding(StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageBase_parley_meta_padding, R.styleable.ParleyMessageBase_parley_meta_padding_top, R.styleable.ParleyMessageBase_parley_meta_padding_right, R.styleable.ParleyMessageBase_parley_meta_padding_bottom, R.styleable.ParleyMessageBase_parley_meta_padding_left));
 
         balloonView.setImageCornerRadius(StyleUtil.getDimension(ta, R.styleable.ParleyMessageBase_parley_image_corner_radius));
         balloonView.setImagePlaceholder(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyMessageBase_parley_image_placeholder));
@@ -63,24 +62,20 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
     public void show(Message message) {
         balloonView.setLayoutGravity(shouldAlignRight() ? Gravity.END : Gravity.START);
 
-        boolean isImage = message.getImage() != null;
-        balloonView.refreshStyle(isImage);
+        balloonView.refreshStyle(message.isImageOnly());
         // Agent name
         boolean showAgentName = shouldShowName() && message.getAgent() != null;
+        boolean hasImage = message.getImage() != null;
         if (showAgentName) {
-            balloonView.setName(message.getAgent().getName(), isImage);
+            balloonView.setName(message.getAgent().getName(), hasImage);
         } else {
-            balloonView.setName(null, isImage);
+            balloonView.setName(null, hasImage);
         }
 
-        // Content: A message has either an image or some text
-        if (isImage) {
-            balloonView.setText(null);
-            balloonView.setImage(message.getImage());
-        } else {
-            balloonView.setText(message.getMessage());
-            balloonView.clearImage();
-        }
+         // Content: A message has either an image or some text
+        balloonView.setImage(message.getImage());
+        balloonView.setTitle(message.getTitle());
+        balloonView.setText(message.getMessage());
 
         // Meta
         balloonView.setTime(message.getDate());

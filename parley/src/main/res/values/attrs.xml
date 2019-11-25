@@ -176,21 +176,16 @@
         <attr name="parley_message_content_padding_right" format="dimension" />
         <attr name="parley_message_content_padding_bottom" format="dimension" />
         <attr name="parley_message_content_padding_left" format="dimension" />
-        <attr name="parley_message_meta_padding" format="dimension" />
-        <attr name="parley_message_meta_padding_top" format="dimension" />
-        <attr name="parley_message_meta_padding_right" format="dimension" />
-        <attr name="parley_message_meta_padding_bottom" format="dimension" />
-        <attr name="parley_message_meta_padding_left" format="dimension" />
         <attr name="parley_image_content_padding" format="dimension" />
         <attr name="parley_image_content_padding_top" format="dimension" />
         <attr name="parley_image_content_padding_right" format="dimension" />
         <attr name="parley_image_content_padding_bottom" format="dimension" />
         <attr name="parley_image_content_padding_left" format="dimension" />
-        <attr name="parley_image_meta_padding" format="dimension" />
-        <attr name="parley_image_meta_padding_top" format="dimension" />
-        <attr name="parley_image_meta_padding_right" format="dimension" />
-        <attr name="parley_image_meta_padding_bottom" format="dimension" />
-        <attr name="parley_image_meta_padding_left" format="dimension" />
+        <attr name="parley_meta_padding" format="dimension" />
+        <attr name="parley_meta_padding_top" format="dimension" />
+        <attr name="parley_meta_padding_right" format="dimension" />
+        <attr name="parley_meta_padding_bottom" format="dimension" />
+        <attr name="parley_meta_padding_left" format="dimension" />
 
         <attr name="parley_image_corner_radius" format="dimension" />
         <attr name="parley_image_placeholder" format="reference" />
@@ -215,11 +210,11 @@
     </declare-styleable>
 
     <declare-styleable name="ParleyMessageAgent">
-        <attr name="parley_image_name_padding" format="dimension" />
-        <attr name="parley_image_name_padding_top" format="dimension" />
-        <attr name="parley_image_name_padding_right" format="dimension" />
-        <attr name="parley_image_name_padding_bottom" format="dimension" />
-        <attr name="parley_image_name_padding_left" format="dimension" />
+        <attr name="parley_name_padding" format="dimension" />
+        <attr name="parley_name_padding_top" format="dimension" />
+        <attr name="parley_name_padding_right" format="dimension" />
+        <attr name="parley_name_padding_bottom" format="dimension" />
+        <attr name="parley_name_padding_left" format="dimension" />
 
         <attr name="parley_show_name" format="boolean" />
         <attr name="parley_name_color" format="color" />

@@ -38,7 +38,7 @@ public final class AgentMessageViewHolder extends MessageViewHolder {
 
     private void applyStyle() {
         TypedArray ta = getContext().obtainStyledAttributes(getStyleTheme(), R.styleable.ParleyMessageAgent);
-        balloonView.setImageNamePadding(StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageAgent_parley_image_name_padding, R.styleable.ParleyMessageAgent_parley_image_name_padding_top, R.styleable.ParleyMessageAgent_parley_image_name_padding_right, R.styleable.ParleyMessageAgent_parley_image_name_padding_bottom, R.styleable.ParleyMessageAgent_parley_image_name_padding_left));
+        balloonView.setNamePadding(StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageAgent_parley_name_padding, R.styleable.ParleyMessageAgent_parley_name_padding_top, R.styleable.ParleyMessageAgent_parley_name_padding_right, R.styleable.ParleyMessageAgent_parley_name_padding_bottom, R.styleable.ParleyMessageAgent_parley_name_padding_left));
         showAgentName = StyleUtil.getBoolean(ta, R.styleable.ParleyMessageAgent_parley_show_name, showAgentName);
         balloonView.setNameColor(StyleUtil.getColorStateList(ta, R.styleable.ParleyMessageAgent_parley_name_color));
         balloonView.setNameFont(StyleUtil.getFont(getContext(), ta, R.styleable.ParleyMessageAgent_parley_name_font_family), StyleUtil.getFontStyle(ta, R.styleable.ParleyMessageAgent_parley_name_font_style));
