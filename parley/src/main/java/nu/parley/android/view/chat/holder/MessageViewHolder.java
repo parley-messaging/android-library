@@ -4,47 +4,62 @@ import android.content.res.TypedArray;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.StyleRes;
+import androidx.recyclerview.widget.RecyclerView;
 
 import nu.parley.android.R;
+import nu.parley.android.data.model.Action;
 import nu.parley.android.data.model.Message;
 import nu.parley.android.util.StyleUtil;
 import nu.parley.android.view.BalloonView;
+import nu.parley.android.view.chat.MessageListener;
+import nu.parley.android.view.chat.MessageViewHolderFactory;
+import nu.parley.android.view.chat.action.MessageAdditionAdapter;
+import nu.parley.android.view.chat.action.MessageAdditionListener;
+import nu.parley.android.view.chat.carousel.CarouselAdapter;
 
 public abstract class MessageViewHolder extends ParleyBaseViewHolder {
 
+    protected ViewGroup balloonLayout;
     BalloonView balloonView;
+    private RecyclerView carouselRecyclerView;
+    MessageListener listener;
 
-    MessageViewHolder(View itemView) {
+    MessageViewHolder(View itemView, MessageListener listener) {
         super(itemView);
 
+        balloonLayout = itemView.findViewById(R.id.balloon_layout);
         balloonView = itemView.findViewById(R.id.balloon_view);
+        carouselRecyclerView = itemView.findViewById(R.id.carousel_recycler_view);
+        this.listener = listener;
         applyBaseStyle();
     }
 
-    abstract boolean shouldShowName();
+    protected abstract boolean shouldShowName();
 
-    abstract boolean shouldShowStatus();
+    protected abstract boolean shouldShowStatus();
 
-    abstract boolean shouldAlignRight();
+    protected abstract boolean shouldAlignRight();
 
     @StyleRes
     abstract int getStyleTheme();
 
-    protected void applyBaseStyle() {
+    private void applyBaseStyle() {
         TypedArray ta = getContext().obtainStyledAttributes(getStyleTheme(), R.styleable.ParleyMessageBase);
         balloonView.setBackground(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyMessageBase_parley_background));
         StyleUtil.Helper.applyBackgroundColor(balloonView, ta, R.styleable.ParleyMessageBase_parley_background_tint_color);
 
         StyleUtil.StyleSpacing styleSpacingMargin = StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageBase_parley_margin, R.styleable.ParleyMessageBase_parley_margin_top, R.styleable.ParleyMessageBase_parley_margin_right, R.styleable.ParleyMessageBase_parley_margin_bottom, R.styleable.ParleyMessageBase_parley_margin_left);
-        itemView.setPadding(styleSpacingMargin.left, styleSpacingMargin.top, styleSpacingMargin.right, styleSpacingMargin.bottom);
+        balloonLayout.setPadding(styleSpacingMargin.left, styleSpacingMargin.top, styleSpacingMargin.right, styleSpacingMargin.bottom);
         balloonView.setMessageContentPadding(StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageBase_parley_message_content_padding, R.styleable.ParleyMessageBase_parley_message_content_padding_top, R.styleable.ParleyMessageBase_parley_message_content_padding_right, R.styleable.ParleyMessageBase_parley_message_content_padding_bottom, R.styleable.ParleyMessageBase_parley_message_content_padding_left));
         balloonView.setImageContentPadding(StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageBase_parley_image_content_padding, R.styleable.ParleyMessageBase_parley_image_content_padding_top, R.styleable.ParleyMessageBase_parley_image_content_padding_right, R.styleable.ParleyMessageBase_parley_image_content_padding_bottom, R.styleable.ParleyMessageBase_parley_image_content_padding_left));
         balloonView.setMetaPadding(StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageBase_parley_meta_padding, R.styleable.ParleyMessageBase_parley_meta_padding_top, R.styleable.ParleyMessageBase_parley_meta_padding_right, R.styleable.ParleyMessageBase_parley_meta_padding_bottom, R.styleable.ParleyMessageBase_parley_meta_padding_left));
 
         balloonView.setImageCornerRadius(StyleUtil.getDimension(ta, R.styleable.ParleyMessageBase_parley_image_corner_radius));
         balloonView.setImagePlaceholder(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyMessageBase_parley_image_placeholder));
+        balloonView.setImagePlaceholerTintColor(StyleUtil.getColorStateList(ta, R.styleable.ParleyMessageBase_parley_image_placeholder_tint_color));
         balloonView.setImageLoadingTintColor(StyleUtil.getColor(ta, R.styleable.ParleyMessageBase_parley_image_loader_tint_color));
 
         balloonView.setTextFont(StyleUtil.getFont(getContext(), ta, R.styleable.ParleyMessageBase_parley_font_family), StyleUtil.getFontStyle(ta, R.styleable.ParleyMessageBase_parley_font_style));
@@ -59,10 +74,10 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         ta.recycle();
     }
 
-    public void show(Message message) {
+    public void show(final Message message) {
         balloonView.setLayoutGravity(shouldAlignRight() ? Gravity.END : Gravity.START);
 
-        balloonView.refreshStyle(message.isImageOnly());
+        balloonView.refreshStyle(message.isImageContentOnly());
         // Agent name
         boolean showAgentName = shouldShowName() && message.getAgent() != null;
         boolean hasImage = message.getImage() != null;
@@ -72,8 +87,8 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
             balloonView.setName(null, hasImage);
         }
 
-         // Content: A message has either an image or some text
-        balloonView.setImage(message.getImage());
+        // Content: A message has either an image or some text
+        balloonView.setImage(message.getImage(), message.isImageOnly());
         balloonView.setTitle(message.getTitle());
         balloonView.setText(message.getMessage());
 
@@ -81,5 +96,40 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         balloonView.setTime(message.getDate());
         balloonView.setStatus(message.getSendStatus());
         balloonView.setStatusVisible(shouldShowStatus());
+
+        // Additional data
+        if (message.getActions() == null) {
+            balloonView.setAddition(null);
+        } else {
+            MessageAdditionAdapter messageAdditionAdapter = new MessageAdditionAdapter(message.getActions(), new MessageAdditionListener() {
+                @Override
+                public void onActionClicked(View view, Action action) {
+                    listener.onActionClicked(view, action);
+                }
+            }, getStyleTheme());
+            balloonView.setAddition(messageAdditionAdapter);
+        }
+
+        balloonView.setOnContentClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN && message.getSendStatus() == Message.SEND_STATUS_FAILED) {
+                    listener.onRetryMessageClicked(message);
+                } else if (message.getImage() != null) {
+                    listener.onImageClicked(itemView.getContext(), message);
+                }
+            }
+        });
+
+        handleCarousel(message);
+    }
+
+    private void handleCarousel(Message message) {
+        if (message.getCarousel() == null || message.getCarousel().isEmpty()) {
+            carouselRecyclerView.setVisibility(View.GONE);
+        } else {
+            carouselRecyclerView.setAdapter(new CarouselAdapter(message.getCarousel(), listener));
+            carouselRecyclerView.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -17,5 +17,5 @@ public abstract class ParleyBaseViewHolder extends RecyclerView.ViewHolder {
         return itemView.getContext();
     }
 
-    public abstract void show(Message message);
+    public abstract void show(final Message message);
 }

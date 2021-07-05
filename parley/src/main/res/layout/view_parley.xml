@@ -23,8 +23,9 @@
                 android:clipToPadding="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:reverseLayout="true"
-                tools:itemCount="4"
-                tools:listitem="@layout/item_message" />
+                tools:itemCount="1"
+                tools:listitem="@layout/item_message"
+                tools:paddingBottom="80dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -45,6 +46,12 @@
                     android:visibility="gone"
                     tools:visibility="visible" />
             </LinearLayout>
+
+            <nu.parley.android.view.compose.suggestion.SuggestionView
+                android:id="@+id/suggestion_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom" />
         </FrameLayout>
 
         <nu.parley.android.view.compose.ParleyComposeView

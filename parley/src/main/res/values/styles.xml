@@ -52,7 +52,7 @@
         <item name="parley_background">@drawable/parley_sticky_background</item>
         <item name="parley_background_tint_color">@color/parley_sticky_background_tint</item>
 
-        <item name="parley_content_padding">@dimen/parley_sticky_padding_top</item>
+        <item name="parley_content_padding">@dimen/parley_sticky_padding</item>
         <item name="parley_content_padding_top">@dimen/parley_sticky_padding_top</item>
         <item name="parley_content_padding_bottom">@dimen/parley_sticky_padding_bottom</item>
         <item name="parley_content_padding_right">@dimen/parley_sticky_padding_right</item>
@@ -65,6 +65,28 @@
         <!--<item name="parley_font_style">normal</item>-->
         <item name="parley_text_size">@dimen/parley_sticky_text_size</item>
         <item name="parley_text_color">@color/parley_sticky_text</item>
+    </style>
+
+    <style name="ParleySuggestionViewStyle" parent="ParleyStyle">
+        <item name="parley_background">@drawable/parley_suggestion_background</item>
+        <item name="parley_background_tint_color">@color/parley_suggestion_background_tint</item>
+
+        <item name="parley_margin">@dimen/parley_suggestion_margin</item>
+        <item name="parley_margin_top">@dimen/parley_suggestion_margin_top</item>
+        <item name="parley_margin_bottom">@dimen/parley_suggestion_margin_bottom</item>
+        <item name="parley_margin_right">@dimen/parley_suggestion_margin_right</item>
+        <item name="parley_margin_left">@dimen/parley_suggestion_margin_left</item>
+
+        <item name="parley_content_padding">@dimen/parley_suggestion_padding</item>
+        <item name="parley_content_padding_top">@dimen/parley_suggestion_padding_top</item>
+        <item name="parley_content_padding_bottom">@dimen/parley_suggestion_padding_bottom</item>
+        <item name="parley_content_padding_right">@dimen/parley_suggestion_padding_right</item>
+        <item name="parley_content_padding_left">@dimen/parley_suggestion_padding_left</item>
+
+        <!--<item name="parley_font_family">sans</item>-->
+        <!--<item name="parley_font_style">normal</item>-->
+        <item name="parley_text_size">@dimen/parley_suggestion_text_size</item>
+        <item name="parley_text_color">@color/parley_suggestion_text</item>
     </style>
 
     <style name="ParleyComposeViewStyle" parent="ParleyStyle">
@@ -90,9 +112,7 @@
         <item name="parley_hint_text_color">@color/parley_compose_hint_text</item>
 
         <item name="parley_input_background">@drawable/parley_compose_input_background</item>
-        <item name="parley_input_background_tint_color">
-            @color/parley_compose_input_background_tint
-        </item>
+        <item name="parley_input_background_tint_color">@color/parley_compose_input_background_tint</item>
         <item name="parley_send_background_tint_color">@color/parley_compose_send_background_tint
         </item>
         <item name="parley_send_icon">@drawable/parley_compose_send_icon</item>
@@ -169,6 +189,7 @@
 
         <item name="parley_image_corner_radius">@dimen/parley_user_image_corner_radius</item>
         <item name="parley_image_placeholder">@drawable/parley_user_image_placeholder</item>
+        <item name="parley_image_placeholder_tint_color">@color/parley_user_image_placeholder_tint</item>
         <item name="parley_image_loader_tint_color">@color/parley_user_image_loader_tint</item>
 
         <!--<item name="parley_font_family">sans</item>-->
@@ -216,6 +237,7 @@
 
         <item name="parley_image_corner_radius">@dimen/parley_agent_image_corner_radius</item>
         <item name="parley_image_placeholder">@drawable/parley_agent_image_placeholder</item>
+        <item name="parley_image_placeholder_tint_color">@color/parley_agent_image_placeholder_tint</item>
         <item name="parley_image_loader_tint_color">@color/parley_agent_image_loader_tint</item>
 
         <!--<item name="parley_font_family">sans</item>-->
@@ -242,6 +264,79 @@
         <!--<item name="parley_name_font_family">sans</item>-->
         <!--<item name="parley_name_font_style">bold</item>-->
         <item name="parley_name_text_size">@dimen/parley_agent_name_text_size</item>
+        <item name="parley_title_color">@color/parley_agent_title</item>
+        <!--<item name="parley_title_font_family">sans</item>-->
+        <!--<item name="parley_title_font_style">bold</item>-->
+        <item name="parley_title_text_size">@dimen/parley_agent_title_text_size</item>
+
+        <item name="parley_action_divider_margin">@dimen/parley_agent_action_divider_margin</item>
+        <item name="parley_action_divider_margin_top">@dimen/parley_agent_action_divider_margin_top</item>
+        <item name="parley_action_divider_margin_bottom">@dimen/parley_agent_action_divider_margin_bottom</item>
+        <item name="parley_action_divider_margin_right">@dimen/parley_agent_action_divider_margin_right</item>
+        <item name="parley_action_divider_margin_left">@dimen/parley_agent_action_divider_margin_left</item>
+        <item name="parley_action_divider_color">@color/parley_agent_action_divider</item>
+        <item name="parley_action_padding">@dimen/parley_agent_action_padding</item>
+        <item name="parley_action_padding_top">@dimen/parley_agent_action_padding_top</item>
+        <item name="parley_action_padding_bottom">@dimen/parley_agent_action_padding_bottom</item>
+        <item name="parley_action_padding_right">@dimen/parley_agent_action_padding_right</item>
+        <item name="parley_action_padding_left">@dimen/parley_agent_action_padding_left</item>
+        <item name="parley_action_title_color">@color/parley_agent_action</item>
+        <!--<item name="parley_action_font_family">sans</item>-->
+        <!--<item name="parley_action_font_style">bold</item>-->
+        <item name="parley_action_text_size">@dimen/parley_agent_action_text_size</item>
+    </style>
+
+    <style name="ParleyMessageAgentCarouselStyle" parent="ParleyMessageAgentStyle">
+        <item name="parley_background">@drawable/parley_agent_carousel_background</item>
+        <item name="parley_background_tint_color">@color/parley_agent_carousel_background_tint</item>
+        <item name="parley_margin">@dimen/parley_agent_carousel_margin</item>
+        <item name="parley_margin_top">@dimen/parley_agent_carousel_margin_top</item>
+        <item name="parley_margin_bottom">@dimen/parley_agent_carousel_margin_bottom</item>
+        <item name="parley_margin_right">@dimen/parley_agent_carousel_margin_right</item>
+        <item name="parley_margin_left">@dimen/parley_agent_carousel_margin_left</item>
+
+        <item name="parley_message_content_padding">@dimen/parley_agent_carousel_message_content_padding</item>
+        <item name="parley_message_content_padding_top">@dimen/parley_agent_carousel_message_content_padding_top</item>
+        <item name="parley_message_content_padding_bottom">@dimen/parley_agent_carousel_message_content_padding_bottom</item>
+        <item name="parley_message_content_padding_right">@dimen/parley_agent_carousel_message_content_padding_right</item>
+        <item name="parley_message_content_padding_left">@dimen/parley_agent_carousel_message_content_padding_left</item>
+        <item name="parley_image_content_padding">@dimen/parley_agent_carousel_image_content_padding</item>
+        <item name="parley_image_content_padding_top">@dimen/parley_agent_carousel_image_content_padding_top</item>
+        <item name="parley_image_content_padding_bottom">@dimen/parley_agent_carousel_image_content_padding_bottom</item>
+        <item name="parley_image_content_padding_right">@dimen/parley_agent_carousel_image_content_padding_right</item>
+        <item name="parley_image_content_padding_left">@dimen/parley_agent_carousel_image_content_padding_left</item>
+
+        <item name="parley_image_corner_radius">@dimen/parley_agent_carousel_image_corner_radius</item>
+        <item name="parley_image_placeholder">@drawable/parley_agent_carousel_image_placeholder</item>
+        <item name="parley_image_placeholder_tint_color">@color/parley_agent_carousel_image_placeholder_tint</item>
+        <item name="parley_image_loader_tint_color">@color/parley_agent_carousel_image_loader_tint</item>
+
+        <!--<item name="parley_font_family">sans</item>-->
+        <!--<item name="parley_font_style">normal</item>-->
+        <item name="parley_text_size">@dimen/parley_agent_carousel_text_size</item>
+        <item name="parley_text_color">@color/parley_agent_carousel_text</item>
+        <item name="parley_tint_color">@color/parley_agent_carousel_text_tint</item>
+
+        <item name="parley_title_color">@color/parley_agent_carousel_title</item>
+        <!--<item name="parley_title_font_family">sans</item>-->
+        <!--<item name="parley_title_font_style">bold</item>-->
+        <item name="parley_title_text_size">@dimen/parley_agent_carousel_title_text_size</item>
+
+        <item name="parley_action_divider_margin">@dimen/parley_agent_carousel_action_divider_margin</item>
+        <item name="parley_action_divider_margin_top">@dimen/parley_agent_carousel_action_divider_margin_top</item>
+        <item name="parley_action_divider_margin_bottom">@dimen/parley_agent_carousel_action_divider_margin_bottom</item>
+        <item name="parley_action_divider_margin_right">@dimen/parley_agent_carousel_action_divider_margin_right</item>
+        <item name="parley_action_divider_margin_left">@dimen/parley_agent_carousel_action_divider_margin_left</item>
+        <item name="parley_action_divider_color">@color/parley_agent_carousel_action_divider</item>
+        <item name="parley_action_padding">@dimen/parley_agent_carousel_action_padding</item>
+        <item name="parley_action_padding_top">@dimen/parley_agent_carousel_action_padding_top</item>
+        <item name="parley_action_padding_bottom">@dimen/parley_agent_carousel_action_padding_bottom</item>
+        <item name="parley_action_padding_right">@dimen/parley_agent_carousel_action_padding_right</item>
+        <item name="parley_action_padding_left">@dimen/parley_agent_carousel_action_padding_left</item>
+        <item name="parley_action_title_color">@color/parley_agent_carousel_action</item>
+        <!--<item name="parley_action_font_family">sans</item>-->
+        <!--<item name="parley_action_font_style">bold</item>-->
+        <item name="parley_action_text_size">@dimen/parley_agent_carousel_action_text_size</item>
     </style>
 
     <style name="ParleyMessageAgentTypingStyle">

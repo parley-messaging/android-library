@@ -8,6 +8,7 @@
     <string name="parley_state_failed">De chat kan op het moment niet weergegeven worden.</string>
     <string name="parley_general_cancel">Annuleren</string>
     <string name="parley_photo">Foto</string>
+    <string name="parley_error_action_open">Deze link kon helaas niet geopend worden.</string>
 
     <!-- Image Viewer -->
     <string name="image_viewer_title">Afbeelding</string>

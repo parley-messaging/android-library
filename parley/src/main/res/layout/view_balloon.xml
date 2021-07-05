@@ -13,8 +13,10 @@
         android:orientation="vertical">
 
         <FrameLayout
+            android:id="@+id/content_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:focusable="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,8 +30,21 @@
 
                     <ImageView
                         android:id="@+id/image_view"
-                        android:layout_width="300dp"
-                        android:layout_height="180dp" />
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:minWidth="300dp"
+                        android:scaleType="fitXY" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/image_placeholder_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxWidth="300dp"
+                        android:maxHeight="180dp"
+                        android:visibility="gone"
+                        tools:src="@drawable/parley_ic_image_placeholder"
+                        tools:visibility="visible" />
 
                     <ProgressBar
                         android:id="@+id/image_loader"
@@ -49,14 +64,14 @@
                         android:id="@+id/name_shadow_view"
                         android:layout_width="180dp"
                         android:layout_height="180dp"
-                        android:background="@drawable/parley_shadow_message_name" />
+                        android:background="@drawable/parley_shadow_image_corner" />
 
                     <View
                         android:id="@+id/meta_shadow_view"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
                         android:layout_gravity="bottom|end"
-                        android:background="@drawable/parley_shadow_message_name"
+                        android:background="@drawable/parley_shadow_image_corner"
                         android:rotation="180" />
 
                 </FrameLayout>
@@ -71,16 +86,17 @@
                     <TextView
                         android:id="@+id/title_text_view"
                         android:layout_width="wrap_content"
-                        android:includeFontPadding="false"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:includeFontPadding="false"
                         tools:text="Look at this" />
 
                     <TextView
                         android:id="@+id/message_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:includeFontPadding="false"
                         android:layout_marginBottom="18dp"
+                        android:includeFontPadding="false"
                         tools:text="Vivamus diam libero, molestie ac sagittis ac, congue quis ligula. Donec rutrum dui tortor, non pharetra ex aliquam vel." />
                 </LinearLayout>
             </LinearLayout>
@@ -122,5 +138,17 @@
                 </FrameLayout>
             </LinearLayout>
         </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/actions_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_action"
+            tools:visibility="visible" />
+
     </LinearLayout>
 </FrameLayout>

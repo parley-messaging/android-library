@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="nu.parley.android">
+
+    <!-- Required for Screengrab -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+
+    <uses-sdk
+        android:minSdkVersion="18"
+        tools:overrideLibrary="tools.fastlane.screengrab, android_libs.ub_uiautomator" />
+    <application
+        android:theme="@style/ParleyTestStyle"/>
+</manifest>

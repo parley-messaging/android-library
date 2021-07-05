@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    tools:layout_margin="4dp">
+
+    <TextView
+        android:id="@+id/title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="start"
+        android:includeFontPadding="false"
+        android:maxWidth="270dp"
+        android:minWidth="50dp"
+        tools:background="@drawable/parley_ic_balloon_suggestion"
+        tools:backgroundTint="@color/parley_user_text_tint"
+        tools:padding="12dp"
+        tools:text="Yes, I would like to receive additional information about Parley."
+        tools:textColor="@color/parley_user_text" />
+
+</FrameLayout>

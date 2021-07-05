@@ -16,6 +16,7 @@ import nu.parley.android.view.chat.holder.ParleyBaseViewHolder;
 public final class MessageViewHolderFactory {
 
     // Message type id's greater than 0 are id's from Parley.
+    public final static int MESSAGE_TYPE_ACTION = -4;
     public final static int MESSAGE_TYPE_LOADER = -3;
     public final static int MESSAGE_TYPE_DATE = -2;
     public final static int MESSAGE_TYPE_AGENT_TYPING = -1;
@@ -28,7 +29,7 @@ public final class MessageViewHolderFactory {
         return message.getTypeId();
     }
 
-    public static ParleyBaseViewHolder getViewHolder(int viewType, View itemView) {
+    public static ParleyBaseViewHolder getViewHolder(int viewType, View itemView, MessageListener listener) {
         switch (viewType) {
             case MESSAGE_TYPE_INFO:
                 return new InfoViewHolder(itemView);
@@ -37,9 +38,9 @@ public final class MessageViewHolderFactory {
             case MESSAGE_TYPE_AGENT_TYPING:
                 return new AgentTypingMessageViewHolder(itemView);
             case MESSAGE_TYPE_MESSAGE_OWN:
-                return new OwnMessageViewHolder(itemView);
+                return new OwnMessageViewHolder(itemView, listener);
             case MESSAGE_TYPE_MESSAGE_AGENT:
-                return new AgentMessageViewHolder(itemView);
+                return new AgentMessageViewHolder(itemView, listener);
             case MESSAGE_TYPE_MESSAGE_AUTO:
                 return new InfoViewHolder(itemView);
             case MESSAGE_TYPE_LOADER:
@@ -65,6 +66,8 @@ public final class MessageViewHolderFactory {
                 return R.layout.item_info;
             case MESSAGE_TYPE_LOADER:
                 return R.layout.item_loader;
+            case MESSAGE_TYPE_ACTION:
+                return R.layout.item_action;
             default:
                 return R.layout.item_empty;
         }

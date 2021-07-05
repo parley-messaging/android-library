@@ -5,26 +5,27 @@ import android.view.View;
 
 import nu.parley.android.R;
 import nu.parley.android.util.StyleUtil;
+import nu.parley.android.view.chat.MessageListener;
 
 public final class OwnMessageViewHolder extends MessageViewHolder {
 
-    public OwnMessageViewHolder(View itemView) {
-        super(itemView);
+    public OwnMessageViewHolder(View itemView, MessageListener listener) {
+        super(itemView, listener);
         applyStyle();
     }
 
     @Override
-    boolean shouldShowName() {
+    protected boolean shouldShowName() {
         return false;
     }
 
     @Override
-    boolean shouldShowStatus() {
+    protected boolean shouldShowStatus() {
         return true;
     }
 
     @Override
-    boolean shouldAlignRight() {
+    protected boolean shouldAlignRight() {
         return true;
     }
 

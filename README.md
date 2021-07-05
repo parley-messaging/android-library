@@ -1,5 +1,7 @@
 # Parley Messaging Android library
 
+[ ![Download](https://api.bintray.com/packages/parley/Parley/nu.parley.android/images/download.svg) ](https://bintray.com/parley/Parley/nu.parley.android/_latestVersion)
+
 Easily setup a secure chat with the Parley Messaging Android library. The Parley SDK allows you to fully customize the chat style and integrate it seamlessly in your own app for a great user experience.
 
 *Pay attention: You need an `appSecret` to use this library. The `appSecret` can be obtained by contacting [Parley](https://www.parley.nu/).*
@@ -29,7 +31,7 @@ Empty | Conversation
 [JCenter](https://bintray.com) is a central repository for Java libraries. For usage and installation instructions, visit their website. To integrate Parley into your Android Studio project, specify it in your `build.gradle`:
 
 ```groovy
-implementation 'nu.parley.android:parley:3.0.0'
+implementation 'nu.parley.android:parley:3.1.0'
 ```
 
 ## Getting started

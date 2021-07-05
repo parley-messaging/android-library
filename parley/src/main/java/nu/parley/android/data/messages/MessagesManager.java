@@ -275,6 +275,13 @@ public final class MessagesManager {
         return paging != null && paging.getBefore() != null;
     }
 
+    public List<String> getAvailableQuickReplies() {
+        if (getLatestMessage() == null || getLatestMessage().getQuickReplies() == null) {
+            return new ArrayList<>();
+        }
+        return getLatestMessage().getQuickReplies();
+    }
+
     public void clear() {
         this.originalMessages.clear();
         this.messages.clear();

@@ -6,6 +6,7 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import nu.parley.android.data.net.Connectivity;
@@ -28,7 +29,8 @@ public final class Message {
     private Integer id;
 
     @SerializedName("time")
-    private long timeStamp;
+    @Nullable
+    private Long timeStamp;
 
     @SerializedName("title")
     @Nullable
@@ -42,8 +44,21 @@ public final class Message {
     @Nullable
     private String imageUrl;
 
+    @SerializedName("buttons")
+    @Nullable
+    private List<Action> actions;
+
+    @SerializedName("carousel")
+    @Nullable
+    private List<Message> carousel;
+
+    @SerializedName("quickReplies")
+    @Nullable
+    private List<String> quickReplies;
+
     @SerializedName("typeId")
-    private int typeId;
+    @Nullable
+    private Integer typeId;
 
     @SerializedName("agent")
     @Nullable
@@ -67,14 +82,17 @@ public final class Message {
         this.sendStatus = sendStatus;
     }
 
-    Message(@Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String imageUrl, int typeId, @Nullable Agent agent, int sendStatus) {
+    Message(@Nullable Integer id, Long timeStamp, @Nullable String title, @Nullable String message, @Nullable String imageUrl, Integer typeId, @Nullable Agent agent, int sendStatus, @Nullable List<Action> actions, @Nullable List<Message> carousel) {
         this.id = id;
         this.timeStamp = timeStamp;
+        this.title = title;
         this.message = message;
         this.imageUrl = imageUrl;
         this.typeId = typeId;
         this.agent = agent;
         this.sendStatus = sendStatus;
+        this.actions = actions;
+        this.carousel = carousel;
     }
 
     private static Message ofType(int typeId) {
@@ -162,6 +180,21 @@ public final class Message {
         return message;
     }
 
+    @Nullable
+    public List<Action> getActions() {
+        return actions;
+    }
+
+    @Nullable
+    public List<Message> getCarousel() {
+        return carousel;
+    }
+
+    @Nullable
+    public List<String> getQuickReplies() {
+        return quickReplies;
+    }
+
     public int getTypeId() {
         return typeId;
     }
@@ -204,7 +237,11 @@ public final class Message {
         return null;
     }
 
+    @Nullable
     public Date getDate() {
+        if (timeStamp == null) {
+            return null;
+        }
         return new Date(timeStamp * 1000);
     }
 
@@ -213,12 +250,23 @@ public final class Message {
     }
 
     /**
-     * Determine whether this message consists of only an image as body. However, the message might still have
-     * buttons or other content attached.
+     * Determine whether this message consists of only an image. This indicates that it has no
+     * additional data, such as the actions data.
      *
-     * @return `true` if it only consists of an image, `false` otherwise.
+     * @return `true` if the message only consists of an image, `false` otherwise.
      */
     public boolean isImageOnly() {
+        return isImageContentOnly() &&
+                (actions == null || actions.isEmpty());
+    }
+
+    /**
+     * Determine whether this message consists of only an image as content. However, the message
+     * might still have actions or other content attached.
+     *
+     * @return `true` if the content of the message only consists of an image, `false` otherwise.
+     */
+    public boolean isImageContentOnly() {
         return imageUrl != null &&
                 (title == null || title.trim().isEmpty()) &&
                 (message == null || message.trim().isEmpty());

@@ -88,7 +88,7 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
             StyleUtil.StyleSpacing styleSpacingPadding = StyleUtil.getSpacingData(ta, R.styleable.ParleyComposeView_parley_content_padding, R.styleable.ParleyComposeView_parley_content_padding_top, R.styleable.ParleyComposeView_parley_content_padding_right, R.styleable.ParleyComposeView_parley_content_padding_bottom, R.styleable.ParleyComposeView_parley_content_padding_left);
             setPadding(styleSpacingPadding.left, styleSpacingPadding.top, styleSpacingPadding.right, styleSpacingPadding.bottom);
 
-            inputPadding  = StyleUtil.getSpacingData(ta, R.styleable.ParleyComposeView_parley_input_padding, R.styleable.ParleyComposeView_parley_input_padding_top, R.styleable.ParleyComposeView_parley_input_padding_right, R.styleable.ParleyComposeView_parley_input_padding_bottom, R.styleable.ParleyComposeView_parley_input_padding_left);
+            inputPadding = StyleUtil.getSpacingData(ta, R.styleable.ParleyComposeView_parley_input_padding, R.styleable.ParleyComposeView_parley_input_padding_top, R.styleable.ParleyComposeView_parley_input_padding_right, R.styleable.ParleyComposeView_parley_input_padding_bottom, R.styleable.ParleyComposeView_parley_input_padding_left);
             inputEditText.setPadding(inputPadding.left, inputPadding.top, inputPadding.right, inputPadding.bottom);
 
             Typeface font = StyleUtil.getFont(getContext(), ta, R.styleable.ParleyComposeView_parley_font_family);

@@ -30,6 +30,8 @@ import nu.parley.android.view.chat.MessageAdapter;
 import nu.parley.android.view.chat.ParleyMessageListener;
 import nu.parley.android.view.compose.ParleyComposeListener;
 import nu.parley.android.view.compose.ParleyComposeView;
+import nu.parley.android.view.compose.suggestion.SuggestionListener;
+import nu.parley.android.view.compose.suggestion.SuggestionView;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -45,10 +47,12 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     private ParleyNotificationView connectionNotificationView;
     private ParleyStickyView stickyView;
     private RecyclerView recyclerView;
+    private SuggestionView suggestionView;
     private ParleyComposeView composeView;
     // View data
     private Listener listener;
     private ConnectivityMonitor connectivityMonitor;
+    private ParleyComposeListener composeListener = new ParleyComposeListener();
     private MessageAdapter adapter = new MessageAdapter(new ParleyMessageListener());
     // Is typing
     private Handler isTypingAgentHandler = new Handler();
@@ -70,6 +74,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         super(context, attrs, defStyle);
         init();
         applyStyle(attrs);
+
     }
 
     public void setListener(@Nullable Listener listener) {
@@ -92,7 +97,6 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     private void init() {
         Log.d("ParleyView", "init()");
         inflate(getContext(), R.layout.view_parley, this);
-
         connectivityMonitor = new ConnectivityMonitor();
 
         // Views
@@ -102,13 +106,21 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         stickyView = findViewById(R.id.sticky_view);
         connectionNotificationView = findViewById(R.id.connection_notification_view);
         recyclerView = findViewById(R.id.recycler_view);
+        suggestionView = findViewById(R.id.suggestion_view);
         composeView = findViewById(R.id.compose_view);
 
         // Configure
         recyclerView.setAdapter(adapter);
         composeView.setStartTypingTriggerInterval(TIME_TYPING_START_TRIGGER);
         composeView.setStopTypingTriggerTime(TIME_TYPING_STOP_TRIGGER);
-        composeView.setListener(new ParleyComposeListener());
+
+        suggestionView.setListener(new SuggestionListener() {
+            @Override
+            public void onSuggestionClicked(String suggestion) {
+                composeListener.onSendMessage(suggestion);
+            }
+        });
+        composeView.setListener(composeListener);
     }
 
     private void updateRecyclerViewTopPadding() {
@@ -209,7 +221,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
                 composeView.setVisibility(View.VISIBLE);
 
                 applyStickyMessage();
-                adapter.setMessages(getMessagesManager().getMessages(), getMessagesManager().canLoadMore());
+                renderMessages();
 
                 updateRecyclerViewTopPadding();
                 break;
@@ -310,6 +322,46 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         if (shouldRetainScrollState) {
             recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
         }
+
+        renderSuggestions();
+    }
+
+    private void renderSuggestions() {
+        final List<String> suggestions = getMessagesManager().getAvailableQuickReplies();
+        suggestionView.setSuggestions(suggestions);
+        suggestionView.setVisibility(suggestions.isEmpty() ? View.GONE : View.VISIBLE);
+
+        post(new Runnable() {
+            @Override
+            public void run() {
+                final int heightSuggestionView = suggestionView.getVisibility() == View.VISIBLE ? suggestionView.getHeight() : 0;
+                recyclerView.setPadding(recyclerView.getPaddingLeft(), recyclerView.getPaddingTop(), recyclerView.getPaddingRight(), heightSuggestionView);
+
+                // Fade suggestions away when scrolling away from the bottom
+                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+
+                        int bottomOfMessages = recyclerView.computeVerticalScrollRange();
+                        int bottomOfShown = recyclerView.computeVerticalScrollOffset() + recyclerView.computeVerticalScrollExtent();
+                        float kickIn = bottomOfMessages - heightSuggestionView;
+                        if (bottomOfShown >= bottomOfMessages) {
+                            // Show
+                            suggestionView.setAlpha(1f);
+                        } else if (bottomOfShown >= kickIn) {
+                            // Fade
+                            float current = bottomOfMessages - bottomOfShown;
+                            float alpha = current / heightSuggestionView;
+                            suggestionView.setAlpha(1-alpha);
+                        } else {
+                            // Hide
+                            suggestionView.setAlpha(0f);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     /**

@@ -28,7 +28,7 @@ public final class MessageAdapter extends RecyclerView.Adapter<ParleyBaseViewHol
     public ParleyBaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int viewResource = MessageViewHolderFactory.getViewResource(viewType);
         View itemView = LayoutInflater.from(parent.getContext()).inflate(viewResource, parent, false);
-        return MessageViewHolderFactory.getViewHolder(viewType, itemView);
+        return MessageViewHolderFactory.getViewHolder(viewType, itemView, listener);
     }
 
     @Override
@@ -44,18 +44,6 @@ public final class MessageAdapter extends RecyclerView.Adapter<ParleyBaseViewHol
         if (message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_LOADER) {
             Parley.getInstance().loadMoreMessages();
         }
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN && message.getSendStatus() == Message.SEND_STATUS_FAILED) {
-                    listener.onRetryMessageClicked(message);
-                } else if (holder instanceof MessageViewHolder && message.getImage() != null) {
-                    listener.onImageClicked(holder.itemView.getContext(), message);
-                }
-                // Else: No default handling
-            }
-        });
     }
 
     @Override
