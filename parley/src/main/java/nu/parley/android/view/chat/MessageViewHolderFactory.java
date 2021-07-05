@@ -24,6 +24,8 @@ public final class MessageViewHolderFactory {
     public final static int MESSAGE_TYPE_MESSAGE_OWN = 1;
     public final static int MESSAGE_TYPE_MESSAGE_AGENT = 2;
     public final static int MESSAGE_TYPE_MESSAGE_AUTO = 3;
+    public final static int MESSAGE_TYPE_MESSAGE_SYSTEM_USER = 4;
+    public final static int MESSAGE_TYPE_MESSAGE_SYSTEM_AGENT = 5;
 
     static int getViewType(Message message) {
         return message.getTypeId();

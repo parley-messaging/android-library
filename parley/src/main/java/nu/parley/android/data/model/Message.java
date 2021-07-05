@@ -121,19 +121,23 @@ public final class Message {
     }
 
     public static Message ofTypeOwnMessage(String text) {
-        Message message = Message.ofTypeOwnMessage();
+        return ofTypeOwnMessage(text, false);
+    }
+
+    public static Message ofTypeOwnMessage(String text, boolean silent) {
+        Message message = Message.ofTypeOwnMessage(silent);
         message.message = text;
         return message;
     }
 
     public static Message ofTypeOwnImage(String imageUrl) {
-        Message message = Message.ofTypeOwnMessage();
+        Message message = Message.ofTypeOwnMessage(false);
         message.imageUrl = imageUrl;
         return message;
     }
 
-    private static Message ofTypeOwnMessage() {
-        Message message = ofType(MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN);
+    private static Message ofTypeOwnMessage(boolean silent) {
+        Message message = ofType(silent ? MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_SYSTEM_USER : MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN);
         message.sendStatus = SEND_STATUS_PENDING;
         return message;
     }

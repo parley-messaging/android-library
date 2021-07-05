@@ -201,6 +201,22 @@ Parley.enableOfflineMessaging(new ParleyEncryptedDataSource(this, "1234567890123
 Parley.disableOfflineMessaging();
 ```
 
+### Send a (silent) message
+
+In some cases it may be handy to send a message for the user. You can easily do this by calling;
+
+```java
+Parley.send("Lorem ipsum dolar sit amet");
+```
+
+**Silent**
+
+It is also possible to send silent messages. Those messages are not visible in the chat.
+
+```java
+Parley.send("User opened chat", true);
+```
+
 ## Customize
 
 ### Callbacks

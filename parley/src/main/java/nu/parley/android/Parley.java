@@ -232,6 +232,26 @@ public final class Parley {
     }
 
     /**
+     * Send a message to Parley.
+     *
+     * @param message The message to sent
+     */
+    @SuppressWarnings("unused")
+    public static void send(String message) {
+        send(message, false);
+    }
+
+    /**
+     * Send a message to Parley.
+     *
+     * @param message The message to sent
+     * @param silent Indicates if the message needs to be sent silently. The message will not be shown when silent is `true`.
+     */
+    public static void send(String message, boolean silent) {
+        getInstance().sendMessage(message, silent);
+    }
+
+    /**
      * Handles the activity result of activities launched by Parley.
      *
      * @param requestCode
@@ -524,7 +544,11 @@ public final class Parley {
     // Static access configuration
 
     public void sendMessage(String text) {
-        final Message message = Message.ofTypeOwnMessage(text);
+        sendMessage(text, false);
+    }
+
+    public void sendMessage(String text, boolean silent) {
+        final Message message = Message.ofTypeOwnMessage(text, silent);
         this.submitMessage(message, true);
     }
 
