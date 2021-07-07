@@ -128,6 +128,7 @@ public final class IdentifierActivity extends BaseActivity {
 //        setParleyNetwork(); // Optional, defaults to Parley configuration
 //        setOfflineMessagingEnabled(); // Optional, default off
 //        Parley.disableOfflineMessaging();
+//        Parley.setReferrer("https://parley.nu/"); // Optional, default `null`
 
         registerUserWithCustomerId(); // Optional, default off
 

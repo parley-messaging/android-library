@@ -16,6 +16,7 @@ public final class DeviceRepository {
 
         device.setPushToken(Parley.getInstance().getFcmToken());
         device.setUserAdditionalInformation(Parley.getInstance().getUserAdditionalInformation());
+        device.setReferrer(Parley.getInstance().getReferrer());
 
         Call<Void> registerCall = Connectivity.getRetrofit().create(DeviceService.class).register(device);
         registerCall.enqueue(new Callback<Void>() {

@@ -217,6 +217,12 @@ It is also possible to send silent messages. Those messages are not visible in t
 Parley.send("User opened chat", true);
 ```
 
+### Referrer
+
+```java
+Parley.setReferrer("https://parley.nu/");
+```
+
 ## Customize
 
 ### Callbacks

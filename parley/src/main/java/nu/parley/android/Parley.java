@@ -61,6 +61,8 @@ public final class Parley {
     private String userAuthorization;
     private Map<String, String> userAdditionalInformation = new HashMap<>();
     @Nullable
+    private String referrer;
+    @Nullable
     private String fcmToken;
     private String uniqueDeviceIdentifier;
     private MessagesManager messagesManager = new MessagesManager();
@@ -127,6 +129,15 @@ public final class Parley {
     @SuppressWarnings("WeakerAccess")
     public static void setUserInformation(final String authorization, @Nullable final Map<String, String> additionalInformation, final ParleyCallback callback) {
         getInstance().setUserInformationI(authorization, additionalInformation, callback);
+    }
+
+    /**
+     * Set referrer.
+     *
+     * @param referrer The referrer
+     */
+    public static void setReferrer(final String referrer) {
+        getInstance().setReferrerI(referrer);
     }
 
     /**
@@ -293,6 +304,11 @@ public final class Parley {
 
     public Map<String, String> getUserAdditionalInformation() {
         return this.userAdditionalInformation;
+    }
+
+    @Nullable
+    public String getReferrer() {
+        return this.referrer;
     }
 
     public MessagesManager getMessagesManager() {
@@ -472,6 +488,10 @@ public final class Parley {
         this.userAdditionalInformation = additionalInformation;
 
         this.registerDeviceIfNeeded(callback);
+    }
+
+    private void setReferrerI(String referrer) {
+        this.referrer = referrer;
     }
 
     private void clearUserInformationI(final ParleyCallback callback) {
