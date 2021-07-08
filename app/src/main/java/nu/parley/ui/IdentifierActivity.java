@@ -30,6 +30,7 @@ import nu.parley.android.Parley;
 import nu.parley.android.ParleyCallback;
 import nu.parley.android.ParleyNetwork;
 import nu.parley.android.data.messages.ParleyEncryptedDataSource;
+import nu.parley.android.data.model.PushType;
 import nu.parley.repository.PreferenceRepository;
 
 public final class IdentifierActivity extends BaseActivity {
@@ -64,6 +65,7 @@ public final class IdentifierActivity extends BaseActivity {
         startChatLoader = findViewById(R.id.start_chat_loader);
 
         setupView();
+        setFirebaseToken(); // Required
     }
 
     private void setupView() {
@@ -123,8 +125,6 @@ public final class IdentifierActivity extends BaseActivity {
     }
 
     private void initParley() {
-        setFirebaseToken(); // Required
-
 //        setParleyNetwork(); // Optional, defaults to Parley configuration
 //        setOfflineMessagingEnabled(); // Optional, default off
 //        Parley.disableOfflineMessaging();
@@ -161,7 +161,7 @@ public final class IdentifierActivity extends BaseActivity {
                 if (task.isSuccessful() && task.getResult() != null) {
                     token = task.getResult().getToken();
                 }
-                Parley.setFcmToken(token);
+                Parley.setPushToken(token);
             }
         });
     }

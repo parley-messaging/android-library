@@ -21,8 +21,9 @@ public final class Device {
     @SerializedName("referrer")
     private String referrer;
 
-    public void setPushToken(String pushToken) {
+    public void setPushToken(String pushToken, PushType pushType) {
         this.pushToken = pushToken;
+        this.pushType = pushType.value;
     }
 
     public void setUserAdditionalInformation(Map<String, String> userAdditionalInformation) {

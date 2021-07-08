@@ -34,6 +34,10 @@ Empty | Conversation
 implementation 'nu.parley.android:parley:3.1.0'
 ```
 
+### Upgrading from 3.1.x to 3.2.0
+
+- `setFcmToken()` is renamed to `setPushToken()`
+
 ## Getting started
 
 Follow the next steps to get a minimal setup of the library.
@@ -64,14 +68,22 @@ Parley.configure(this, "appSecret");
 
 ### Step 3: Configure Firebase
 
-Parley needs the FCM token to successfully handle remote notifications.
+Parley needs a push token to successfully handle remote notifications.
 
-**FCM Token**
+**Push Token**
 
-After receiving an FCM token via your Firebase instance, pass it to the Parley instance in order to support remote notifications. This is can be done by using `Parley.setFcmToken(fcmToken)`.
+After receiving a push token via your Firebase instance, pass it to the Parley instance in order to support remote notifications. This is can be done by using `Parley.setPushToken(pushToken);`.
 
 ```java
-Parley.setFcmToken("fcmToken");
+Parley.setPushToken("pushToken");
+```
+
+**Other push types**
+
+```java
+Parley.setPushToken("pushToken", PushType.CUSTOM_WEBHOOK);
+Parley.setPushToken("pushToken", PushType.CUSTOM_WEBHOOK_BEHIND_OAUTH);
+Parley.setPushToken("pushToken", PushType.FCM); // Default
 ```
 
 **Handle remote notifications**

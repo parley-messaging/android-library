@@ -19,6 +19,7 @@ import java.util.Map;
 import nu.parley.android.data.messages.MessagesManager;
 import nu.parley.android.data.messages.ParleyDataSource;
 import nu.parley.android.data.model.Message;
+import nu.parley.android.data.model.PushType;
 import nu.parley.android.data.net.RepositoryCallback;
 import nu.parley.android.data.net.response.ParleyResponse;
 import nu.parley.android.data.repository.DeviceRepository;
@@ -63,7 +64,8 @@ public final class Parley {
     @Nullable
     private String referrer;
     @Nullable
-    private String fcmToken;
+    private String pushToken;
+    private PushType pushType = PushType.FCM;
     private String uniqueDeviceIdentifier;
     private MessagesManager messagesManager = new MessagesManager();
     private boolean retrievedFirstMessages = false;
@@ -187,12 +189,51 @@ public final class Parley {
      * <b>Note:</b> Method must be called before {@link #configure(Context, String)}.
      * </p>
      *
+     * @deprecated As of Parley 3.2.0, use {@link #setPushToken(String, PushType, ParleyCallback)} instead
+     *
      * @param fcmToken Firebase Cloud Messaging token
      * @param callback {@link ParleyCallback} indicating the result of the update (only called when Parley is configuring/configured).
      */
     @SuppressWarnings("WeakerAccess")
+    @Deprecated
     public static void setFcmToken(@Nullable String fcmToken, ParleyCallback callback) {
-        getInstance().setFcmTokenI(fcmToken, callback);
+        setPushToken(fcmToken, PushType.FCM, callback);
+    }
+
+    /**
+     * Convenience for setPushToken(pushToken, PushType.FCM, {@link EmptyParleyCallback})
+     *
+     * @see #setPushToken(String, PushType)
+     */
+    @SuppressWarnings("unused")
+    public static void setPushToken(String pushToken) {
+        setPushToken(pushToken, PushType.FCM, new EmptyParleyCallback());
+    }
+
+    /**
+     * Convenience for setPushToken(pushToken, {@link PushType}, {@link EmptyParleyCallback})
+     *
+     * @see #setPushToken(String, PushType, ParleyCallback)
+     */
+    @SuppressWarnings("unused")
+    public static void setPushToken(String pushToken, PushType pushType) {
+        setPushToken(pushToken, pushType, new EmptyParleyCallback());
+    }
+
+    /**
+     * Set the users Firebase Cloud Messaging token.
+     *
+     * <p>
+     * <b>Note:</b> Method must be called before {@link #configure(Context, String)}.
+     * </p>
+     *
+     * @param pushToken Firebase Cloud Messaging token
+     * @param pushType Push Type
+     * @param callback {@link ParleyCallback} indicating the result of the update (only called when Parley is configuring/configured).
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static void setPushToken(@Nullable String pushToken, PushType pushType, ParleyCallback callback) {
+        getInstance().setPushTokenI(pushToken, pushType, callback);
     }
 
     /**
@@ -229,17 +270,23 @@ public final class Parley {
     }
 
     @Nullable
-    public String getFcmToken() {
-        return this.fcmToken;
+    public String getPushToken() {
+        return this.pushToken;
     }
 
     /**
      * Convenience for setFcmToken(fcmToken, {@link EmptyParleyCallback})
      *
+     * @deprecated As of Parley 3.2.0, use {@link #setPushToken(String)} instead
+     *
      * @see #setFcmToken(String, ParleyCallback)
      */
     public static void setFcmToken(String fcmToken) {
         setFcmToken(fcmToken, new EmptyParleyCallback());
+    }
+
+    public PushType getPushType() {
+        return this.pushType;
     }
 
     /**
@@ -522,12 +569,13 @@ public final class Parley {
 
     // Push notifications
 
-    private void setFcmTokenI(@Nullable String fcmToken, final ParleyCallback callback) {
-        if (CompareUtil.equals(this.fcmToken, fcmToken)) {
+    private void setPushTokenI(@Nullable String pushToken, PushType pushType, final ParleyCallback callback) {
+        if (CompareUtil.equals(this.pushToken, pushToken)) {
             return;
         }
 
-        this.fcmToken = fcmToken;
+        this.pushToken = pushToken;
+        this.pushType = pushType;
         this.registerDeviceIfNeeded(callback);
     }
 
