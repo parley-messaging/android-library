@@ -697,8 +697,16 @@ public final class Parley {
         if (listener == null) {
             if (PushNotificationHandler.isMessage(data)) {
                 Message parsedMessage = PushNotificationHandler.attemptParseAsMessage(data);
-                if (parsedMessage != null && parsedMessage.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN) {
-                    Log.d("Parley", "Incoming message was a Parley message, but it was a message of the user itself, ignoring it.");
+                if (parsedMessage != null) {
+                    if (parsedMessage.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN) {
+                        Log.d("Parley", "Incoming message was a Parley message, but it was a message of the user itself, ignoring it.");
+                    } else if (parsedMessage.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_SYSTEM_USER) {
+                        Log.d("Parley", "Incoming message was a Parley message, but it was a system message of the user, ignoring it.");
+                    } else if (parsedMessage.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_SYSTEM_AGENT) {
+                        Log.d("Parley", "Incoming message was a Parley message, but it was a system message of the agent, ignoring it.");
+                    } else {
+                        PushNotificationHandler.showNotification(context, data, intent);
+                    }
                 } else {
                     PushNotificationHandler.showNotification(context, data, intent);
                 }
