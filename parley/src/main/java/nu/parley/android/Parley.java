@@ -19,6 +19,7 @@ import java.util.Map;
 import nu.parley.android.data.messages.MessagesManager;
 import nu.parley.android.data.messages.ParleyDataSource;
 import nu.parley.android.data.model.Message;
+import nu.parley.android.data.model.PushType;
 import nu.parley.android.data.net.RepositoryCallback;
 import nu.parley.android.data.net.response.ParleyResponse;
 import nu.parley.android.data.repository.DeviceRepository;
@@ -61,7 +62,10 @@ public final class Parley {
     private String userAuthorization;
     private Map<String, String> userAdditionalInformation = new HashMap<>();
     @Nullable
-    private String fcmToken;
+    private String referrer;
+    @Nullable
+    private String pushToken;
+    private PushType pushType = PushType.FCM;
     private String uniqueDeviceIdentifier;
     private MessagesManager messagesManager = new MessagesManager();
     private boolean retrievedFirstMessages = false;
@@ -130,6 +134,15 @@ public final class Parley {
     }
 
     /**
+     * Set referrer.
+     *
+     * @param referrer The referrer
+     */
+    public static void setReferrer(final String referrer) {
+        getInstance().setReferrerI(referrer);
+    }
+
+    /**
      * Convenience for clearUserInformation({@link EmptyParleyCallback})
      *
      * @see #clearUserInformation(ParleyCallback)
@@ -176,12 +189,51 @@ public final class Parley {
      * <b>Note:</b> Method must be called before {@link #configure(Context, String)}.
      * </p>
      *
+     * @deprecated As of Parley 3.2.0, use {@link #setPushToken(String, PushType, ParleyCallback)} instead
+     *
      * @param fcmToken Firebase Cloud Messaging token
      * @param callback {@link ParleyCallback} indicating the result of the update (only called when Parley is configuring/configured).
      */
     @SuppressWarnings("WeakerAccess")
+    @Deprecated
     public static void setFcmToken(@Nullable String fcmToken, ParleyCallback callback) {
-        getInstance().setFcmTokenI(fcmToken, callback);
+        setPushToken(fcmToken, PushType.FCM, callback);
+    }
+
+    /**
+     * Convenience for setPushToken(pushToken, PushType.FCM, {@link EmptyParleyCallback})
+     *
+     * @see #setPushToken(String, PushType)
+     */
+    @SuppressWarnings("unused")
+    public static void setPushToken(String pushToken) {
+        setPushToken(pushToken, PushType.FCM, new EmptyParleyCallback());
+    }
+
+    /**
+     * Convenience for setPushToken(pushToken, {@link PushType}, {@link EmptyParleyCallback})
+     *
+     * @see #setPushToken(String, PushType, ParleyCallback)
+     */
+    @SuppressWarnings("unused")
+    public static void setPushToken(String pushToken, PushType pushType) {
+        setPushToken(pushToken, pushType, new EmptyParleyCallback());
+    }
+
+    /**
+     * Set the users Firebase Cloud Messaging token.
+     *
+     * <p>
+     * <b>Note:</b> Method must be called before {@link #configure(Context, String)}.
+     * </p>
+     *
+     * @param pushToken Firebase Cloud Messaging token
+     * @param pushType Push Type
+     * @param callback {@link ParleyCallback} indicating the result of the update (only called when Parley is configuring/configured).
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static void setPushToken(@Nullable String pushToken, PushType pushType, ParleyCallback callback) {
+        getInstance().setPushTokenI(pushToken, pushType, callback);
     }
 
     /**
@@ -218,17 +270,43 @@ public final class Parley {
     }
 
     @Nullable
-    public String getFcmToken() {
-        return this.fcmToken;
+    public String getPushToken() {
+        return this.pushToken;
     }
 
     /**
      * Convenience for setFcmToken(fcmToken, {@link EmptyParleyCallback})
      *
+     * @deprecated As of Parley 3.2.0, use {@link #setPushToken(String)} instead
+     *
      * @see #setFcmToken(String, ParleyCallback)
      */
     public static void setFcmToken(String fcmToken) {
         setFcmToken(fcmToken, new EmptyParleyCallback());
+    }
+
+    public PushType getPushType() {
+        return this.pushType;
+    }
+
+    /**
+     * Send a message to Parley.
+     *
+     * @param message The message to sent
+     */
+    @SuppressWarnings("unused")
+    public static void send(String message) {
+        send(message, false);
+    }
+
+    /**
+     * Send a message to Parley.
+     *
+     * @param message The message to sent
+     * @param silent Indicates if the message needs to be sent silently. The message will not be shown when silent is `true`.
+     */
+    public static void send(String message, boolean silent) {
+        getInstance().sendMessage(message, silent);
     }
 
     /**
@@ -273,6 +351,11 @@ public final class Parley {
 
     public Map<String, String> getUserAdditionalInformation() {
         return this.userAdditionalInformation;
+    }
+
+    @Nullable
+    public String getReferrer() {
+        return this.referrer;
     }
 
     public MessagesManager getMessagesManager() {
@@ -454,6 +537,10 @@ public final class Parley {
         this.registerDeviceIfNeeded(callback);
     }
 
+    private void setReferrerI(String referrer) {
+        this.referrer = referrer;
+    }
+
     private void clearUserInformationI(final ParleyCallback callback) {
         this.userAuthorization = null;
         this.userAdditionalInformation = new HashMap<>();
@@ -482,12 +569,13 @@ public final class Parley {
 
     // Push notifications
 
-    private void setFcmTokenI(@Nullable String fcmToken, final ParleyCallback callback) {
-        if (CompareUtil.equals(this.fcmToken, fcmToken)) {
+    private void setPushTokenI(@Nullable String pushToken, PushType pushType, final ParleyCallback callback) {
+        if (CompareUtil.equals(this.pushToken, pushToken)) {
             return;
         }
 
-        this.fcmToken = fcmToken;
+        this.pushToken = pushToken;
+        this.pushType = pushType;
         this.registerDeviceIfNeeded(callback);
     }
 
@@ -524,7 +612,11 @@ public final class Parley {
     // Static access configuration
 
     public void sendMessage(String text) {
-        final Message message = Message.ofTypeOwnMessage(text);
+        sendMessage(text, false);
+    }
+
+    public void sendMessage(String text, boolean silent) {
+        final Message message = Message.ofTypeOwnMessage(text, silent);
         this.submitMessage(message, true);
     }
 
@@ -605,8 +697,16 @@ public final class Parley {
         if (listener == null) {
             if (PushNotificationHandler.isMessage(data)) {
                 Message parsedMessage = PushNotificationHandler.attemptParseAsMessage(data);
-                if (parsedMessage != null && parsedMessage.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN) {
-                    Log.d("Parley", "Incoming message was a Parley message, but it was a message of the user itself, ignoring it.");
+                if (parsedMessage != null) {
+                    if (parsedMessage.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN) {
+                        Log.d("Parley", "Incoming message was a Parley message, but it was a message of the user itself, ignoring it.");
+                    } else if (parsedMessage.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_SYSTEM_USER) {
+                        Log.d("Parley", "Incoming message was a Parley message, but it was a system message of the user, ignoring it.");
+                    } else if (parsedMessage.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_SYSTEM_AGENT) {
+                        Log.d("Parley", "Incoming message was a Parley message, but it was a system message of the agent, ignoring it.");
+                    } else {
+                        PushNotificationHandler.showNotification(context, data, intent);
+                    }
                 } else {
                     PushNotificationHandler.showNotification(context, data, intent);
                 }

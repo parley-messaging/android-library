@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -64,6 +63,7 @@ public final class IdentifierActivity extends BaseActivity {
         startChatLoader = findViewById(R.id.start_chat_loader);
 
         setupView();
+        setFirebaseToken(); // Required
     }
 
     private void setupView() {
@@ -123,11 +123,10 @@ public final class IdentifierActivity extends BaseActivity {
     }
 
     private void initParley() {
-        setFirebaseToken(); // Required
-
 //        setParleyNetwork(); // Optional, defaults to Parley configuration
 //        setOfflineMessagingEnabled(); // Optional, default off
 //        Parley.disableOfflineMessaging();
+//        Parley.setReferrer("https://parley.nu/"); // Optional, default `null`
 
         registerUserWithCustomerId(); // Optional, default off
 
@@ -160,7 +159,7 @@ public final class IdentifierActivity extends BaseActivity {
                 if (task.isSuccessful() && task.getResult() != null) {
                     token = task.getResult().getToken();
                 }
-                Parley.setFcmToken(token);
+                Parley.setPushToken(token);
             }
         });
     }
