@@ -1,6 +1,6 @@
 # Parley Messaging Android library
 
-[ ![Download](https://api.bintray.com/packages/parley/Parley/nu.parley.android/images/download.svg) ](https://bintray.com/parley/Parley/nu.parley.android/_latestVersion)
+[![](https://jitpack.io/v/parley-messaging/android-library.svg)](https://jitpack.io/#parley-messaging/android-library)
 
 Easily setup a secure chat with the Parley Messaging Android library. The Parley SDK allows you to fully customize the chat style and integrate it seamlessly in your own app for a great user experience.
 
@@ -28,15 +28,32 @@ Empty | Conversation
 
 ## Installation
 
-[JCenter](https://bintray.com) is a central repository for Java libraries. For usage and installation instructions, visit their website. To integrate Parley into your Android Studio project, specify it in your `build.gradle`:
+[JitPack](https://jitpack.io/) is a public maven repository and serves maven artifacts. For usage and installation instructions, visit their website.
+
+To use JitPack, specify the following in your root `build.gradle` file:
 
 ```groovy
-implementation 'nu.parley.android:parley:3.1.0'
+allprojects {
+    repositories {
+        // ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+``` 
+
+To integrate Parley, specify the following in your `app/build.gradle` file:
+
+```groovy
+implementation 'com.github.parley-messaging:android-library:3.2.0'
 ```
 
 ### Upgrading from 3.1.x to 3.2.0
 
 - `setFcmToken()` is renamed to `setPushToken()`
+
+### Upgrading from 3.0.x to 3.1.0
+
+The artifacts are now published via JitPack. To migrate, update the build.gradle files as shown in the latest installation steps.
 
 ## Getting started
 

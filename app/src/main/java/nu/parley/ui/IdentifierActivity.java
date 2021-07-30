@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -30,7 +29,6 @@ import nu.parley.android.Parley;
 import nu.parley.android.ParleyCallback;
 import nu.parley.android.ParleyNetwork;
 import nu.parley.android.data.messages.ParleyEncryptedDataSource;
-import nu.parley.android.data.model.PushType;
 import nu.parley.repository.PreferenceRepository;
 
 public final class IdentifierActivity extends BaseActivity {

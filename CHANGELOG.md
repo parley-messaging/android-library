@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.2.0
+
+- Added support for sending (silent) messages
+- Added support for setting the referrer
+- Added support for setting the push type
+- Not showing notifications for system messages
+- Updated documentation to reflect JitPack usage since version 3.1.0
+
 ## 3.1.0
 
 - Added support for titles in a message
@@ -22,7 +30,7 @@
   - For example: The text color for the normal agent message is named `parley_agent_text`. To override this for only the carousel messages, the attribute `parley_agent_carousel_text` is used
 - Improved the placeholder image in case the image fails to load in a message
   - It is now handled as an icon
-  - *Addition (styling)*: It can now be tinted by using `parley_image_placeholder`
+  - *Addition (styling)*: It can now be tinted by using `parley_image_placeholder_tint`
     - _`parley_user_image_placeholder_tint` for user messages, by default it is the user text color_
     - _`parley_agent_image_placeholder_tint` for agent messages, by default it is the agent text color_
 - Added support for quick replies in the chat
