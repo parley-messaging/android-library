@@ -7,7 +7,7 @@
 
         <pin-set>
             <pin digest="SHA-256">mFb9BCOL58AEAe10PkhCGldOhjSY+M0l0sziLWar13c=</pin>
-            <pin digest="SHA-256">S0mHTmqv2QhJEfy5vyPVERSnyMEliJzdC8RXduOjhAs=</pin>
+            <pin digest="SHA-256">J2Aa4z+8R9zmgCOGJExzEYpYzNHGiHf4pa6lKmY5wAM=</pin> <!-- Expires at: 21 Aug 2022 -->
         </pin-set>
 
     </domain-config>
