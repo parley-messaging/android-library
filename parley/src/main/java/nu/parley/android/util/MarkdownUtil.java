@@ -33,6 +33,7 @@ import io.noties.markwon.MarkwonVisitor;
 import io.noties.markwon.RenderProps;
 import io.noties.markwon.SpanFactory;
 import io.noties.markwon.core.CoreProps;
+import io.noties.markwon.linkify.LinkifyPlugin;
 
 public final class MarkdownUtil {
 
@@ -67,6 +68,7 @@ public final class MarkdownUtil {
                         builder.on(Heading.class, new RevertHeadingsNodeVisitor());
                     }
                 })
+                .usePlugin(LinkifyPlugin.create())
                 .build();
         return markwon.toMarkdown(text);
     }
