@@ -137,7 +137,7 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
 
 ### Step 5: Network Security Configuration
 
-Parley enforces the use of SSL pinning. Open the `AndroidManifest.xml` and add the Network Security Configuration of Parley to the `Application` tag.
+By default Parley enforces the use of SSL pinning. Open the `AndroidManifest.xml` and add the Network Security Configuration of Parley to the `Application` tag.
 
 ```xml
 <application
@@ -186,6 +186,24 @@ ParleyNetwork network = new ParleyNetwork(
 
 Parley.setNetwork(network);
 ```
+
+**Custom SSL pinning**
+
+With the default configuration Parley enforces SSL pinning. Customizing this can be done by creating a new `network_security_config.xml` file.
+
+In the `AndroidManifest.xml` set the `networkSecurityConfig` property to the created `network_security_config.xml`.
+
+Next, pass the new `network_security_config` to the ParleyNetwork object when calling `Parley.setNetwork(network)`.
+
+**Enforcing SSL pinning**
+
+Parley uses TrustKit to support SSL pinning on lower API levels. To enforce SSL pinning, make sure that the `network_security_config.xml` has the following in the `<domain-config>` block as well:
+
+```xml
+<trustkit-config enforcePinning="true"/>
+```
+
+*Note that setting this `true` will enforce SSL pinning and causes all requests to fail if SSL pinning fails. Whereas setting this `false` will still execute SSL pinning, but requests will proceed if SSL pinning fails.*
 
 ### User information
 
