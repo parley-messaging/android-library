@@ -76,6 +76,7 @@ dependencies {
 
     // Markdown support
     implementation "io.noties.markwon:core:${versionMarkwon}"
+    implementation  "io.noties.markwon:linkify:${versionMarkwon}"
 
     // Image Viewer
     implementation 'com.github.MikeOrtiz:TouchImageView:2.2.0'
