@@ -276,6 +276,22 @@ public final class Message {
                 (message == null || message.trim().isEmpty());
     }
 
+    public boolean hasTextContent() {
+        return (title != null && !title.trim().isEmpty()) ||
+                (message != null && !message.trim().isEmpty());
+    }
+
+    public boolean hasOtherContent() {
+        return (actions != null && !actions.isEmpty()) ||
+                (carousel != null && !carousel.isEmpty());
+    }
+
+    public boolean hasContent() {
+        return hasTextContent() ||
+                imageUrl != null ||
+                hasOtherContent();
+    }
+
     public boolean isEqualVisually(Message other) {
         if (uuid == other.uuid) {
             // Same message

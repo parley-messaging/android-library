@@ -77,6 +77,12 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
     public void show(final Message message) {
         balloonView.setLayoutGravity(shouldAlignRight() ? Gravity.END : Gravity.START);
 
+        if (message.hasContent()) {
+            balloonLayout.setVisibility(View.VISIBLE);
+        } else {
+            balloonLayout.setVisibility(View.GONE);
+        }
+
         balloonView.refreshStyle(message.isImageContentOnly());
         // Agent name
         boolean showAgentName = shouldShowName() && message.getAgent() != null;
