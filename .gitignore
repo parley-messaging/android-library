@@ -175,3 +175,8 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.gitignore.io/api/osx,gradle,fastlane,androidstudio
+
+fastlane/README.md
+fastlane/metadata/android/screenshots.html
+fastlane/test/message/Update/*.png
+fastlane/test/suggestion/Update/*.png

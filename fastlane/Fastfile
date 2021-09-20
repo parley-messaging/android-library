@@ -1,0 +1,40 @@
+default_platform(:android)
+
+platform :android do
+  desc "Verify by screenshots"
+  lane :verify do
+    build_android_app(
+      task: 'assemble',
+      build_type: 'Debug'
+    )
+    build_android_app(
+      task: 'assemble',
+      build_type: 'AndroidTest'
+    )
+    screengrab(
+      app_package_name: 'nu.parley.android.test',
+      tests_package_name: 'nu.parley.android.test',
+      use_timestamp_suffix: false,
+      skip_open_summary: true,
+      app_apk_path: 'parley/build/outputs/apk/androidTest/debug/parley-debug-androidTest.apk',
+      tests_apk_path: 'parley/build/outputs/apk/androidTest/debug/parley-debug-androidTest.apk'
+    )
+    verify_move
+  end
+
+  desc "Move to Update folder"
+  lane :verify_move do
+    Dir.entries("metadata/android/en-US/images/phoneScreenshots").select { |f|
+      base_name = File.basename(f)
+      next if base_name == '.' or base_name == '..'
+
+      source = File.join("metadata/android/en-US/images/phoneScreenshots", f)
+      destination = "test/message/Update/"
+      destination = "test/suggestion/Update/" if base_name.start_with?("Suggestions-")
+
+      Dir.mkdir destination unless File.directory? destination
+      
+      File.rename source, File.join(destination, f)
+    }
+  end
+end
