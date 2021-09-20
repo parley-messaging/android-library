@@ -77,7 +77,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
     public void show(final Message message) {
         balloonView.setLayoutGravity(shouldAlignRight() ? Gravity.END : Gravity.START);
 
-        if (message.hasContent()) {
+        if (message.hasTextContent() || message.hasImageContent()) {
             balloonLayout.setVisibility(View.VISIBLE);
         } else {
             balloonLayout.setVisibility(View.GONE);

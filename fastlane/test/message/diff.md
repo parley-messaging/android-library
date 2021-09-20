@@ -28,3 +28,4 @@ Current | Updated
 ![Current](Current/AgentMessage-ShortWithoutName.png) | ![Updated](Update/AgentMessage-ShortWithoutName.png)
 ![Current](Current/UserMessage-ShortFailed.png) | ![Updated](Update/UserMessage-ShortFailed.png)
 ![Current](Current/UserMessage-TextAndImage.png) | ![Updated](Update/UserMessage-TextAndImage.png)
+![Current](Current/AgentMessage-MessageWithCarouselOnly.png) | ![Updated](Update/AgentMessage-MessageWithCarouselOnly.png)

@@ -271,9 +271,13 @@ public final class Message {
      * @return `true` if the content of the message only consists of an image, `false` otherwise.
      */
     public boolean isImageContentOnly() {
-        return imageUrl != null &&
+        return hasImageContent() &&
                 (title == null || title.trim().isEmpty()) &&
                 (message == null || message.trim().isEmpty());
+    }
+
+    public boolean hasImageContent() {
+        return imageUrl != null;
     }
 
     public boolean hasTextContent() {
@@ -288,7 +292,7 @@ public final class Message {
 
     public boolean hasContent() {
         return hasTextContent() ||
-                imageUrl != null ||
+                hasImageContent() ||
                 hasOtherContent();
     }
 

@@ -238,6 +238,23 @@ public class ParleyChatTestSuit extends ParleyScreenBaseTest {
     }
 
     @Test
+    public void agentMessage_messageWithCarouselOnly() {
+        List<Message> carousel = new ArrayList<>();
+        List<Action> actionsItem1 = new ArrayList<>();
+        actionsItem1.add(MockAction.create("Android SDK", "https://github.com/parley-messaging/android-library"));
+        actionsItem1.add(MockAction.create("iOS SDK", "https://github.com/parley-messaging/ios-library"));
+        List<Action> actionsItem2 = new ArrayList<>();
+        actionsItem2.add(MockAction.create("Web documentation", "https://developers.parley.nu/docs/introduction"));
+        actionsItem2.add(MockAction.create("Android documentation", "https://developers.parley.nu/docs/introduction-1"));
+        actionsItem2.add(MockAction.create("iOS documentation", "https://developers.parley.nu/docs/introduction-2"));
+        carousel.add(MockMessage.ofCarousel("Parley libraries", "Parley provides open source SDK's for the Web, Android and iOS to easily integrate it with any platform.\n\nThe chat is fully customisable.", null, actionsItem1));
+        carousel.add(MockMessage.ofCarousel(null, null, URL_PARLEY_IMAGE_WEB, actionsItem2));
+
+        renderMessage(MockMessage.messageOfAgent(MockAgent.Webuildapps, null, null, null, null, carousel));
+        makeScreenshot("AgentMessage-MessageWithCarouselOnly");
+    }
+
+    @Test
     public void agentMessage_messageWithCarouselImages() {
         List<Action> actions = new ArrayList<>();
         actions.add(MockAction.create("Home page", "https://www.parley.nu/"));
