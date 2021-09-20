@@ -344,7 +344,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
                         super.onScrolled(recyclerView, dx, dy);
 
                         int bottomOfMessages = recyclerView.computeVerticalScrollRange();
-                        int bottomOfShown = recyclerView.computeVerticalScrollOffset() + recyclerView.computeVerticalScrollExtent();
+                        int bottomOfShown = recyclerView.computeVerticalScrollOffset() + recyclerView.getHeight();
                         float kickIn = bottomOfMessages - heightSuggestionView;
                         if (bottomOfShown >= bottomOfMessages) {
                             // Show
