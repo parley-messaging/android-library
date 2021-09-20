@@ -300,7 +300,10 @@ public final class Message {
                     CompareUtil.equals(agent, other.agent) &&
                     CompareUtil.equals(imageUrl, other.imageUrl) &&
                     CompareUtil.equals(timeStamp, other.timeStamp) &&
-                    CompareUtil.equals(sendStatus, other.sendStatus);
+                    CompareUtil.equals(sendStatus, other.sendStatus) &&
+                    CompareUtil.equals(actions, other.actions) &&
+                    CompareUtil.equals(carousel, other.carousel) &&
+                    CompareUtil.equals(quickReplies, other.quickReplies);
         } else {
             // It's another message
             return false;
