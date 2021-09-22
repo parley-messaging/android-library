@@ -6,14 +6,14 @@ import java.util.Date;
 
 public final class Action {
 
-    @SerializedName("type")
-    private String type;
-
     @SerializedName("title")
     private String title;
 
     @SerializedName("payload")
     private String payload;
+
+    @SerializedName("type")
+    private ButtonType type;
 
     Action(String title, String payload) {
         this.title = title;
@@ -26,5 +26,9 @@ public final class Action {
 
     public String getPayload() {
         return payload;
+    }
+
+    public ButtonType getType() {
+        return type;
     }
 }

@@ -4,7 +4,7 @@ apply plugin: 'com.novoda.bintray-release'
 
 ext {
     libraryPackageIdentifier = 'nu.parley.android'
-    libraryVersion = '3.2.1'
+    libraryVersion = '3.2.2'
 }
 
 publish {
@@ -56,6 +56,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // AndroidX artifacts
+    implementation 'androidx.annotation:annotation:1.2.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -90,5 +91,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     debugImplementation 'com.novoda:espresso-support-extras:1.0.0'
     androidTestImplementation 'com.novoda:espresso-support:1.0.0'
-    androidTestImplementation('tools.fastlane:screengrab:2.0.0')
+    androidTestImplementation('tools.fastlane:screengrab:2.1.0')
 }

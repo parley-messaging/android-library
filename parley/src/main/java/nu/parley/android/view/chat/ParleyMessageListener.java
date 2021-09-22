@@ -50,13 +50,26 @@ public final class ParleyMessageListener implements MessageListener {
 
     @Override
     public void onActionClicked(View view, Action action) {
+        switch (action.getType()) {
+            case REPLY:
+                Parley.send(action.getPayload());
+                break;
+            case WEB_URL:
+                openUrl(view, action.getPayload());
+                break;
+            case PHONE_NUMBER:
+                openUrl(view, "tel://" + action.getPayload());
+                break;
+        }
+    }
+
+    private void openUrl(View view, String url) {
         try {
-            String uri = action.getPayload();
-            Intent intent = Intent.parseUri(uri, Intent.URI_INTENT_SCHEME);
+            Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
             if (intent != null) {
                 view.getContext().startActivity(intent);
             } else {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 view.getContext().startActivity(browserIntent);
             }
         } catch (URISyntaxException | ActivityNotFoundException e) {

@@ -271,9 +271,29 @@ public final class Message {
      * @return `true` if the content of the message only consists of an image, `false` otherwise.
      */
     public boolean isImageContentOnly() {
-        return imageUrl != null &&
+        return hasImageContent() &&
                 (title == null || title.trim().isEmpty()) &&
                 (message == null || message.trim().isEmpty());
+    }
+
+    public boolean hasImageContent() {
+        return imageUrl != null;
+    }
+
+    public boolean hasTextContent() {
+        return (title != null && !title.trim().isEmpty()) ||
+                (message != null && !message.trim().isEmpty());
+    }
+
+    public boolean hasOtherContent() {
+        return (actions != null && !actions.isEmpty()) ||
+                (carousel != null && !carousel.isEmpty());
+    }
+
+    public boolean hasContent() {
+        return hasTextContent() ||
+                hasImageContent() ||
+                hasOtherContent();
     }
 
     public boolean isEqualVisually(Message other) {
@@ -284,7 +304,10 @@ public final class Message {
                     CompareUtil.equals(agent, other.agent) &&
                     CompareUtil.equals(imageUrl, other.imageUrl) &&
                     CompareUtil.equals(timeStamp, other.timeStamp) &&
-                    CompareUtil.equals(sendStatus, other.sendStatus);
+                    CompareUtil.equals(sendStatus, other.sendStatus) &&
+                    CompareUtil.equals(actions, other.actions) &&
+                    CompareUtil.equals(carousel, other.carousel) &&
+                    CompareUtil.equals(quickReplies, other.quickReplies);
         } else {
             // It's another message
             return false;
