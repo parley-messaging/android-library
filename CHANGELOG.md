@@ -1,6 +1,20 @@
 # Changelog
 
-## 3.2.0
+## 3.2.2 - Upcoming
+
+- Added support for buttons with types `webUrl`, `phoneNumber` and `reply`
+- Quick replies now don't require a message to show anymore
+- Carousel now doesn't require a message to show anymore
+- Carousel now also shows the time inside the items
+- Fixed an issue where quick replies could be hidden unintentionally
+- Fixed an issue with visual diffing for messages with `buttons`, `carousel`, or `quickReplies`
+
+## 3.2.1 - Released 31 Aug 2021
+
+- Links inside messages that were not formatted as Markdown are now clickable as well
+- Enforcing SSL pinning by default (SSL pinning was working before, but it is now enforced by default as intended)
+
+## 3.2.0 - Released 30 Jul 2021
 
 - Added support for sending (silent) messages
 - Added support for setting the referrer
@@ -8,7 +22,7 @@
 - Not showing notifications for system messages
 - Updated documentation to reflect JitPack usage since version 3.1.0
 
-## 3.1.0
+## 3.1.0 - Released 5 Jul 2021
 
 - Added support for titles in a message
   - *Addition (styling)*: Attribute `parley_title_font_family` for the title in agent messages
@@ -40,12 +54,12 @@
 
 For a complete styling overview, check out [parley_configuration.xml](parley/src/main/res/values/parley_configuration.xml) for all the available options.
 
-## 3.0.1
+## 3.0.1 - Released 25 Nov 2019
 
 - Added support for a message containing an image as well as text
 - *Deprecation (styling)*: Attributes `parley_message_meta_padding` and `parley_image_meta_padding` are now unified to a single property: `parley_meta_padding`
 - *Deprecation (styling)*: Attribute `parley_image_name_padding` has been renamed to `parley_name_padding`
 
-## 3.0.0
+## 3.0.0 - Released 8 Oct 2019
 
 The first release of version 3.0 of the Parley library
