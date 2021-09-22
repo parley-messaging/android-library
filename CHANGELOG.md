@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.2.2 - Upcoming
+## 3.2.2 - Released 22 Sep 2021
 
 - Added support for buttons with types `webUrl`, `phoneNumber` and `reply`
 - Quick replies now don't require a message to show anymore
