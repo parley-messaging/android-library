@@ -15,11 +15,11 @@ import nu.parley.android.view.chat.MessageViewHolderFactory;
 
 public final class CarouselAdapter extends RecyclerView.Adapter<CarouselViewHolder> {
 
-    private List<Message> messages;
-    private MessageListener listener;
+    private final Message carouselMessage;
+    private final MessageListener listener;
 
-    public CarouselAdapter(List<Message> messages, MessageListener listener) {
-        this.messages = messages;
+    public CarouselAdapter(Message carouselMessage, MessageListener listener) {
+        this.carouselMessage = carouselMessage;
         this.listener = listener;
     }
 
@@ -30,7 +30,6 @@ public final class CarouselAdapter extends RecyclerView.Adapter<CarouselViewHold
         return new CarouselViewHolder(itemView, listener);
     }
 
-
     @Override
     public int getItemViewType(int position) {
         return MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_AGENT;
@@ -38,12 +37,19 @@ public final class CarouselAdapter extends RecyclerView.Adapter<CarouselViewHold
 
     @Override
     public void onBindViewHolder(@NonNull CarouselViewHolder holder, int position) {
-        final Message message = messages.get(position);
-        holder.show(message);
+        if (carouselMessage.getCarousel() == null) {
+            return;
+        }
+        final Message message = carouselMessage.getCarousel().get(position);
+        holder.show(message, carouselMessage.getDate());
     }
 
     @Override
     public int getItemCount() {
-        return messages.size();
+        if (carouselMessage.getCarousel() == null) {
+            return 0;
+        } else {
+            return carouselMessage.getCarousel().size();
+        }
     }
 }

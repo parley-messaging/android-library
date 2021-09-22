@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.StyleRes;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Date;
+
 import nu.parley.android.R;
 import nu.parley.android.data.model.Action;
 import nu.parley.android.data.model.Message;
@@ -75,6 +77,10 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
     }
 
     public void show(final Message message) {
+        show(message, message.getDate());
+    }
+
+    public void show(final Message message, final Date messageTime) {
         balloonView.setLayoutGravity(shouldAlignRight() ? Gravity.END : Gravity.START);
 
         if (message.hasTextContent() || message.hasImageContent()) {
@@ -99,7 +105,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         balloonView.setText(message.getMessage());
 
         // Meta
-        balloonView.setTime(message.getDate());
+        balloonView.setTime(messageTime);
         balloonView.setStatus(message.getSendStatus());
         balloonView.setStatusVisible(shouldShowStatus());
 
@@ -134,8 +140,8 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         if (message.getCarousel() == null || message.getCarousel().isEmpty()) {
             carouselRecyclerView.setVisibility(View.GONE);
         } else {
-            carouselRecyclerView.setAdapter(new CarouselAdapter(message.getCarousel(), listener));
             carouselRecyclerView.setVisibility(View.VISIBLE);
         }
+        carouselRecyclerView.setAdapter(new CarouselAdapter(message, listener));
     }
 }
