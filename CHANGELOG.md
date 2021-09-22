@@ -16,6 +16,12 @@
 
 ## 3.2.0 - Released 30 Jul 2021
 
+### Upgrading:
+
+- **DEPRECATION**: `setFcmToken()` is now deprecated, use `setPushToken()` instead.
+
+### Changes:
+
 - Added support for sending (silent) messages
 - Added support for setting the referrer
 - Added support for setting the push type
@@ -23,6 +29,12 @@
 - Updated documentation to reflect JitPack usage since version 3.1.0
 
 ## 3.1.0 - Released 5 Jul 2021
+
+### Upgrading:
+
+- The artifacts are now published via JitPack. To migrate, update the `build.gradle` files as shown in the latest installation steps in the [README.md](README.md).
+
+### Changes:
 
 - Added support for titles in a message
   - *Addition (styling)*: Attribute `parley_title_font_family` for the title in agent messages

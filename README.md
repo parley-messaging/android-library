@@ -47,13 +47,9 @@ To integrate Parley, specify the following in your `app/build.gradle` file:
 implementation 'com.github.parley-messaging:android-library:3.2.0'
 ```
 
-### Upgrading from 3.1.x to 3.2.0
+### Upgrading
 
-- `setFcmToken()` is renamed to `setPushToken()`
-
-### Upgrading from 3.0.x to 3.1.0
-
-The artifacts are now published via JitPack. To migrate, update the build.gradle files as shown in the latest installation steps.
+Checkout [CHANGELOG.md](CHANGELOG.md) for the latest changes and upgrade notes.
 
 ## Getting started
 
