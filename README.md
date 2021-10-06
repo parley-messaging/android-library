@@ -154,7 +154,8 @@ The network configuration can be set by setting a `ParleyNetwork` with the `Parl
 ```java
 ParleyNetwork network = new ParleyNetwork(
         "https://api.parley.nu/",
-        "clientApi/v1.2/",
+        "clientApi/v1.6/",
+        ApiVersion.V1_6, // Must correspont to the same version in the path 
         R.xml.parley_network_security_config // Must be the same resource as defined in `AndroidManifest.xml`
 );
 
@@ -175,7 +176,8 @@ headers.put("X-Custom-Header", "Custom header value");
 
 ParleyNetwork network = new ParleyNetwork(
         "https://api.parley.nu/",
-        "clientApi/v1.2/",
+        "clientApi/v1.6/",
+        ApiVersion.V1_6,
         R.xml.parley_network_security_config,
         headers
 );

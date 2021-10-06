@@ -13,7 +13,7 @@ import nu.parley.android.data.model.ApiVersion;
 public final class ParleyNetwork {
 
     private static final String DEFAULT_NETWORK_URL = "https://api.parley.nu/";
-    private static final String DEFAULT_NETWORK_PATH = "clientApi/v1.2/";
+    private static final String DEFAULT_NETWORK_PATH = "clientApi/v1.6/";
 
     public final String url;
     public final Map<String, String> headers;
