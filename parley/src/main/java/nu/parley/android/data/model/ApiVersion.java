@@ -8,8 +8,6 @@ public enum ApiVersion {
     @Deprecated
     V1_2,
     /**
-     *
-     *
      * This is the latest supported version by the library.
      */
     V1_6

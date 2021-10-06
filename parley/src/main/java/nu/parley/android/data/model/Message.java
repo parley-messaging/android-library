@@ -40,9 +40,17 @@ public final class Message {
     @Nullable
     private String message;
 
+    /**
+     * <b>Deprecated</b>: Use `media` instead
+     */
     @SerializedName("image")
     @Nullable
+    @Deprecated
     private String imageUrl;
+
+    @SerializedName("media")
+    @Nullable
+    private Media media;
 
     @SerializedName("buttons")
     @Nullable
@@ -130,9 +138,22 @@ public final class Message {
         return message;
     }
 
+    /**
+     * @deprecated Use {@link Message#ofTypeOwnMedia(String)} from API 1.6 and onwards
+     *
+     * @param imageUrl
+     * @return message
+     */
+    @Deprecated
     public static Message ofTypeOwnImage(String imageUrl) {
         Message message = Message.ofTypeOwnMessage(false);
         message.imageUrl = imageUrl;
+        return message;
+    }
+
+    public static Message ofTypeOwnMedia(String mediaId) {
+        Message message = Message.ofTypeOwnMessage(false);
+        message.media = new Media(mediaId);
         return message;
     }
 
@@ -224,6 +245,11 @@ public final class Message {
         }
     }
 
+    @Nullable
+    public Media getMedia() {
+        return media;
+    }
+
     /**
      * Helper method to get the image as either the GlideUrl or String.
      *
@@ -231,6 +257,10 @@ public final class Message {
      */
     @Nullable
     public Object getImage() {
+        if (media != null && media.getId() != null) {
+            String mediaId = media.getIdForUrl();
+            return Connectivity.toGlideUrlMedia(mediaId);
+        }
         if (getImageUrlString() != null) {
             return getImageUrlString();
         }
@@ -303,6 +333,7 @@ public final class Message {
                     CompareUtil.equals(typeId, other.typeId) &&
                     CompareUtil.equals(agent, other.agent) &&
                     CompareUtil.equals(imageUrl, other.imageUrl) &&
+                    CompareUtil.equals(media, other.media) &&
                     CompareUtil.equals(timeStamp, other.timeStamp) &&
                     CompareUtil.equals(sendStatus, other.sendStatus) &&
                     CompareUtil.equals(actions, other.actions) &&
