@@ -24,6 +24,16 @@ Parley now uses the latest stable API version by default, which is V1.6 since ve
 
 ## 3.2.1 - Released 31 Aug 2021
 
+### Upgrading:
+
+Parley now enforces SSL pinning by default. However, when overriding the pinning with a custom `network_security_config.xml`, please check your `network_security_config.xml` whether it contains the following:
+
+```xml
+<trustkit-config enforcePinning="true"/>
+```
+
+### Changes:
+
 - Links inside messages that were not formatted as Markdown are now clickable as well
 - Enforcing SSL pinning by default (SSL pinning was working before, but it is now enforced by default as intended)
 
