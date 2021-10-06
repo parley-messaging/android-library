@@ -639,7 +639,12 @@ public final class Parley {
             }, 100);
             return;
         }
-        final Message message = Message.ofTypeOwnImage(imageFile.getAbsolutePath());
+        final Message message;
+        if (getNetwork().apiVersion.isUsingMedia()) {
+            message = Message.ofTypeOwnMedia("");
+        } else {
+            message = Message.ofTypeOwnImage(imageFile.getAbsolutePath());
+        }
         this.submitMessage(message, true);
     }
 

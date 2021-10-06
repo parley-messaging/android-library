@@ -10,5 +10,9 @@ public enum ApiVersion {
     /**
      * This is the latest supported version by the library.
      */
-    V1_6
+    V1_6;
+
+    public boolean isUsingMedia() {
+        return this == V1_6;
+    }
 }
