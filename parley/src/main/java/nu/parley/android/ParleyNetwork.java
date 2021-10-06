@@ -5,6 +5,8 @@ import androidx.annotation.XmlRes;
 import java.util.HashMap;
 import java.util.Map;
 
+import nu.parley.android.data.model.ApiVersion;
+
 /**
  * Provides the network configuration for Parley.
  */
@@ -18,6 +20,7 @@ public final class ParleyNetwork {
     @XmlRes
     final Integer securityConfigResourceFile;
     public final String path;
+    public final ApiVersion apiVersion;
 
     /**
      * Applies the default network settings of Parley.
@@ -25,18 +28,48 @@ public final class ParleyNetwork {
     ParleyNetwork() {
         this.url = DEFAULT_NETWORK_URL;
         this.path = DEFAULT_NETWORK_PATH;
+        this.apiVersion = ApiVersion.V1_6;
         this.securityConfigResourceFile = R.xml.parley_network_security_config;
         this.headers = new HashMap<>();
     }
 
     /**
-     * Convenience for ParleyNetwork(url, path, securityConfigResourceFile, Map).
+     * Convenience for ParleyNetwork(url, path, apiVersion, securityConfigResourceFile, headers).
      *
-     * @see #ParleyNetwork(String, String, Integer, Map)
+     * @deprecated
+     * Use {@link #ParleyNetwork(String, String, ApiVersion, Integer)} instead
+     *
+     * @see #ParleyNetwork(String, String, ApiVersion, Integer, Map)
      */
+    @Deprecated
     @SuppressWarnings("unused")
     public ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile) {
-        this(url, path, securityConfigResourceFile, new HashMap<String, String>());
+        this(url, path, ApiVersion.V1_6, securityConfigResourceFile, new HashMap<String, String>());
+    }
+
+    /**
+     * Convenience for ParleyNetwork(url, path, apiVersion, securityConfigResourceFile, headers).
+     *
+     * @deprecated
+     * Use {@link #ParleyNetwork(String, String, ApiVersion, Integer, Map)} instead
+     *
+     * @see #ParleyNetwork(String, String, ApiVersion, Integer, Map)
+     */
+    @Deprecated
+    @SuppressWarnings("unused")
+    public ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile, Map<String, String> headers) {
+        this(url, path, ApiVersion.V1_6, securityConfigResourceFile, new HashMap<String, String>());
+    }
+
+    /**
+     * Convenience for ParleyNetwork(url, path, apiVersion, securityConfigResourceFile, headers).
+     *
+     * @see #ParleyNetwork(String, String, ApiVersion, Integer, Map)
+     */
+    @Deprecated
+    @SuppressWarnings("unused")
+    public ParleyNetwork(String url, String path, ApiVersion apiVersion, @XmlRes Integer securityConfigResourceFile) {
+        this(url, path, apiVersion, securityConfigResourceFile, new HashMap<String, String>());
     }
 
     /**
@@ -47,13 +80,15 @@ public final class ParleyNetwork {
      * </p>
      *
      * @param url                        Url to your Parley backend service.
-     * @param path                       Path to the Parley chat API .
+     * @param path                       Path to the Parley chat API.
+     * @param apiVersion                 API version of the Parley chat API. Note that the `path` should use the same api version as well.
      * @param securityConfigResourceFile Android Network Security Configuration file xml resource with SSL Pinning configuration.
      * @param headers                    Additional headers to append to each network request of Parley.
      */
-    public ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile, Map<String, String> headers) {
+    public ParleyNetwork(String url, String path, ApiVersion apiVersion, @XmlRes Integer securityConfigResourceFile, Map<String, String> headers) {
         this.url = url;
         this.path = path;
+        this.apiVersion = apiVersion;
         this.securityConfigResourceFile = securityConfigResourceFile;
         this.headers = headers;
     }
