@@ -79,12 +79,13 @@ public final class Message {
         // Hide constructor
     }
 
-    private Message(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String imageUrl, int typeId, @Nullable Agent agent, int sendStatus) {
+    private Message(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String imageUrl, @Nullable Media media, int typeId, @Nullable Agent agent, int sendStatus) {
         this.uuid = uuid;
         this.id = id;
         this.timeStamp = timeStamp;
         this.message = message;
         this.imageUrl = imageUrl;
+        this.media = media;
         this.typeId = typeId;
         this.agent = agent;
         this.sendStatus = sendStatus;
@@ -138,22 +139,9 @@ public final class Message {
         return message;
     }
 
-    /**
-     * @deprecated Use {@link Message#ofTypeOwnMedia(String)} from API 1.6 and onwards
-     *
-     * @param imageUrl
-     * @return message
-     */
-    @Deprecated
     public static Message ofTypeOwnImage(String imageUrl) {
         Message message = Message.ofTypeOwnMessage(false);
         message.imageUrl = imageUrl;
-        return message;
-    }
-
-    public static Message ofTypeOwnMedia(String mediaId) {
-        Message message = Message.ofTypeOwnMessage(false);
-        message.media = new Media(mediaId);
         return message;
     }
 
@@ -176,11 +164,15 @@ public final class Message {
     }
 
     public static Message withIdAndStatus(Message sourceMessage, Integer id, int status) {
-        return new Message(sourceMessage.uuid, id, sourceMessage.timeStamp, sourceMessage.message, sourceMessage.imageUrl, sourceMessage.typeId, sourceMessage.agent, status);
+        return new Message(sourceMessage.uuid, id, sourceMessage.timeStamp, sourceMessage.message, sourceMessage.imageUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, status);
+    }
+
+    public static Message withMedia(Message sourceMessage, String mediaId) {
+        return new Message(sourceMessage.uuid, sourceMessage.id, sourceMessage.timeStamp, sourceMessage.message, null, new Media(mediaId), sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
     }
 
     public static Message withMessageAndDate(Message sourceMessage, String message, Date date) {
-        return new Message(sourceMessage.uuid, sourceMessage.id, date.getTime() / 1000, message, sourceMessage.imageUrl, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
+        return new Message(sourceMessage.uuid, sourceMessage.id, date.getTime() / 1000, message, sourceMessage.imageUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
     }
 
     /**
@@ -229,7 +221,7 @@ public final class Message {
         return agent;
     }
 
-    private String getImageUrlString() {
+    public String getLegacyImageUrl() {
         return imageUrl;
     }
 
@@ -261,8 +253,8 @@ public final class Message {
             String mediaId = media.getIdForUrl();
             return Connectivity.toGlideUrlMedia(mediaId);
         }
-        if (getImageUrlString() != null) {
-            return getImageUrlString();
+        if (getLegacyImageUrl() != null) {
+            return getLegacyImageUrl();
         }
         if (getImageUrl() != null) {
             return getImageUrl();
@@ -307,7 +299,7 @@ public final class Message {
     }
 
     public boolean hasImageContent() {
-        return imageUrl != null;
+        return getLegacyImageUrl() != null || media != null;
     }
 
     public boolean hasTextContent() {

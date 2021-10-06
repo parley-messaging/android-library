@@ -625,7 +625,7 @@ public final class Parley {
     }
 
     private void resendMessage(Message message, @Nullable ChainListener chainListener) {
-        this.submitMessage(message, false, chainListener);
+        this.submitMessage(message, false, false, chainListener);
     }
 
     public void sendImageMessage(final File imageFile) {
@@ -639,58 +639,90 @@ public final class Parley {
             }, 100);
             return;
         }
-        final Message message;
-        if (getNetwork().apiVersion.isUsingMedia()) {
-            message = Message.ofTypeOwnMedia("");
-        } else {
-            message = Message.ofTypeOwnImage(imageFile.getAbsolutePath());
-        }
+        final Message message = Message.ofTypeOwnImage(imageFile.getAbsolutePath());
         this.submitMessage(message, true);
     }
 
     @SuppressWarnings("SameParameterValue")
     private void submitMessage(final Message message, final boolean isNewMessage) {
-        this.submitMessage(message, isNewMessage, null);
+        boolean triggerSentMessage = isNewMessage && getNetwork().apiVersion.isUsingMedia() && message.getLegacyImageUrl() == null;
+        this.submitMessage(message, isNewMessage, triggerSentMessage, null);
     }
 
-    private void submitMessage(final Message message, final boolean isNewMessage, @Nullable final ChainListener chainListener) {
-        if (isNewMessage) {
+    private void submitMessage(final Message message, final boolean showNewMessage, final boolean triggerSentMessage, @Nullable final ChainListener chainListener) {
+        if (showNewMessage) {
             listener.onNewMessage(message);
             new EventRepository().fire(EVENT_STOP_TYPING);
         }
 
-        new MessageRepository().send(message, new RepositoryCallback<Message>() {
-            @Override
-            public void onSuccess(final Message updatedMessage) {
-                listener.onUpdateMessage(updatedMessage);
+        boolean uploadMediaFirst = getNetwork().apiVersion.isUsingMedia() && message.getLegacyImageUrl() != null;
+        if (uploadMediaFirst) {
+            // Upload image first, then update the message (remove `image`, add `media`) and after that submit the actual message with the right media
+            new MessageRepository().sendMedia(message, new RepositoryCallback<Message>() {
+                @Override
+                public void onSuccess(Message updatedMessage) {
+                    if (updatedMessage.getMedia() == null) throw new AssertionError("Missing media");
 
-                if (isNewMessage) {
-                    listener.onMessageSent();
-                }
-
-                if (chainListener != null) {
-                    chainListener.onNext();
-                }
-            }
-
-            @Override
-            public void onFailed(Integer code, String errorMessage) {
-                if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled() && isNewMessage) {
-                    // It is cached, this will be handled later
-                } else {
-                    Message updatedMessage = Message.withIdAndStatus(message, message.getId(), SEND_STATUS_FAILED);
+                    // Media is updated
                     listener.onUpdateMessage(updatedMessage);
+
+                    // Submit the actual message
+                    submitMessage(updatedMessage, false, triggerSentMessage, chainListener);
                 }
 
-                if (isNewMessage) {
-                    listener.onMessageSent();
+                @Override
+                public void onFailed(Integer code, String errorMessage) {
+                    if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                        // It is cached, this will be handled later
+                    } else {
+                        Message updatedMessage = Message.withIdAndStatus(message, message.getId(), SEND_STATUS_FAILED);
+                        listener.onUpdateMessage(updatedMessage);
+                    }
+
+                    if (showNewMessage) { // Not on `triggerSentMessage` because we wanna trigger this here when the media upload failed
+                        listener.onMessageSent();
+                    }
+
+                    if (chainListener != null) {
+                        chainListener.onNext();
+                    }
+                }
+            });
+        } else {
+            // Just submit the message (and upload images like before V1.6)
+            new MessageRepository().send(message, new RepositoryCallback<Message>() {
+                @Override
+                public void onSuccess(final Message updatedMessage) {
+                    listener.onUpdateMessage(updatedMessage);
+
+                    if (triggerSentMessage) {
+                        listener.onMessageSent();
+                    }
+
+                    if (chainListener != null) {
+                        chainListener.onNext();
+                    }
                 }
 
-                if (chainListener != null) {
-                    chainListener.onNext();
+                @Override
+                public void onFailed(Integer code, String errorMessage) {
+                    if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                        // It is cached, this will be handled later
+                    } else {
+                        Message updatedMessage = Message.withIdAndStatus(message, message.getId(), SEND_STATUS_FAILED);
+                        listener.onUpdateMessage(updatedMessage);
+                    }
+
+                    if (triggerSentMessage) {
+                        listener.onMessageSent();
+                    }
+
+                    if (chainListener != null) {
+                        chainListener.onNext();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private boolean handleI(Context context, Map<String, String> data, Intent intent) {
