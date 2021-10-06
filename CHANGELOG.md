@@ -4,14 +4,15 @@
 
 ### Upgrading:
 
-Parley now uses the latest stable API version by default, which is V1.6 since version 3.3.0. In addition to this, an `apiVersion` field has been added to `ParleyNetwork` to be able to override this with a lower version. And with this change, deprecating the methods that do not configure the API version.
+Parley now uses the latest stable API version by default, which is now V1.6. In addition to this, an `apiVersion` field has been added to `ParleyNetwork` to be able to override this with a lower version. Along with this change, deprecating the methods that do not configure the API version.
 
 - **DEPRECATION**: `ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile)` is now deprecated, use `ParleyNetwork(String, String, ApiVersion, Integer)` instead.
-- **DEPRECATION**: `twork(String url, String path, @XmlRes Integer securityConfigResourceFile, Map<String, String> headers)` is now deprecated, use `ParleyNetwork(String, String, ApiVersion, Integer, Map)` instead.
+- **DEPRECATION**: `ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile, Map<String, String> headers)` is now deprecated, use `ParleyNetwork(String, String, ApiVersion, Integer, Map)` instead.
 
 ### Changes:
 
 - Added `ApiVersion` parameter to ParleyNetwork to define the API version used. By default Parley uses the latest stable version.
+- Added support for the Parley API V1.6 with the new media handling. When using API V1.2, the old method is being used. 
 
 ## 3.2.2 - Released 22 Sep 2021
 
