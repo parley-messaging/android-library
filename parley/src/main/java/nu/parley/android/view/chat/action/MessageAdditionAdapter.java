@@ -33,7 +33,6 @@ public final class MessageAdditionAdapter extends RecyclerView.Adapter<MessageAd
         return new MessageAdditionViewHolder(itemView, currentStyle);
     }
 
-
     @Override
     public int getItemViewType(int position) {
         return MessageViewHolderFactory.MESSAGE_TYPE_ACTION;
@@ -42,7 +41,7 @@ public final class MessageAdditionAdapter extends RecyclerView.Adapter<MessageAd
     @Override
     public void onBindViewHolder(@NonNull MessageAdditionViewHolder holder, int position) {
         final Action action = actions.get(position);
-        holder.show(action);
+        holder.show(action, action == actions.get(0));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

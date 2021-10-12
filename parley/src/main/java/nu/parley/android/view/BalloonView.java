@@ -58,6 +58,7 @@ public final class BalloonView extends FrameLayout {
     private ViewGroup messageLayout;
     private TextView titleTextView;
     private TextView messageTextView;
+    private View messageMetaSpace;
     private ImageView contentImageView;
     private AppCompatImageView contentImagePlaceholderView;
     private ProgressBar imageLoader;
@@ -68,6 +69,7 @@ public final class BalloonView extends FrameLayout {
     private AppCompatImageView statusImageView;
 
     private RecyclerView actionsRecyclerView;
+    private View actionsMetaSpace;
 
     // Styling
     private int imageCornerRadius;
@@ -102,6 +104,7 @@ public final class BalloonView extends FrameLayout {
         messageLayout = findViewById(R.id.message_layout);
         titleTextView = findViewById(R.id.title_text_view);
         messageTextView = findViewById(R.id.message_text_view);
+        messageMetaSpace = findViewById(R.id.message_meta_space);
         contentImageView = findViewById(R.id.image_view);
         contentImagePlaceholderView = findViewById(R.id.image_placeholder_view);
         imageLoader = findViewById(R.id.image_loader);
@@ -112,6 +115,7 @@ public final class BalloonView extends FrameLayout {
         statusImageView = findViewById(R.id.status_image_view);
 
         actionsRecyclerView = findViewById(R.id.actions_recycler_view);
+        actionsMetaSpace = findViewById(R.id.actions_meta_space);
 
         titleTextView.setMovementMethod(LinkMovementMethod.getInstance());
         messageTextView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -259,7 +263,9 @@ public final class BalloonView extends FrameLayout {
         actionsRecyclerView.setAdapter(adapter);
 
         boolean hasAdditions = adapter != null && adapter.getItemCount() > 0;
+        messageMetaSpace.setVisibility(hasAdditions ? View.GONE : View.VISIBLE);
         actionsRecyclerView.setVisibility(hasAdditions ? View.VISIBLE : View.GONE);
+        actionsMetaSpace.setVisibility(hasAdditions ? View.VISIBLE : View.GONE);
     }
 
     public void setOnContentClickListener(View.OnClickListener clickListener) {
