@@ -171,7 +171,7 @@ public final class IdentifierActivity extends BaseActivity {
 
         ParleyNetwork network = new ParleyNetwork(
                 "https://api.parley.nu/",
-                "clientApi/v1.2/",
+                "clientApi/v1.5/",
                 R.xml.parley_network_security_config,
                 headers
         );
