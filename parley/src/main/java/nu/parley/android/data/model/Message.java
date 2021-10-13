@@ -40,9 +40,17 @@ public final class Message {
     @Nullable
     private String message;
 
+    /**
+     * <b>Deprecated</b>: Use `media` instead
+     */
     @SerializedName("image")
     @Nullable
+    @Deprecated
     private String imageUrl;
+
+    @SerializedName("media")
+    @Nullable
+    private Media media;
 
     @SerializedName("buttons")
     @Nullable
@@ -71,12 +79,13 @@ public final class Message {
         // Hide constructor
     }
 
-    private Message(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String imageUrl, int typeId, @Nullable Agent agent, int sendStatus) {
+    private Message(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String imageUrl, @Nullable Media media, int typeId, @Nullable Agent agent, int sendStatus) {
         this.uuid = uuid;
         this.id = id;
         this.timeStamp = timeStamp;
         this.message = message;
         this.imageUrl = imageUrl;
+        this.media = media;
         this.typeId = typeId;
         this.agent = agent;
         this.sendStatus = sendStatus;
@@ -155,11 +164,15 @@ public final class Message {
     }
 
     public static Message withIdAndStatus(Message sourceMessage, Integer id, int status) {
-        return new Message(sourceMessage.uuid, id, sourceMessage.timeStamp, sourceMessage.message, sourceMessage.imageUrl, sourceMessage.typeId, sourceMessage.agent, status);
+        return new Message(sourceMessage.uuid, id, sourceMessage.timeStamp, sourceMessage.message, sourceMessage.imageUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, status);
+    }
+
+    public static Message withMedia(Message sourceMessage, String mediaId) {
+        return new Message(sourceMessage.uuid, sourceMessage.id, sourceMessage.timeStamp, sourceMessage.message, null, new Media(mediaId), sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
     }
 
     public static Message withMessageAndDate(Message sourceMessage, String message, Date date) {
-        return new Message(sourceMessage.uuid, sourceMessage.id, date.getTime() / 1000, message, sourceMessage.imageUrl, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
+        return new Message(sourceMessage.uuid, sourceMessage.id, date.getTime() / 1000, message, sourceMessage.imageUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
     }
 
     /**
@@ -208,7 +221,7 @@ public final class Message {
         return agent;
     }
 
-    private String getImageUrlString() {
+    public String getLegacyImageUrl() {
         return imageUrl;
     }
 
@@ -224,6 +237,11 @@ public final class Message {
         }
     }
 
+    @Nullable
+    public Media getMedia() {
+        return media;
+    }
+
     /**
      * Helper method to get the image as either the GlideUrl or String.
      *
@@ -231,8 +249,12 @@ public final class Message {
      */
     @Nullable
     public Object getImage() {
-        if (getImageUrlString() != null) {
-            return getImageUrlString();
+        if (media != null && media.getId() != null) {
+            String mediaId = media.getIdForUrl();
+            return Connectivity.toGlideUrlMedia(mediaId);
+        }
+        if (getLegacyImageUrl() != null) {
+            return getLegacyImageUrl();
         }
         if (getImageUrl() != null) {
             return getImageUrl();
@@ -272,12 +294,12 @@ public final class Message {
      */
     public boolean isImageContentOnly() {
         return hasImageContent() &&
-                (title == null || title.trim().isEmpty()) &&
-                (message == null || message.trim().isEmpty());
+                !hasTextContent() &&
+                !hasActionsContent();
     }
 
     public boolean hasImageContent() {
-        return imageUrl != null;
+        return getLegacyImageUrl() != null || media != null;
     }
 
     public boolean hasTextContent() {
@@ -285,15 +307,19 @@ public final class Message {
                 (message != null && !message.trim().isEmpty());
     }
 
-    public boolean hasOtherContent() {
-        return (actions != null && !actions.isEmpty()) ||
-                (carousel != null && !carousel.isEmpty());
+    public boolean hasActionsContent() {
+        return actions != null && !actions.isEmpty();
+    }
+
+    public boolean hasCarouselContent() {
+        return carousel != null && !carousel.isEmpty();
     }
 
     public boolean hasContent() {
         return hasTextContent() ||
                 hasImageContent() ||
-                hasOtherContent();
+                hasActionsContent() ||
+                hasCarouselContent();
     }
 
     public boolean isEqualVisually(Message other) {
@@ -303,6 +329,7 @@ public final class Message {
                     CompareUtil.equals(typeId, other.typeId) &&
                     CompareUtil.equals(agent, other.agent) &&
                     CompareUtil.equals(imageUrl, other.imageUrl) &&
+                    CompareUtil.equals(media, other.media) &&
                     CompareUtil.equals(timeStamp, other.timeStamp) &&
                     CompareUtil.equals(sendStatus, other.sendStatus) &&
                     CompareUtil.equals(actions, other.actions) &&

@@ -4,13 +4,13 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
-public final class ParleyCreationData {
+public final class ParleyResponsePostMessage {
 
     @SerializedName("messageId")
     @Nullable
     private String messageId;
 
-    public ParleyCreationData(@Nullable String messageId) {
+    public ParleyResponsePostMessage(@Nullable String messageId) {
         this.messageId = messageId;
     }
 

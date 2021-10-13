@@ -44,7 +44,7 @@ allprojects {
 To integrate Parley, specify the following in your `app/build.gradle` file:
 
 ```groovy
-implementation 'com.github.parley-messaging:android-library:3.2.0'
+implementation 'com.github.parley-messaging:android-library:3.3.0'
 ```
 
 ### Upgrading
@@ -154,7 +154,8 @@ The network configuration can be set by setting a `ParleyNetwork` with the `Parl
 ```java
 ParleyNetwork network = new ParleyNetwork(
         "https://api.parley.nu/",
-        "clientApi/v1.2/",
+        "clientApi/v1.6/",
+        ApiVersion.V1_6, // Must correspond to the same version in the path 
         R.xml.parley_network_security_config // Must be the same resource as defined in `AndroidManifest.xml`
 );
 
@@ -175,7 +176,8 @@ headers.put("X-Custom-Header", "Custom header value");
 
 ParleyNetwork network = new ParleyNetwork(
         "https://api.parley.nu/",
-        "clientApi/v1.2/",
+        "clientApi/v1.6/",
+        ApiVersion.V1_6,
         R.xml.parley_network_security_config,
         headers
 );
@@ -200,6 +202,8 @@ Parley uses TrustKit to support SSL pinning on lower API levels. To enforce SSL 
 ```
 
 *Note that setting this `true` will enforce SSL pinning and causes all requests to fail if SSL pinning fails. Whereas setting this `false` will still execute SSL pinning, but requests will proceed if SSL pinning fails.*
+
+When a certificate is going to expire you can safely transition by adding the new pin to the `network_security_config.xml`. It is important to leave the old pin in the app until after the new one is valid. In the next release the old pin can be removed. However, Android requires at least 2 pins inside the `network_security_config.xml`, so the old one can remain until the next one is needed.
 
 ### User information
 

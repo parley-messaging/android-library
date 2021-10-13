@@ -1,5 +1,20 @@
 # Changelog
 
+## 3.3.0 - Released 13 Oct 2021
+
+### Upgrading:
+
+Parley now uses the latest stable API version by default, which is now V1.6. In addition to this, an `apiVersion` field has been added to `ParleyNetwork` to be able to override this with a lower version. Along with this change, deprecating the methods that do not configure the API version.
+
+- **DEPRECATION**: `ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile)` is now deprecated, use `ParleyNetwork(String, String, ApiVersion, Integer)` instead.
+- **DEPRECATION**: `ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile, Map<String, String> headers)` is now deprecated, use `ParleyNetwork(String, String, ApiVersion, Integer, Map)` instead.
+
+### Changes:
+
+- Added `ApiVersion` parameter to ParleyNetwork to define the API version used. By default Parley uses the latest stable version.
+- Added support for the Parley API V1.6 with the new media handling. When using API V1.2, the old method is being used.
+- Added support for messages that only contain buttons
+
 ## 3.2.2 - Released 22 Sep 2021
 
 - Added support for buttons with types `webUrl`, `phoneNumber` and `reply`
@@ -10,6 +25,16 @@
 - Fixed an issue with visual diffing for messages with `buttons`, `carousel`, or `quickReplies`
 
 ## 3.2.1 - Released 31 Aug 2021
+
+### Upgrading:
+
+Parley now enforces SSL pinning by default. However, when overriding the pinning with a custom `network_security_config.xml`, please check your `network_security_config.xml` whether it contains the following:
+
+```xml
+<trustkit-config enforcePinning="true"/>
+```
+
+### Changes:
 
 - Links inside messages that were not formatted as Markdown are now clickable as well
 - Enforcing SSL pinning by default (SSL pinning was working before, but it is now enforced by default as intended)

@@ -6,12 +6,12 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/divider_layout"
+        android:id="@+id/divider_top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <View
-            android:id="@+id/divider_view"
+            android:id="@+id/divider_top_view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             tools:background="@color/parley_agent_action_divider" />
@@ -23,5 +23,17 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         tools:text="More information" />
+
+    <FrameLayout
+        android:id="@+id/divider_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/divider_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            tools:background="@color/parley_agent_action_divider" />
+    </FrameLayout>
 
 </LinearLayout>
