@@ -155,7 +155,7 @@ The network configuration can be set by setting a `ParleyNetwork` with the `Parl
 ParleyNetwork network = new ParleyNetwork(
         "https://api.parley.nu/",
         "clientApi/v1.6/",
-        ApiVersion.V1_6, // Must correspont to the same version in the path 
+        ApiVersion.V1_6, // Must correspond to the same version in the path 
         R.xml.parley_network_security_config // Must be the same resource as defined in `AndroidManifest.xml`
 );
 
