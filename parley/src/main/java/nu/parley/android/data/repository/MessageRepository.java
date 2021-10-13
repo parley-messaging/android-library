@@ -6,7 +6,8 @@ import java.util.List;
 import nu.parley.android.data.model.Message;
 import nu.parley.android.data.net.Connectivity;
 import nu.parley.android.data.net.RepositoryCallback;
-import nu.parley.android.data.net.response.ParleyCreationData;
+import nu.parley.android.data.net.response.ParleyResponsePostMedia;
+import nu.parley.android.data.net.response.ParleyResponsePostMessage;
 import nu.parley.android.data.net.response.ParleyPaging;
 import nu.parley.android.data.net.response.ParleyResponse;
 import nu.parley.android.data.net.service.MessageService;
@@ -67,13 +68,13 @@ public final class MessageRepository {
     }
 
     public void send(final Message message, final RepositoryCallback<Message> callback) {
-        Call<ParleyResponse<ParleyCreationData>> messagesCall;
-        if (message.getImage() == null) {
-            // Text message
+        Call<ParleyResponse<ParleyResponsePostMessage>> messagesCall;
+        if (message.getLegacyImageUrl() == null) {
+            // Text or media message
             messagesCall = Connectivity.getRetrofit().create(MessageService.class).post(message);
         } else {
-            // Image message
-            String url = message.getImage().toString();
+            // Image message API V1.2: Uploading it together when sending the message
+            String url = message.getLegacyImageUrl();
             File file = new File(url);
             String mediaType = FileUtil.getMimeType(url);
             if (mediaType == null) {
@@ -85,9 +86,9 @@ public final class MessageRepository {
             messagesCall = Connectivity.getRetrofit().create(MessageService.class).postImage(filePart);
         }
 
-        messagesCall.enqueue(new Callback<ParleyResponse<ParleyCreationData>>() {
+        messagesCall.enqueue(new Callback<ParleyResponse<ParleyResponsePostMessage>>() {
             @Override
-            public void onResponse(Call<ParleyResponse<ParleyCreationData>> call, Response<ParleyResponse<ParleyCreationData>> response) {
+            public void onResponse(Call<ParleyResponse<ParleyResponsePostMessage>> call, Response<ParleyResponse<ParleyResponsePostMessage>> response) {
                 if (response.isSuccessful()) {
                     Message updatedMessage = Message.withIdAndStatus(message, response.body().getData().getMessageId(), SEND_STATUS_SUCCESS);
                     callback.onSuccess(updatedMessage);
@@ -97,7 +98,39 @@ public final class MessageRepository {
             }
 
             @Override
-            public void onFailure(Call<ParleyResponse<ParleyCreationData>> call, Throwable t) {
+            public void onFailure(Call<ParleyResponse<ParleyResponsePostMessage>> call, Throwable t) {
+                t.printStackTrace();
+                callback.onFailed(null, t.getMessage());
+            }
+        });
+    }
+
+    public void sendMedia(final Message message, final RepositoryCallback<Message> callback) {
+        // API V1.6+: Uploading media
+        String imagePath = message.getImage().toString();
+        File file = new File(imagePath);
+        String mediaType = FileUtil.getMimeType(imagePath);
+        if (mediaType == null) {
+            mediaType = MIME_TYPE_IMAGE_FALLBACK;
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse(mediaType), file);
+
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", file.getName(), requestBody);
+
+        Call<ParleyResponse<ParleyResponsePostMedia>> messagesCall = Connectivity.getRetrofit().create(MessageService.class).postMedia(filePart);
+        messagesCall.enqueue(new Callback<ParleyResponse<ParleyResponsePostMedia>>() {
+            @Override
+            public void onResponse(Call<ParleyResponse<ParleyResponsePostMedia>> call, Response<ParleyResponse<ParleyResponsePostMedia>> response) {
+                if (response.isSuccessful()) {
+                    Message updatedMessage = Message.withMedia(message, response.body().getData().media);
+                    callback.onSuccess(updatedMessage);
+                } else {
+                    callback.onFailed(response.code(), response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ParleyResponse<ParleyResponsePostMedia>> call, Throwable t) {
                 t.printStackTrace();
                 callback.onFailed(null, t.getMessage());
             }

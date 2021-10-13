@@ -29,6 +29,7 @@ import nu.parley.android.Parley;
 import nu.parley.android.ParleyCallback;
 import nu.parley.android.ParleyNetwork;
 import nu.parley.android.data.messages.ParleyEncryptedDataSource;
+import nu.parley.android.data.model.ApiVersion;
 import nu.parley.repository.PreferenceRepository;
 
 public final class IdentifierActivity extends BaseActivity {
@@ -171,7 +172,8 @@ public final class IdentifierActivity extends BaseActivity {
 
         ParleyNetwork network = new ParleyNetwork(
                 "https://api.parley.nu/",
-                "clientApi/v1.5/",
+                "clientApi/v1.6/",
+                ApiVersion.V1_6,
                 R.xml.parley_network_security_config,
                 headers
         );

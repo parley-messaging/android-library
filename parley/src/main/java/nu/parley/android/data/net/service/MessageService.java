@@ -3,7 +3,8 @@ package nu.parley.android.data.net.service;
 import java.util.List;
 
 import nu.parley.android.data.model.Message;
-import nu.parley.android.data.net.response.ParleyCreationData;
+import nu.parley.android.data.net.response.ParleyResponsePostMedia;
+import nu.parley.android.data.net.response.ParleyResponsePostMessage;
 import nu.parley.android.data.net.response.ParleyResponse;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -27,10 +28,20 @@ public interface MessageService {
     Call<ParleyResponse<List<Message>>> getOlder(@Url String url);
 
     @POST("messages")
-    Call<ParleyResponse<ParleyCreationData>> post(@Body Message chatMessage);
+    Call<ParleyResponse<ParleyResponsePostMessage>> post(@Body Message chatMessage);
 
+    /**
+     * @deprecated Use {@link MessageService#postMedia(MultipartBody.Part)} from API 1.6 and onwards.
+     *
+     * @param filePart
+     * @return response
+     */
     @Multipart
     @POST("messages")
-    Call<ParleyResponse<ParleyCreationData>> postImage(@Part MultipartBody.Part filePart);
+    Call<ParleyResponse<ParleyResponsePostMessage>> postImage(@Part MultipartBody.Part filePart);
+
+    @Multipart
+    @POST("media")
+    Call<ParleyResponse<ParleyResponsePostMedia>> postMedia(@Part MultipartBody.Part filePart);
 
 }

@@ -52,12 +52,14 @@ public final class BalloonView extends FrameLayout {
 
     private ViewGroup contentLayout;
     private TextView nameTextView;
+    private View nameSpaceView;
     private ViewGroup imageLayout;
     private View nameShadowView;
     private View metaShadowView;
     private ViewGroup messageLayout;
     private TextView titleTextView;
     private TextView messageTextView;
+    private View messageMetaSpace;
     private ImageView contentImageView;
     private AppCompatImageView contentImagePlaceholderView;
     private ProgressBar imageLoader;
@@ -68,6 +70,7 @@ public final class BalloonView extends FrameLayout {
     private AppCompatImageView statusImageView;
 
     private RecyclerView actionsRecyclerView;
+    private View actionsMetaSpace;
 
     // Styling
     private int imageCornerRadius;
@@ -96,12 +99,14 @@ public final class BalloonView extends FrameLayout {
 
         contentLayout = findViewById(R.id.content_layout);
         nameTextView = findViewById(R.id.name_text_view);
+        nameSpaceView = findViewById(R.id.name_space_view);
         imageLayout = findViewById(R.id.image_layout);
         nameShadowView = findViewById(R.id.name_shadow_view);
         metaShadowView = findViewById(R.id.meta_shadow_view);
         messageLayout = findViewById(R.id.message_layout);
         titleTextView = findViewById(R.id.title_text_view);
         messageTextView = findViewById(R.id.message_text_view);
+        messageMetaSpace = findViewById(R.id.message_meta_space);
         contentImageView = findViewById(R.id.image_view);
         contentImagePlaceholderView = findViewById(R.id.image_placeholder_view);
         imageLoader = findViewById(R.id.image_loader);
@@ -112,13 +117,15 @@ public final class BalloonView extends FrameLayout {
         statusImageView = findViewById(R.id.status_image_view);
 
         actionsRecyclerView = findViewById(R.id.actions_recycler_view);
+        actionsMetaSpace = findViewById(R.id.actions_meta_space);
 
         titleTextView.setMovementMethod(LinkMovementMethod.getInstance());
         messageTextView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    public void setName(@Nullable String text, boolean hasImage) {
+    public void setName(@Nullable String text, boolean hasImage, boolean useBottomMargin) {
         nameTextView.setText(text);
+        nameSpaceView.setVisibility(useBottomMargin ? View.VISIBLE : View.GONE);
 
         nameTextView.setVisibility(text == null ? View.GONE : View.VISIBLE);
         imageLayout.setVisibility(text == null && !hasImage ? View.GONE : View.VISIBLE);
@@ -136,6 +143,10 @@ public final class BalloonView extends FrameLayout {
         if (text != null) {
             messageTextView.setText(MarkdownUtil.convert(getContext(), text));
         }
+    }
+
+    public void setHasTextContent(boolean hasTextContent) {
+        messageLayout.setVisibility(hasTextContent ? View.VISIBLE : View.GONE);
     }
 
     public void setImage(@Nullable Object imageUrl, boolean applyBottomCornerRadius) {
@@ -259,7 +270,9 @@ public final class BalloonView extends FrameLayout {
         actionsRecyclerView.setAdapter(adapter);
 
         boolean hasAdditions = adapter != null && adapter.getItemCount() > 0;
+        messageMetaSpace.setVisibility(hasAdditions ? View.GONE : View.VISIBLE);
         actionsRecyclerView.setVisibility(hasAdditions ? View.VISIBLE : View.GONE);
+        actionsMetaSpace.setVisibility(hasAdditions ? View.VISIBLE : View.GONE);
     }
 
     public void setOnContentClickListener(View.OnClickListener clickListener) {
@@ -268,12 +281,11 @@ public final class BalloonView extends FrameLayout {
 
     // Styling
 
-    public void refreshStyle(boolean isImageContentOnly) {
-        timeTextView.setTextColor(isImageContentOnly ? imageTimeColor : messageTimeColor);
-        statusImageView.setSupportImageTintList(isImageContentOnly ? imageStatusColor : messageStatusColor);
+    public void refreshStyle(boolean isMetaOnImage) {
+        timeTextView.setTextColor(isMetaOnImage ? imageTimeColor : messageTimeColor);
+        statusImageView.setSupportImageTintList(isMetaOnImage ? imageStatusColor : messageStatusColor);
 
-        messageLayout.setVisibility(isImageContentOnly ? View.GONE : View.VISIBLE);
-        metaShadowView.setVisibility(isImageContentOnly ? View.VISIBLE : View.GONE);
+        metaShadowView.setVisibility(isMetaOnImage ? View.VISIBLE : View.GONE);
     }
 
     public void setNamePadding(StyleUtil.StyleSpacing data) {

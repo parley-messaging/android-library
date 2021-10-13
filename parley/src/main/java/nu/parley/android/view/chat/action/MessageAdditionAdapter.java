@@ -16,12 +16,14 @@ import nu.parley.android.view.chat.MessageViewHolderFactory;
 public final class MessageAdditionAdapter extends RecyclerView.Adapter<MessageAdditionViewHolder> {
 
     private List<Action> actions;
+    private boolean showTopDivider;
     private MessageAdditionListener listener;
     @StyleRes
     private int currentStyle;
 
-    public MessageAdditionAdapter(List<Action> actions, MessageAdditionListener listener, @StyleRes int style) {
+    public MessageAdditionAdapter(List<Action> actions, boolean showTopDivider, MessageAdditionListener listener, @StyleRes int style) {
         this.actions = actions;
+        this.showTopDivider = showTopDivider;
         this.listener = listener;
         this.currentStyle = style;
     }
@@ -33,7 +35,6 @@ public final class MessageAdditionAdapter extends RecyclerView.Adapter<MessageAd
         return new MessageAdditionViewHolder(itemView, currentStyle);
     }
 
-
     @Override
     public int getItemViewType(int position) {
         return MessageViewHolderFactory.MESSAGE_TYPE_ACTION;
@@ -42,7 +43,7 @@ public final class MessageAdditionAdapter extends RecyclerView.Adapter<MessageAd
     @Override
     public void onBindViewHolder(@NonNull MessageAdditionViewHolder holder, int position) {
         final Action action = actions.get(position);
-        holder.show(action);
+        holder.show(action, action == actions.get(0) && showTopDivider);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

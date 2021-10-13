@@ -131,6 +131,10 @@ public final class Connectivity {
         return toGlideUrl(Parley.getInstance().getNetwork().getBaseUrl() + "images/" + messageId);
     }
 
+    public static GlideUrl toGlideUrlMedia(String mediaId) {
+        return toGlideUrl(Parley.getInstance().getNetwork().getBaseUrl() + "media/" + mediaId);
+    }
+
     private static GlideUrl toGlideUrl(String url) {
         LazyHeaders.Builder lazyHeadersBuilder = new LazyHeaders.Builder();
 
