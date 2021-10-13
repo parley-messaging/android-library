@@ -307,15 +307,19 @@ public final class Message {
                 (message != null && !message.trim().isEmpty());
     }
 
-    public boolean hasOtherContent() {
-        return (actions != null && !actions.isEmpty()) ||
-                (carousel != null && !carousel.isEmpty());
+    public boolean hasActionsContent() {
+        return actions != null && !actions.isEmpty();
+    }
+
+    public boolean hasCarouselContent() {
+        return carousel != null && !carousel.isEmpty();
     }
 
     public boolean hasContent() {
         return hasTextContent() ||
                 hasImageContent() ||
-                hasOtherContent();
+                hasActionsContent() ||
+                hasCarouselContent();
     }
 
     public boolean isEqualVisually(Message other) {

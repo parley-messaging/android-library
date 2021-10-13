@@ -142,6 +142,10 @@ public final class BalloonView extends FrameLayout {
         }
     }
 
+    public void setHasTextContent(boolean hasTextContent) {
+        messageLayout.setVisibility(hasTextContent ? View.VISIBLE : View.GONE);
+    }
+
     public void setImage(@Nullable Object imageUrl, boolean applyBottomCornerRadius) {
         Glide.with(this).clear(contentImageView);
 

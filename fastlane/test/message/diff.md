@@ -29,3 +29,5 @@ Current | Updated
 ![Current](Current/UserMessage-ShortFailed.png) | ![Updated](Update/UserMessage-ShortFailed.png)
 ![Current](Current/UserMessage-TextAndImage.png) | ![Updated](Update/UserMessage-TextAndImage.png)
 ![Current](Current/AgentMessage-MessageWithCarouselOnly.png) | ![Updated](Update/AgentMessage-MessageWithCarouselOnly.png)
+![Current](Current/AgentMessage-OnlyActions.png) | ![Updated](Update/AgentMessage-OnlyActions.png)
+![Current](Current/AgentMessage-OnlyActionsWithName.png) | ![Updated](Update/AgentMessage-OnlyActionsWithName.png)

@@ -201,6 +201,26 @@ public class ParleyChatTestSuit extends ParleyScreenBaseTest {
     }
 
     @Test
+    public void agentMessage_onlyActions() {
+        List<Action> actions = new ArrayList<>();
+        actions.add(MockAction.create("Open app", "open-app://parley.nu"));
+        actions.add(MockAction.create("Call us", "call://+31362022080"));
+        actions.add(MockAction.create("Webuildapps", "https://webuildapps.com"));
+        renderMessage(MockMessage.messageOfAgent(null, null, null, null, actions, null));
+        makeScreenshot("AgentMessage-OnlyActions");
+    }
+
+    @Test
+    public void agentMessage_onlyActionsWithName() {
+        List<Action> actions = new ArrayList<>();
+        actions.add(MockAction.create("Open app", "open-app://parley.nu"));
+        actions.add(MockAction.create("Call us", "call://+31362022080"));
+        actions.add(MockAction.create("Webuildapps", "https://webuildapps.com"));
+        renderMessage(MockMessage.messageOfAgent(MockAgent.Webuildapps, null, null, null, actions, null));
+        makeScreenshot("AgentMessage-OnlyActionsWithName");
+    }
+
+    @Test
     public void agentMessage_messageWithCarouselFull() {
         List<Message> carousel = new ArrayList<>();
         List<Action> actionsItem1 = new ArrayList<>();

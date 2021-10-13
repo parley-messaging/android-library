@@ -43,8 +43,8 @@ public final class MessageAdditionViewHolder extends RecyclerView.ViewHolder {
         applyStyle();
     }
 
-    public void show(Action action, boolean isFirst) {
-        dividerTopLayout.setVisibility(isFirst ? View.VISIBLE : View.GONE);
+    public void show(Action action, boolean showFirstDivider) {
+        dividerTopLayout.setVisibility(showFirstDivider ? View.VISIBLE : View.GONE);
         titleTextView.setText(action.getTitle());
     }
 

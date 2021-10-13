@@ -83,7 +83,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
     public void show(final Message message, final Date messageTime) {
         balloonView.setLayoutGravity(shouldAlignRight() ? Gravity.END : Gravity.START);
 
-        if (message.hasTextContent() || message.hasImageContent()) {
+        if (message.hasTextContent() || message.hasImageContent() || message.hasActionsContent()) {
             balloonLayout.setVisibility(View.VISIBLE);
         } else {
             balloonLayout.setVisibility(View.GONE);
@@ -101,6 +101,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
 
         // Content: A message has either an image or some text
         balloonView.setImage(message.getImage(), message.isImageOnly());
+        balloonView.setHasTextContent(showAgentName || message.hasTextContent());
         balloonView.setTitle(message.getTitle());
         balloonView.setText(message.getMessage());
 
@@ -113,12 +114,17 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         if (message.getActions() == null) {
             balloonView.setAddition(null);
         } else {
-            MessageAdditionAdapter messageAdditionAdapter = new MessageAdditionAdapter(message.getActions(), new MessageAdditionListener() {
-                @Override
-                public void onActionClicked(View view, Action action) {
-                    listener.onActionClicked(view, action);
-                }
-            }, getStyleTheme());
+            MessageAdditionAdapter messageAdditionAdapter = new MessageAdditionAdapter(
+                    message.getActions(),
+                    showAgentName || message.hasTextContent(),
+                    new MessageAdditionListener() {
+                        @Override
+                        public void onActionClicked(View view, Action action) {
+                            listener.onActionClicked(view, action);
+                        }
+                    },
+                    getStyleTheme()
+            );
             balloonView.setAddition(messageAdditionAdapter);
         }
 
