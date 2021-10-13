@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.3.0 - Upcoming
+## 3.3.0 - Released 13 Oct 2021
 
 ### Upgrading:
 
@@ -12,7 +12,8 @@ Parley now uses the latest stable API version by default, which is now V1.6. In 
 ### Changes:
 
 - Added `ApiVersion` parameter to ParleyNetwork to define the API version used. By default Parley uses the latest stable version.
-- Added support for the Parley API V1.6 with the new media handling. When using API V1.2, the old method is being used. 
+- Added support for the Parley API V1.6 with the new media handling. When using API V1.2, the old method is being used.
+- Added support for messages that only contain buttons
 
 ## 3.2.2 - Released 22 Sep 2021
 
