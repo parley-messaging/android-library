@@ -52,6 +52,7 @@ public final class BalloonView extends FrameLayout {
 
     private ViewGroup contentLayout;
     private TextView nameTextView;
+    private View nameSpaceView;
     private ViewGroup imageLayout;
     private View nameShadowView;
     private View metaShadowView;
@@ -98,6 +99,7 @@ public final class BalloonView extends FrameLayout {
 
         contentLayout = findViewById(R.id.content_layout);
         nameTextView = findViewById(R.id.name_text_view);
+        nameSpaceView = findViewById(R.id.name_space_view);
         imageLayout = findViewById(R.id.image_layout);
         nameShadowView = findViewById(R.id.name_shadow_view);
         metaShadowView = findViewById(R.id.meta_shadow_view);
@@ -121,8 +123,9 @@ public final class BalloonView extends FrameLayout {
         messageTextView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    public void setName(@Nullable String text, boolean hasImage) {
+    public void setName(@Nullable String text, boolean hasImage, boolean useBottomMargin) {
         nameTextView.setText(text);
+        nameSpaceView.setVisibility(useBottomMargin ? View.VISIBLE : View.GONE);
 
         nameTextView.setVisibility(text == null ? View.GONE : View.VISIBLE);
         imageLayout.setVisibility(text == null && !hasImage ? View.GONE : View.VISIBLE);
@@ -278,12 +281,11 @@ public final class BalloonView extends FrameLayout {
 
     // Styling
 
-    public void refreshStyle(boolean isImageContentOnly) {
-        timeTextView.setTextColor(isImageContentOnly ? imageTimeColor : messageTimeColor);
-        statusImageView.setSupportImageTintList(isImageContentOnly ? imageStatusColor : messageStatusColor);
+    public void refreshStyle(boolean isMetaOnImage) {
+        timeTextView.setTextColor(isMetaOnImage ? imageTimeColor : messageTimeColor);
+        statusImageView.setSupportImageTintList(isMetaOnImage ? imageStatusColor : messageStatusColor);
 
-        messageLayout.setVisibility(isImageContentOnly ? View.GONE : View.VISIBLE);
-        metaShadowView.setVisibility(isImageContentOnly ? View.VISIBLE : View.GONE);
+        metaShadowView.setVisibility(isMetaOnImage ? View.VISIBLE : View.GONE);
     }
 
     public void setNamePadding(StyleUtil.StyleSpacing data) {

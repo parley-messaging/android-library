@@ -94,9 +94,9 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         boolean showAgentName = shouldShowName() && message.getAgent() != null;
         boolean hasImage = message.getImage() != null;
         if (showAgentName) {
-            balloonView.setName(message.getAgent().getName(), hasImage);
+            balloonView.setName(message.getAgent().getName(), hasImage, !message.hasTextContent());
         } else {
-            balloonView.setName(null, hasImage);
+            balloonView.setName(null, hasImage, !message.hasTextContent());
         }
 
         // Content: A message has either an image or some text

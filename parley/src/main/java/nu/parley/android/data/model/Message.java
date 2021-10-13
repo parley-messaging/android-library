@@ -294,8 +294,8 @@ public final class Message {
      */
     public boolean isImageContentOnly() {
         return hasImageContent() &&
-                (title == null || title.trim().isEmpty()) &&
-                (message == null || message.trim().isEmpty());
+                !hasTextContent() &&
+                !hasActionsContent();
     }
 
     public boolean hasImageContent() {
