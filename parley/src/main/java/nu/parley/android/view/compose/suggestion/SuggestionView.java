@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nu.parley.android.R;
@@ -34,6 +35,7 @@ public final class SuggestionView extends FrameLayout {
         inflate(getContext(), R.layout.view_suggestion, this);
 
         recyclerView = findViewById(R.id.recycler_view);
+        clear();
     }
 
     public void setSuggestions(List<String> suggestions) {
@@ -45,7 +47,7 @@ public final class SuggestionView extends FrameLayout {
     }
 
     private void clear() {
-        recyclerView.setAdapter(null);
+        recyclerView.setAdapter(new SuggestionAdapter(new ArrayList<String>(), listener));
     }
 
     public void setListener(SuggestionListener listener) {

@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.4.0 - Released 15 Nov 2021
+
+- Added option to configure where the notifications should be shown in the chat: `top` (default) or `bottom`.
+  For example: to show them on the bottom:
+  
+  Override the value `parley_notifications_position`:
+  ```xml
+  <item name="parley_notifications_position" type="integer">bottom</item>
+  ```
+
+  Or programmatically by calling:
+  ```java
+  parleyView.setNotificationsPosition(ParleyPosition.Vertical.BOTTOM);
+  ```
+- Fixed a small animation issue with quick replies 
+
 ## 3.3.0 - Released 13 Oct 2021
 
 ### Upgrading:

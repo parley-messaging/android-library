@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import nu.parley.R;
 import nu.parley.android.Parley;
+import nu.parley.android.data.model.ParleyPosition;
 import nu.parley.android.view.ParleyView;
 
 public final class ChatActivity extends BaseActivity {
@@ -33,6 +34,7 @@ public final class ChatActivity extends BaseActivity {
      */
     private void setParleyViewSettings() {
 //        parleyView.setImagesEnabled(false); // Optional, default `true`
+//        parleyView.setNotificationsPosition(ParleyPosition.Vertical.BOTTOM); // Optional, default `TOP`
 
         parleyView.setListener(new ParleyView.Listener() {
             @Override

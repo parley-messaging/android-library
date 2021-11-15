@@ -27,6 +27,7 @@
         <item name="parley_loader_tint_color">@color/parley_loader_tint</item>
 
         <item name="parley_images_enabled">@bool/parley_images_enabled</item>
+        <item name="parley_notifications_position">@integer/parley_notifications_position</item>
     </style>
 
     <style name="ParleyNotificationViewStyle" parent="ParleyStyle">

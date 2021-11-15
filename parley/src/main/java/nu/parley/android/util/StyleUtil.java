@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import nu.parley.android.R;
+import nu.parley.android.data.model.ParleyPosition;
 import nu.parley.android.view.BalloonView;
 
 public final class StyleUtil {
@@ -97,6 +98,30 @@ public final class StyleUtil {
 
     public static int getDimension(TypedArray ta, int key) {
         return ta.getDimensionPixelSize(key, StyleSpacing.DEFAULT_SPACING_PX);
+    }
+
+    public static String getString(TypedArray ta, int key) {
+        return ta.getString(key);
+    }
+
+    public static ParleyPosition.Vertical getPositionVertical(TypedArray ta, int key) {
+        String value = ta.getString(key);
+        try {
+            Integer intValue = Integer.parseInt(value);
+            return ParleyPosition.Vertical.from(intValue);
+        } catch (NumberFormatException e) {
+            return ParleyPosition.Vertical.from(value);
+        }
+    }
+
+    @Nullable
+    public static Integer getInteger(TypedArray ta, int key) {
+        int value = ta.getInteger(key, -1);
+        if (value == -1) {
+            return null;
+        } else {
+            return value;
+        }
     }
 
     public static boolean getBoolean(TypedArray ta, int key, boolean defaultValue) {
