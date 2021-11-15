@@ -190,7 +190,12 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
             case BOTTOM:
                 params.gravity = Gravity.BOTTOM;
                 paddingTop = 0;
-                paddingBottom = getStickyHeight() + getConnectionHeight() + getSuggestionsHeight();
+                if (getSuggestionsHeight() > 0) {
+                    // Suggestions have `paddingBottom` of `stickyHeight` + `connectionHeight`  in this case
+                    paddingBottom = getSuggestionsHeight();
+                } else {
+                    paddingBottom = getStickyHeight() + getConnectionHeight();
+                }
                 break;
         }
         notificationsLayout.setLayoutParams(params);
@@ -230,13 +235,9 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
 
             setImagesEnabled(StyleUtil.getBoolean(ta, R.styleable.ParleyView_parley_images_enabled, true));
 
-            @Nullable String notificationsPositionString = StyleUtil.getString(ta, R.styleable.ParleyView_parley_notifications_position);
-            if (notificationsPositionString == null) {
-                @Nullable Integer notificationsPositionInt = StyleUtil.getInteger(ta, R.styleable.ParleyView_parley_notifications_position);
-                setNotificationsPosition(ParleyPosition.Vertical.from(notificationsPositionInt));
-            } else {
-                setNotificationsPosition(ParleyPosition.Vertical.from(notificationsPositionString));
-            }
+            ParleyPosition.Vertical notificationsPosition = StyleUtil.getPositionVertical(ta, R.styleable.ParleyView_parley_notifications_position);
+            setNotificationsPosition(notificationsPosition);
+
             ta.recycle();
         }
     }
