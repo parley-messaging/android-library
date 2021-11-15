@@ -146,8 +146,9 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (recyclerView.getLayoutManager() != null) {
+                    boolean canScrollDown = recyclerView.canScrollVertically(1); // `canScrollVertically()` is not always correct
                     int first = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-                    isAtBottom = first <= 1; // When having quick replies, item 0 isn't visible (that message has no content)
+                    isAtBottom = !canScrollDown || first <= 1; // When having quick replies, item 0 isn't visible (that message has no content)
                 }
             }
 
@@ -160,7 +161,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
                 int bottomOfMessages = recyclerView.computeVerticalScrollRange();
                 int bottomOfShown = recyclerView.computeVerticalScrollOffset() + recyclerView.getHeight();
                 float kickIn = bottomOfMessages - (heightSuggestionView + suggestionView.getPaddingBottom());
-                if (bottomOfShown >= bottomOfMessages) {
+                if (isAtBottom || bottomOfShown >= bottomOfMessages) {
                     // Show
                     suggestionView.setAlpha(1f);
                 } else if (bottomOfShown >= kickIn) {
