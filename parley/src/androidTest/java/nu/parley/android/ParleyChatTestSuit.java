@@ -172,7 +172,7 @@ public class ParleyChatTestSuit extends ParleyScreenBaseTest {
     }
 
     @Test
-    public void agentMessage_simpleMessageWithActions() {
+    public void agentMessage_textWithActions() {
         List<Action> actions = new ArrayList<>();
         actions.add(MockAction.create("Open app", "open-app://parley.nu"));
         actions.add(MockAction.create("Call us", "call://+31362022080"));

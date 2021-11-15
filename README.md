@@ -44,7 +44,7 @@ allprojects {
 To integrate Parley, specify the following in your `app/build.gradle` file:
 
 ```groovy
-implementation 'com.github.parley-messaging:android-library:3.3.0'
+implementation 'com.github.parley-messaging:android-library:3.4.0'
 ```
 
 ### Upgrading
@@ -293,6 +293,14 @@ Image upload is enabled by default. The `ParleyView.setImagesEnabled(enabled)` m
 
 ```java
 parleyView.setImagesEnabled(false);
+```
+
+**Notifications position**
+
+The sticky and internet connection notifications are placed on the top by default. The `ParleyView.setNotificationsPosition(position)` can be used to bring them to the bottom.
+
+```java
+parleyView.setNotificationsPosition(ParleyPosition.Vertical.BOTTOM);
 ```
 
 **Styling**

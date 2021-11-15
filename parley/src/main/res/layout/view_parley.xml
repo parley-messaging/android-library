@@ -28,6 +28,7 @@
                 tools:paddingBottom="80dp" />
 
             <LinearLayout
+                android:id="@+id/notifications_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
