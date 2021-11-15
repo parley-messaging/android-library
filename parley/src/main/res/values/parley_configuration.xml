@@ -59,6 +59,7 @@
     <color name="parley_background">#EAEAEA</color>
     <color name="parley_loader_tint">@color/parley_primary_color</color>
     <bool name="parley_images_enabled">true</bool>
+    <item name="parley_notifications_position" type="integer">top</item>
 
     <!-- Parley - Notification View-->
     <drawable name="parley_notification_background">#CECFCA</drawable>

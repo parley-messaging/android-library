@@ -44,6 +44,11 @@
         <attr name="parley_loader_tint_color" format="color" />
 
         <attr name="parley_images_enabled" format="boolean" />
+
+        <attr name="parley_notifications_position" format="enum">
+            <enum name="top" value="0" />
+            <enum name="bottom" value="2" />
+        </attr>
     </declare-styleable>
 
     <!-- Parley - Notification View -->

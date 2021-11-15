@@ -99,6 +99,20 @@ public final class StyleUtil {
         return ta.getDimensionPixelSize(key, StyleSpacing.DEFAULT_SPACING_PX);
     }
 
+    public static String getString(TypedArray ta, int key) {
+        return ta.getString(key);
+    }
+
+    @Nullable
+    public static Integer getInteger(TypedArray ta, int key) {
+        int value = ta.getInteger(key, -1);
+        if (value == -1) {
+            return null;
+        } else {
+            return value;
+        }
+    }
+
     public static boolean getBoolean(TypedArray ta, int key, boolean defaultValue) {
         return ta.getBoolean(key, defaultValue);
     }
