@@ -27,4 +27,6 @@ public interface ParleyListener {
     void onAgentStopTyping();
 
     boolean onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
+
+    boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults);
 }

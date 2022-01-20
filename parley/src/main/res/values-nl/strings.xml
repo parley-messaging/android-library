@@ -9,6 +9,7 @@
     <string name="parley_general_cancel">Annuleren</string>
     <string name="parley_photo">Foto</string>
     <string name="parley_error_action_open">Deze link kon helaas niet geopend worden.</string>
+    <string name="parley_error_permission_missing_camera">Camerarechten zijn geweigerd, verleen toegang tot de camera in de app-rechten.</string>
 
     <!-- Image Viewer -->
     <string name="image_viewer_title">Afbeelding</string>

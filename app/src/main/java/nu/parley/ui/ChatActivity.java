@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import nu.parley.R;
@@ -50,5 +51,12 @@ public final class ChatActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         boolean handledByParley = Parley.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        boolean handledByParley = Parley.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
