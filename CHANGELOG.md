@@ -4,7 +4,7 @@
 
 ### Upgrading
 
-- Add the `Parley.onRequestPermissionsResult(requestCode, permissions, grantResults);` method in the *Activity* that contains the *ParleyView* for a smooth interaction when Parley needs to request permissions. Check out the updated *Step 4* in (README.md)[README.md#step-4-forward-activity-results].
+- Add the `Parley.onRequestPermissionsResult(requestCode, permissions, grantResults);` method in the *Activity* that contains the *ParleyView* for a smooth interaction when Parley needs to request permissions. Check out the updated *Step 4* in [README.md](README.md#step-4-forward-activity-results).
 
 ### Changes:
 
