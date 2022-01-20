@@ -1,5 +1,9 @@
 package nu.parley.android.view.compose;
 
+import static nu.parley.android.view.ParleyView.REQUEST_SELECT_IMAGE;
+import static nu.parley.android.view.ParleyView.REQUEST_TAKE_PHOTO;
+
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,20 +19,19 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.app.ActivityCompat;
 
 import java.io.File;
 import java.io.IOException;
 
 import nu.parley.android.R;
 import nu.parley.android.util.FileUtil;
+import nu.parley.android.util.ParleyPermissionUtil;
 import nu.parley.android.util.TakePictureFileProvider;
-
-import static nu.parley.android.view.ParleyView.REQUEST_SELECT_IMAGE;
-import static nu.parley.android.view.ParleyView.REQUEST_TAKE_PHOTO;
+import nu.parley.android.view.ParleyView;
 
 public final class ComposeImageInputView extends FrameLayout implements View.OnClickListener {
 
@@ -84,7 +87,7 @@ public final class ComposeImageInputView extends FrameLayout implements View.OnC
                             if (which == 0) {
                                 selectImage();
                             } else {
-                                openCamera();
+                                checkCameraAccess();
                             }
                         }
                     })
@@ -111,7 +114,19 @@ public final class ComposeImageInputView extends FrameLayout implements View.OnC
         launchIntent(Intent.createChooser(intent, title), REQUEST_SELECT_IMAGE);
     }
 
-    private void openCamera() {
+    private void checkCameraAccess() {
+        if (ParleyPermissionUtil.shouldRequestPermission(getContext(), Manifest.permission.CAMERA)) {
+            ActivityCompat.requestPermissions(
+                    (Activity) getContext(),
+                    new String[]{Manifest.permission.CAMERA},
+                    ParleyView.REQUEST_PERMISSION_ACCESS_CAMERA
+            );
+        } else {
+            openCamera();
+        }
+    }
+
+    void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getContext().getPackageManager()) != null) {
             try {

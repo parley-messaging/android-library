@@ -10,7 +10,8 @@
     <string name="parley_state_failed">The chat cannot be displayed at this time.</string>
     <string name="parley_general_cancel">Cancel</string>
     <string name="parley_photo">Photo</string>
-    <string name="parley_error_action_open">Unfortunately this link couln\'t be opened.</string>
+    <string name="parley_error_action_open">Unfortunately this link couldn\'t be opened.</string>
+    <string name="parley_error_permission_missing_camera">Camera permissions are denied, please grant access to the camera in the app permissions.</string>
 
     <!-- Image Viewer -->
     <string name="image_viewer_title">Image</string>

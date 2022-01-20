@@ -44,7 +44,7 @@ allprojects {
 To integrate Parley, specify the following in your `app/build.gradle` file:
 
 ```groovy
-implementation 'com.github.parley-messaging:android-library:3.4.0'
+implementation 'com.github.parley-messaging:android-library:3.4.1'
 ```
 
 ### Upgrading
@@ -131,6 +131,17 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
 }
 ```
 
+Also add `Parley.onRequestPermissionsResult(requestCode, permissions, grantResults)` to the `onRequestPermissionsResult` method of the *Activity*.
+
+```java
+@Override
+public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    boolean handledByParley = Parley.onRequestPermissionsResult(requestCode, permissions, grantResults);
+}
+```
+
 ### Step 5: Network Security Configuration
 
 By default Parley enforces the use of SSL pinning. Open the `AndroidManifest.xml` and add the Network Security Configuration of Parley to the `Application` tag.
@@ -141,7 +152,6 @@ By default Parley enforces the use of SSL pinning. Open the `AndroidManifest.xml
 ```
 
 *More information about the Network Security Configuration can be found on [Android Developers](https://developer.android.com/training/articles/security-config).*
-
 
 ## Advanced
 
