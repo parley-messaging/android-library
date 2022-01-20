@@ -226,6 +226,10 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
         }
     }
 
+    public void onCameraPermissionGranted() {
+        imageInputView.openCamera();
+    }
+
     public void setImagesEnabled(boolean enabled) {
         imageInputView.setVisibility(enabled ? View.VISIBLE : View.GONE);
 

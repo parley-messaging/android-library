@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.datatheorem.android.trustkit.TrustKit;
@@ -331,8 +332,34 @@ public final class Parley {
                 }, 200);
                 return true;
             }
-
             return getInstance().listener.onActivityResult(requestCode, resultCode, data);
+        }
+        // It's not a request of Parley
+        return false;
+    }
+
+    /**
+     * Handles the permission result of permssion requests launched by Parley
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     * @return `true` if Parley handled this request, `false` otherwise
+     */
+    public static boolean onRequestPermissionsResult(final int requestCode, final @NonNull String[] permissions, @NonNull final int[] grantResults) {
+        if (requestCode == ParleyView.REQUEST_PERMISSION_ACCESS_CAMERA) {
+            if (getInstance().listener == null) {
+                // We will handle it when the listener is attached
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (getInstance().listener != null) {
+                            getInstance().listener.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                        }
+                    }
+                }, 200);
+                return true;
+            }
+            return getInstance().listener.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
         // It's not a request of Parley
         return false;

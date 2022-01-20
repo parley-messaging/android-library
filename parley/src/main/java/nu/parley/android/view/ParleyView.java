@@ -2,11 +2,12 @@ package nu.parley.android.view;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,6 +22,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -43,6 +46,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
 
     public static final int REQUEST_SELECT_IMAGE = 1661;
     public static final int REQUEST_TAKE_PHOTO = 1662;
+    public static final int REQUEST_PERMISSION_ACCESS_CAMERA = 1663;
     public static final long TIME_TYPING_START_TRIGGER = 20 * 1000; // 20 seconds
     public static final long TIME_TYPING_STOP_TRIGGER = 15 * 1000; // 15 seconds
     // Appearance
@@ -461,6 +465,25 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         if (requestCode == REQUEST_SELECT_IMAGE) {
             if (resultCode == RESULT_OK) {
                 composeView.submitSelectedImage(data);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSION_ACCESS_CAMERA) {
+            for (int i = 0; i < permissions.length; i++) {
+                String permission = permissions[i];
+                int result = grantResults[i];
+                if (permission.equals(Manifest.permission.CAMERA)) {
+                    if (result == PackageManager.PERMISSION_GRANTED) {
+                        composeView.onCameraPermissionGranted();
+                    } else {
+                        Snackbar.make(getRootView(), R.string.parley_error_permission_missing_camera, Snackbar.LENGTH_LONG).show();
+                    }
+                }
             }
             return true;
         }
