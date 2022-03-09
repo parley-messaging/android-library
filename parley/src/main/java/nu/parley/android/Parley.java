@@ -190,10 +190,9 @@ public final class Parley {
      * <b>Note:</b> Method must be called before {@link #configure(Context, String)}.
      * </p>
      *
-     * @deprecated As of Parley 3.2.0, use {@link #setPushToken(String, PushType, ParleyCallback)} instead
-     *
      * @param fcmToken Firebase Cloud Messaging token
      * @param callback {@link ParleyCallback} indicating the result of the update (only called when Parley is configuring/configured).
+     * @deprecated As of Parley 3.2.0, use {@link #setPushToken(String, PushType, ParleyCallback)} instead
      */
     @SuppressWarnings("WeakerAccess")
     @Deprecated
@@ -229,8 +228,8 @@ public final class Parley {
      * </p>
      *
      * @param pushToken Firebase Cloud Messaging token
-     * @param pushType Push Type
-     * @param callback {@link ParleyCallback} indicating the result of the update (only called when Parley is configuring/configured).
+     * @param pushType  Push Type
+     * @param callback  {@link ParleyCallback} indicating the result of the update (only called when Parley is configuring/configured).
      */
     @SuppressWarnings("WeakerAccess")
     public static void setPushToken(@Nullable String pushToken, PushType pushType, ParleyCallback callback) {
@@ -278,9 +277,8 @@ public final class Parley {
     /**
      * Convenience for setFcmToken(fcmToken, {@link EmptyParleyCallback})
      *
-     * @deprecated As of Parley 3.2.0, use {@link #setPushToken(String)} instead
-     *
      * @see #setFcmToken(String, ParleyCallback)
+     * @deprecated As of Parley 3.2.0, use {@link #setPushToken(String)} instead
      */
     public static void setFcmToken(String fcmToken) {
         setFcmToken(fcmToken, new EmptyParleyCallback());
@@ -304,7 +302,7 @@ public final class Parley {
      * Send a message to Parley.
      *
      * @param message The message to sent
-     * @param silent Indicates if the message needs to be sent silently. The message will not be shown when silent is `true`.
+     * @param silent  Indicates if the message needs to be sent silently. The message will not be shown when silent is `true`.
      */
     public static void send(String message, boolean silent) {
         getInstance().sendMessage(message, silent);
@@ -340,6 +338,7 @@ public final class Parley {
 
     /**
      * Handles the permission result of permssion requests launched by Parley
+     *
      * @param requestCode
      * @param permissions
      * @param grantResults
@@ -366,6 +365,26 @@ public final class Parley {
     }
 
     // Logic
+
+    /**
+     * By default Parley uses Settings.Secure.ANDROID_ID as a unique device identifier, this method
+     * allows you to provide something custom. This ID is not stored by Parley and only kept for the
+     * current instance of Parley.
+     *
+     * This method must be called before {@link #configure(Context, String)}
+     *
+     * It is highly recommended to use this method because Google recommends to not use
+     * Settings.Secure.ANDROID_ID, instead it is advised to use a self generated device ID, for
+     * example using UUID.randomUUID(). The reason being that the behavior of
+     * Settings.Secure.ANDROID_ID differs strongly between Android versions and on newer Android
+     * versions this ID will not change when app data is cleared. This method also allows client
+     * apps to change the ID when for example another user signs-in to the app.
+     *
+     * @param uniqueDeviceIdentifier the device identifier to use for device registration.
+     */
+    public void setUniqueDeviceIdentifier(@NonNull String uniqueDeviceIdentifier) {
+        this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
+    }
 
     public String getUniqueDeviceIdentifier() {
         return this.uniqueDeviceIdentifier;
@@ -498,7 +517,15 @@ public final class Parley {
         setState(State.CONFIGURING);
         this.secret = secret;
 
-        this.uniqueDeviceIdentifier = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (uniqueDeviceIdentifier == null) {
+            Log.w(
+                    "Parley",
+                    "Unique device identifier is null or has not been set using `setUniqueDeviceIdentifier()`, defaulting" +
+                            " to Settings.Secure.ANDROID_ID. It is highly recommended to instead set a self generated device ID" +
+                            " for example using UUID.randomUUID(), this allows apps to reset or change the device ID at will (for" +
+                            " example when another user logs into the app).");
+            this.uniqueDeviceIdentifier = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        }
 
         messagesManager.clear();
 
@@ -688,7 +715,8 @@ public final class Parley {
             new MessageRepository().sendMedia(message, new RepositoryCallback<Message>() {
                 @Override
                 public void onSuccess(Message updatedMessage) {
-                    if (updatedMessage.getMedia() == null) throw new AssertionError("Missing media");
+                    if (updatedMessage.getMedia() == null)
+                        throw new AssertionError("Missing media");
 
                     // Media is updated
                     listener.onUpdateMessage(updatedMessage);
