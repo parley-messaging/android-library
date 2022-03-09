@@ -9,7 +9,7 @@ Easily setup a secure chat with the Parley Messaging Android library. The Parley
 ## Requirements
 
 - Android 4.1+ (API 16+)
-- Android Studio 3.5+
+- Android Studio 4.2+ (Android Gradle Plugin 4.2+)
 - Using AndroidX artifacts
 - Permissions (automatically added by the library)
   - android.permission.INTERNET - Required for chatting
