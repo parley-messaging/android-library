@@ -85,8 +85,10 @@ public final class Parley {
      * Convenience for configure(context, secret, {@link EmptyParleyCallback}).
      *
      * @see #configure(Context, String, ParleyCallback)
+     * @deprecated please use the new {@link #configure(Context, String, String)} method that allows setting a unique device identifier.
      */
     @SuppressWarnings("unused")
+    @Deprecated
     public static void configure(final Context context, final String secret) {
         configure(context, secret, new EmptyParleyCallback());
     }
@@ -97,10 +99,51 @@ public final class Parley {
      * @param context  Context of the application.
      * @param secret   Application secret of your Parley instance.
      * @param callback {@link ParleyCallback} indicating the result of configuring.
+     *
+     * @deprecated please use the new {@link #configure(Context, String, String, ParleyCallback)} method that allows setting a unique device identifier.
      */
     @SuppressWarnings("WeakerAccess")
+    @Deprecated
     public static void configure(final Context context, final String secret, final ParleyCallback callback) {
-        getInstance().configureI(context, secret, callback);
+        getInstance().configureI(context, secret, null, callback);
+    }
+
+    /**
+     * Convenience method to call configure() with an {@link EmptyParleyCallback}.
+     *
+     * @see #configure(Context, String, String, ParleyCallback)
+     */
+    @SuppressWarnings("unused")
+    public static void configure(@NonNull final Context context, @NonNull final String secret, @NonNull final String uniqueDeviceIdentifier) {
+        configure(context, secret, uniqueDeviceIdentifier, new EmptyParleyCallback());
+    }
+
+    /**
+     * Configure Parley Messaging
+     * <p>
+     * This configure method allows for setting a unique device identifier. If non is provided (by
+     * calling the deprecated configure method), Parley will default to Settings.Secure.ANDROID_ID.
+     * The unique device ID provided to this configure method is not stored by Parley and only kept
+     * for the current instance of Parley. Client applications are responsible for storing it and
+     * providing parley with the same ID. This gives client applications the flexibility to change
+     * the ID if required (for example when another user is logged-in to the app).
+     * <p>
+     * <p>
+     * It is highly recommended to use this method over the deprecated
+     * {@link #configure(Context, String, ParleyCallback)} method because Google recommends not use
+     * Settings.Secure.ANDROID_ID, instead it is advised to use a self generated device ID, for
+     * example using UUID.randomUUID(). The reason being that the behavior of
+     * Settings.Secure.ANDROID_ID differs strongly between Android versions and on newer Android
+     * versions this ID will not change when app data is cleared.
+     *
+     * @param context                Context of the application.
+     * @param secret                 Application secret of your Parley instance.
+     * @param uniqueDeviceIdentifier the device identifier to use for device registration.
+     * @param callback               {@link ParleyCallback} indicating the result of configuring.
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static void configure(@NonNull final Context context, @NonNull final String secret, @NonNull final String uniqueDeviceIdentifier, @NonNull final ParleyCallback callback) {
+        getInstance().configureI(context, secret, uniqueDeviceIdentifier, callback);
     }
 
     /**
@@ -365,27 +408,6 @@ public final class Parley {
     }
 
     // Logic
-
-    /**
-     * By default Parley uses Settings.Secure.ANDROID_ID as a unique device identifier, this method
-     * allows you to provide something custom. This ID is not stored by Parley and only kept for the
-     * current instance of Parley.
-     *
-     * This method must be called before {@link #configure(Context, String)}
-     *
-     * It is highly recommended to use this method because Google recommends to not use
-     * Settings.Secure.ANDROID_ID, instead it is advised to use a self generated device ID, for
-     * example using UUID.randomUUID(). The reason being that the behavior of
-     * Settings.Secure.ANDROID_ID differs strongly between Android versions and on newer Android
-     * versions this ID will not change when app data is cleared. This method also allows client
-     * apps to change the ID when for example another user signs-in to the app.
-     *
-     * @param uniqueDeviceIdentifier the device identifier to use for device registration.
-     */
-    public void setUniqueDeviceIdentifier(@NonNull String uniqueDeviceIdentifier) {
-        this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
-    }
-
     public String getUniqueDeviceIdentifier() {
         return this.uniqueDeviceIdentifier;
     }
@@ -513,18 +535,19 @@ public final class Parley {
         }
     }
 
-    private void configureI(Context context, String secret, final ParleyCallback callback) {
+
+    private void configureI(Context context, String secret, @Nullable String uniqueDeviceIdentifier, final ParleyCallback callback) {
         setState(State.CONFIGURING);
         this.secret = secret;
 
         if (uniqueDeviceIdentifier == null) {
-            Log.w(
-                    "Parley",
-                    "Unique device identifier is null or has not been set using `setUniqueDeviceIdentifier()`, defaulting" +
-                            " to Settings.Secure.ANDROID_ID. It is highly recommended to instead set a self generated device ID" +
-                            " for example using UUID.randomUUID(), this allows apps to reset or change the device ID at will (for" +
-                            " example when another user logs into the app).");
+            Log.w("Parley",
+                    "Unique device identifier has not been provided, please use the new `configure()` method that allows" +
+                            " providing a unique device identifier. Parley will now default to Settings.Secure.ANDROID_ID. It" +
+                            " is highly recommended to instead set a self generated device ID.");
             this.uniqueDeviceIdentifier = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        } else {
+            this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
         }
 
         messagesManager.clear();
