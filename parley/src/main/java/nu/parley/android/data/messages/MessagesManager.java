@@ -292,7 +292,9 @@ public final class MessagesManager {
     }
 
     public void disableCaching() {
-        this.dataSource.clear();
+        if(this.dataSource != null) {
+            this.dataSource.clear();
+        }
         this.dataSource = null;
     }
 }
