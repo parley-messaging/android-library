@@ -84,11 +84,11 @@ public final class Parley {
     /**
      * Convenience for configure(context, secret, {@link EmptyParleyCallback}).
      *
+     * Consider using the new {@link #configure(Context, String, String)} method that allows setting a unique device identifier.
+     *
      * @see #configure(Context, String, ParleyCallback)
-     * @deprecated please use the new {@link #configure(Context, String, String)} method that allows setting a unique device identifier.
      */
     @SuppressWarnings("unused")
-    @Deprecated
     public static void configure(final Context context, final String secret) {
         configure(context, secret, new EmptyParleyCallback());
     }
@@ -96,14 +96,14 @@ public final class Parley {
     /**
      * Configure Parley Messaging.
      *
+     * Consider using the new {@link #configure(Context, String, String, ParleyCallback)} method that allows setting a unique device identifier.
+     *
      * @param context  Context of the application.
      * @param secret   Application secret of your Parley instance.
      * @param callback {@link ParleyCallback} indicating the result of configuring.
-     *
-     * @deprecated please use the new {@link #configure(Context, String, String, ParleyCallback)} method that allows setting a unique device identifier.
+     * @see #configure(Context, String, String, ParleyCallback)
      */
     @SuppressWarnings("WeakerAccess")
-    @Deprecated
     public static void configure(final Context context, final String secret, final ParleyCallback callback) {
         getInstance().configureI(context, secret, null, callback);
     }
@@ -122,11 +122,12 @@ public final class Parley {
      * Configure Parley Messaging
      * <p>
      * This configure method allows for setting a unique device identifier. If non is provided (by
-     * calling the deprecated configure method), Parley will default to Settings.Secure.ANDROID_ID.
-     * The unique device ID provided to this configure method is not stored by Parley and only kept
-     * for the current instance of Parley. Client applications are responsible for storing it and
-     * providing parley with the same ID. This gives client applications the flexibility to change
-     * the ID if required (for example when another user is logged-in to the app).
+     * calling the configure methods without `uniqueDeviceIdentifier`), Parley will default to
+     * Settings.Secure.ANDROID_ID. The unique device ID provided to this configure method is not
+     * stored by Parley and only kept for the current instance of Parley. Client applications are
+     * responsible for storing it and providing parley with the same ID. This gives client
+     * applications the flexibility to change the ID if required (for example when another user is
+     * logged-in to the app).
      * <p>
      * <p>
      * It is highly recommended to use this method over the deprecated
