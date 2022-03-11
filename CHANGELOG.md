@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.4.2 - Released 11 Mar 2022
+
+- Added optional `uniqueDeviceIdentifier` parameter to the configure method to override the default device identifier that Parley uses.
+
 ## 3.4.1 - Released 20 Jan 2022
 
 ### Upgrading

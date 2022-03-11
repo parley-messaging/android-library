@@ -130,8 +130,8 @@ public final class Parley {
      * logged-in to the app).
      * <p>
      * <p>
-     * It is highly recommended to use this method over the deprecated
-     * {@link #configure(Context, String, ParleyCallback)} method because Google recommends not use
+     * It is highly recommended to use this method over the other
+     * {@link #configure(Context, String, ParleyCallback)} methods because Google recommends not use
      * Settings.Secure.ANDROID_ID, instead it is advised to use a self generated device ID, for
      * example using UUID.randomUUID(). The reason being that the behavior of
      * Settings.Secure.ANDROID_ID differs strongly between Android versions and on newer Android

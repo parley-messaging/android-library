@@ -280,6 +280,14 @@ Parley.send("User opened chat", true);
 Parley.setReferrer("https://parley.nu/");
 ```
 
+### Custom Unique Device Identifier
+
+By default Parley uses `Settings.Secure.ANDROID_ID` as device identifier. This can be overridden by passing a custom `uniqueDeviceIdentifier` to the configure method:
+
+```java
+Parley.configure(this, "appSecret", "uniqueDeviceIdentifier");
+```
+
 ## Customize
 
 ### Callbacks
