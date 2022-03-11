@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.ortiz.touchview.OnTouchImageViewListener;
 import com.ortiz.touchview.TouchImageView;
 
 import java.util.List;
@@ -35,7 +36,7 @@ final class ImageViewerViewPagerAdapter<T> extends PagerAdapter {
         container.addView(view);
 
         final TouchImageView imageView = view.findViewById(R.id.image_view);
-        imageView.setOnTouchImageViewListener(new TouchImageView.OnTouchImageViewListener() {
+        imageView.setOnTouchImageViewListener(new OnTouchImageViewListener() {
             @Override
             public void onMove() {
                 boolean newZoomedState = imageView.isZoomed();

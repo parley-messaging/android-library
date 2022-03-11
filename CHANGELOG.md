@@ -3,6 +3,7 @@
 ## 3.4.2 - Released 11 Mar 2022
 
 - Added optional `uniqueDeviceIdentifier` parameter to the configure method to override the default device identifier that Parley uses.
+- Updated TouchImageView from version 2.2.0 to 3.1.1
 
 ## 3.4.1 - Released 20 Jan 2022
 
