@@ -10,7 +10,7 @@
         android:id="@+id/input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="center_vertical"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_weight="1"
