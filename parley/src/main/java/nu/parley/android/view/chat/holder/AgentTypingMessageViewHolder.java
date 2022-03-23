@@ -59,7 +59,7 @@ public final class AgentTypingMessageViewHolder extends ParleyBaseViewHolder {
         contentLayout.setBackground(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyMessageAgentTyping_parley_background));
         StyleUtil.Helper.applyBackgroundColor(contentLayout, ta, R.styleable.ParleyMessageAgentTyping_parley_background_tint_color);
 
-        StyleUtil.StyleSpacing styleSpacingMargin = StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageAgentTyping_parley_margin, R.styleable.ParleyMessageAgentTyping_parley_margin_top, R.styleable.ParleyMessageAgentTyping_parley_margin_right, R.styleable.ParleyMessageBase_parley_margin_bottom, R.styleable.ParleyMessageAgentTyping_parley_margin_left);
+        StyleUtil.StyleSpacing styleSpacingMargin = StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageAgentTyping_parley_margin, R.styleable.ParleyMessageAgentTyping_parley_margin_top, R.styleable.ParleyMessageAgentTyping_parley_margin_right, R.styleable.ParleyMessageAgentTyping_parley_margin_bottom, R.styleable.ParleyMessageAgentTyping_parley_margin_left);
         itemView.setPadding(styleSpacingMargin.left, styleSpacingMargin.top, styleSpacingMargin.right, styleSpacingMargin.bottom);
         StyleUtil.StyleSpacing styleSpacingPadding = StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageAgentTyping_parley_content_padding, R.styleable.ParleyMessageAgentTyping_parley_content_padding_top, R.styleable.ParleyMessageAgentTyping_parley_content_padding_right, R.styleable.ParleyMessageAgentTyping_parley_content_padding_bottom, R.styleable.ParleyMessageAgentTyping_parley_content_padding_left);
         contentLayout.setPadding(styleSpacingPadding.left, styleSpacingPadding.top, styleSpacingPadding.right, styleSpacingPadding.bottom);
