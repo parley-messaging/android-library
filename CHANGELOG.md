@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.4.3 - Released 23 Mar 2022
+
+- Compose input is now aligned centered compared to the send button.
+- Fixed a crash when agent is typing.
+
 ## 3.4.2 - Released 11 Mar 2022
 
 - Added optional `uniqueDeviceIdentifier` parameter to the configure method to override the default device identifier that Parley uses.
