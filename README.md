@@ -288,6 +288,47 @@ By default Parley uses `Settings.Secure.ANDROID_ID` as device identifier. This c
 Parley.configure(this, "appSecret", "uniqueDeviceIdentifier");
 ```
 
+### Handling Activity results inside Fragment
+
+By default Parley uses the activity when it calls `startActivityForResult()` or `requestPermissions()`, resulting in the `onActivityResult` and `onRequestPermissionsResult` being called on the activity in return. However, when the `ParleyView` is used inside a fragment, it is more neat to handle these results inside the fragment as well. This can be done by setting the launch callback on the `ParleyView`:
+```java
+parleyView.setLaunchCallback(new ParleyLaunchCallback() {
+    @Override
+    public void launchParleyActivity(Intent intent) {
+        startActivity(intent);
+    }
+
+    @Override
+    public void launchParleyActivityForResult(Intent intent, int requestCode) {
+        startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public void launchParleyPermissionRequest(String[] permissions, int requestCode) {
+        requestPermissions(permissions, requestCode);
+    }
+});
+```
+
+Next, make sure to forward the *Fragment* results:
+```java
+@Override
+public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    boolean handledByParley = Parley.onActivityResult(requestCode, resultCode, data);
+}
+
+@Override
+public void `onRequestPermissionsResult`(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    boolean handledByParley = Parley.onRequestPermissionsResult(requestCode, permissions, grantResults);
+}
+```
+
+> Note: Now that since the Fragment is handling these results now, the Activity no longer needs to forward the `onActivityResult` and `onRequestPermissionsResult` methods to Parley. So these can be removed from the Activity.
+
 ## Customize
 
 ### Callbacks
