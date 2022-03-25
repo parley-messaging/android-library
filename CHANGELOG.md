@@ -1,8 +1,12 @@
 # Changelog
 
+## 3.4.4 - Released 25 Mar 2022
+
+- Added optional `ParleyView.setLaunchCallback(launchCallback)` to support handling activity results directly inside a Fragment instead of the Activity. Check out the advanced steps in the [README.md](README.md). 
+
 ## 3.4.3 - Released 23 Mar 2022
 
-- Compose input is now aligned centered compared to the send button.
+- Compose input is now aligned centred compared to the send button.
 - Fixed a crash when agent is typing.
 
 ## 3.4.2 - Released 11 Mar 2022
