@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nu.parley.android.Parley;
+import nu.parley.android.ParleyLaunchCallback;
 import nu.parley.android.R;
 import nu.parley.android.data.model.Action;
 import nu.parley.android.data.model.Message;
@@ -23,6 +26,8 @@ import nu.parley.android.imageviewer.ImageViewer;
 import nu.parley.android.imageviewer.ImageViewerLoader;
 
 public final class ParleyMessageListener implements MessageListener {
+
+    private ParleyLaunchCallback launchCallback;
 
     @Override
     public void onRetryMessageClicked(Message message) {
@@ -67,14 +72,18 @@ public final class ParleyMessageListener implements MessageListener {
         try {
             Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
             if (intent != null) {
-                view.getContext().startActivity(intent);
+                launchCallback.launchParleyActivity(intent);
             } else {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                view.getContext().startActivity(browserIntent);
+                launchCallback.launchParleyActivity(browserIntent);
             }
         } catch (URISyntaxException | ActivityNotFoundException e) {
             e.printStackTrace();
             Snackbar.make(view, R.string.parley_error_action_open, Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    public void setLaunchCallback(@NonNull ParleyLaunchCallback launchCallback) {
+        this.launchCallback = launchCallback;
     }
 }

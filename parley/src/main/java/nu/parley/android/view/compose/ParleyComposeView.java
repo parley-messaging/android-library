@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
@@ -22,6 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 
+import nu.parley.android.ParleyLaunchCallback;
 import nu.parley.android.R;
 import nu.parley.android.util.FileUtil;
 import nu.parley.android.util.StyleUtil;
@@ -255,5 +257,9 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
         inputEditText.setEnabled(enabled);
         imageInputView.setEnabled(enabled);
         sendButton.setEnabled(enabled);
+    }
+
+    public void setLaunchCallback(@NonNull ParleyLaunchCallback launchCallback) {
+        imageInputView.setLaunchCallback(launchCallback);
     }
 }

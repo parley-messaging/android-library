@@ -27,7 +27,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
+import nu.parley.android.DefaultParleyLaunchCallback;
 import nu.parley.android.Parley;
+import nu.parley.android.ParleyLaunchCallback;
 import nu.parley.android.ParleyListener;
 import nu.parley.android.R;
 import nu.parley.android.data.messages.MessagesManager;
@@ -65,7 +67,8 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     private Listener listener;
     private ConnectivityMonitor connectivityMonitor;
     private ParleyComposeListener composeListener = new ParleyComposeListener();
-    private MessageAdapter adapter = new MessageAdapter(new ParleyMessageListener());
+    private ParleyMessageListener parleyMessageListener = new ParleyMessageListener();
+    private MessageAdapter adapter = new MessageAdapter(parleyMessageListener);
     // Is typing
     private Handler isTypingAgentHandler = new Handler();
     private Runnable isTypingAgentRunnable = null;
@@ -86,6 +89,18 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         super(context, attrs, defStyle);
         init();
         applyStyle(attrs);
+    }
+
+    /**
+     * Allows setting a {@link ParleyLaunchCallback} which allows client apps to change how Parley
+     * "starts an Activity for result" and requests permissions.
+     */
+    public void setLaunchCallback(@Nullable ParleyLaunchCallback launchCallback) {
+        if(launchCallback == null) {
+            launchCallback = new DefaultParleyLaunchCallback(getContext());
+        }
+        parleyMessageListener.setLaunchCallback(launchCallback);
+        composeView.setLaunchCallback(launchCallback);
     }
 
     public void setListener(@Nullable Listener listener) {
@@ -132,6 +147,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         composeView = findViewById(R.id.compose_view);
 
         // Configure
+        setLaunchCallback(new DefaultParleyLaunchCallback(getContext()));
         recyclerView.setAdapter(adapter);
         composeView.setStartTypingTriggerInterval(TIME_TYPING_START_TRIGGER);
         composeView.setStopTypingTriggerTime(TIME_TYPING_STOP_TRIGGER);

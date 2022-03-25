@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.app.ActivityCompat;
@@ -27,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import java.io.File;
 import java.io.IOException;
 
+import nu.parley.android.ParleyLaunchCallback;
 import nu.parley.android.R;
 import nu.parley.android.util.FileUtil;
 import nu.parley.android.util.ParleyPermissionUtil;
@@ -36,6 +38,7 @@ import nu.parley.android.view.ParleyView;
 public final class ComposeImageInputView extends FrameLayout implements View.OnClickListener {
 
     private AppCompatImageView cameraImageView;
+    private ParleyLaunchCallback launchCallback;
 
     private File currentPhotoPath;
 
@@ -116,8 +119,7 @@ public final class ComposeImageInputView extends FrameLayout implements View.OnC
 
     private void checkCameraAccess() {
         if (ParleyPermissionUtil.shouldRequestPermission(getContext(), Manifest.permission.CAMERA)) {
-            ActivityCompat.requestPermissions(
-                    (Activity) getContext(),
+            launchCallback.launchParleyPermissionRequest(
                     new String[]{Manifest.permission.CAMERA},
                     ParleyView.REQUEST_PERMISSION_ACCESS_CAMERA
             );
@@ -144,7 +146,7 @@ public final class ComposeImageInputView extends FrameLayout implements View.OnC
     }
 
     private void launchIntent(Intent intent, int requestCode) {
-        ((Activity) getContext()).startActivityForResult(intent, requestCode);
+        launchCallback.launchParleyActivityForResult(intent, requestCode);
     }
 
     public void setImageDrawable(Drawable drawable) {
@@ -153,5 +155,9 @@ public final class ComposeImageInputView extends FrameLayout implements View.OnC
 
     public void setImageTintList(ColorStateList color) {
         cameraImageView.setSupportImageTintList(color);
+    }
+
+    public void setLaunchCallback(@NonNull ParleyLaunchCallback launchCallback) {
+        this.launchCallback = launchCallback;
     }
 }
