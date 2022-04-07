@@ -483,7 +483,9 @@ public final class Parley {
                         messagesManager.addOnlyNew(data.getData());
 
                         // Trigger update to listener
-                        listener.onReceivedLatestMessages();
+                        if (listener != null) {
+                            listener.onReceivedLatestMessages();
+                        }
 
                         resendPendingMessages(messagesManager.getPendingMessages(true));
 
