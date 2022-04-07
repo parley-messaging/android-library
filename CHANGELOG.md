@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.4.5 - Released 7 Apr 2022
+
+- Fixed a crash that could occur when returning to the app in case the ParleyView is being closed soon after opening.
+
 ## 3.4.4 - Released 25 Mar 2022
 
 - Added optional `ParleyView.setLaunchCallback(launchCallback)` to support handling activity results directly inside a Fragment instead of the Activity. Check out the advanced steps in the [README.md](README.md). 
