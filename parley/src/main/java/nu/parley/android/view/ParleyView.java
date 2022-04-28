@@ -312,6 +312,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         composeView.setVisibility(View.GONE);
         switch (state) {
             case UNCONFIGURED:
+                renderMessages();
                 statusTextView.setText(R.string.parley_state_unconfigured);
                 statusTextView.setVisibility(View.VISIBLE);
                 break;

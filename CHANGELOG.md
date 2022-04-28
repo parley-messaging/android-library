@@ -1,5 +1,7 @@
 # Changelog
 
+- Added optional `Parley.reset(callback)` method to reset Parley back to its initial state, clearing the user and chat data that is in memory.
+
 ## 3.4.5 - Released 7 Apr 2022
 
 - Fixed a crash that could occur when returning to the app in case the ParleyView is being closed soon after opening.
