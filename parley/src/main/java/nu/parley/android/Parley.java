@@ -544,11 +544,7 @@ public final class Parley {
         this.secret = secret;
 
         if (uniqueDeviceIdentifier == null) {
-            Log.w("Parley",
-                    "Unique device identifier has not been provided, please use the new `configure()` method that allows" +
-                            " providing a unique device identifier. Parley will now default to Settings.Secure.ANDROID_ID. It" +
-                            " is highly recommended to instead set a self generated device ID.");
-            this.uniqueDeviceIdentifier = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            this.uniqueDeviceIdentifier = DeviceRepository.getDeviceId(context);
         } else {
             this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
         }
