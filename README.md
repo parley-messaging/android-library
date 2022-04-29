@@ -288,7 +288,7 @@ By default Parley uses a random UUID as device identifier which will be stored i
 Parley.configure(this, "appSecret", "uniqueDeviceIdentifier");
 ```
 
-_When passing the `uniqueDeviceIdentifier` to the configure method, Parley will not store it. Client applications are responsible for storing it and providing parley with the same ID in this case._
+_When passing the `uniqueDeviceIdentifier` to the configure method, Parley will not store it. Client applications are responsible for storing it and providing Parley with the same ID in this case._
 
 ### Handling Activity results inside Fragment
 

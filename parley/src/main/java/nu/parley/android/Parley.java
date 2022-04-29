@@ -117,11 +117,11 @@ public final class Parley {
     /**
      * Configure Parley Messaging
      * <p>
-     * This configure method allows for setting a unique device identifier. If non is provided (by
+     * The configure method allows setting a unique device identifier. If none is provided (by
      * calling the configure methods without `uniqueDeviceIdentifier`), Parley will default to
      * a random UUID that will be stored in the shared preferences. When providing a unique device
      * ID to this configure method, it is not stored by Parley and only kept for the current instance
-     * of Parley. Client applications are responsible for storing it and providing parley with the
+     * of Parley. Client applications are responsible for storing it and providing Parley with the
      * same ID. This gives client applications the flexibility to change the ID if required (for
      * example when another user is logged-in to the app).
      * </p>
