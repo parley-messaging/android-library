@@ -575,7 +575,7 @@ public final class Parley {
             this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
         }
 
-        messagesManager.clear();
+        messagesManager.clear(false);
 
         applySslPinning(context);
 
@@ -640,7 +640,7 @@ public final class Parley {
         });
 
         retrievedFirstMessages = false;
-        messagesManager.clear();
+        messagesManager.clear(true);
 
         setState(State.UNCONFIGURED);
     }
