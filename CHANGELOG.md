@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.5.0 - Upcoming
+## 3.5.0 - Released 2 May 2022
 
 ### Upgrading:
 
