@@ -54,6 +54,7 @@ public final class ChatActivity extends BaseActivity {
     }
 
     @Override
+    @SuppressWarnings("unused")
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 

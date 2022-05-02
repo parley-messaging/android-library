@@ -290,6 +290,17 @@ Parley.configure(this, "appSecret", "uniqueDeviceIdentifier");
 
 _When passing the `uniqueDeviceIdentifier` to the configure method, Parley will not store it. Client applications are responsible for storing it and providing Parley with the same ID in this case._
 
+### Reset
+
+Parley doesn't need to be reset usually, but in some cases this might be wanted. For example when a user logs out and then logs in with a different account. 
+
+Resetting Parley will clear the current user information and chat data that is in memory. 
+Requires calling the `configure()` method again to use Parley.
+
+```java
+Parley.reset();
+```
+
 ### Handling Activity results inside Fragment
 
 By default Parley uses the activity when it calls `startActivityForResult()` or `requestPermissions()`, resulting in the `onActivityResult` and `onRequestPermissionsResult` being called on the activity in return. However, when the `ParleyView` is used inside a fragment, it is more neat to handle these results inside the fragment as well. This can be done by setting the launch callback on the `ParleyView`:

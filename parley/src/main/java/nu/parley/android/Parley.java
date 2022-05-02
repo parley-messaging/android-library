@@ -137,6 +137,28 @@ public final class Parley {
     }
 
     /**
+     * Convenience for reset({@link EmptyParleyCallback}).
+     *
+     * @see #reset(ParleyCallback)
+     */
+    @SuppressWarnings("unused")
+    public static void reset() {
+        reset(new EmptyParleyCallback());
+    }
+
+    /**
+     * Resets Parley back to its initial state (clearing the user information). Useful when logging out a user for example. Ensures that no user and chat data is left in memory.
+     *
+     * Leaves the network, offline messaging and referrer settings as is, these can be altered via the corresponding methods.
+     *
+     * <b>Note</b>: Requires calling the `configure()` method again to use Parley.
+     */
+    @SuppressWarnings("unused")
+    public static void reset(final ParleyCallback callback) {
+        getInstance().resetI(callback);
+    }
+
+    /**
      * Convenience for setUserInformation(authorization, null).
      *
      * @see #setUserInformation(String, Map)
@@ -172,6 +194,7 @@ public final class Parley {
      *
      * @param referrer The referrer
      */
+    @SuppressWarnings("unused")
     public static void setReferrer(final String referrer) {
         getInstance().setReferrerI(referrer);
     }
@@ -537,7 +560,7 @@ public final class Parley {
             this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
         }
 
-        messagesManager.clear();
+        messagesManager.clear(false);
 
         applySslPinning(context);
 
@@ -586,6 +609,27 @@ public final class Parley {
         }
     }
 
+    private void resetI(final ParleyCallback callback) {
+        clearUserInformation(new ParleyCallback() {
+            @Override
+            public void onSuccess() {
+                secret = null;
+                callback.onSuccess();
+            }
+
+            @Override
+            public void onFailure(@Nullable Integer code, @Nullable String message) {
+                secret = null;
+                callback.onFailure(code, message);
+            }
+        });
+
+        retrievedFirstMessages = false;
+        messagesManager.clear(true);
+
+        setState(State.UNCONFIGURED);
+    }
+
     private void setNetworkI(ParleyNetwork network) {
         this.network = network;
     }
@@ -615,7 +659,7 @@ public final class Parley {
     private void registerDeviceIfNeeded(final ParleyCallback callback) {
         boolean shouldConfigureForState = state == State.CONFIGURING || state == State.CONFIGURED;
 
-        if (shouldConfigureForState && listener != null) {
+        if (shouldConfigureForState) {
             // We should update the device
             new DeviceRepository().register(new RepositoryCallback<Void>() {
                 @Override

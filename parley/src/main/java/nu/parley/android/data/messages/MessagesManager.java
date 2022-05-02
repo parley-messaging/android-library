@@ -282,12 +282,15 @@ public final class MessagesManager {
         return getLatestMessage().getQuickReplies();
     }
 
-    public void clear() {
+    public void clear(boolean clearDataSource) {
         this.originalMessages.clear();
         this.messages.clear();
         this.welcomeMessage = null;
         this.stickyMessage = null;
         this.paging = null;
+        if (clearDataSource && dataSource != null) {
+            dataSource.clear();
+        }
         setDataSource(dataSource); // Reset cache
     }
 

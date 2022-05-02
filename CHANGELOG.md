@@ -20,6 +20,7 @@ _What's changed?_
 ### Changes:
 
 - Device id is now unique per installation, instead of using the Android `DEVICE_ID`. Affects how anonymous chats are handled.
+- Added optional `Parley.reset(callback)` method to reset Parley back to its initial state, clearing the user and chat data that is in memory.
 
 ## 3.4.5 - Released 7 Apr 2022
 
