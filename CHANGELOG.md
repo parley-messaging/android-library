@@ -1,5 +1,25 @@
 # Changelog
 
+## 3.5.0 - Upcoming
+
+### Upgrading:
+
+Parley now uses a unique device id per app installation as default setting.
+
+**IMPORTANT**: When using anonymous chats, the chat now always starts empty after a new app installation by default.
+
+_What's changed?_
+
+- In Parley 3.4.5 and lower the Android `DEVICE_ID` was used as device id. This device id does not change per app installation, causing anonymous chats to continue with their existing chat even when the user deleted and reinstalled the app. 
+- In Parley 3.5.0 and higher a random UUID is used as device id. This value is stored in the shared preferences by default and is generated once per installation. Updating the app won't result in a new device id as long as the cache isn't cleared. This ensures that new anonymous chats always start empty.
+
+**Note**: This only affects the behavior of starting anonymous chats, chats that use the user authorization won't be affected by this change.
+
+**Note**: This is the default behavior of Parley. When passing the device id to the configure method, Parley will use that as device id instead and won't store it in the shared preferences either.
+
+### Changes:
+
+- Device id is now unique per installation, instead of using the Android `DEVICE_ID`. Affects how anonymous chats are handled.
 - Added optional `Parley.reset(callback)` method to reset Parley back to its initial state, clearing the user and chat data that is in memory.
 
 ## 3.4.5 - Released 7 Apr 2022

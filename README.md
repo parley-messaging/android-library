@@ -282,11 +282,13 @@ Parley.setReferrer("https://parley.nu/");
 
 ### Custom Unique Device Identifier
 
-By default Parley uses `Settings.Secure.ANDROID_ID` as device identifier. This can be overridden by passing a custom `uniqueDeviceIdentifier` to the configure method:
+By default Parley uses a random UUID as device identifier which will be stored in the shared preferences. This can be overridden by passing a custom `uniqueDeviceIdentifier` to the configure method:
 
 ```java
 Parley.configure(this, "appSecret", "uniqueDeviceIdentifier");
 ```
+
+_When passing the `uniqueDeviceIdentifier` to the configure method, Parley will not store it. Client applications are responsible for storing it and providing Parley with the same ID in this case._
 
 ### Reset
 
