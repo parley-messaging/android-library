@@ -6,8 +6,8 @@
         <domain includeSubdomains="true">parley.nu</domain>
 
         <pin-set>
-            <pin digest="SHA-256">mFb9BCOL58AEAe10PkhCGldOhjSY+M0l0sziLWar13c=</pin>
             <pin digest="SHA-256">J2Aa4z+8R9zmgCOGJExzEYpYzNHGiHf4pa6lKmY5wAM=</pin> <!-- Expires at: 21 Aug 2022 -->
+            <pin digest="SHA-256">V5O+jBKXrJl+8lAfQJCEp5a/zck+eiDn78TgTNDs3QY=</pin> <!-- Expires at: 29 Jul 2023 -->
         </pin-set>
         <trustkit-config enforcePinning="true"/>
 
