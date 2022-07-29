@@ -79,6 +79,8 @@ Parley.configure(this, "appSecret");
 
 *Replace `appSecret` by your Parley `appSecret`. The `appSecret` can be obtained by contacting [Parley](https://www.parley.nu/).*
 
+*Note: calling `Parley.configure()` twice is unsupported, make sure to call `Parley.configure()` only once for the lifecycle of Parley.*
+
 ### Step 3: Configure Firebase
 
 Parley needs a push token to successfully handle remote notifications.
