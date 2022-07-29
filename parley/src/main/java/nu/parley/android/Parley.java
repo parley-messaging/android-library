@@ -126,6 +126,8 @@ public final class Parley {
      * example when another user is logged-in to the app).
      * </p>
      *
+     * <i>Note: calling `Parley.configure()` twice is unsupported, make sure to call `Parley.configure()` only once for the lifecycle of Parley.</i>
+     *
      * @param context                Context of the application.
      * @param secret                 Application secret of your Parley instance.
      * @param uniqueDeviceIdentifier the device identifier to use for device registration.
@@ -559,7 +561,6 @@ public final class Parley {
         } else {
             this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
         }
-
         messagesManager.clear(false);
 
         applySslPinning(context);
@@ -568,57 +569,74 @@ public final class Parley {
             // Direct callback
             setState(messagesManager.isCachingEnabled() ? State.CONFIGURED : State.FAILED);
         } else {
-            new DeviceRepository().register(new RepositoryCallback<Void>() {
-                @Override
-                public void onSuccess(Void data) {
-                    new MessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
-                        @Override
-                        public void onSuccess(ParleyResponse<List<Message>> data) {
-                            messagesManager.begin(data.getWelcomeMessage(), data.getStickyMessage(), data.getData(), data.getPaging());
-
-                            setState(State.CONFIGURED);
-                            retrievedFirstMessages = true;
-
-                            callback.onSuccess();
-                        }
-
-                        @Override
-                        public void onFailed(Integer code, String message) {
-                            if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
-                                setState(State.CONFIGURED);
-                                callback.onSuccess();
-                            } else {
-                                setState(State.FAILED);
-                                callback.onFailure(code, message);
-                            }
-                        }
-                    });
-                }
-
-                @Override
-                public void onFailed(Integer code, String message) {
-                    if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
-                        setState(State.CONFIGURED);
-                        callback.onSuccess();
-                    } else {
-                        setState(State.FAILED);
-                        callback.onFailure(code, message);
-                    }
-                }
-            });
+            configureI(callback);
         }
     }
 
-    private void resetI(final ParleyCallback callback) {
-        clearUserInformation(new ParleyCallback() {
+    private void configureI(final ParleyCallback callback) {
+        new DeviceRepository().register(new RepositoryCallback<Void>() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(Void data) {
+                new MessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
+                    @Override
+                    public void onSuccess(ParleyResponse<List<Message>> data) {
+                        messagesManager.begin(data.getWelcomeMessage(), data.getStickyMessage(), data.getData(), data.getPaging());
+
+                        setState(State.CONFIGURED);
+                        retrievedFirstMessages = true;
+
+                        callback.onSuccess();
+                    }
+
+                    @Override
+                    public void onFailed(Integer code, String message) {
+                        if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                            setState(State.CONFIGURED);
+                            callback.onSuccess();
+                        } else {
+                            setState(State.FAILED);
+                            callback.onFailure(code, message);
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onFailed(Integer code, String message) {
+                if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                    setState(State.CONFIGURED);
+                    callback.onSuccess();
+                } else {
+                    setState(State.FAILED);
+                    callback.onFailure(code, message);
+                }
+            }
+        });
+    }
+
+    private void reconfigure(ParleyCallback callback) {
+        retrievedFirstMessages = false;
+        messagesManager.clear(true);
+
+        setState(State.UNCONFIGURED);
+        setState(State.CONFIGURING);
+
+        configureI(callback);
+    }
+
+    private void resetI(final ParleyCallback callback) {
+        this.userAuthorization = null;
+        this.userAdditionalInformation = new HashMap<>();
+
+        new DeviceRepository().register(new RepositoryCallback<Void>() {
+            @Override
+            public void onSuccess(Void data) {
                 secret = null;
                 callback.onSuccess();
             }
 
             @Override
-            public void onFailure(@Nullable Integer code, @Nullable String message) {
+            public void onFailed(Integer code, String message) {
                 secret = null;
                 callback.onFailure(code, message);
             }
@@ -642,7 +660,9 @@ public final class Parley {
         this.userAuthorization = authorization;
         this.userAdditionalInformation = additionalInformation;
 
-        this.registerDeviceIfNeeded(callback);
+        if (state == State.CONFIGURED) {
+            this.reconfigure(callback);
+        }
     }
 
     private void setReferrerI(String referrer) {
@@ -653,7 +673,9 @@ public final class Parley {
         this.userAuthorization = null;
         this.userAdditionalInformation = new HashMap<>();
 
-        this.registerDeviceIfNeeded(callback);
+        if (state == State.CONFIGURED) {
+            this.reconfigure(callback);
+        }
     }
 
     private void registerDeviceIfNeeded(final ParleyCallback callback) {

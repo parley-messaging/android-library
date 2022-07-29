@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.6.0 - Released 29 Jul 2022
+
+ - Added new SSL certificate of [parley.nu](https://parley.nu) for SSL pinning.
+ - When setting or clearing the user information, Parley will now reconfigure itself when needed to show the contents of the corresponding chat.
+
 ## 3.5.0 - Released 2 May 2022
 
 ### Upgrading:
