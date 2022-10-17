@@ -10,6 +10,10 @@ import androidx.core.content.ContextCompat;
 
 public final class ParleyPermissionUtil {
 
+    public static boolean hasPermission(Context context, @NonNull String permission) {
+        return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
     private static boolean isPermissionInManifest(Context context, String permission) {
         try {
             final PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
@@ -31,7 +35,11 @@ public final class ParleyPermissionUtil {
         if (permission.equals(Manifest.permission.CAMERA)) {
             // Camera permission is not required by Parley. However, Android will require it if the app declares using this permission in `AndroidManifest.xml`
             return ParleyPermissionUtil.isPermissionInManifest(context, permission) &&
-                    ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED;
+                    !hasPermission(context, permission);
+        }
+        if (permission.equals(Manifest.permission.POST_NOTIFICATIONS)) {
+            // Needed in Android 12 to show chat notifications when the chat isn't open currently.
+            return !hasPermission(context, permission);
         }
 
         return false;

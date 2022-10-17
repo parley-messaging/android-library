@@ -57,7 +57,7 @@ public final class ParleyNotificationManager {
         );
     }
 
-    private static void createChannels(Context context) {
+    public static void createChannels(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(
                     NOTIFICATION_CHANNEL_CHAT_MESSAGES,

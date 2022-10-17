@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -35,7 +36,9 @@ import nu.parley.android.R;
 import nu.parley.android.data.messages.MessagesManager;
 import nu.parley.android.data.model.Message;
 import nu.parley.android.data.model.ParleyPosition;
+import nu.parley.android.notification.ParleyNotificationManager;
 import nu.parley.android.util.ConnectivityMonitor;
+import nu.parley.android.util.ParleyPermissionUtil;
 import nu.parley.android.util.StyleUtil;
 import nu.parley.android.view.chat.MessageAdapter;
 import nu.parley.android.view.chat.ParleyMessageListener;
@@ -49,6 +52,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     public static final int REQUEST_SELECT_IMAGE = 1661;
     public static final int REQUEST_TAKE_PHOTO = 1662;
     public static final int REQUEST_PERMISSION_ACCESS_CAMERA = 1663;
+    public static final int REQUEST_PERMISSION_NOTIFICATIONS = 1664;
     public static final long TIME_TYPING_START_TRIGGER = 20 * 1000; // 20 seconds
     public static final long TIME_TYPING_STOP_TRIGGER = 15 * 1000; // 15 seconds
     // Appearance
@@ -57,7 +61,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     private TextView statusTextView;
     private ProgressBar statusLoader;
     private LinearLayout notificationsLayout;
-    private ParleyNotificationView connectionNotificationView;
+    private ParleyNotificationView notificationsView;
     private ParleyStickyView stickyView;
     private RecyclerView recyclerView;
     private SuggestionView suggestionView;
@@ -72,6 +76,8 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     // Is typing
     private Handler isTypingAgentHandler = new Handler();
     private Runnable isTypingAgentRunnable = null;
+    // Launching
+    private ParleyLaunchCallback launchCallback;
 
     public ParleyView(Context context) {
         super(context);
@@ -96,11 +102,13 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
      * "starts an Activity for result" and requests permissions.
      */
     public void setLaunchCallback(@Nullable ParleyLaunchCallback launchCallback) {
-        if(launchCallback == null) {
-            launchCallback = new DefaultParleyLaunchCallback(getContext());
+        if (launchCallback == null) {
+            this.launchCallback = new DefaultParleyLaunchCallback(getContext());
+        } else {
+            this.launchCallback = launchCallback;
         }
-        parleyMessageListener.setLaunchCallback(launchCallback);
-        composeView.setLaunchCallback(launchCallback);
+        parleyMessageListener.setLaunchCallback(this.launchCallback);
+        composeView.setLaunchCallback(this.launchCallback);
     }
 
     public void setListener(@Nullable Listener listener) {
@@ -140,14 +148,17 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         statusLoader = findViewById(R.id.status_loader);
 
         notificationsLayout = findViewById(R.id.notifications_layout);
-        connectionNotificationView = findViewById(R.id.connection_notification_view);
+        notificationsView = findViewById(R.id.connection_notifications_view);
         stickyView = findViewById(R.id.sticky_view);
         recyclerView = findViewById(R.id.recycler_view);
         suggestionView = findViewById(R.id.suggestion_view);
         composeView = findViewById(R.id.compose_view);
 
         // Configure
-        setLaunchCallback(new DefaultParleyLaunchCallback(getContext()));
+        launchCallback = new DefaultParleyLaunchCallback(getContext());
+        setLaunchCallback(launchCallback);
+
+        notificationsView.checkNotifications();
         recyclerView.setAdapter(adapter);
         composeView.setStartTypingTriggerInterval(TIME_TYPING_START_TRIGGER);
         composeView.setStopTypingTriggerTime(TIME_TYPING_STOP_TRIGGER);
@@ -232,7 +243,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     }
 
     private int getConnectionHeight() {
-        return connectionNotificationView.getVisibility() == View.VISIBLE ? connectionNotificationView.getHeight() : 0;
+        return notificationsView.getHeight();
     }
 
     private int getSuggestionsHeight() {
@@ -266,12 +277,28 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
 
+        notificationsView.checkNotifications();
         if (visibility == View.VISIBLE) {
             Parley.getInstance().setListener(this);
             connectivityMonitor.register(getContext(), this);
+            requestPermissionsIfNeeded();
         } else {
             Parley.getInstance().clearListener();
             connectivityMonitor.unregister(getContext());
+        }
+    }
+
+    private void requestPermissionsIfNeeded() {
+        ParleyNotificationManager.createChannels(getContext().getApplicationContext()); // Required for Android 12
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android 13: Request permission
+            if (ParleyPermissionUtil.shouldRequestPermission(getContext(), Manifest.permission.POST_NOTIFICATIONS)) {
+                launchCallback.launchParleyPermissionRequest(
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        ParleyView.REQUEST_PERMISSION_NOTIFICATIONS
+                );
+            }
         }
     }
 
@@ -289,7 +316,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         post(new Runnable() {
             @Override
             public void run() {
-                connectionNotificationView.setVisibility(networkAvailable ? View.GONE : View.VISIBLE);
+                notificationsView.setOnline(networkAvailable);
                 updateRecyclerViewPadding();
 
                 if (!getMessagesManager().isCachingEnabled()) {
@@ -490,17 +517,19 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
 
     @Override
     public boolean onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == REQUEST_PERMISSION_ACCESS_CAMERA) {
-            for (int i = 0; i < permissions.length; i++) {
-                String permission = permissions[i];
-                int result = grantResults[i];
-                if (permission.equals(Manifest.permission.CAMERA)) {
-                    if (result == PackageManager.PERMISSION_GRANTED) {
-                        composeView.onCameraPermissionGranted();
-                    } else {
-                        Snackbar.make(getRootView(), R.string.parley_error_permission_missing_camera, Snackbar.LENGTH_LONG).show();
-                    }
+        for (int i = 0; i < permissions.length; i++) {
+            String permission = permissions[i];
+            int result = grantResults[i];
+            if (requestCode == REQUEST_PERMISSION_ACCESS_CAMERA && permission.equals(Manifest.permission.CAMERA)) {
+                if (result == PackageManager.PERMISSION_GRANTED) {
+                    composeView.onCameraPermissionGranted();
+                } else {
+                    Snackbar.make(getRootView(), R.string.parley_error_permission_missing_camera, Snackbar.LENGTH_LONG).show();
                 }
+                return true;
+            }
+            if (requestCode == REQUEST_PERMISSION_NOTIFICATIONS && permission.equals(Manifest.permission.POST_NOTIFICATIONS)) {
+                notificationsView.checkNotifications();
             }
             return true;
         }

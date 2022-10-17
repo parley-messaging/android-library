@@ -1,10 +1,13 @@
 package nu.parley.android;
 
+import static nu.parley.android.data.model.Message.SEND_STATUS_FAILED;
+import static nu.parley.android.notification.PushNotificationHandler.EVENT_START_TYPING;
+import static nu.parley.android.notification.PushNotificationHandler.EVENT_STOP_TYPING;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -33,10 +36,6 @@ import nu.parley.android.util.ConnectivityMonitor;
 import nu.parley.android.util.EmptyParleyCallback;
 import nu.parley.android.view.ParleyView;
 import nu.parley.android.view.chat.MessageViewHolderFactory;
-
-import static nu.parley.android.data.model.Message.SEND_STATUS_FAILED;
-import static nu.parley.android.notification.PushNotificationHandler.EVENT_START_TYPING;
-import static nu.parley.android.notification.PushNotificationHandler.EVENT_STOP_TYPING;
 
 public final class Parley {
 
@@ -150,7 +149,7 @@ public final class Parley {
 
     /**
      * Resets Parley back to its initial state (clearing the user information). Useful when logging out a user for example. Ensures that no user and chat data is left in memory.
-     *
+     * <p>
      * Leaves the network, offline messaging and referrer settings as is, these can be altered via the corresponding methods.
      *
      * <b>Note</b>: Requires calling the `configure()` method again to use Parley.
@@ -403,7 +402,7 @@ public final class Parley {
      * @return `true` if Parley handled this request, `false` otherwise
      */
     public static boolean onRequestPermissionsResult(final int requestCode, final @NonNull String[] permissions, @NonNull final int[] grantResults) {
-        if (requestCode == ParleyView.REQUEST_PERMISSION_ACCESS_CAMERA) {
+        if (requestCode == ParleyView.REQUEST_PERMISSION_ACCESS_CAMERA || requestCode == ParleyView.REQUEST_PERMISSION_NOTIFICATIONS) {
             if (getInstance().listener == null) {
                 // We will handle it when the listener is attached
                 new Handler().postDelayed(new Runnable() {

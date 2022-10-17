@@ -62,7 +62,9 @@
         <attr name="parley_content_padding_bottom" />
         <attr name="parley_content_padding_left" />
 
-        <attr name="parley_icon" />
+        <attr name="parley_icon" /> <!-- Deprecated since 3.7.0, use `parley_icon_connection` instead. -->
+        <attr name="parley_icon_connection" format="reference" />
+        <attr name="parley_icon_notifications" format="reference" />
         <attr name="parley_icon_tint_color" />
 
         <attr name="parley_font_family" />

@@ -34,11 +34,9 @@
                 android:orientation="vertical">
 
                 <nu.parley.android.view.ParleyNotificationView
-                    android:id="@+id/connection_notification_view"
+                    android:id="@+id/connection_notifications_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
+                    android:layout_height="wrap_content" />
 
                 <nu.parley.android.view.ParleyStickyView
                     android:id="@+id/sticky_view"

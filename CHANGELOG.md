@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.7.0 - Released 18 Oct 2022
+
+**IMPORTANT**: Parley now targets Android 13 and requests notifications permission when needed.
+
+### Upgrading:
+
+- *DEPRECATION (styling)*: In the style `ParleyNotificationView`, the attribute `parley_icon` has been renamed to `parley_icon_connection`.
+
+### Changes:
+
+- Added requesting notifications permission when the `ParleyView` is visible to the user while the app doesn't this permissions yet.
+- Added notification when the notifications permission is missing. The user will not receive chat notifications.
+- Updated source to target API 33.
+
 ## 3.6.0 - Released 29 Jul 2022
 
  - Added new SSL certificate of [parley.nu](https://parley.nu) for SSL pinning.

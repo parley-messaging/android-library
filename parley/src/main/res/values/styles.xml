@@ -40,7 +40,9 @@
         <item name="parley_content_padding_right">@dimen/parley_notification_padding_right</item>
         <item name="parley_content_padding_left">@dimen/parley_notification_padding_left</item>
 
-        <item name="parley_icon">@drawable/parley_notification_icon</item>
+        <item name="parley_icon">@drawable/parley_notification_icon_connection</item> <!-- Deprecated since 3.7.0, use `parley_icon_connection` instead. -->
+        <item name="parley_icon_connection">@drawable/parley_notification_icon_connection</item>
+        <item name="parley_icon_notifications">@drawable/parley_notification_icon_notifications</item>
         <item name="parley_icon_tint_color">@color/parley_notification_icon_tint</item>
 
         <!--<item name="parley_font_family">sans</item>-->
