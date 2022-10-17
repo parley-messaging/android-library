@@ -1,11 +1,13 @@
 package nu.parley.android.notification;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -24,8 +26,12 @@ public final class ParleyNotificationManager {
     static void showChatMessage(Context context, String message, Intent intent) {
         createChannels(context);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CHAT_MESSAGE, intent, 0);
+        if (!isNotificationsEnabled(context)) {
+            Log.e("ParleyNotificationManager", "Attempt to show notification without permission!");
+            return;
+        }
 
+        PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CHAT_MESSAGE, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_CHAT_MESSAGES)
                 .setSmallIcon(android.R.drawable.stat_notify_chat)
                 .setContentTitle(context.getString(R.string.app_name))
@@ -33,12 +39,16 @@ public final class ParleyNotificationManager {
                 .setContentIntent(contentIntent)
                 .setAutoCancel(true)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setDefaults(android.app.Notification.DEFAULT_ALL);
+                .setDefaults(Notification.DEFAULT_ALL);
 
         NotificationManagerCompat.from(context).notify(
                 NOTIFICATION_ID_CHAT_MESSAGE,
                 notificationBuilder.build()
         );
+    }
+
+    private static boolean isNotificationsEnabled(Context context) {
+        return NotificationManagerCompat.from(context).areNotificationsEnabled();
     }
 
     public static void cancelChatMessage(Context context) {

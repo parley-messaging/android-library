@@ -33,11 +33,11 @@ group = libraryPackageIdentifier
 version = libraryVersion
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 33
         versionCode 1
         versionName libraryVersion
 
@@ -77,19 +77,19 @@ dependencies {
 
     // Markdown support
     implementation "io.noties.markwon:core:${versionMarkwon}"
-    implementation  "io.noties.markwon:linkify:${versionMarkwon}"
+    implementation "io.noties.markwon:linkify:${versionMarkwon}"
 
     // Image Viewer
     implementation 'com.github.MikeOrtiz:TouchImageView:3.1.1'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'junit:junit:4.13.2'
 
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    debugImplementation 'com.novoda:espresso-support-extras:1.0.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+//    debugImplementation 'com.novoda:espresso-support-extras:1.0.0'
     androidTestImplementation 'com.novoda:espresso-support:1.0.0'
     androidTestImplementation('tools.fastlane:screengrab:2.1.0')
 }
