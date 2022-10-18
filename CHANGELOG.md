@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.6.1 - Released 18 Oct 2022
+
+Parley now targets Android 12
+
+- Added support for targeting Android 12 and higher.
+- Notification channels are now created when showing the `ParleyView`, causing Android 12 to request notifications permission if needed.
+
 ## 3.6.0 - Released 29 Jul 2022
 
  - Added new SSL certificate of [parley.nu](https://parley.nu) for SSL pinning.

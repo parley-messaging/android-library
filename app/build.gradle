@@ -40,7 +40,7 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // Library
-//    implementation 'com.github.parley-messaging:android-library:3.6.0' // Remote
+//    implementation 'com.github.parley-messaging:android-library:3.6.1' // Remote
     implementation project(':parley') // Local
 
     // Tests
