@@ -35,6 +35,7 @@ import nu.parley.android.R;
 import nu.parley.android.data.messages.MessagesManager;
 import nu.parley.android.data.model.Message;
 import nu.parley.android.data.model.ParleyPosition;
+import nu.parley.android.notification.ParleyNotificationManager;
 import nu.parley.android.util.ConnectivityMonitor;
 import nu.parley.android.util.StyleUtil;
 import nu.parley.android.view.chat.MessageAdapter;
@@ -267,6 +268,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         super.onVisibilityChanged(changedView, visibility);
 
         if (visibility == View.VISIBLE) {
+            ParleyNotificationManager.createChannels(getContext());
             Parley.getInstance().setListener(this);
             connectivityMonitor.register(getContext(), this);
         } else {

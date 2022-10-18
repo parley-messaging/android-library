@@ -1,5 +1,6 @@
 package nu.parley.android.notification;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -24,7 +25,11 @@ public final class ParleyNotificationManager {
     static void showChatMessage(Context context, String message, Intent intent) {
         createChannels(context);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CHAT_MESSAGE, intent, 0);
+        int flags = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+        PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CHAT_MESSAGE, intent, flags);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_CHAT_MESSAGES)
                 .setSmallIcon(android.R.drawable.stat_notify_chat)
@@ -33,7 +38,7 @@ public final class ParleyNotificationManager {
                 .setContentIntent(contentIntent)
                 .setAutoCancel(true)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setDefaults(android.app.Notification.DEFAULT_ALL);
+                .setDefaults(Notification.DEFAULT_ALL);
 
         NotificationManagerCompat.from(context).notify(
                 NOTIFICATION_ID_CHAT_MESSAGE,
@@ -47,7 +52,7 @@ public final class ParleyNotificationManager {
         );
     }
 
-    private static void createChannels(Context context) {
+    public static void createChannels(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(
                     NOTIFICATION_CHANNEL_CHAT_MESSAGES,
