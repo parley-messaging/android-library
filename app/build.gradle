@@ -33,7 +33,7 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:22.0.0"
 
     // Library
-//    implementation 'com.github.parley-messaging:android-library:3.6.1' // Remote
+//    implementation 'com.github.parley-messaging:android-library:3.7.0' // Remote
     implementation project(':parley') // Local
 
     // Tests

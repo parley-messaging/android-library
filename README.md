@@ -46,7 +46,7 @@ allprojects {
 To integrate Parley, specify the following in your `app/build.gradle` file:
 
 ```groovy
-implementation 'com.github.parley-messaging:android-library:3.6.1'
+implementation 'com.github.parley-messaging:android-library:3.7.0'
 ```
 
 ### Upgrading
