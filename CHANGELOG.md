@@ -13,6 +13,7 @@
 - Added requesting notifications permission when the `ParleyView` is visible to the user while the app doesn't this permissions yet.
 - Added message when the notifications permission is missing. The user will not receive chat notifications.
 - Updated source to target API 33.
+- Updated dependencies
 - *Addition (styling)*: Added attribute `parley_notification_icon_notifications` to styling `ParleyNotificationView` to configure the icon when user denied the notifications permission.
 
 ## 3.6.1 - Released 18 Oct 2022
