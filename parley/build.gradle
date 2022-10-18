@@ -33,11 +33,11 @@ group = libraryPackageIdentifier
 version = libraryVersion
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 32
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 32
         versionCode 1
         versionName libraryVersion
 
@@ -89,7 +89,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    debugImplementation 'com.novoda:espresso-support-extras:1.0.0'
+//    debugImplementation 'com.novoda:espresso-support-extras:1.0.0'
     androidTestImplementation 'com.novoda:espresso-support:1.0.0'
     androidTestImplementation('tools.fastlane:screengrab:2.1.0')
 }
