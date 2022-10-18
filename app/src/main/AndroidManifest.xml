@@ -17,6 +17,7 @@
             android:name=".ui.SplashActivity"
             android:exported="true"
             android:noHistory="true"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.FullScreen">
 

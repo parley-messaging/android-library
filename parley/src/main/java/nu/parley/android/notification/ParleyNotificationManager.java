@@ -31,7 +31,11 @@ public final class ParleyNotificationManager {
             return;
         }
 
-        PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CHAT_MESSAGE, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        int flags = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+        PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CHAT_MESSAGE, intent, flags);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_CHAT_MESSAGES)
                 .setSmallIcon(android.R.drawable.stat_notify_chat)
                 .setContentTitle(context.getString(R.string.app_name))
