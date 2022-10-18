@@ -108,4 +108,15 @@ public final class ParleyNotificationView extends FrameLayout {
             setNotifications(true);
         }
     }
+
+    public int getVisibleHeight() {
+        int height = 0;
+        if (connectionLayout.getVisibility() == View.VISIBLE) {
+            height += connectionLayout.getHeight();
+        }
+        if (notificationsLayout.getVisibility() == View.VISIBLE) {
+            height += notificationsLayout.getHeight();
+        }
+        return height;
+    }
 }

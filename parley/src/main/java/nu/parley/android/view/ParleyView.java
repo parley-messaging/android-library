@@ -215,7 +215,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         switch (notificationsPosition) {
             case TOP:
                 params.gravity = Gravity.TOP;
-                paddingTop = getStickyHeight() + getConnectionHeight();
+                paddingTop = getStickyHeight() + getNotificationsHeight();
                 paddingBottom = getSuggestionsHeight();
                 break;
             case BOTTOM:
@@ -225,7 +225,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
                     // Suggestions have `paddingBottom` of `stickyHeight` + `connectionHeight`  in this case
                     paddingBottom = getSuggestionsHeight();
                 } else {
-                    paddingBottom = getStickyHeight() + getConnectionHeight();
+                    paddingBottom = getStickyHeight() + getNotificationsHeight();
                 }
                 break;
         }
@@ -242,8 +242,8 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         return stickyView.getVisibility() == View.VISIBLE ? stickyView.getHeight() : 0;
     }
 
-    private int getConnectionHeight() {
-        return notificationsView.getHeight();
+    private int getNotificationsHeight() {
+        return notificationsView.getVisibleHeight();
     }
 
     private int getSuggestionsHeight() {
@@ -474,7 +474,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
             public void run() {
                 int bottomPadding = 0;
                 if (notificationsPosition == ParleyPosition.Vertical.BOTTOM) {
-                    bottomPadding = getConnectionHeight() + getStickyHeight();
+                    bottomPadding = getNotificationsHeight() + getStickyHeight();
                 }
                 suggestionView.setPadding(suggestionView.getPaddingLeft(), suggestionView.getPaddingTop(), suggestionView.getPaddingRight(), bottomPadding);
 
