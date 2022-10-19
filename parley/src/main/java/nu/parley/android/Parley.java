@@ -151,6 +151,7 @@ public final class Parley {
      * Resets Parley back to its initial state (clearing the user information). Useful when logging out a user for example. Ensures that no user and chat data is left in memory.
      * <p>
      * Leaves the network, offline messaging and referrer settings as is, these can be altered via the corresponding methods.
+     * </p>
      *
      * <b>Note</b>: Requires calling the `configure()` method again to use Parley.
      */

@@ -200,6 +200,7 @@ public final class IdentifierActivity extends BaseActivity {
      * should be done elsewhere, as noted in {@link ParleyCustomerAuthorization}.
      * <p>
      * Check out `setUserInformation()` for a simple example when the user authorization is known.
+     * </p>
      */
     private void registerUserWithCustomerId() {
         String customerId = new PreferenceRepository().getCustomerId(this);
