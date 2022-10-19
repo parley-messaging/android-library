@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.7.0 - Released 18 Oct 2022
+## 3.7.0 - Released 19 Oct 2022
 
 **IMPORTANT**: Parley now targets Android 13 and requests notifications permission when needed.
 
