@@ -8,12 +8,14 @@ Easily setup a secure chat with the Parley Messaging Android library. The Parley
 
 ## Requirements
 
+- Java 11
 - Android 4.1+ (API 16+)
 - Android Studio 4.2+ (Android Gradle Plugin 4.2+)
 - Using AndroidX artifacts
 - Permissions (automatically added by the library)
   - android.permission.INTERNET - Required for chatting
   - android.permission.ACCESS_NETWORK_STATE - Required for detecting network changes
+  - android.permission.POST_NOTIFICATIONS - Required for showing notifications on API >= 33
   - android.permission.WRITE_EXTERNAL_STORAGE **(API < 19)** - Required for supporting images in the chat. *Only applied in API 18 and lower.*
 
 **Firebase**
@@ -44,7 +46,7 @@ allprojects {
 To integrate Parley, specify the following in your `app/build.gradle` file:
 
 ```groovy
-implementation 'com.github.parley-messaging:android-library:3.6.1'
+implementation 'com.github.parley-messaging:android-library:3.7.0'
 ```
 
 ### Upgrading

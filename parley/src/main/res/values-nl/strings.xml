@@ -1,6 +1,7 @@
 <resources>
     <string name="parley_type_message">Typ een bericht…</string>
     <string name="parley_notification_offline">Controleer uw internetverbinding</string>
+    <string name="parley_notification_disabled">Meldingen zijn uitgeschakeld</string>
     <string name="parley_select_photo">Selecteer een foto</string>
     <string name="parley_take_photo">Maak een foto</string>
     <string name="parley_notification_channel_name">Chat berichten</string>

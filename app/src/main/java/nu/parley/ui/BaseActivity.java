@@ -1,31 +1,17 @@
 package nu.parley.ui;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-
-import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.crashlytics.android.Crashlytics;
-
-import io.fabric.sdk.android.Fabric;
 import nu.parley.R;
-import nu.parley.repository.PreferenceRepository;
 
 public abstract class BaseActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Fabric.with(this, new Crashlytics());
-    }
 
     protected void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
