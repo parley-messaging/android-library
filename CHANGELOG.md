@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.7.1 - Released 27 Jun 2023
+
+- Added new SSL certificate of [parley.nu](https://parley.nu) for SSL pinning.
+
 ## 3.7.0 - Released 19 Oct 2022
 
 **IMPORTANT**: Parley now targets Android 13 and requests notifications permission when needed.
