@@ -31,7 +31,8 @@
             android:id="@+id/image_input_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom" />
+            android:layout_gravity="end|bottom"
+            android:contentDescription="@string/parley_accessibility_photo_button" />
     </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
+        android:contentDescription="@string/parley_accessibility_send"
         android:scaleType="centerInside"
         app:elevation="0dp"
         app:fabSize="mini"

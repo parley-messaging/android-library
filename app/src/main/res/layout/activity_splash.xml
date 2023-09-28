@@ -9,11 +9,13 @@
         android:layout_gravity="top|center"
         android:layout_marginTop="150dp"
         android:adjustViewBounds="true"
+        android:importantForAccessibility="no"
         android:src="@drawable/activity_splash_logo" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:importantForAccessibility="no"
         android:scaleType="centerCrop"
         android:src="@drawable/activity_splash_background" />
 

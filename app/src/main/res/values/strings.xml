@@ -8,6 +8,7 @@
     <string name="default_error_title">Oops!</string>
 
     <!-- IdentifierActivity -->
+    <string name="identifier_title">Enter identifier screen</string>
     <string name="identifier_hello">Hello!</string>
     <string name="identifier_enter_your_own_identifier">Enter your identification code to start a chat session.</string>
     <string name="identifier_start_chat">Start chat</string>
@@ -17,6 +18,9 @@
     <string name="identifier_customer_id_error_encryption">Something went wrong with configuring the identification. Check your input and try again.</string>
 
     <!-- ChatActivity -->
-    <string name="chat_title">Chat</string>
+    <string name="chat_title">Chat screen</string>
     <string name="chat_something_went_wrong">Something went wrong while initializing the chat. Check your internet connection and try again.</string>
+
+    <!-- Accessibility -->
+    <string name="accessibility_parley_header">Parley logo: Redefining customer happiness</string>
 </resources>

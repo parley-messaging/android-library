@@ -16,4 +16,9 @@
 
     <!-- Image Viewer -->
     <string name="image_viewer_title">Image</string>
+
+    <!-- Accessibility -->
+    <string name="parley_accessibility_close">Close</string>
+    <string name="parley_accessibility_photo_button">Photo. Button.</string>
+    <string name="parley_accessibility_send">Send</string>
 </resources>

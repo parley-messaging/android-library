@@ -14,4 +14,9 @@
 
     <!-- Image Viewer -->
     <string name="image_viewer_title">Afbeelding</string>
+
+    <!-- Accessibility -->
+    <string name="parley_accessibility_close">Sluiten</string>
+    <string name="parley_accessibility_photo_button">Foto. Knop.</string>
+    <string name="parley_accessibility_send">Versturen</string>
 </resources>

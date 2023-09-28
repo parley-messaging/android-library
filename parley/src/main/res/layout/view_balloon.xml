@@ -32,6 +32,7 @@
                         android:id="@+id/image_view"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
+                        android:importantForAccessibility="no"
                         android:minWidth="300dp"
                         android:scaleType="fitXY" />
 
@@ -40,6 +41,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:importantForAccessibility="no"
                         android:maxWidth="300dp"
                         android:maxHeight="180dp"
                         android:visibility="gone"
@@ -61,6 +63,7 @@
                             android:id="@+id/name_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:importantForAccessibility="no"
                             android:includeFontPadding="false"
                             tools:text="Webuildapps"
                             tools:visibility="visible" />
@@ -106,6 +109,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
+                            android:importantForAccessibility="no"
                             android:includeFontPadding="false"
                             tools:text="Look at this" />
 
@@ -113,6 +117,7 @@
                             android:id="@+id/message_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:importantForAccessibility="no"
                             android:includeFontPadding="false"
                             tools:text="Vivamus diam libero, molestie ac sagittis ac, congue quis ligula. Donec rutrum dui tortor, non pharetra ex aliquam vel." />
 
@@ -157,6 +162,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|start"
+                    android:importantForAccessibility="no"
                     android:includeFontPadding="false"
                     tools:text="15:47" />
 
@@ -174,10 +180,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:importantForAccessibility="no"
                         android:visibility="gone"
                         app:srcCompat="@drawable/parley_ic_check"
                         tools:visibility="visible" />
-
                 </FrameLayout>
             </LinearLayout>
         </FrameLayout>

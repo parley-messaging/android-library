@@ -8,6 +8,7 @@
     <string name="default_error_title">Oops!</string>
 
     <!-- IdentifierActivity -->
+    <string name="identifier_title">Identificatie scherm</string>
     <string name="identifier_hello">Hallo!</string>
     <string name="identifier_enter_your_own_identifier">Voer je identificatie code in om een chatsessie te starten.</string>
     <string name="identifier_start_chat">Chat starten</string>
@@ -19,4 +20,7 @@
     <!-- ChatActivity -->
     <string name="chat_title">Chat</string>
     <string name="chat_something_went_wrong">Er ging iets fout tijdens het initialiseren van de chat. Controleer je internetverbinding en probeer opnieuw.</string>
+
+    <!-- Accessibility -->
+    <string name="accessibility_parley_header">Parley logo: Redefining customer happiness</string>
 </resources>
