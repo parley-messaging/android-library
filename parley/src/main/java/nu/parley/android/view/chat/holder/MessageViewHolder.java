@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 import nu.parley.android.R;
 import nu.parley.android.data.model.Action;
 import nu.parley.android.data.model.Message;
+import nu.parley.android.util.AccessibilityUtil;
 import nu.parley.android.util.StyleUtil;
 import nu.parley.android.view.BalloonView;
 import nu.parley.android.view.chat.MessageListener;
@@ -128,18 +130,32 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
             balloonView.setAddition(messageAdditionAdapter);
         }
 
-        balloonView.setOnContentClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN && message.getSendStatus() == Message.SEND_STATUS_FAILED) {
-                    listener.onRetryMessageClicked(message);
-                } else if (message.getImage() != null) {
-                    listener.onImageClicked(itemView.getContext(), message);
-                }
-            }
-        });
+        balloonView.setOnContentClickListener(getContentClickListener(message));
 
         handleCarousel(message);
+
+        // Accessibility
+        balloonView.setContentDescription(AccessibilityUtil.getContentDescription(itemView, message));
+    }
+
+    @Nullable
+    private View.OnClickListener getContentClickListener(final Message message) {
+        final boolean retry = message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN && message.getSendStatus() == Message.SEND_STATUS_FAILED;
+        final boolean image = message.getImage() != null;
+        if (retry || image) {
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (retry) {
+                        listener.onRetryMessageClicked(message);
+                    } else if (image) {
+                        listener.onImageClicked(itemView.getContext(), message);
+                    }
+                }
+            };
+        } else {
+            return null;
+        }
     }
 
     private void handleCarousel(Message message) {

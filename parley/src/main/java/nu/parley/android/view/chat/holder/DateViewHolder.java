@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import nu.parley.android.R;
 import nu.parley.android.data.model.Message;
+import nu.parley.android.util.AccessibilityUtil;
 import nu.parley.android.util.StyleUtil;
 
 import static nu.parley.android.util.DateUtil.formatDate;
@@ -29,6 +30,9 @@ public final class DateViewHolder extends ParleyBaseViewHolder {
     @Override
     public void show(Message message) {
         dateTextView.setText(formatDate(message.getDate()));
+
+        // Accessibility
+        itemView.setContentDescription(AccessibilityUtil.getContentDescription(itemView, message));
     }
 
     private void applyStyle() {

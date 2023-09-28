@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import nu.parley.android.R;
 import nu.parley.android.data.model.Message;
+import nu.parley.android.util.AccessibilityUtil;
 import nu.parley.android.util.MarkdownUtil;
 import nu.parley.android.util.StyleUtil;
 
@@ -47,5 +48,8 @@ public final class InfoViewHolder extends ParleyBaseViewHolder {
     @Override
     public void show(Message message) {
         messageTextView.setText(MarkdownUtil.convert(getContext(), message.getMessage()));
+
+        // Accessibility
+        itemView.setContentDescription(AccessibilityUtil.getContentDescription(itemView, message));
     }
 }

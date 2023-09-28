@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 
 import nu.parley.android.R;
 import nu.parley.android.data.model.Message;
+import nu.parley.android.util.AccessibilityUtil;
 import nu.parley.android.util.StyleUtil;
 
 public final class LoaderViewHolder extends ParleyBaseViewHolder {
@@ -38,6 +39,7 @@ public final class LoaderViewHolder extends ParleyBaseViewHolder {
 
     @Override
     public void show(Message message) {
-        //
+        // Accessibility
+        itemView.setContentDescription(AccessibilityUtil.getContentDescription(itemView, message));
     }
 }

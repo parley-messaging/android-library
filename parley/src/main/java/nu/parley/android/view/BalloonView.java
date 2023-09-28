@@ -275,8 +275,9 @@ public final class BalloonView extends FrameLayout {
         actionsMetaSpace.setVisibility(hasAdditions ? View.VISIBLE : View.GONE);
     }
 
-    public void setOnContentClickListener(View.OnClickListener clickListener) {
+    public void setOnContentClickListener(@Nullable View.OnClickListener clickListener) {
         contentLayout.setOnClickListener(clickListener);
+        contentLayout.setClickable(clickListener != null);
     }
 
     // Styling
@@ -382,5 +383,10 @@ public final class BalloonView extends FrameLayout {
 
     public void setTimeTextSize(int complexUnit, int dimension) {
         timeTextView.setTextSize(complexUnit, dimension);
+    }
+
+    @Override
+    public void setContentDescription(CharSequence contentDescription) {
+        contentLayout.setContentDescription(contentDescription);
     }
 }

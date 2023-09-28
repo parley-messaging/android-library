@@ -18,7 +18,7 @@
     <string name="identifier_customer_id_error_encryption">Something went wrong with configuring the identification. Check your input and try again.</string>
 
     <!-- ChatActivity -->
-    <string name="chat_title">Chat screen</string>
+    <string name="chat_title">Chat</string>
     <string name="chat_something_went_wrong">Something went wrong while initializing the chat. Check your internet connection and try again.</string>
 
     <!-- Accessibility -->

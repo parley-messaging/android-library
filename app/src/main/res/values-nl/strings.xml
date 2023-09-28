@@ -8,7 +8,7 @@
     <string name="default_error_title">Oops!</string>
 
     <!-- IdentifierActivity -->
-    <string name="identifier_title">Identificatie scherm</string>
+    <string name="identifier_title">Identificatie invoer scherm</string>
     <string name="identifier_hello">Hallo!</string>
     <string name="identifier_enter_your_own_identifier">Voer je identificatie code in om een chatsessie te starten.</string>
     <string name="identifier_start_chat">Chat starten</string>
