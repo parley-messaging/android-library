@@ -39,6 +39,7 @@ import nu.parley.android.data.model.Message;
 import nu.parley.android.data.model.ParleyPosition;
 import nu.parley.android.notification.ParleyNotificationManager;
 import nu.parley.android.util.AccessibilityMonitor;
+import nu.parley.android.util.AccessibilityUtil;
 import nu.parley.android.util.ConnectivityMonitor;
 import nu.parley.android.util.ParleyPermissionUtil;
 import nu.parley.android.util.StyleUtil;
@@ -392,6 +393,11 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
 
         getMessagesManager().add(message);
         renderMessages();
+
+        @Nullable String announcement = AccessibilityUtil.getAnnouncement(getContext(), message);
+        if (announcement != null) {
+            announceForAccessibility(announcement);
+        }
     }
 
     @Override
@@ -442,6 +448,8 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
 
         // Stop after X seconds
         isTypingAgentHandler.postDelayed(isTypingAgentRunnable, TIME_TYPING_STOP_TRIGGER);
+
+        announceForAccessibility(AccessibilityUtil.getAnnouncementAgentTyping(getContext()));
     }
 
     @Override

@@ -31,5 +31,10 @@
     <string name="parley_accessibility_message_agent_typing">Agent is typing.</string>
     <string name="parley_accessibility_message_failed">Message failed to send.</string>
     <string name="parley_accessibility_message_pending">Message still pending.</string>
+    <string name="parley_accessibility_announcement_sent_message">Message sent.</string>
+    <string name="parley_accessibility_announcement_message_received">Message received.</string>
+    <string name="parley_accessibility_announcement_info_received">Informational message received.</string>
+    <string name="parley_accessibility_announcement_quick_replies_received">Suggestions available.</string>
+    <string name="parley_accessibility_announcement_agent_typing">Agent is typing.</string>
 
 </resources>

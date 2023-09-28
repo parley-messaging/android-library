@@ -21,6 +21,40 @@ public class AccessibilityUtil {
     }
 
     @Nullable
+    public static String getAnnouncement(Context context, Message message) {
+        switch (message.getTypeId()) {
+            case MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN:
+            case MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_SYSTEM_USER:
+                return context.getString(R.string.parley_accessibility_announcement_sent_message);
+            case MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_AGENT:
+            case MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_SYSTEM_AGENT:
+                if ("\uD83E\uDD16".equals(message.getMessage())) {
+                    return context.getString(R.string.parley_accessibility_announcement_quick_replies_received);
+                } else {
+                    StringBuilder builder = new StringBuilder();
+                    builder.append(context.getString(R.string.parley_accessibility_announcement_message_received));
+                    String content = getContentDescription(context, message);
+                    if (!TextUtils.isEmpty(content)) {
+                        builder.append(content);
+                    }
+                    if (builder.length() == 0) {
+                        return null;
+                    } else {
+                        return builder.toString();
+                    }
+                }
+            case MessageViewHolderFactory.MESSAGE_TYPE_INFO:
+                return context.getString(R.string.parley_accessibility_announcement_info_received);
+            default:
+                return null;
+        }
+    }
+
+    public static String getAnnouncementAgentTyping(Context context) {
+        return context.getString(R.string.parley_accessibility_announcement_agent_typing);
+    }
+
+    @Nullable
     private static String getContentDescription(Context context, Message message) {
         switch (message.getTypeId()) {
             case MessageViewHolderFactory.MESSAGE_TYPE_INFO:

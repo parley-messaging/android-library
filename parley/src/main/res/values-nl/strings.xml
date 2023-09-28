@@ -29,4 +29,9 @@
     <string name="parley_accessibility_message_agent_typing">Agent is aan het typen.</string>
     <string name="parley_accessibility_message_failed">Bericht kan niet worden verzonden.</string>
     <string name="parley_accessibility_message_pending">Bericht wordt nog steeds verzonden.</string>
+    <string name="parley_accessibility_announcement_sent_message">Bericht verstuurd.</string>
+    <string name="parley_accessibility_announcement_agent_typing">Agent is aan het typen.</string>
+    <string name="parley_accessibility_announcement_message_received">Bericht ontvangen.</string>
+    <string name="parley_accessibility_announcement_info_received">Informatief bericht ontvangen.</string>
+    <string name="parley_accessibility_announcement_quick_replies_received">Suggesties beschikbaar.</string>
 </resources>
