@@ -3,6 +3,7 @@ package nu.parley.android.view;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -37,6 +38,7 @@ import nu.parley.android.data.messages.MessagesManager;
 import nu.parley.android.data.model.Message;
 import nu.parley.android.data.model.ParleyPosition;
 import nu.parley.android.notification.ParleyNotificationManager;
+import nu.parley.android.util.AccessibilityMonitor;
 import nu.parley.android.util.ConnectivityMonitor;
 import nu.parley.android.util.ParleyPermissionUtil;
 import nu.parley.android.util.StyleUtil;
@@ -47,7 +49,7 @@ import nu.parley.android.view.compose.ParleyComposeView;
 import nu.parley.android.view.compose.suggestion.SuggestionListener;
 import nu.parley.android.view.compose.suggestion.SuggestionView;
 
-public final class ParleyView extends FrameLayout implements ParleyListener, ConnectivityMonitor.Listener {
+public final class ParleyView extends FrameLayout implements ParleyListener, ConnectivityMonitor.Listener, AccessibilityMonitor.Listener {
 
     public static final int REQUEST_SELECT_IMAGE = 1661;
     public static final int REQUEST_TAKE_PHOTO = 1662;
@@ -70,6 +72,8 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     private boolean isAtBottom = true;
     private Listener listener;
     private ConnectivityMonitor connectivityMonitor;
+
+    private AccessibilityMonitor accessibilityMonitor = new AccessibilityMonitor();
     private ParleyComposeListener composeListener = new ParleyComposeListener();
     private ParleyMessageListener parleyMessageListener = new ParleyMessageListener();
     private MessageAdapter adapter = new MessageAdapter(parleyMessageListener);
@@ -281,10 +285,12 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         if (visibility == View.VISIBLE) {
             Parley.getInstance().setListener(this);
             connectivityMonitor.register(getContext(), this);
+            accessibilityMonitor.register(getContext(), this);
             requestPermissionsIfNeeded();
         } else {
             Parley.getInstance().clearListener();
             connectivityMonitor.unregister(getContext());
+            accessibilityMonitor.unregister(getContext());
         }
     }
 
@@ -539,5 +545,14 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     public interface Listener {
 
         void onMessageSent();
+    }
+
+    // Accessibility
+
+    @SuppressLint("NotifyDataSetChanged") // TalkBack updates visuals only, which is why we need to render the chat messages again
+    @Override
+    public void onTalkbackChanged(boolean enabled) {
+        Log.d("ALEX", "Talkback changed: " + enabled);
+        adapter.notifyDataSetChanged();
     }
 }

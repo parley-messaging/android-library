@@ -15,6 +15,7 @@ import java.util.Date;
 import nu.parley.android.R;
 import nu.parley.android.data.model.Action;
 import nu.parley.android.data.model.Message;
+import nu.parley.android.util.AccessibilityMonitor;
 import nu.parley.android.util.AccessibilityUtil;
 import nu.parley.android.util.StyleUtil;
 import nu.parley.android.view.BalloonView;
@@ -140,9 +141,10 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
 
     @Nullable
     private View.OnClickListener getContentClickListener(final Message message) {
+        boolean talkback = AccessibilityMonitor.isTalkbackEnabled(itemView.getContext());
         final boolean retry = message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN && message.getSendStatus() == Message.SEND_STATUS_FAILED;
         final boolean image = message.getImage() != null;
-        if (retry || image) {
+        if (retry || (image && !talkback)) {
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
