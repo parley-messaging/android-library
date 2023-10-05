@@ -28,7 +28,7 @@ public class AccessibilityUtil {
                 return context.getString(R.string.parley_accessibility_announcement_sent_message);
             case MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_AGENT:
             case MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_SYSTEM_AGENT:
-                if ("\uD83E\uDD16".equals(message.getMessage())) {
+                if (message.getQuickReplies() != null && !message.getQuickReplies().isEmpty()) {
                     return context.getString(R.string.parley_accessibility_announcement_quick_replies_received);
                 } else {
                     StringBuilder builder = new StringBuilder();
@@ -56,14 +56,16 @@ public class AccessibilityUtil {
 
     @Nullable
     private static String getContentDescription(Context context, Message message) {
-        switch (message.getTypeId()) {
-            case MessageViewHolderFactory.MESSAGE_TYPE_INFO:
-            case MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_AUTO:
-                return context.getString(R.string.parley_accessibility_message_informational);
-            case MessageViewHolderFactory.MESSAGE_TYPE_DATE:
-                return DateUtil.formatDate(message.getDate());
-            default:
-                break;
+        if (message.getTypeId() != null) {
+            switch (message.getTypeId()) {
+                case MessageViewHolderFactory.MESSAGE_TYPE_INFO:
+                case MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_AUTO:
+                    return context.getString(R.string.parley_accessibility_message_informational);
+                case MessageViewHolderFactory.MESSAGE_TYPE_DATE:
+                    return DateUtil.formatDate(message.getDate());
+                default:
+                    break;
+            }
         }
 
         StringBuilder builder = new StringBuilder();
@@ -88,6 +90,13 @@ public class AccessibilityUtil {
 
     @Nullable
     private static String getContentDescriptionIntroduction(Context context, Message message) {
+        if (message.getTypeId() == null) {
+            if (message.getAgent() != null && message.getAgent().getName() != null) {
+                return context.getString(R.string.parley_accessibility_message_from_agent_x, message.getAgent().getName());
+            } else {
+                return context.getString(R.string.parley_accessibility_message_from_agent);
+            }
+        }
         switch (message.getTypeId()) {
             case MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_AGENT:
             case MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_SYSTEM_AGENT:
@@ -128,6 +137,19 @@ public class AccessibilityUtil {
         if (message.hasImageContent()) {
             builder.append(context.getString(R.string.parley_accessibility_message_media_attached));
         }
+        // Actions
+        if (message.hasActionsContent()) {
+            builder.append(context.getString(R.string.parley_accessibility_message_actions_attached));
+        }
+        // Carousel
+        if (message.hasCarouselContent()) {
+            Message first = message.getCarousel().get(0);
+            @Nullable String content = getContentDescriptionBody(context, first);
+            if (content != null) {
+                builder.append(content);
+            }
+        }
+        // Return
         if (builder.length() == 0) {
             return null;
         } else {
