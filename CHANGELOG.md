@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.8.0 - Upcoming
+
+- Added support for the Android accessibility features.
+- Added support for TalkBack.
+  - Read through the chat
+  - Interact with the chat
+  - Announcing received messages
+  - Fully supporting rich message types
+- Added support for font and display Scaling.
+- Improved nullability around the message `typeId`
+
 ## 3.7.1 - Released 27 Jun 2023
 
 - Added new SSL certificate of [parley.nu](https://parley.nu) for SSL pinning.
