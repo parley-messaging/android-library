@@ -191,26 +191,34 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
-                // Fade suggestions away when scrolling away from the bottom
-                final int heightSuggestionView = getSuggestionsHeight();
-                int bottomOfMessages = recyclerView.computeVerticalScrollRange();
-                int bottomOfShown = recyclerView.computeVerticalScrollOffset() + recyclerView.getHeight();
-                float kickIn = bottomOfMessages - (heightSuggestionView + suggestionView.getPaddingBottom());
-                if (isAtBottom || bottomOfShown >= bottomOfMessages) {
-                    // Show
-                    suggestionView.setAlpha(1f);
-                } else if (bottomOfShown >= kickIn) {
-                    // Fade
-                    float current = bottomOfMessages - bottomOfShown;
-                    float alpha = current / (heightSuggestionView + suggestionView.getPaddingBottom());
-                    suggestionView.setAlpha(1 - alpha);
-                } else {
-                    // Hide
-                    suggestionView.setAlpha(0f);
-                }
+                checkSuggestionsTransparency();
             }
         });
+    }
+
+    private void checkSuggestionsTransparency() {
+        if (AccessibilityMonitor.isTalkbackEnabled(getContext())) {
+            // Always show suggestions
+            suggestionView.setAlpha(1f);
+        } else {
+            // Fade suggestions away when scrolling away from the bottom
+            final int heightSuggestionView = getSuggestionsHeight();
+            int bottomOfMessages = recyclerView.computeVerticalScrollRange();
+            int bottomOfShown = recyclerView.computeVerticalScrollOffset() + recyclerView.getHeight();
+            float kickIn = bottomOfMessages - (heightSuggestionView + suggestionView.getPaddingBottom());
+            if (isAtBottom || bottomOfShown >= bottomOfMessages) {
+                // Show
+                suggestionView.setAlpha(1f);
+            } else if (bottomOfShown >= kickIn) {
+                // Fade
+                float current = bottomOfMessages - bottomOfShown;
+                float alpha = current / (heightSuggestionView + suggestionView.getPaddingBottom());
+                suggestionView.setAlpha(1 - alpha);
+            } else {
+                // Hide
+                suggestionView.setAlpha(0f);
+            }
+        }
     }
 
     private void updateRecyclerViewPadding() {
@@ -562,5 +570,6 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     public void onTalkbackChanged(boolean enabled) {
         Log.d("ALEX", "Talkback changed: " + enabled);
         adapter.notifyDataSetChanged();
+        checkSuggestionsTransparency();
     }
 }
