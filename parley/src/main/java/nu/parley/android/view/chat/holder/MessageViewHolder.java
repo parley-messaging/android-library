@@ -6,8 +6,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.core.view.accessibility.AccessibilityViewCommand;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Date;
@@ -142,7 +146,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
     @Nullable
     private View.OnClickListener getContentClickListener(final Message message) {
         boolean talkback = AccessibilityMonitor.isTalkbackEnabled(itemView.getContext());
-        final boolean retry = message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN && message.getSendStatus() == Message.SEND_STATUS_FAILED;
+        final boolean retry = message.getTypeId() != null && message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN && message.getSendStatus() == Message.SEND_STATUS_FAILED;
         final boolean image = message.getImage() != null;
         if (retry || (image && !talkback)) {
             return new View.OnClickListener() {

@@ -2,6 +2,8 @@ package nu.parley.android.view.chat;
 
 import android.view.View;
 
+import androidx.annotation.Nullable;
+
 import nu.parley.android.R;
 import nu.parley.android.data.model.Message;
 import nu.parley.android.view.chat.holder.AgentMessageViewHolder;
@@ -27,14 +29,13 @@ public final class MessageViewHolderFactory {
     public final static int MESSAGE_TYPE_MESSAGE_SYSTEM_USER = 4;
     public final static int MESSAGE_TYPE_MESSAGE_SYSTEM_AGENT = 5;
 
-    static int getViewType(Message message) {
+    @Nullable
+    static Integer getViewType(Message message) {
         return message.getTypeId();
     }
 
     public static ParleyBaseViewHolder getViewHolder(int viewType, View itemView, MessageListener listener) {
         switch (viewType) {
-            case MESSAGE_TYPE_INFO:
-                return new InfoViewHolder(itemView);
             case MESSAGE_TYPE_DATE:
                 return new DateViewHolder(itemView);
             case MESSAGE_TYPE_AGENT_TYPING:
@@ -43,6 +44,8 @@ public final class MessageViewHolderFactory {
                 return new OwnMessageViewHolder(itemView, listener);
             case MESSAGE_TYPE_MESSAGE_AGENT:
                 return new AgentMessageViewHolder(itemView, listener);
+            case MESSAGE_TYPE_INFO:
+                // fallthrough;
             case MESSAGE_TYPE_MESSAGE_AUTO:
                 return new InfoViewHolder(itemView);
             case MESSAGE_TYPE_LOADER:
@@ -54,8 +57,6 @@ public final class MessageViewHolderFactory {
 
     public static int getViewResource(int viewType) {
         switch (viewType) {
-            case MESSAGE_TYPE_INFO:
-                return R.layout.item_info;
             case MESSAGE_TYPE_DATE:
                 return R.layout.item_date;
             case MESSAGE_TYPE_AGENT_TYPING:
@@ -64,6 +65,8 @@ public final class MessageViewHolderFactory {
                 // fallthrough;
             case MESSAGE_TYPE_MESSAGE_AGENT:
                 return R.layout.item_message;
+            case MESSAGE_TYPE_INFO:
+                // fallthrough;
             case MESSAGE_TYPE_MESSAGE_AUTO:
                 return R.layout.item_info;
             case MESSAGE_TYPE_LOADER:
