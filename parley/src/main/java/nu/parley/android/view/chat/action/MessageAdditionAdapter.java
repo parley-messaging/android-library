@@ -48,13 +48,22 @@ public final class MessageAdditionAdapter extends RecyclerView.Adapter<MessageAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onActionClicked(v, action);
+                onActionClicked(v, action);
             }
         });
+        holder.itemView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
     }
 
     @Override
     public int getItemCount() {
         return actions.size();
+    }
+
+    public List<Action> getActions() {
+        return actions;
+    }
+
+    public void onActionClicked(View view, Action action) {
+        listener.onActionClicked(view, action);
     }
 }

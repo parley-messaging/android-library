@@ -1,5 +1,10 @@
 package nu.parley.android.view;
 
+import static nu.parley.android.data.model.Message.SEND_STATUS_FAILED;
+import static nu.parley.android.data.model.Message.SEND_STATUS_PENDING;
+import static nu.parley.android.data.model.Message.SEND_STATUS_SUCCESS;
+import static nu.parley.android.util.DateUtil.formatTime;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -17,8 +22,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.accessibility.AccessibilityViewCommand;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -37,14 +45,10 @@ import java.util.Date;
 import java.util.List;
 
 import nu.parley.android.R;
+import nu.parley.android.data.model.Action;
 import nu.parley.android.util.MarkdownUtil;
 import nu.parley.android.util.StyleUtil;
 import nu.parley.android.view.chat.action.MessageAdditionAdapter;
-
-import static nu.parley.android.data.model.Message.SEND_STATUS_FAILED;
-import static nu.parley.android.data.model.Message.SEND_STATUS_PENDING;
-import static nu.parley.android.data.model.Message.SEND_STATUS_SUCCESS;
-import static nu.parley.android.util.DateUtil.formatTime;
 
 public final class BalloonView extends FrameLayout {
 
@@ -266,13 +270,25 @@ public final class BalloonView extends FrameLayout {
         statusImageView.setVisibility(visibility);
     }
 
-    public void setAddition(@Nullable MessageAdditionAdapter adapter) {
+    public void setAddition(@Nullable final MessageAdditionAdapter adapter) {
         actionsRecyclerView.setAdapter(adapter);
 
         boolean hasAdditions = adapter != null && adapter.getItemCount() > 0;
         messageMetaSpace.setVisibility(hasAdditions ? View.GONE : View.VISIBLE);
         actionsRecyclerView.setVisibility(hasAdditions ? View.VISIBLE : View.GONE);
         actionsMetaSpace.setVisibility(hasAdditions ? View.VISIBLE : View.GONE);
+
+        if (adapter != null) {
+            for (final Action action : adapter.getActions()) {
+                ViewCompat.addAccessibilityAction(contentLayout, action.getTitle(), new AccessibilityViewCommand() {
+                    @Override
+                    public boolean perform(@NonNull View view, @Nullable CommandArguments arguments) {
+                        adapter.onActionClicked(view, action);
+                        return true;
+                    }
+                });
+            }
+        }
     }
 
     public void setOnContentClickListener(@Nullable View.OnClickListener clickListener) {
