@@ -6,6 +6,12 @@ Easily setup a secure chat with the Parley Messaging Android library. The Parley
 
 *Pay attention: You need an `appSecret` to use this library. The `appSecret` can be obtained by contacting [Parley](https://www.parley.nu/).*
 
+## Screenshots
+
+Empty | Conversation
+-- | --
+![Parley](Screenshots/default-empty.jpg) | ![Parley](Screenshots/default-conversation.jpg)
+
 ## Features
 
 - Chat: Send and receive text messages by using Parley.
@@ -32,12 +38,6 @@ Easily setup a secure chat with the Parley Messaging Android library. The Parley
 **Firebase**
 
 For remote notifications Parley relies on Google Firebase. Configure Firebase (using the [installation guide](https://firebase.google.com/docs/android/setup)) if you haven't configured Firebase yet.
-
-## Screenshots
-
-Empty | Conversation
--- | --
-![Parley](Screenshots/default-empty.jpg) | ![Parley](Screenshots/default-conversation.jpg)
 
 ## Installation
 
