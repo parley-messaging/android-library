@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.8.0 - Upcoming
+
+- Fixed a layout inconsistency in compose view
+- Fixed image viewer close icon tint for lower API levels
+
 ## 3.7.1 - Released 27 Jun 2023
 
 - Added new SSL certificate of [parley.nu](https://parley.nu) for SSL pinning.
