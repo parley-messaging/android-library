@@ -21,11 +21,13 @@
             android:id="@+id/input_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:background="@null"
             android:hint="@string/parley_type_message"
             android:inputType="textCapSentences|textMultiLine"
             android:maxLength="5000"
-            android:maxLines="4" />
+            android:maxLines="4"
+            android:minHeight="40dp" />
 
         <nu.parley.android.view.compose.ComposeImageInputView
             android:id="@+id/image_input_view"
