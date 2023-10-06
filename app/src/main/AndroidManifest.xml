@@ -24,7 +24,6 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <activity
@@ -44,12 +43,6 @@
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-
         </service>
     </application>
-
-    <meta-data
-        android:name="io.fabric.ApiKey"
-        android:value="0d5cdf4f972e14302f6d1f6b1850513f87212e50" />
-
 </manifest>
