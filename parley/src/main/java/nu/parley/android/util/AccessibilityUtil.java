@@ -15,6 +15,8 @@ import nu.parley.android.view.chat.MessageViewHolderFactory;
 
 public class AccessibilityUtil {
 
+    private static final List<Character> punctuationChars = Arrays.asList('.', '?', '!');
+
     @Nullable
     public static String getContentDescription(View view, Message message) {
         return getContentDescription(view.getContext(), message);
@@ -181,11 +183,9 @@ public class AccessibilityUtil {
         }
     }
 
-    private static final List<String> endChars = Arrays.asList(".", "?", "!");
-
     private static void appendDotIfNeeded(StringBuilder builder) {
         char last = builder.charAt(builder.length() - 1);
-        if (!endChars.contains(last)) {
+        if (!punctuationChars.contains(last)) {
             builder.append(".");
         }
     }

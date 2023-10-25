@@ -568,7 +568,6 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     @SuppressLint("NotifyDataSetChanged") // TalkBack updates visuals only, which is why we need to render the chat messages again
     @Override
     public void onTalkbackChanged(boolean enabled) {
-        Log.d("ALEX", "Talkback changed: " + enabled);
         adapter.notifyDataSetChanged();
         checkSuggestionsTransparency();
     }

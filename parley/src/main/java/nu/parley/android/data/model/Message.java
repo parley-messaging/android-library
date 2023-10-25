@@ -66,7 +66,7 @@ public final class Message {
 
     @SerializedName("typeId")
     @Nullable
-    private Integer typeId; // Inside carousels, this key doesn't exist and thus is `null`
+    private Integer typeId; // Inside carousels, this key doesn't exist and therefore is `null`
 
     @SerializedName("agent")
     @Nullable
