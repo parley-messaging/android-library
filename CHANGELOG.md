@@ -10,6 +10,8 @@
   - Fully supporting rich message types.
 - Added support for font and display scaling.
 - Improved nullability around the message `typeId`.
+- Fixed a layout inconsistency in compose view.
+- Fixed image viewer close icon tint for lower API levels.
 
 ## 3.7.1 - Released 27 Jun 2023
 
