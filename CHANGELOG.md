@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.8.0 - Upcoming
+## 3.8.0 - Released 1 Nov 2023 
 
 - Added support for the Android accessibility features.
 - Added support for TalkBack.
