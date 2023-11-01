@@ -40,6 +40,9 @@ public final class SuggestionViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+
+        String contentDescription = titleTextView.getText() + ". " + getContext().getString(R.string.parley_accessibility_button) + ".";
+        titleTextView.setContentDescription(contentDescription);
     }
 
     private void applyStyle() {

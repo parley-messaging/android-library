@@ -16,6 +16,7 @@
         <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
+            android:label="@string/app_name"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.FullScreen">
@@ -27,6 +28,7 @@
         </activity>
 
         <activity
+            android:label="@string/identifier_title"
             android:name=".ui.IdentifierActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.FullScreen" />

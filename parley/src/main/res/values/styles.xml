@@ -18,7 +18,7 @@
 
     ** Advanced - View specific fonts **
     To use different fonts for specific views, the style of that specific view should be overridden.
-    Thus in turn, it should define every property as stated in this file. Thus to only change
+    In turn, it should define every property as stated in this file. Therefore to only change
     the font, copy the style definition of that view and only change the font property.
     -->
 

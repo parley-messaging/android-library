@@ -16,6 +16,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/accessibility_parley_header"
                 android:scaleType="centerCrop"
                 android:src="@drawable/activity_identifier_header" />
 
@@ -25,6 +26,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="25dp"
                 android:adjustViewBounds="true"
+                android:importantForAccessibility="no"
                 android:src="@drawable/activity_identifier_logo" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

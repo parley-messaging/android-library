@@ -14,6 +14,7 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import nu.parley.android.R;
 import nu.parley.android.data.model.Message;
+import nu.parley.android.util.AccessibilityUtil;
 import nu.parley.android.util.StyleUtil;
 
 public final class AgentTypingMessageViewHolder extends ParleyBaseViewHolder {
@@ -73,6 +74,9 @@ public final class AgentTypingMessageViewHolder extends ParleyBaseViewHolder {
 
     @Override
     public void show(Message message) {
-        // Intentionally blank: we don't need to render anything on show
+        // We don't need to render anything else
+
+        // Accessibility
+        itemView.setContentDescription(AccessibilityUtil.getContentDescription(itemView, message));
     }
 }

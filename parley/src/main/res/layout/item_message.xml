@@ -21,6 +21,7 @@
         android:id="@+id/carousel_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
         android:orientation="horizontal"
         android:overScrollMode="never"
         android:visibility="gone"

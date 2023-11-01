@@ -16,4 +16,27 @@
 
     <!-- Image Viewer -->
     <string name="image_viewer_title">Image</string>
+
+    <!-- Accessibility -->
+    <string name="parley_accessibility_close">Close</string>
+    <string name="parley_accessibility_button">Button</string>
+    <string name="parley_accessibility_photo_button">Photo. Button.</string>
+    <string name="parley_accessibility_send">Send</string>
+    <string name="parley_accessibility_message_informational">Informational message.</string>
+    <string name="parley_accessibility_message_from_you">Message from you.</string>
+    <string name="parley_accessibility_message_from_agent">Message from agent.</string>
+    <string name="parley_accessibility_message_from_agent_x">Message from %s.</string>
+    <string name="parley_accessibility_message_media_attached">Media attached.</string>
+    <string name="parley_accessibility_message_actions_attached">Actions attached.</string>
+    <string name="parley_accessibility_message_time">At</string>
+    <string name="parley_accessibility_message_loading">Older message are being retrieved.</string>
+    <string name="parley_accessibility_message_agent_typing">Agent is typing.</string>
+    <string name="parley_accessibility_message_failed">Message failed to send.</string>
+    <string name="parley_accessibility_message_pending">Message still pending.</string>
+    <string name="parley_accessibility_announcement_sent_message">Message sent.</string>
+    <string name="parley_accessibility_announcement_message_received">Message received.</string>
+    <string name="parley_accessibility_announcement_info_received">Informational message received.</string>
+    <string name="parley_accessibility_announcement_quick_replies_received">Suggestions available.</string>
+    <string name="parley_accessibility_announcement_agent_typing">Agent is typing.</string>
+
 </resources>

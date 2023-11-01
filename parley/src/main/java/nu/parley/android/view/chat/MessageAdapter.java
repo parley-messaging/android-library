@@ -12,7 +12,6 @@ import java.util.List;
 
 import nu.parley.android.Parley;
 import nu.parley.android.data.model.Message;
-import nu.parley.android.view.chat.holder.MessageViewHolder;
 import nu.parley.android.view.chat.holder.ParleyBaseViewHolder;
 
 public final class MessageAdapter extends RecyclerView.Adapter<ParleyBaseViewHolder> {
@@ -33,7 +32,11 @@ public final class MessageAdapter extends RecyclerView.Adapter<ParleyBaseViewHol
 
     @Override
     public int getItemViewType(int position) {
-        return MessageViewHolderFactory.getViewType(messages.get(position));
+        Integer type = MessageViewHolderFactory.getViewType(messages.get(position));
+        if (type == null) {
+            throw new IllegalStateException("Missing message type");
+        }
+        return type;
     }
 
     @Override
@@ -41,7 +44,7 @@ public final class MessageAdapter extends RecyclerView.Adapter<ParleyBaseViewHol
         final Message message = messages.get(position);
         holder.show(message);
 
-        if (message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_LOADER) {
+        if (message.getTypeId() != null && message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_LOADER) {
             Parley.getInstance().loadMoreMessages();
         }
     }

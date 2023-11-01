@@ -1,9 +1,17 @@
 # Changelog
 
-## 3.8.0 - Upcoming
+## 3.8.0 - Released 1 Nov 2023 
 
-- Fixed a layout inconsistency in compose view
-- Fixed image viewer close icon tint for lower API levels
+- Added support for the Android accessibility features.
+- Added support for TalkBack.
+  - Read through the chat.
+  - Interact with the chat.
+  - Announcing received messages.
+  - Fully supporting rich message types.
+- Added support for font and display scaling.
+- Improved nullability around the message `typeId`.
+- Fixed a layout inconsistency in compose view.
+- Fixed image viewer close icon tint for lower API levels.
 
 ## 3.7.1 - Released 27 Jun 2023
 
@@ -22,7 +30,7 @@
 - Added requesting notifications permission when the `ParleyView` is visible to the user while the app doesn't this permissions yet.
 - Added message when the notifications permission is missing. The user will not receive chat notifications.
 - Updated source to target API 33.
-- Updated dependencies
+- Updated dependencies.
 - *Addition (styling)*: Added attribute `parley_notification_icon_notifications` to styling `ParleyNotificationView` to configure the icon when user denied the notifications permission.
 
 ## 3.6.1 - Released 18 Oct 2022
@@ -102,7 +110,7 @@ _What's changed?_
   ```java
   parleyView.setNotificationsPosition(ParleyPosition.Vertical.BOTTOM);
   ```
-- Fixed a small animation issue with quick replies 
+- Fixed a small animation issue with quick replies.
 
 ## 3.3.0 - Released 13 Oct 2021
 
@@ -117,7 +125,7 @@ Parley now uses the latest stable API version by default, which is now V1.6. In 
 
 - Added `ApiVersion` parameter to ParleyNetwork to define the API version used. By default Parley uses the latest stable version.
 - Added support for the Parley API V1.6 with the new media handling. When using API V1.2, the old method is being used.
-- Added support for messages that only contain buttons
+- Added support for messages that only contain buttons.
 
 ## 3.2.2 - Released 22 Sep 2021
 

@@ -6,6 +6,23 @@ Easily setup a secure chat with the Parley Messaging Android library. The Parley
 
 *Pay attention: You need an `appSecret` to use this library. The `appSecret` can be obtained by contacting [Parley](https://www.parley.nu/).*
 
+## Screenshots
+
+Empty | Conversation
+-- | --
+![Parley](Screenshots/default-empty.jpg) | ![Parley](Screenshots/default-conversation.jpg)
+
+## Features
+
+- Chat: Send and receive text messages by using Parley.
+- Images and gifs: Send and receive images, including gifs, within the chat.
+- Messages with actions: Provide custom action buttons, allowing the user to choose from a set of actions.
+- Carousel messages: Sending carousel messages as an agent when using rich messaging.
+- Nested messages: Carousel messages support the same features as other messages inside the chat.
+- Answer Suggestions: Agents can provide reply suggestions for users when using rich messaging.
+- Custom styling: Fully change the styling of the chat to match your brand. All elements can be styled based on your preference.
+- Accessibility: Full support for TalkBack, font scaling, and display Scaling for a more accessible experience.
+
 ## Requirements
 
 - Java 11
@@ -21,12 +38,6 @@ Easily setup a secure chat with the Parley Messaging Android library. The Parley
 **Firebase**
 
 For remote notifications Parley relies on Google Firebase. Configure Firebase (using the [installation guide](https://firebase.google.com/docs/android/setup)) if you haven't configured Firebase yet.
-
-## Screenshots
-
-Empty | Conversation
--- | --
-![Parley](Screenshots/default-empty.jpg) | ![Parley](Screenshots/default-conversation.jpg)
 
 ## Installation
 
@@ -46,7 +57,7 @@ allprojects {
 To integrate Parley, specify the following in your `app/build.gradle` file:
 
 ```groovy
-implementation 'com.github.parley-messaging:android-library:3.7.1'
+implementation 'com.github.parley-messaging:android-library:3.8.0'
 ```
 
 ### Upgrading

@@ -14,4 +14,26 @@
 
     <!-- Image Viewer -->
     <string name="image_viewer_title">Afbeelding</string>
+
+    <!-- Accessibility -->
+    <string name="parley_accessibility_close">Sluiten</string>
+    <string name="parley_accessibility_button">Knop</string>
+    <string name="parley_accessibility_photo_button">Foto. Knop.</string>
+    <string name="parley_accessibility_send">Versturen</string>
+    <string name="parley_accessibility_message_informational">Informatief bericht.</string>
+    <string name="parley_accessibility_message_from_you">Bericht van jou.</string>
+    <string name="parley_accessibility_message_from_agent">Bericht van agent.</string>
+    <string name="parley_accessibility_message_from_agent_x">Bericht van %s.</string>
+    <string name="parley_accessibility_message_media_attached">Media bijgevoegd.</string>
+    <string name="parley_accessibility_message_actions_attached">Acties bijgevoegd.</string>
+    <string name="parley_accessibility_message_time">Om</string>
+    <string name="parley_accessibility_message_loading">Oudere berichten worden opgehaald.</string>
+    <string name="parley_accessibility_message_agent_typing">Agent is aan het typen.</string>
+    <string name="parley_accessibility_message_failed">Bericht kan niet worden verzonden.</string>
+    <string name="parley_accessibility_message_pending">Bericht wordt nog steeds verzonden.</string>
+    <string name="parley_accessibility_announcement_sent_message">Bericht verstuurd.</string>
+    <string name="parley_accessibility_announcement_agent_typing">Agent is aan het typen.</string>
+    <string name="parley_accessibility_announcement_message_received">Bericht ontvangen.</string>
+    <string name="parley_accessibility_announcement_info_received">Informatief bericht ontvangen.</string>
+    <string name="parley_accessibility_announcement_quick_replies_received">Suggesties beschikbaar.</string>
 </resources>

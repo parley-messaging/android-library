@@ -928,7 +928,7 @@ public final class Parley {
                 if (listener != null) {
                     listener.onNewMessage(message);
 
-                    if (message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_AGENT) {
+                    if (message.getTypeId() != null && message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_AGENT) {
                         listener.onAgentStopTyping();
                     }
                 }
