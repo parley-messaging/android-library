@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.9.0 - Upcoming
+
+- **IMPORTANT**: Parley now targets API 34 (Android 14).
+- **IMPORTANT**: Parley now has a minimum SDK of API 21 (Android 5).
+- Removed `WRITE_EXTERNAL_STORAGE` permission usage for API < 20.
+- Removed handling for connectivity changes for API < 20.
+
 ## 3.8.0 - Released 1 Nov 2023 
 
 - Added support for the Android accessibility features.
@@ -19,7 +26,7 @@
 
 ## 3.7.0 - Released 19 Oct 2022
 
-**IMPORTANT**: Parley now targets Android 13 and requests notifications permission when needed.
+- **IMPORTANT**: Parley now targets Android 13 and requests notifications permission when needed.
 
 ### Upgrading:
 
@@ -27,7 +34,7 @@
 
 ### Changes:
 
-- Added requesting notifications permission when the `ParleyView` is visible to the user while the app doesn't this permissions yet.
+- Added requesting notifications permission when the `ParleyView` is visible to the user while the app doesn't handle this permissions yet.
 - Added message when the notifications permission is missing. The user will not receive chat notifications.
 - Updated source to target API 33.
 - Updated dependencies.
@@ -35,8 +42,7 @@
 
 ## 3.6.1 - Released 18 Oct 2022
 
-**IMPORTANT**: Parley now targets Android 12.
-
+- **IMPORTANT**: Parley now targets Android 12.
 - Added support for targeting Android 12 and higher.
 - Notification channels are now created when showing the `ParleyView`, causing Android 12 to request notifications permission if needed.
 - Updated source to target API 32.

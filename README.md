@@ -26,14 +26,13 @@ Empty | Conversation
 ## Requirements
 
 - Java 11
-- Android 4.1+ (API 16+)
-- Android Studio 4.2+ (Android Gradle Plugin 4.2+)
+- Android 5+ (API 21+)
+- Android target API 34 (Android 14)
 - Using AndroidX artifacts
 - Permissions (automatically added by the library)
   - android.permission.INTERNET - Required for chatting
   - android.permission.ACCESS_NETWORK_STATE - Required for detecting network changes
   - android.permission.POST_NOTIFICATIONS - Required for showing notifications on API >= 33
-  - android.permission.WRITE_EXTERNAL_STORAGE **(API < 19)** - Required for supporting images in the chat. *Only applied in API 18 and lower.*
 
 **Firebase**
 
@@ -181,7 +180,7 @@ ParleyNetwork network = new ParleyNetwork(
         "https://api.parley.nu/",
         "clientApi/v1.6/",
         ApiVersion.V1_6, // Must correspond to the same version in the path 
-        R.xml.parley_network_security_config // Must be the same resource as defined in `AndroidManifest.xml`
+        nu.parley.android.R.xml.parley_network_security_config // Must be the same resource as defined in `AndroidManifest.xml`
 );
 
 Parley.setNetwork(network);

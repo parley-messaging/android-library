@@ -21,7 +21,7 @@ public class MessagesManagerUnitTest {
     public void messagesManager_stickyMessage() {
         MessagesManager messagesManager = new MessagesManager();
 
-        messagesManager.begin(MESSAGE_WELCOME_TEXT, MESSAGE_STICKY_TEXT, new ArrayList<Message>(), null);
+        messagesManager.begin(MESSAGE_WELCOME_TEXT, MESSAGE_STICKY_TEXT, new ArrayList<>(), null);
         assertEquals(MESSAGE_STICKY_TEXT, messagesManager.getStickyMessage());
     }
 
@@ -29,7 +29,7 @@ public class MessagesManagerUnitTest {
     public void messagesManager_emptyChat() {
         MessagesManager messagesManager = new MessagesManager();
 
-        messagesManager.begin(MESSAGE_WELCOME_TEXT, MESSAGE_STICKY_TEXT, new ArrayList<Message>(), null);
+        messagesManager.begin(MESSAGE_WELCOME_TEXT, MESSAGE_STICKY_TEXT, new ArrayList<>(), null);
 
         List<Message> initialMessages = messagesManager.getMessages();
         assertEquals("Only welcome message exists", 1, initialMessages.size());
@@ -40,7 +40,7 @@ public class MessagesManagerUnitTest {
     public void messagesManager_dateMessages_today() {
         MessagesManager messagesManager = new MessagesManager();
 
-        messagesManager.begin(MESSAGE_WELCOME_TEXT, MESSAGE_STICKY_TEXT, new ArrayList<Message>(), null);
+        messagesManager.begin(MESSAGE_WELCOME_TEXT, MESSAGE_STICKY_TEXT, new ArrayList<>(), null);
         Date currentDate = new Date();
         String firstMessageText = "Goodmorning";
         messagesManager.add(Message.withMessageAndDate(Message.ofTypeOwnMessage(firstMessageText), firstMessageText, currentDate)); // A message of today

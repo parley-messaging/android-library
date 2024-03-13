@@ -171,7 +171,7 @@ public final class IdentifierActivity extends BaseActivity {
                 "https://api.parley.nu/",
                 "clientApi/v1.6/",
                 ApiVersion.V1_6,
-                R.xml.parley_network_security_config,
+                nu.parley.android.R.xml.parley_network_security_config,
                 headers
         );
 
