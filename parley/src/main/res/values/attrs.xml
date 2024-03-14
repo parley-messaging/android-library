@@ -70,8 +70,8 @@
 
     <!-- Parley - Notification View -->
     <declare-styleable name="ParleyNotificationView">
-        <attr name="parley_show_connection" />
-        <attr name="parley_show_notifications" />
+        <attr name="parley_show_connection" format="boolean" />
+        <attr name="parley_show_notifications" format="boolean" />
         <attr name="parley_background" />
         <attr name="parley_background_tint_color" />
 

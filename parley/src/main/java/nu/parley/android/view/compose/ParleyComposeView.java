@@ -1,6 +1,8 @@
 package nu.parley.android.view.compose;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
@@ -31,6 +33,7 @@ import nu.parley.android.util.StyleUtil;
 public final class ParleyComposeView extends FrameLayout implements View.OnClickListener {
 
     private static final float ALPHA_STATE_DISABLED = 0.7f;
+    private static final float MAX_MEDIA_SIZE = 10_000_000; // 10 * 1024 * 1024; // 10MB, but with 0's
 
     private ViewGroup inputLayout;
     private EditText inputEditText;
@@ -217,7 +220,11 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
             Uri uri = data.getData();
 
             final File file = FileUtil.getFileFromContentUri(getContext(), uri);
-            if (file != null) {
+            if (file == null) {
+                showAlert(R.string.parley_send_failed_body_media_invalid);
+            } else if (file.length() > MAX_MEDIA_SIZE) {
+                showAlert(R.string.parley_send_failed_body_media_too_large);
+            } else {
                 post(new Runnable() {
                     @Override
                     public void run() {
@@ -226,6 +233,14 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
                 });
             }
         }
+    }
+
+    private void showAlert(@StringRes int message) {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.parley_send_failed_title)
+                .setMessage(message)
+                .setNegativeButton(R.string.parley_general_ok, null)
+                .show();
     }
 
     public void onCameraPermissionGranted() {

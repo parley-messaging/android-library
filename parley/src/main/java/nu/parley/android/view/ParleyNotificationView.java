@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.widget.ImageViewCompat;
 
 import nu.parley.android.R;
 import nu.parley.android.util.ParleyPermissionUtil;
@@ -80,8 +81,8 @@ public final class ParleyNotificationView extends FrameLayout {
             connectionIcon.setImageDrawable(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyNotificationView_parley_icon_connection));
             notificationsIcon.setImageDrawable(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyNotificationView_parley_icon_notifications));
             ColorStateList iconTint = StyleUtil.getColorStateList(ta, R.styleable.ParleyNotificationView_parley_icon_tint_color);
-            connectionIcon.setSupportImageTintList(iconTint);
-            notificationsIcon.setSupportImageTintList(iconTint);
+            ImageViewCompat.setImageTintList(connectionIcon, iconTint);
+            ImageViewCompat.setImageTintList(notificationsIcon, iconTint);
 
             Typeface font = StyleUtil.getFont(getContext(), ta, R.styleable.ParleyNotificationView_parley_font_family);
             int fontStyle = StyleUtil.getFontStyle(ta, R.styleable.ParleyNotificationView_parley_font_style);

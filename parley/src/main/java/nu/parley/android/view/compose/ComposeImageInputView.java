@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.widget.ImageViewCompat;
 
 import java.io.File;
 import java.io.IOException;
@@ -154,7 +155,7 @@ public final class ComposeImageInputView extends FrameLayout implements View.OnC
     }
 
     public void setImageTintList(ColorStateList color) {
-        cameraImageView.setSupportImageTintList(color);
+        ImageViewCompat.setImageTintList(cameraImageView, color);
     }
 
     public void setLaunchCallback(@NonNull ParleyLaunchCallback launchCallback) {

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.widget.ImageViewCompat;
 
 import nu.parley.android.R;
 import nu.parley.android.util.MarkdownUtil;
@@ -59,7 +60,7 @@ public final class ParleyStickyView extends FrameLayout {
             setPadding(styleSpacingPadding.left, styleSpacingPadding.top, styleSpacingPadding.right, styleSpacingPadding.bottom);
 
             iconImageView.setImageDrawable(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyStickyView_parley_icon));
-            iconImageView.setSupportImageTintList(StyleUtil.getColorStateList(ta, R.styleable.ParleyStickyView_parley_icon_tint_color));
+            ImageViewCompat.setImageTintList(iconImageView, StyleUtil.getColorStateList(ta, R.styleable.ParleyStickyView_parley_icon_tint_color));
 
             Typeface font = StyleUtil.getFont(getContext(), ta, R.styleable.ParleyStickyView_parley_font_family);
             int fontStyle = StyleUtil.getFontStyle(ta, R.styleable.ParleyStickyView_parley_font_style);
