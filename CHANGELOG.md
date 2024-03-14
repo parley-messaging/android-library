@@ -4,6 +4,7 @@
 
 - **IMPORTANT**: Parley now targets API 34 (Android 14).
 - **IMPORTANT**: Parley now has a minimum SDK of API 21 (Android 5).
+- **NOTE**: When using Android Gradle Plugin 8.0.0 or higher, referencing library resources changed by default. Resulting in that when using the default `parley_network_security_config` XML in the `AndroidManifest.xml`, it's now needed to copy this file from Parley into your project, see [Network Security Configuration](README.md#step-5-network-security-configuration). 
 - Removed `WRITE_EXTERNAL_STORAGE` permission usage for API < 20.
 - Removed handling for connectivity changes for API < 20.
 - Parley now uses the latest stable API version by default, which is now V1.7.

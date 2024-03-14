@@ -175,6 +175,8 @@ By default Parley enforces the use of SSL pinning. Open the `AndroidManifest.xml
     android:networkSecurityConfig="@xml/parley_network_security_config">
 ```
 
+*Note: Since Android Gradle Plugin 8.0.0, the `@xml/parley_network_security_config` will not be found. To fix this, add Parley's [parley_network_security_config.xml](parley/src/main/res/xml/parley_network_security_config.xml) to the `res/xml` folder in your project.*
+
 *More information about the Network Security Configuration can be found on [Android Developers](https://developer.android.com/training/articles/security-config).*
 
 ## Advanced
