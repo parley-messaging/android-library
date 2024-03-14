@@ -25,7 +25,7 @@ Empty | Conversation
 
 ## Requirements
 
-- Java 11
+- Java 11 (Example project uses Java 17)
 - Android 5+ (API 21+)
 - Android target API 34 (Android 14)
 - Using AndroidX artifacts
