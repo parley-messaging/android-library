@@ -69,7 +69,6 @@
     <dimen name="parley_notification_padding_bottom">4dp</dimen>
     <dimen name="parley_notification_padding_right">4dp</dimen>
     <dimen name="parley_notification_padding_left">4dp</dimen>
-    <drawable name="parley_notification_icon">@drawable/parley_ic_error_no_connection</drawable> <!-- Deprecated since 3.7.0, use `parley_icon_connection` instead. -->
     <drawable name="parley_notification_icon_connection">@drawable/parley_ic_error_no_connection</drawable>
     <drawable name="parley_notification_icon_notifications">@drawable/parley_ic_error_notifications_denied</drawable>
     <color name="parley_notification_icon_tint">#FFF</color>

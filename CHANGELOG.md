@@ -10,6 +10,7 @@
 - *DELETION (deprecation)*: Removed deprecated `ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile)`. Use the constructors that specify the API version instead.
 - *DELETION (deprecation)*: Removed deprecated `ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile, Map<String, String> headers)`. Use the constructors that specify the API version instead.
 - *DELETION (deprecation)*: Removed deprecated `Parley.setFcmToken()`. Use `Parley.setPushToken(token, type)` instead.
+- *DELETION (deprecation)*: Removed deprecated style `ParleyNotificationView.parley_icon`. Use `ParleyNotificationView.parley_icon_connection` instead.
 
 ## 3.8.0 - Released 1 Nov 2023 
 
