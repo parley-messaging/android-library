@@ -8,6 +8,8 @@
 - Removed handling for connectivity changes for API < 20.
 - Parley now uses the latest stable API version by default, which is now V1.7.
 - Parley now returns error messages coming from the API instead of simple error messages based on the message of a response.
+- When an image inside the chat contains an error, the error message will be shown in the chat.
+- When selecting or sending an image that will fail to upload, an alert will be shown with the relevant error.
 - Updated versions of dependencies.
 - *Addition (styling)*: Added attribute `parley_notification_show_connection` to styling `ParleyNotificationView` to configure whether to show the offline notification view.
 - *Addition (styling)*: Added attribute `parley_notification_show_notifications` to styling `ParleyNotificationView` to configure whether to show the notifications disabled view.

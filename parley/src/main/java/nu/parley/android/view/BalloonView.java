@@ -27,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.accessibility.AccessibilityViewCommand;
+import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -46,6 +47,7 @@ import java.util.List;
 
 import nu.parley.android.R;
 import nu.parley.android.data.model.Action;
+import nu.parley.android.data.net.response.ParleyNotificationResponseType;
 import nu.parley.android.util.MarkdownUtil;
 import nu.parley.android.util.StyleUtil;
 import nu.parley.android.view.chat.action.MessageAdditionAdapter;
@@ -59,10 +61,12 @@ public final class BalloonView extends FrameLayout {
     private View nameSpaceView;
     private ViewGroup imageLayout;
     private View nameShadowView;
+    private View infoShadowView;
     private View metaShadowView;
     private ViewGroup messageLayout;
     private TextView titleTextView;
     private TextView messageTextView;
+    private TextView infoTextView;
     private View messageMetaSpace;
     private ImageView contentImageView;
     private AppCompatImageView contentImagePlaceholderView;
@@ -106,10 +110,12 @@ public final class BalloonView extends FrameLayout {
         nameSpaceView = findViewById(R.id.name_space_view);
         imageLayout = findViewById(R.id.image_layout);
         nameShadowView = findViewById(R.id.name_shadow_view);
+        infoShadowView = findViewById(R.id.info_shadow_view);
         metaShadowView = findViewById(R.id.meta_shadow_view);
         messageLayout = findViewById(R.id.message_layout);
         titleTextView = findViewById(R.id.title_text_view);
         messageTextView = findViewById(R.id.message_text_view);
+        infoTextView = findViewById(R.id.info_text_view);
         messageMetaSpace = findViewById(R.id.message_meta_space);
         contentImageView = findViewById(R.id.image_view);
         contentImagePlaceholderView = findViewById(R.id.image_placeholder_view);
@@ -146,6 +152,28 @@ public final class BalloonView extends FrameLayout {
         messageTextView.setVisibility(text == null ? View.GONE : View.VISIBLE);
         if (text != null) {
             messageTextView.setText(MarkdownUtil.convert(getContext(), text));
+        }
+    }
+
+    public void setInfo(@Nullable String text) {
+        ParleyNotificationResponseType type = ParleyNotificationResponseType.from(text);
+        infoTextView.setVisibility(type == null ? View.GONE : View.VISIBLE);
+        if (type != null) {
+            switch (type) {
+                case MediaInvalidType:
+                case MediaMissing:
+                case MediaCouldNotSave:
+                    infoTextView.setText(R.string.parley_message_meta_failed_to_send);
+                    break;
+                case MediaTooLarge:
+                    infoTextView.setText(R.string.parley_message_meta_media_too_large);
+                    break;
+                default:
+                    infoTextView.setText(null);
+                    break;
+            }
+        } else {
+            infoTextView.setText(null);
         }
     }
 
@@ -208,7 +236,8 @@ public final class BalloonView extends FrameLayout {
         // Apply corner radius to shadow
         int bottomCornerRadius = applyBottomCornerRadius ? imageCornerRadius : 0;
         StyleUtil.Helper.applyCornerRadius((GradientDrawable) nameShadowView.getBackground().mutate(), imageCornerRadius, 0, 0, 0);
-        StyleUtil.Helper.applyCornerRadius((GradientDrawable) metaShadowView.getBackground().mutate(), bottomCornerRadius, 0, 0, 0);
+        StyleUtil.Helper.applyCornerRadius((GradientDrawable) infoShadowView.getBackground().mutate(), 0, 0, bottomCornerRadius, bottomCornerRadius);
+        StyleUtil.Helper.applyCornerRadius((GradientDrawable) metaShadowView.getBackground().mutate(), bottomCornerRadius, 0, bottomCornerRadius, 0);
 
         // Show / update them
         post(new Runnable() {
@@ -300,7 +329,7 @@ public final class BalloonView extends FrameLayout {
 
     public void refreshStyle(boolean isMetaOnImage) {
         timeTextView.setTextColor(isMetaOnImage ? imageTimeColor : messageTimeColor);
-        statusImageView.setSupportImageTintList(isMetaOnImage ? imageStatusColor : messageStatusColor);
+        ImageViewCompat.setImageTintList(statusImageView, isMetaOnImage ? imageStatusColor : messageStatusColor);
 
         metaShadowView.setVisibility(isMetaOnImage ? View.VISIBLE : View.GONE);
     }
@@ -340,10 +369,12 @@ public final class BalloonView extends FrameLayout {
     public void setTimeColor(ColorStateList messageTimeColor, ColorStateList imageTimeColor) {
         this.messageTimeColor = messageTimeColor;
         this.imageTimeColor = imageTimeColor;
+        this.infoTextView.setTextColor(imageTimeColor);
     }
 
     public void setTimeFont(Typeface font, int style) {
         timeTextView.setTypeface(font, style);
+        infoTextView.setTypeface(font, style);
     }
 
     public void setMessageStatusColor(ColorStateList color) {
@@ -374,8 +405,8 @@ public final class BalloonView extends FrameLayout {
         contentImagePlaceholderView.setImageDrawable(drawable);
     }
 
-    public void setImagePlaceholerTintColor(ColorStateList color) {
-        contentImagePlaceholderView.setSupportImageTintList(color);
+    public void setImagePlaceholderTintColor(ColorStateList color) {
+        ImageViewCompat.setImageTintList(contentImagePlaceholderView, color);
     }
 
     public void setImageLoadingTintColor(@ColorInt @Nullable Integer color) {
@@ -399,6 +430,7 @@ public final class BalloonView extends FrameLayout {
 
     public void setTimeTextSize(int complexUnit, int dimension) {
         timeTextView.setTextSize(complexUnit, dimension);
+        infoTextView.setTextSize(complexUnit, dimension);
     }
 
     @Override

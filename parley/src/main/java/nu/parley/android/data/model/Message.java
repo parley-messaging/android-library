@@ -41,6 +41,13 @@ public final class Message {
     private String message;
 
     /**
+     * Not serialized from backend, but serialized by datasource when offline messaging is enabled.
+     */
+    @SerializedName("response_info_type")
+    @Nullable
+    private String responseInfoType;
+
+    /**
      * <b>Deprecated</b>: Use `media` instead
      */
     @SerializedName("image")
@@ -198,6 +205,11 @@ public final class Message {
     }
 
     @Nullable
+    public String getResponseInfoType() {
+        return responseInfoType;
+    }
+
+    @Nullable
     public List<Action> getActions() {
         return actions;
     }
@@ -340,5 +352,9 @@ public final class Message {
             // It's another message
             return false;
         }
+    }
+
+    public void setResponseInfoType(@Nullable String responseInfoType) {
+        this.responseInfoType = responseInfoType;
     }
 }

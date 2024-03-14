@@ -12,28 +12,37 @@ public final class ParleyErrorResponse {
     private String status;
 
     @SerializedName("notifications")
-    private List<NotificationResponse> notifications;
+    private List<ParleyNotificationResponse> notifications;
 
     @SerializedName("metadata")
     private MetadataResponse metadata;
 
     @Nullable
-    public String getMessage() {
+    private ParleyNotificationResponse getNotification() {
         if (notifications.isEmpty()) {
             return null;
         }
-        NotificationResponse first = notifications.get(0);
-        return first.message;
+        return notifications.get(0);
     }
 
-    private static final class NotificationResponse {
-
-        @SerializedName("type")
-        private String type;
-
-        @SerializedName("message")
-        private String message;
+    @Nullable
+    public String getMessage() {
+        ParleyNotificationResponse notification = getNotification();
+        if (notification == null) {
+            return null;
+        }
+        return notification.getMessage();
     }
+
+    @Nullable
+    public ParleyNotificationResponseType getType() {
+        ParleyNotificationResponse notification = getNotification();
+        if (notification == null) {
+            return null;
+        }
+        return notification.getType();
+    }
+
 
     private static final class MetadataResponse {
 

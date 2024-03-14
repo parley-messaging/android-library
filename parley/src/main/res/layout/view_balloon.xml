@@ -82,6 +82,14 @@
                         android:layout_height="180dp"
                         android:background="@drawable/parley_shadow_image_corner" />
 
+                    <TextView
+                        android:id="@+id/info_shadow_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/parley_shadow_image_bottom"
+                        android:minHeight="50dp" />
+
                     <View
                         android:id="@+id/meta_shadow_view"
                         android:layout_width="150dp"
@@ -89,7 +97,6 @@
                         android:layout_gravity="bottom|end"
                         android:background="@drawable/parley_shadow_image_corner"
                         android:rotation="180" />
-
                 </FrameLayout>
 
                 <LinearLayout
@@ -133,8 +140,8 @@
                         android:id="@+id/actions_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:importantForAccessibility="no"
+                        android:orientation="vertical"
                         android:visibility="gone"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="2"
@@ -153,10 +160,26 @@
             <!-- Meta -->
             <LinearLayout
                 android:id="@+id/meta_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/info_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:importantForAccessibility="no"
+                    android:includeFontPadding="false"
+                    tools:text="@string/parley_message_meta_failed_to_send"
+                    tools:visibility="visible" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/time_text_view"

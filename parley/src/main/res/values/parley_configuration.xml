@@ -185,7 +185,7 @@
     <dimen name="parley_user_meta_padding_top">0dp</dimen>
     <dimen name="parley_user_meta_padding_bottom">@dimen/parley_user_message_content_padding_bottom</dimen>
     <dimen name="parley_user_meta_padding_right">10dp</dimen>
-    <dimen name="parley_user_meta_padding_left">0dp</dimen>
+    <dimen name="parley_user_meta_padding_left">10dp</dimen>
     <dimen name="parley_user_text_size">14sp</dimen>
     <color name="parley_user_text">#FFF</color>
     <color name="parley_user_text_tint">#147DFA</color>
@@ -221,7 +221,7 @@
     <dimen name="parley_agent_meta_padding_top">0dp</dimen>
     <dimen name="parley_agent_meta_padding_bottom">@dimen/parley_agent_message_content_padding_bottom</dimen>
     <dimen name="parley_agent_meta_padding_right">10dp</dimen>
-    <dimen name="parley_agent_meta_padding_left">0dp</dimen>
+    <dimen name="parley_agent_meta_padding_left">10dp</dimen>
     <dimen name="parley_agent_text_size">14sp</dimen>
     <color name="parley_agent_text">#000</color>
     <color name="parley_agent_text_tint">#147DFA</color>
