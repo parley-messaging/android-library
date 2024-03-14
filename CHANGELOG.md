@@ -7,6 +7,8 @@
 - Removed `WRITE_EXTERNAL_STORAGE` permission usage for API < 20.
 - Removed handling for connectivity changes for API < 20.
 - Parley now uses the latest stable API version by default, which is now V1.7.
+- Parley now returns error messages coming from the API instead of simple error messages based on the message of a response.
+- Updated versions of dependencies.
 - *Addition (styling)*: Added attribute `parley_notification_show_connection` to styling `ParleyNotificationView` to configure whether to show the offline notification view.
 - *Addition (styling)*: Added attribute `parley_notification_show_notifications` to styling `ParleyNotificationView` to configure whether to show the notifications disabled view.
 - *DELETION (deprecation)*: Removed deprecated `ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile)`. Use the constructors that specify the API version instead.

@@ -29,7 +29,7 @@ public final class DeviceRepository {
                 if (response.isSuccessful()) {
                     callback.onSuccess(null);
                 } else {
-                    callback.onFailed(response.code(), response.message());
+                    callback.onFailed(response.code(), Connectivity.getFormattedError(response));
                 }
             }
 

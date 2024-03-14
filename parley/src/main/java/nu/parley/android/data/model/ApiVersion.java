@@ -30,7 +30,7 @@ public enum ApiVersion {
      */
     @Deprecated V1_5,
     /**
-     * This is the latest supported version by the library.
+     * This is a previous version that is supported by the library.
      */
     V1_6,
     /**

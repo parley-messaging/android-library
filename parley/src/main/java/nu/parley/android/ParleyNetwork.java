@@ -28,7 +28,7 @@ public final class ParleyNetwork {
     ParleyNetwork() {
         this.url = DEFAULT_NETWORK_URL;
         this.path = DEFAULT_NETWORK_PATH;
-        this.apiVersion = ApiVersion.V1_6;
+        this.apiVersion = ApiVersion.V1_7;
         this.securityConfigResourceFile = R.xml.parley_network_security_config;
         this.headers = new HashMap<>();
     }
