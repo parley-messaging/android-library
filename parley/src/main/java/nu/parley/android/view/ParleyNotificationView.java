@@ -84,11 +84,6 @@ public final class ParleyNotificationView extends FrameLayout {
             connectionText.setTextColor(textColor);
             notificationsText.setTextColor(textColor);
 
-            // Backwards compatibility of old versions
-            if (ta.hasValue(R.styleable.ParleyNotificationView_parley_icon)) {
-                connectionIcon.setImageDrawable(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyNotificationView_parley_icon));
-            }
-
             ta.recycle();
         }
     }

@@ -1,5 +1,9 @@
 package nu.parley.android.data.model;
 
+/**
+ * For information about each api version, check out the version lifetime documentation at:
+ * https://developers.parley.nu/docs/version-lifetime
+ */
 public enum ApiVersion {
     /**
      * @deprecated A newer version is available to support the latest functionality of Parley.
@@ -28,9 +32,25 @@ public enum ApiVersion {
     /**
      * This is the latest supported version by the library.
      */
-    V1_6;
+    V1_6,
+    /**
+     * This is the latest supported version by the library.
+     */
+    V1_7;
 
     public boolean isUsingMedia() {
-        return this == V1_6;
+        switch (this) {
+            case V1_0:
+            case V1_1:
+            case V1_2:
+            case V1_3:
+            case V1_4:
+            case V1_5:
+                return false;
+            case V1_6:
+            case V1_7:
+                return true;
+        }
+        throw new IllegalStateException("Unhandled API version");
     }
 }

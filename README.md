@@ -56,7 +56,7 @@ allprojects {
 To integrate Parley, specify the following in your `app/build.gradle` file:
 
 ```groovy
-implementation 'com.github.parley-messaging:android-library:3.8.0'
+implementation 'com.github.parley-messaging:android-library:3.9.0'
 ```
 
 ### Upgrading
@@ -188,8 +188,8 @@ The network configuration can be set by setting a `ParleyNetwork` with the `Parl
 ```java
 ParleyNetwork network = new ParleyNetwork(
         "https://api.parley.nu/",
-        "clientApi/v1.6/",
-        ApiVersion.V1_6, // Must correspond to the same version in the path 
+        "clientApi/v1.7/",
+        ApiVersion.V1_7, // Must correspond to the same version in the path 
         nu.parley.android.R.xml.parley_network_security_config // Must be the same resource as defined in `AndroidManifest.xml`
 );
 
@@ -210,8 +210,8 @@ headers.put("X-Custom-Header", "Custom header value");
 
 ParleyNetwork network = new ParleyNetwork(
         "https://api.parley.nu/",
-        "clientApi/v1.6/",
-        ApiVersion.V1_6,
+        "clientApi/v1.7/",
+        ApiVersion.V1_7,
         R.xml.parley_network_security_config,
         headers
 );
