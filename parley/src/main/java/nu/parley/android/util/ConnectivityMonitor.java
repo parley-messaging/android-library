@@ -67,7 +67,6 @@ public final class ConnectivityMonitor {
         return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
-    @SuppressWarnings({"deprecation", "RedundantSuppression"})
     public void register(Context context, Listener listener) {
         this.listener = listener;
 

@@ -37,12 +37,7 @@ public final class ChatActivity extends BaseActivity {
 //        parleyView.setImagesEnabled(false); // Optional, default `true`
 //        parleyView.setNotificationsPosition(ParleyPosition.Vertical.BOTTOM); // Optional, default `TOP`
 
-        parleyView.setListener(new ParleyView.Listener() {
-            @Override
-            public void onMessageSent() {
-                Log.d("ChatActivity", "The user did sent a message");
-            }
-        });
+        parleyView.setListener(() -> Log.d("ChatActivity", "The user did sent a message"));
     }
 
     @Override

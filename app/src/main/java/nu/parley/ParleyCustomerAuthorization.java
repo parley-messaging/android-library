@@ -21,18 +21,19 @@ public final class ParleyCustomerAuthorization {
 
     private static final String APPLICATION_AUTHORIZATION_SECRET = "fe4d1ba9-1428-45ae-b8e9-6859a2782776";
 
+    /** @noinspection UnnecessaryLocalVariable*/
     public String generate(String customerId, String parleySharedSecret) throws InvalidKeyException, NoSuchAlgorithmException {
 
         // 1: CustomerAuthenticationKey
         String customerAuthenticationKey = encryptSHA512(customerId, APPLICATION_AUTHORIZATION_SECRET);
 
         // 2: VerifyHash
-        long validateUntillTimestamp = (new Date().getTime() / 1000) + 60 * 60 * 24 * 7;
-        String verifyHashData = customerId + customerAuthenticationKey + validateUntillTimestamp;
+        long validateUntilTimestamp = (new Date().getTime() / 1000) + 60 * 60 * 24 * 7;
+        String verifyHashData = customerId + customerAuthenticationKey + validateUntilTimestamp;
         String verifyHash = encryptSHA512(verifyHashData, parleySharedSecret);
 
         // 3: Authentication key
-        String authenticationKeyData = customerId + "|" + customerAuthenticationKey + "|" + validateUntillTimestamp + "|" + verifyHash;
+        String authenticationKeyData = customerId + "|" + customerAuthenticationKey + "|" + validateUntilTimestamp + "|" + verifyHash;
         String authenticationKey = encodeBase64(authenticationKeyData);
 
         return authenticationKey;
@@ -44,6 +45,7 @@ public final class ParleyCustomerAuthorization {
      * @param value The value to encryptSHA512.
      * @param key   The secret key to use for the encryption.
      * @return The result after encrypting the string.
+     * @noinspection SpellCheckingInspection
      */
     private String encryptSHA512(String value, String key) throws NoSuchAlgorithmException, InvalidKeyException {
         Mac hmacSHA512 = Mac.getInstance("HmacSHA512");

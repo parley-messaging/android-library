@@ -115,10 +115,20 @@ Parley.setPushToken("pushToken", PushType.FCM); // Default
 
 **Handle remote notifications**
 
-Open your `FirebaseMessagingService` and add `Parley.handle(context, remoteMessage, intent)` to the `onMessageReceived` method to handle remote notifications.
+Open your `FirebaseMessagingService` and:
+
+- Add `Parley.setPushToken(token)` to the `onNewToken` method to update the push token when this happens.
+- Add `Parley.handle(context, remoteMessage, intent)` to the `onMessageReceived` method to handle remote notifications.
 
 ```java
 public final class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
+    
+    @Override
+    public void onNewToken(@NonNull String token) {
+      super.onNewToken(token);
+  
+      Parley.setPushToken(token);
+    }
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
