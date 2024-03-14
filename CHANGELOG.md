@@ -6,6 +6,10 @@
 - **IMPORTANT**: Parley now has a minimum SDK of API 21 (Android 5).
 - Removed `WRITE_EXTERNAL_STORAGE` permission usage for API < 20.
 - Removed handling for connectivity changes for API < 20.
+- Parley now uses the latest stable API version by default, which is now V1.7.
+- *DELETION (deprecation)*: Removed deprecated `ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile)`. Use the constructors that specify the API version instead.
+- *DELETION (deprecation)*: Removed deprecated `ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile, Map<String, String> headers)`. Use the constructors that specify the API version instead.
+- *DELETION (deprecation)*: Removed deprecated `Parley.setFcmToken()`. Use `Parley.setPushToken(token, type)` instead.
 
 ## 3.8.0 - Released 1 Nov 2023 
 

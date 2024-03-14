@@ -13,7 +13,7 @@ import nu.parley.android.data.model.ApiVersion;
 public final class ParleyNetwork {
 
     private static final String DEFAULT_NETWORK_URL = "https://api.parley.nu/";
-    private static final String DEFAULT_NETWORK_PATH = "clientApi/v1.6/";
+    private static final String DEFAULT_NETWORK_PATH = "clientApi/v1.7/";
 
     public final String url;
     public final Map<String, String> headers;
@@ -36,37 +36,8 @@ public final class ParleyNetwork {
     /**
      * Convenience for ParleyNetwork(url, path, apiVersion, securityConfigResourceFile, headers).
      *
-     * @deprecated
-     * Use {@link #ParleyNetwork(String, String, ApiVersion, Integer)} instead
-     *
      * @see #ParleyNetwork(String, String, ApiVersion, Integer, Map)
      */
-    @Deprecated
-    @SuppressWarnings("unused")
-    public ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile) {
-        this(url, path, ApiVersion.V1_6, securityConfigResourceFile, new HashMap<String, String>());
-    }
-
-    /**
-     * Convenience for ParleyNetwork(url, path, apiVersion, securityConfigResourceFile, headers).
-     *
-     * @deprecated
-     * Use {@link #ParleyNetwork(String, String, ApiVersion, Integer, Map)} instead
-     *
-     * @see #ParleyNetwork(String, String, ApiVersion, Integer, Map)
-     */
-    @Deprecated
-    @SuppressWarnings("unused")
-    public ParleyNetwork(String url, String path, @XmlRes Integer securityConfigResourceFile, Map<String, String> headers) {
-        this(url, path, ApiVersion.V1_6, securityConfigResourceFile, new HashMap<String, String>());
-    }
-
-    /**
-     * Convenience for ParleyNetwork(url, path, apiVersion, securityConfigResourceFile, headers).
-     *
-     * @see #ParleyNetwork(String, String, ApiVersion, Integer, Map)
-     */
-    @Deprecated
     @SuppressWarnings("unused")
     public ParleyNetwork(String url, String path, ApiVersion apiVersion, @XmlRes Integer securityConfigResourceFile) {
         this(url, path, apiVersion, securityConfigResourceFile, new HashMap<String, String>());

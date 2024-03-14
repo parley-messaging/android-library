@@ -242,23 +242,6 @@ public final class Parley {
     }
 
     /**
-     * Set the users Firebase Cloud Messaging token.
-     *
-     * <p>
-     * <b>Note:</b> Method must be called before {@link #configure(Context, String)}.
-     * </p>
-     *
-     * @param fcmToken Firebase Cloud Messaging token
-     * @param callback {@link ParleyCallback} indicating the result of the update (only called when Parley is configuring/configured).
-     * @deprecated As of Parley 3.2.0, use {@link #setPushToken(String, PushType, ParleyCallback)} instead
-     */
-    @SuppressWarnings("WeakerAccess")
-    @Deprecated
-    public static void setFcmToken(@Nullable String fcmToken, ParleyCallback callback) {
-        setPushToken(fcmToken, PushType.FCM, callback);
-    }
-
-    /**
      * Convenience for setPushToken(pushToken, PushType.FCM, {@link EmptyParleyCallback})
      *
      * @see #setPushToken(String, PushType)
@@ -330,16 +313,6 @@ public final class Parley {
     @Nullable
     public String getPushToken() {
         return this.pushToken;
-    }
-
-    /**
-     * Convenience for setFcmToken(fcmToken, {@link EmptyParleyCallback})
-     *
-     * @see #setFcmToken(String, ParleyCallback)
-     * @deprecated As of Parley 3.2.0, use {@link #setPushToken(String)} instead
-     */
-    public static void setFcmToken(String fcmToken) {
-        setFcmToken(fcmToken, new EmptyParleyCallback());
     }
 
     public PushType getPushType() {
