@@ -55,7 +55,6 @@
         </attr>
     </declare-styleable>
 
-
     <!-- Parley - View -->
     <declare-styleable name="ParleyView">
         <attr name="parley_background_color" format="color" />
@@ -71,6 +70,8 @@
 
     <!-- Parley - Notification View -->
     <declare-styleable name="ParleyNotificationView">
+        <attr name="parley_show_connection" />
+        <attr name="parley_show_notifications" />
         <attr name="parley_background" />
         <attr name="parley_background_tint_color" />
 
@@ -387,5 +388,4 @@
         <flag name="bold" value="1" />
         <flag name="italic" value="2" />
     </attr>
-
 </resources>

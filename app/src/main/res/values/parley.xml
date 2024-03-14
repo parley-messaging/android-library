@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--<bool name="parley_notification_show_connection">false</bool>-->
+    <!--<bool name="parley_notification_show_notifications">false</bool>-->
     <!--<drawable name="parley_user_background">@drawable/ic_chat_balloon_user</drawable>-->
     <!--<drawable name="parley_agent_background">@drawable/ic_chat_balloon_agent</drawable>-->
 </resources>

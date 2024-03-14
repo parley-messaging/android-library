@@ -31,6 +31,8 @@
     </style>
 
     <style name="ParleyNotificationViewStyle" parent="ParleyStyle">
+        <item name="parley_show_connection">@bool/parley_notification_show_connection</item>
+        <item name="parley_show_notifications">@bool/parley_notification_show_notifications</item>
         <item name="parley_background">@drawable/parley_notification_background</item>
         <item name="parley_background_tint_color">@color/parley_notification_background_tint</item>
 

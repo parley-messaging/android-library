@@ -28,6 +28,11 @@ public final class ParleyNotificationView extends FrameLayout {
     private AppCompatImageView notificationsIcon;
     private TextView notificationsText;
 
+    private boolean connectionActive = true; // Whether Parley determines this view to show.
+    private boolean notificationsActive = true; // Whether Parley determines this view to show.
+    private boolean connectionShow = true; // Whether Styling wants to show this view.
+    private boolean notificationsShow = true; // Whether Styling wants to show this view.
+
     public ParleyNotificationView(Context context) {
         super(context);
         init(context, null);
@@ -60,6 +65,11 @@ public final class ParleyNotificationView extends FrameLayout {
         if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(R.style.ParleyNotificationViewStyle, R.styleable.ParleyNotificationView);
 
+            connectionShow = StyleUtil.getBoolean(ta, R.styleable.ParleyNotificationView_parley_show_connection, connectionShow);
+            notificationsShow = StyleUtil.getBoolean(ta, R.styleable.ParleyNotificationView_parley_show_notifications, notificationsShow);
+            renderVisibilityConnection();
+            renderVisibilityNotifications();
+
             setBackground(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyNotificationView_parley_background));
             StyleUtil.Helper.applyBackgroundColor(this, ta, R.styleable.ParleyNotificationView_parley_background_tint_color);
 
@@ -89,11 +99,21 @@ public final class ParleyNotificationView extends FrameLayout {
     }
 
     public void setOnline(boolean online) {
-        connectionLayout.setVisibility(online ? View.GONE : View.VISIBLE);
+        connectionActive = !online;
+        renderVisibilityConnection();
     }
 
     private void setNotifications(boolean enabled) {
-        notificationsLayout.setVisibility(enabled ? View.GONE : View.VISIBLE);
+        notificationsActive = !enabled;
+        renderVisibilityNotifications();
+    }
+
+    private void renderVisibilityConnection() {
+        connectionLayout.setVisibility(connectionActive && connectionShow ? View.VISIBLE : View.GONE);
+    }
+
+    private void renderVisibilityNotifications() {
+        notificationsLayout.setVisibility(notificationsActive && notificationsShow ? View.VISIBLE : View.GONE);
     }
 
     public void checkNotifications() {
