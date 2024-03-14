@@ -1,14 +1,23 @@
 apply plugin: 'com.android.library'
 
+ext {
+    libraryPackageIdentifier = 'nu.parley.android'
+    libraryVersion = '3.9.0'
+}
+
+// JitPack
+group = libraryPackageIdentifier
+version = libraryVersion
+
 android {
-    namespace "nu.parley.android"
+    namespace libraryPackageIdentifier
     compileSdk 34
 
     defaultConfig {
         minSdkVersion 21
         targetSdk 34
         versionCode 1
-        versionName '3.9.0'
+        versionName libraryVersion
 
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
