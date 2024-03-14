@@ -3,6 +3,8 @@ package nu.parley.android.data.net;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.datatheorem.android.trustkit.TrustKit;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -14,6 +16,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
 import nu.parley.android.Parley;
+import nu.parley.android.data.net.response.ParleyErrorResponse;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -147,5 +150,22 @@ public final class Connectivity {
         }
 
         return new GlideUrl(url, lazyHeadersBuilder.build());
+    }
+
+    public static <T> String getFormattedError(retrofit2.Response<T> response) {
+        try {
+            if (response.errorBody() == null) {
+                return response.message();
+            }
+            ParleyErrorResponse error = new Gson().fromJson(response.errorBody().string(), ParleyErrorResponse.class);
+            String message = error.getMessage();
+            if (message == null) {
+                return response.message();
+            } else {
+                return message;
+            }
+        } catch (JsonSyntaxException | IOException e) {
+            return response.message();
+        }
     }
 }

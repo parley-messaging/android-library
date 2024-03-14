@@ -34,7 +34,7 @@ public final class MessageRepository {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.body());
                 } else {
-                    callback.onFailed(response.code(), response.message());
+                    callback.onFailed(response.code(), Connectivity.getFormattedError(response));
                 }
             }
 
@@ -55,7 +55,7 @@ public final class MessageRepository {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.body());
                 } else {
-                    callback.onFailed(response.code(), response.message());
+                    callback.onFailed(response.code(), Connectivity.getFormattedError(response));
                 }
             }
 
@@ -93,7 +93,7 @@ public final class MessageRepository {
                     Message updatedMessage = Message.withIdAndStatus(message, response.body().getData().getMessageId(), SEND_STATUS_SUCCESS);
                     callback.onSuccess(updatedMessage);
                 } else {
-                    callback.onFailed(response.code(), response.message());
+                    callback.onFailed(response.code(), Connectivity.getFormattedError(response));
                 }
             }
 
@@ -125,7 +125,7 @@ public final class MessageRepository {
                     Message updatedMessage = Message.withMedia(message, response.body().getData().media);
                     callback.onSuccess(updatedMessage);
                 } else {
-                    callback.onFailed(response.code(), response.message());
+                    callback.onFailed(response.code(), Connectivity.getFormattedError(response));
                 }
             }
 
@@ -146,7 +146,7 @@ public final class MessageRepository {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.body().getData());
                 } else {
-                    callback.onFailed(response.code(), response.message());
+                    callback.onFailed(response.code(), Connectivity.getFormattedError(response));
                 }
             }
 
