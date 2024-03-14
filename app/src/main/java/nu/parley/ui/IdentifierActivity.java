@@ -40,7 +40,7 @@ public final class IdentifierActivity extends BaseActivity {
     private Button startChatButton;
     private ProgressBar startChatLoader;
 
-    private TextView.OnEditorActionListener submitActionListener = new TextView.OnEditorActionListener() {
+    private final TextView.OnEditorActionListener submitActionListener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -75,12 +75,7 @@ public final class IdentifierActivity extends BaseActivity {
         customerIdEditText.setText(preferenceRepository.getCustomerId(this));
         customerIdEditText.setOnEditorActionListener(submitActionListener);
 
-        startChatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openChatActivity();
-            }
-        });
+        startChatButton.setOnClickListener(v -> openChatActivity());
     }
 
     private void openChatActivity() {
@@ -152,12 +147,9 @@ public final class IdentifierActivity extends BaseActivity {
     }
 
     private void setFirebaseToken() {
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if (task.isSuccessful() && task.getResult() != null) {
-                    Parley.setPushToken(task.getResult());
-                }
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                Parley.setPushToken(task.getResult());
             }
         });
     }
@@ -171,7 +163,7 @@ public final class IdentifierActivity extends BaseActivity {
                 "https://api.parley.nu/",
                 "clientApi/v1.6/",
                 ApiVersion.V1_6,
-                R.xml.parley_network_security_config,
+                nu.parley.android.R.xml.parley_network_security_config,
                 headers
         );
 

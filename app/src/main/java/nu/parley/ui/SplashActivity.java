@@ -18,13 +18,10 @@ public final class SplashActivity extends BaseActivity {
     }
 
     private void openIdentifierActivity() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(SplashActivity.this, IdentifierActivity.class);
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(SplashActivity.this, IdentifierActivity.class);
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         }, BuildConfig.DEBUG ? 1000 : 2500);
     }
 }
