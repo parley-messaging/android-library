@@ -6,12 +6,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import androidx.core.view.accessibility.AccessibilityViewCommand;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Date;
@@ -68,7 +64,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
 
         balloonView.setImageCornerRadius(StyleUtil.getDimension(ta, R.styleable.ParleyMessageBase_parley_image_corner_radius));
         balloonView.setImagePlaceholder(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyMessageBase_parley_image_placeholder));
-        balloonView.setImagePlaceholerTintColor(StyleUtil.getColorStateList(ta, R.styleable.ParleyMessageBase_parley_image_placeholder_tint_color));
+        balloonView.setImagePlaceholderTintColor(StyleUtil.getColorStateList(ta, R.styleable.ParleyMessageBase_parley_image_placeholder_tint_color));
         balloonView.setImageLoadingTintColor(StyleUtil.getColor(ta, R.styleable.ParleyMessageBase_parley_image_loader_tint_color));
 
         balloonView.setTextFont(StyleUtil.getFont(getContext(), ta, R.styleable.ParleyMessageBase_parley_font_family), StyleUtil.getFontStyle(ta, R.styleable.ParleyMessageBase_parley_font_style));
@@ -113,6 +109,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         balloonView.setText(message.getMessage());
 
         // Meta
+        balloonView.setInfo(message.getResponseInfoType());
         balloonView.setTime(messageTime);
         balloonView.setStatus(message.getSendStatus());
         balloonView.setStatusVisible(shouldShowStatus());

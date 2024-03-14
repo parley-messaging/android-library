@@ -25,6 +25,7 @@ import nu.parley.android.data.messages.ParleyDataSource;
 import nu.parley.android.data.model.Message;
 import nu.parley.android.data.model.PushType;
 import nu.parley.android.data.net.RepositoryCallback;
+import nu.parley.android.data.net.response.ParleyNotificationResponseType;
 import nu.parley.android.data.net.response.ParleyResponse;
 import nu.parley.android.data.repository.DeviceRepository;
 import nu.parley.android.data.repository.EventRepository;
@@ -780,6 +781,10 @@ public final class Parley {
                         // It is cached, this will be handled later
                     } else {
                         Message updatedMessage = Message.withIdAndStatus(message, message.getId(), SEND_STATUS_FAILED);
+                        ParleyNotificationResponseType type = ParleyNotificationResponseType.from(errorMessage);
+                        if (type != null) {
+                            updatedMessage.setResponseInfoType(errorMessage);
+                        }
                         listener.onUpdateMessage(updatedMessage);
                     }
 

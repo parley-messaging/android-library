@@ -12,6 +12,14 @@
     <string name="parley_error_action_open">Deze link kon helaas niet geopend worden.</string>
     <string name="parley_error_permission_missing_camera">Camerarechten zijn geweigerd, verleen toegang tot de camera in de app-rechten.</string>
 
+    <string name="parley_message_meta_failed_to_send">Versturen is mislukt</string>
+    <string name="parley_message_meta_media_too_large">Foto is te groot</string>
+
+    <string name="parley_send_failed_title">Mislukt</string>
+    <string name="parley_send_failed_body_selecting_image">De foto kan niet worden verzonden.</string>
+    <string name="parley_send_failed_body_media_invalid">De foto kan niet worden verwerkt.</string>
+    <string name="parley_send_failed_body_media_too_large">De foto is te groot om te versturen.</string>
+
     <!-- Image Viewer -->
     <string name="image_viewer_title">Afbeelding</string>
 
