@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.9.0 - Upcoming
+## 3.9.0 - 15 Mar 2024
 
 - **IMPORTANT**: Parley now targets API 34 (Android 14).
 - **IMPORTANT**: Parley now has a minimum SDK of API 21 (Android 5).
