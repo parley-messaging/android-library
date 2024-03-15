@@ -6,7 +6,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        minSdkVersion 21
+        minSdk 21
         targetSdk 34
         versionCode 1
         versionName '3.9.0'
@@ -14,19 +14,24 @@ android {
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-}
-
-// JitPack
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'com.github.parley-messaging'
-            artifactId = 'android-library'
-            version = android.defaultConfig.versionName
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
         }
     }
-    repositories {
-        mavenLocal()
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'com.github.parley-messaging'
+                artifactId = 'android-library'
+                version = android.defaultConfig.versionName
+            }
+        }
     }
 }
 
