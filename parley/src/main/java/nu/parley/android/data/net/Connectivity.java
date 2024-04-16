@@ -69,6 +69,8 @@ public final class Connectivity {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS);
 
+        okHttpClientBuilder = addInterceptor(okHttpClientBuilder);
+
         applySslPinning(okHttpClientBuilder);
 
         return okHttpClientBuilder.build();
@@ -115,6 +117,19 @@ public final class Connectivity {
 
             requestBuilder.addHeader(name, value);
         }
+    }
+
+    /**
+     * Adds an interceptor to the OkHttpClient.Builder.
+     *
+     * @param builder the OkHttpClient.Builder to add the interceptor to.
+     * @return the OkHttpClient.Builder with the added interceptor.
+     */
+    private static OkHttpClient.Builder addInterceptor(OkHttpClient.Builder builder) {
+        if (Parley.getInstance().getNetwork().interceptor != null) {
+            return builder.addInterceptor(Parley.getInstance().getNetwork().interceptor);
+        }
+        return builder;
     }
 
     /**
