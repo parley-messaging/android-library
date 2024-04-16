@@ -56,7 +56,7 @@ allprojects {
 To integrate Parley, specify the following in your `app/build.gradle` file:
 
 ```groovy
-implementation 'com.github.parley-messaging:android-library:3.9.0'
+implementation 'com.github.parley-messaging:android-library:3.9.1'
 ```
 
 ### Upgrading
@@ -217,6 +217,14 @@ ParleyNetwork network = new ParleyNetwork(
 );
 
 Parley.setNetwork(network);
+```
+
+**Custom interceptor**
+
+If needed to apply a custom interceptor, for example when the headers could be dynamic. This can be done by creating an `okhttp3.Interceptor` and attaching that to the ParleyNetwork:
+
+```java
+network.setInterceptor(interceptor);
 ```
 
 **Custom SSL pinning**

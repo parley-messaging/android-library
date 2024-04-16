@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.9.1 - 16 Apr 2024
+
+- Added `setInterceptor(interceptor)` to ParleyNetwork to be able to apply a custom interceptor.
+
 ## 3.9.0 - 15 Mar 2024
 
 - **IMPORTANT**: Parley now targets API 34 (Android 14).
