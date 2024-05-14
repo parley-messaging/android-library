@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.9.2 - 14 May 2024
+
+- Added `Parley.setRequestNotificationPermission(enabled)` to control whether Parley should request notification permissions and handle the channels. 
+  - By default this is `true`, where Parley will handle the permission request and create the notification channels when needed. 
+  - **NOTE**: When disabling this, it's required to handle requesting the notification permission in another way, as well as creating the notification channels that are required for Parley to work properly.
+
 ## 3.9.1 - 16 Apr 2024
 
 - Added `setInterceptor(interceptor)` to ParleyNetwork to be able to apply a custom interceptor.

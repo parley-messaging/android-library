@@ -236,7 +236,7 @@ public final class Parley {
     /**
      * Disable offline messaging.
      * <p>
-     * <b>Note:</b>* The `clear()` method will be called on the current instance to prevent unused data on the device.
+     * <b>Note:</b> The `clear()` method will be called on the current instance to prevent unused data on the device.
      * </p>
      */
     @SuppressWarnings("unused")
@@ -244,8 +244,16 @@ public final class Parley {
         getInstance().messagesManager.disableCaching();
     }
 
-    public static void setRequestNotificationPermission(Boolean permission) {
-        getInstance().requestNotificationPermission = permission;
+    /**
+     * Set whether Parley should request notification permission and create the channels needed for Parley to work properly.
+     * By default this is `true`, where Parley will handle the permission request and create the notification channels when needed.
+     * <p>
+     * <b>Note:</b> When disabling this, it's required to handle requesting the notification permission in another way, as well as creating the notification channels that are required for Parley to work properly.
+     * </p>
+     */
+    @SuppressWarnings("unused")
+    public static void setRequestNotificationPermission(Boolean enabled) {
+        getInstance().requestNotificationPermission = enabled;
     }
 
     public static Boolean getRequestNotificationPermission() {
