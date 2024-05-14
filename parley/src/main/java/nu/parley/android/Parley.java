@@ -73,6 +73,8 @@ public final class Parley {
     private boolean loadingMore = false;
     private boolean refreshingMessages = false;
 
+    private boolean requestNotificationPermission = true;
+
     private Parley() {
         // Hide default constructor
     }
@@ -240,6 +242,14 @@ public final class Parley {
     @SuppressWarnings("unused")
     public static void disableOfflineMessaging() {
         getInstance().messagesManager.disableCaching();
+    }
+
+    public static void setRequestNotificationPermission(Boolean permission) {
+        getInstance().requestNotificationPermission = permission;
+    }
+
+    public static Boolean getRequestNotificationPermission() {
+        return getInstance().requestNotificationPermission;
     }
 
     /**

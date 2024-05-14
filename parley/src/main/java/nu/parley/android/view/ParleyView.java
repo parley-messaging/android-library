@@ -295,7 +295,9 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
             Parley.getInstance().setListener(this);
             connectivityMonitor.register(getContext(), this);
             accessibilityMonitor.register(getContext(), this);
-            requestPermissionsIfNeeded();
+            if (Parley.getRequestNotificationPermission()) {
+                requestPermissionsIfNeeded();
+            }
         } else {
             Parley.getInstance().clearListener();
             connectivityMonitor.unregister(getContext());
