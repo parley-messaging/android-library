@@ -19,7 +19,7 @@ public final class ParleyErrorResponse {
 
     @Nullable
     private ParleyNotificationResponse getNotification() {
-        if (notifications.isEmpty()) {
+        if (notifications == null || notifications.isEmpty()) {
             return null;
         }
         return notifications.get(0);
