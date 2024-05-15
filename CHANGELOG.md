@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.9.3 - 15 May 2024
+
+- Fixed an exception when the error response does not align with the expected response of Parley when using a proxy. Since this is unexpected behavior from the proxy, this change will be reverted in a later version.
+
 ## 3.9.2 - 14 May 2024
 
 - Added `Parley.setRequestNotificationPermission(enabled)` to control whether Parley should request notification permissions and handle the channels. 

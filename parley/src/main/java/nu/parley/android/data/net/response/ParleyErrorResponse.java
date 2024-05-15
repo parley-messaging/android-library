@@ -19,6 +19,7 @@ public final class ParleyErrorResponse {
 
     @Nullable
     private ParleyNotificationResponse getNotification() {
+        // NOTE: Remove notifications being nullable -- https://github.com/parley-messaging/android-library/pull/40
         if (notifications == null || notifications.isEmpty()) {
             return null;
         }
