@@ -158,6 +158,7 @@ public final class BalloonView extends FrameLayout {
     public void setInfo(@Nullable String text) {
         ParleyNotificationResponseType type = ParleyNotificationResponseType.from(text);
         infoTextView.setVisibility(type == null ? View.GONE : View.VISIBLE);
+        infoShadowView.setVisibility(type == null ? View.GONE : View.VISIBLE);
         if (type != null) {
             switch (type) {
                 case MediaInvalidType:
@@ -237,7 +238,7 @@ public final class BalloonView extends FrameLayout {
         int bottomCornerRadius = applyBottomCornerRadius ? imageCornerRadius : 0;
         StyleUtil.Helper.applyCornerRadius((GradientDrawable) nameShadowView.getBackground().mutate(), imageCornerRadius, 0, 0, 0);
         StyleUtil.Helper.applyCornerRadius((GradientDrawable) infoShadowView.getBackground().mutate(), 0, 0, bottomCornerRadius, bottomCornerRadius);
-        StyleUtil.Helper.applyCornerRadius((GradientDrawable) metaShadowView.getBackground().mutate(), bottomCornerRadius, 0, bottomCornerRadius, 0);
+        StyleUtil.Helper.applyCornerRadius((GradientDrawable) metaShadowView.getBackground().mutate(), 0, 0, bottomCornerRadius, 0);
 
         // Show / update them
         post(new Runnable() {
