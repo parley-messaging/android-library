@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.9.4 - 28 May 2024
+
+- Fixed an issue where the agent name could have an unintended shadow applied (introduced in 3.9.0).
+- Updated comments concerning public keys for SSL pinning.
+
 ## 3.9.3 - 15 May 2024
 
 - Fixed an exception when the error response does not align with the expected response of Parley when using a proxy. Since this is unexpected behavior from the proxy, this change will be reverted in a later version.
