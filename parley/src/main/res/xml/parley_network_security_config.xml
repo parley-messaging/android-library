@@ -7,7 +7,7 @@
 
         <pin-set>
             <pin digest="SHA-256">V5O+jBKXrJl+8lAfQJCEp5a/zck+eiDn78TgTNDs3QY=</pin> <!-- Expires at: 29 Jul 2023 -->
-            <pin digest="SHA-256">1sZDlYipkuCiocCIY+1NHeP/GzCYj5nsxFaHYKQtFJg=</pin> <!-- Expires at: 27 Jun 2024 -->
+            <pin digest="SHA-256">1sZDlYipkuCiocCIY+1NHeP/GzCYj5nsxFaHYKQtFJg=</pin> <!-- Same public key for cert that expires at: 27 Jun 2024 and 28 Jun 2025 -->
         </pin-set>
         <trustkit-config enforcePinning="true"/>
 
