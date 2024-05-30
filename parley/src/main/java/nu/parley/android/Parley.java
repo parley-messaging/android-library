@@ -163,6 +163,20 @@ public final class Parley {
         getInstance().resetI(callback);
     }
 
+
+    /**
+     * Resets all local user identifiers. Ensures that no user and chat data is left in memory.
+     * <p>
+     * Leaves the network, offline messaging and referrer settings as is, these can be altered via the corresponding methods.
+     * </p>
+     *
+     * <b>Note</b>: Requires calling the `configure()` method again to use Parley.
+     */
+    @SuppressWarnings("unused")
+    public static void purgeLocalMemory() {
+        getInstance().purgeLocalMemoryI();
+    }
+
     /**
      * Convenience for setUserInformation(authorization, null).
      *
@@ -636,6 +650,16 @@ public final class Parley {
 
         retrievedFirstMessages = false;
         messagesManager.clear(true);
+
+        setState(State.UNCONFIGURED);
+    }
+
+    private void purgeLocalMemoryI() {
+        this.userAuthorization = null;
+        this.userAdditionalInformation = new HashMap<>();
+        this.secret = null;
+        this.retrievedFirstMessages = false;
+        this.messagesManager.clear(true);
 
         setState(State.UNCONFIGURED);
     }
