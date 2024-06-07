@@ -123,8 +123,9 @@ public final class MessagesManager {
      * Adds only the new messages that we did not have in the dataset yet.
      *
      * @param messages A list of messages which may have messages that we have shown earlier
+     * @return True if it did add messages, false if the messages where the same
      */
-    public void addOnlyNew(List<Message> messages) {
+    public boolean addOnlyNew(List<Message> messages) {
         boolean didAddMessage = false;
         Collections.reverse(messages);
 
@@ -155,6 +156,7 @@ public final class MessagesManager {
         if (didAddMessage) {
             formatMessages();
         }
+        return didAddMessage;
     }
 
     public void update(Message message) {

@@ -500,10 +500,10 @@ public final class Parley {
                         messagesManager.applyWelcomeMessage(data.getWelcomeMessage());
 
                         // Detect new messages, and add them
-                        messagesManager.addOnlyNew(data.getData());
+                        boolean didAddNew = messagesManager.addOnlyNew(data.getData());
 
                         // Trigger update to listener
-                        if (listener != null) {
+                        if (listener != null && didAddNew) {
                             listener.onReceivedLatestMessages();
                         }
 
