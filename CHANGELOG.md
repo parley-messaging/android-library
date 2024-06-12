@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.9.5 - 12 Jun 2024
+
+- Added `Parley.purgeLocalMemory()` method to clear local memory of Parley. Requires calling `configure()` again.
+- Fixed the chat scrolling to bottom automatically when no new messages where added (only happened with a custom polling implementation).
+
 ## 3.9.4 - 28 May 2024
 
 - Fixed an issue where the agent name could have an unintended shadow applied (introduced in 3.9.0).
