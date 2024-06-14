@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.9.6 - 14 Jun 2024
+
+- Fixed a crash that could happen when the ParleyView is not visible/attached.
+
 ## 3.9.5 - 12 Jun 2024
 
 - Added `Parley.purgeLocalMemory()` method to clear local memory of Parley. Requires calling `configure()` again.

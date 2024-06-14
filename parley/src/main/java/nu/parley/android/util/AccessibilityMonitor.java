@@ -19,7 +19,9 @@ public final class AccessibilityMonitor {
     }
 
     public void unregister(Context context) {
-        AccessibilityManagerCompat.removeTouchExplorationStateChangeListener(getAccessibilityManager(context), callback);
+        if (callback != null) {
+            AccessibilityManagerCompat.removeTouchExplorationStateChangeListener(getAccessibilityManager(context), callback);
+        }
         this.listener = null;
         this.callback = null;
     }
