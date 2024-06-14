@@ -471,6 +471,10 @@ public final class Parley {
     }
 
     public void triggerRefreshOnConnected() {
+        triggerRefreshOnConnected(true);
+    }
+
+    public void triggerRefreshOnConnected(boolean resendPendingMessages) {
         if (this.state == State.UNCONFIGURED || this.state == State.CONFIGURING) {
             // Ignore, we cannot refresh data if we are not configured yet or if we are already configuring
             return;
@@ -507,7 +511,9 @@ public final class Parley {
                             listener.onReceivedLatestMessages();
                         }
 
-                        resendPendingMessages(messagesManager.getPendingMessages(true));
+                        if (resendPendingMessages) {
+                            resendPendingMessages(messagesManager.getPendingMessages(true));
+                        }
 
                         if (state != State.CONFIGURED) {
                             setState(State.CONFIGURED);
