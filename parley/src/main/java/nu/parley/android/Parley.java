@@ -474,6 +474,10 @@ public final class Parley {
         triggerRefreshOnConnected(true);
     }
 
+    /**
+     * @discussion https://github.com/parley-messaging/android-library/pull/55
+     * @param resendPendingMessages whether pending messages should be attempt to send.
+     */
     public void triggerRefreshOnConnected(boolean resendPendingMessages) {
         if (this.state == State.UNCONFIGURED || this.state == State.CONFIGURING) {
             // Ignore, we cannot refresh data if we are not configured yet or if we are already configuring
