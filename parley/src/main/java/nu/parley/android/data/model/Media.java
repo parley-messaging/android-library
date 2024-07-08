@@ -15,6 +15,9 @@ public final class Media {
     @SerializedName("description")
     private String description;
 
+    @SerializedName("mimeType")
+    private String mimeType;
+
     public Media(String id) {
         this.id = id;
     }
@@ -25,6 +28,10 @@ public final class Media {
 
     public String getDescription() {
         return description;
+    }
+
+    public MimeType getMimeType() {
+        return MimeType.from(mimeType);
     }
 
     /**

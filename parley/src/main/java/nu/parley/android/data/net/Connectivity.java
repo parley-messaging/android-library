@@ -9,6 +9,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -58,8 +59,12 @@ public final class Connectivity {
                         Request.Builder requestBuilder = original.newBuilder()
                                 .method(original.method(), original.body());
 
-                        addAdditionalHttpHeaders(requestBuilder);
-                        addParleyHttpHeaders(requestBuilder);
+                        for (Map.Entry<String, String> entry : getAdditionalHeaders().entrySet()) {
+                            requestBuilder.addHeader(entry.getKey(), entry.getValue());
+                        }
+                        for (Map.Entry<String, String> entry : getParleyHeaders().entrySet()) {
+                            requestBuilder.addHeader(entry.getKey(), entry.getValue());
+                        }
 
                         Request request = requestBuilder.build();
                         return chain.proceed(request);
@@ -91,32 +96,17 @@ public final class Connectivity {
         }
     }
 
-    /**
-     * Adds the additional http headers that were provided to the Parley instance to the request builder.
-     *
-     * @param requestBuilder The request builder on which the headers should be added.
-     */
-    private static void addAdditionalHttpHeaders(Request.Builder requestBuilder) {
-        for (Map.Entry<String, String> entry : Parley.getInstance().getNetwork().headers.entrySet()) {
-            String name = entry.getKey();
-            String value = entry.getValue();
-
-            requestBuilder.addHeader(name, value);
-        }
+    public static Map<String, String> getAdditionalHeaders() {
+        return Parley.getInstance().getNetwork().headers;
     }
 
-    /**
-     * Adds the additional http headers that were provided to the Parley instance to the request builder.
-     *
-     * @param requestBuilder The request builder on which the headers should be added.
-     */
-    private static void addAdditionalHttpHeaders(LazyHeaders.Builder requestBuilder) {
-        for (Map.Entry<String, String> entry : Parley.getInstance().getNetwork().headers.entrySet()) {
-            String name = entry.getKey();
-            String value = entry.getValue();
-
-            requestBuilder.addHeader(name, value);
+    public static Map<String, String> getParleyHeaders() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put(HEADER_PARLEY_IDENTIFICATION, Parley.getInstance().getSecret() + ":" + Parley.getInstance().getUniqueDeviceIdentifier());
+        if (Parley.getInstance().getUserAuthorization() != null) {
+            headers.put(HEADER_PARLEY_AUTHORIZATION, Parley.getInstance().getUserAuthorization());
         }
+        return headers;
     }
 
     /**
@@ -132,19 +122,6 @@ public final class Connectivity {
         return builder;
     }
 
-    /**
-     * Adds the http headers that are specific to Parley to the request builder.
-     *
-     * @param requestBuilder The request builder on which the headers should be added.
-     */
-    private static void addParleyHttpHeaders(Request.Builder requestBuilder) {
-        requestBuilder.addHeader(HEADER_PARLEY_IDENTIFICATION, Parley.getInstance().getSecret() + ":" + Parley.getInstance().getUniqueDeviceIdentifier());
-
-        if (Parley.getInstance().getUserAuthorization() != null) {
-            requestBuilder.addHeader(HEADER_PARLEY_AUTHORIZATION, Parley.getInstance().getUserAuthorization());
-        }
-    }
-
     public static GlideUrl toGlideUrl(int messageId) {
         return toGlideUrl(Parley.getInstance().getNetwork().getBaseUrl() + "images/" + messageId);
     }
@@ -155,15 +132,12 @@ public final class Connectivity {
 
     private static GlideUrl toGlideUrl(String url) {
         LazyHeaders.Builder lazyHeadersBuilder = new LazyHeaders.Builder();
-
-        addAdditionalHttpHeaders(lazyHeadersBuilder);
-
-        lazyHeadersBuilder.addHeader(HEADER_PARLEY_IDENTIFICATION, Parley.getInstance().getSecret() + ":" + Parley.getInstance().getUniqueDeviceIdentifier());
-
-        if (Parley.getInstance().getUserAuthorization() != null) {
-            lazyHeadersBuilder.addHeader(HEADER_PARLEY_AUTHORIZATION, Parley.getInstance().getUserAuthorization());
+        for (Map.Entry<String, String> entry : getAdditionalHeaders().entrySet()) {
+            lazyHeadersBuilder.addHeader(entry.getKey(), entry.getValue());
         }
-
+        for (Map.Entry<String, String> entry : getParleyHeaders().entrySet()) {
+            lazyHeadersBuilder.addHeader(entry.getKey(), entry.getValue());
+        }
         return new GlideUrl(url, lazyHeadersBuilder.build());
     }
 
