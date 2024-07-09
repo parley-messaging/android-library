@@ -28,9 +28,13 @@ import androidx.core.widget.ImageViewCompat;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import nu.parley.android.Parley;
 import nu.parley.android.ParleyLaunchCallback;
 import nu.parley.android.R;
+import nu.parley.android.data.model.MimeType;
 import nu.parley.android.util.FileUtil;
 import nu.parley.android.util.ParleyPermissionUtil;
 import nu.parley.android.util.TakePictureFileProvider;
@@ -112,7 +116,14 @@ public final class ComposeImageInputView extends FrameLayout implements View.OnC
         String intentFilter = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ? Intent.ACTION_OPEN_DOCUMENT : Intent.ACTION_GET_CONTENT;
         Intent intent = new Intent(intentFilter);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType(FileUtil.MIME_TYPE_IMAGE);
+        intent.setType("*/*");
+//        intent.setType(FileUtil.MIME_TYPE_IMAGE);
+        List<MimeType> supported = MimeType.getSupported(Parley.getInstance().getNetwork().apiVersion);
+        String[] mimeTypes = new String[supported.size()];
+        for (int i = 0; i < supported.size(); i++) {
+            mimeTypes[i] = supported.get(i).key;
+        }
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
 
         String title = getContext().getString(R.string.parley_select_photo);
         launchIntent(Intent.createChooser(intent, title), REQUEST_SELECT_IMAGE);
