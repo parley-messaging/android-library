@@ -31,9 +31,15 @@ public final class Media {
      * @return The id that is needed for the Media url
      */
     public String getIdForUrl() {
-        ArrayList<String> splits = new ArrayList<>(Arrays.asList(id.split("/")));
-        splits.remove(0); // Remove `img`
-        splits.remove(0); // Remove account id
-        return TextUtils.join("/", splits);
+        if (id.contains("/")) {
+            // Api V1.7 and lower
+            ArrayList<String> splits = new ArrayList<>(Arrays.asList(id.split("/")));
+            splits.remove(0); // Remove `img`
+            splits.remove(0); // Remove account id
+            return TextUtils.join("/", splits);
+        } else {
+            // Api V1.8 and higher
+            return id;
+        }
     }
 }
