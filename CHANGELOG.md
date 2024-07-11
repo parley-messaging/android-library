@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- Fixed an issue that could cause images to be send twice when using Android 14 or higher.
+
 ## 3.9.6 - 14 Jun 2024
 
 - Fixed a crash that could happen when the ParleyView is not visible/attached.

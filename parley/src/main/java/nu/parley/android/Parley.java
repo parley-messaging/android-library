@@ -17,8 +17,10 @@ import com.datatheorem.android.trustkit.TrustKit;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import nu.parley.android.data.messages.MessagesManager;
 import nu.parley.android.data.messages.ParleyDataSource;
@@ -68,9 +70,10 @@ public final class Parley {
     private String pushToken;
     private PushType pushType = PushType.FCM;
     private String uniqueDeviceIdentifier;
-    private MessagesManager messagesManager = new MessagesManager();
+    private final MessagesManager messagesManager = new MessagesManager();
     private boolean retrievedFirstMessages = false;
     private boolean loadingMore = false;
+    private final Set<String> uploading = new HashSet<>(); // Message UUID's
     private boolean refreshingMessages = false;
 
     private boolean requestNotificationPermission = true;
@@ -471,12 +474,12 @@ public final class Parley {
     }
 
     public void triggerRefreshOnConnected() {
-        triggerRefreshOnConnected(true);
+        triggerRefreshOnConnected(uploading.isEmpty());
     }
 
     /**
-     * @discussion https://github.com/parley-messaging/android-library/pull/55
      * @param resendPendingMessages whether pending messages should be attempt to send.
+     * @discussion https://github.com/parley-messaging/android-library/pull/55
      */
     public void triggerRefreshOnConnected(boolean resendPendingMessages) {
         if (this.state == State.UNCONFIGURED || this.state == State.CONFIGURING) {
@@ -557,8 +560,13 @@ public final class Parley {
         });
     }
 
+    /**
+     * Resends the pending messages 1 by 1, such that the order of messages remains the same.
+     *
+     * @param pendingMessages
+     */
     private void resendPendingMessages(final List<Message> pendingMessages) {
-        if (pendingMessages.size() > 0) {
+        if (!pendingMessages.isEmpty()) {
             resendMessage(pendingMessages.get(0), new ChainListener() {
                 @Override
                 public void onNext() {
@@ -806,6 +814,9 @@ public final class Parley {
     }
 
     private void submitMessage(final Message message, final boolean showNewMessage, final boolean triggerSentMessage, @Nullable final ChainListener chainListener) {
+        String uuid = message.getUuid().toString();
+        uploading.add(uuid);
+
         if (showNewMessage) {
             listener.onNewMessage(message);
             new EventRepository().fire(EVENT_STOP_TYPING);
@@ -817,6 +828,7 @@ public final class Parley {
             new MessageRepository().sendMedia(message, new RepositoryCallback<Message>() {
                 @Override
                 public void onSuccess(Message updatedMessage) {
+                    uploading.remove(uuid);
                     if (updatedMessage.getMedia() == null)
                         throw new AssertionError("Missing media");
 
@@ -829,6 +841,7 @@ public final class Parley {
 
                 @Override
                 public void onFailed(Integer code, String errorMessage) {
+                    uploading.remove(uuid);
                     if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                         // It is cached, this will be handled later
                     } else {
@@ -854,6 +867,7 @@ public final class Parley {
             new MessageRepository().send(message, new RepositoryCallback<Message>() {
                 @Override
                 public void onSuccess(final Message updatedMessage) {
+                    uploading.remove(uuid);
                     listener.onUpdateMessage(updatedMessage);
 
                     if (triggerSentMessage) {
@@ -867,6 +881,7 @@ public final class Parley {
 
                 @Override
                 public void onFailed(Integer code, String errorMessage) {
+                    uploading.remove(uuid);
                     if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                         // It is cached, this will be handled later
                     } else {
