@@ -239,18 +239,6 @@ public final class Message {
     }
 
     @Nullable
-    private GlideUrl getImageUrl() {
-        if (imageUrl == null) {
-            return null;
-        }
-        if (id == null) {
-            return null;
-        } else {
-            return Connectivity.toGlideUrl(id);
-        }
-    }
-
-    @Nullable
     public Media getMedia() {
         return media;
     }
@@ -268,9 +256,6 @@ public final class Message {
         }
         if (getLegacyImageUrl() != null) {
             return getLegacyImageUrl();
-        }
-        if (getImageUrl() != null) {
-            return getImageUrl();
         }
 
         return null;
