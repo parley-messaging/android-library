@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -29,8 +30,10 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
+import nu.parley.android.DefaultParleyDownloadCallback;
 import nu.parley.android.DefaultParleyLaunchCallback;
 import nu.parley.android.Parley;
+import nu.parley.android.ParleyDownloadCallback;
 import nu.parley.android.ParleyLaunchCallback;
 import nu.parley.android.ParleyListener;
 import nu.parley.android.R;
@@ -41,6 +44,7 @@ import nu.parley.android.notification.ParleyNotificationManager;
 import nu.parley.android.util.AccessibilityMonitor;
 import nu.parley.android.util.AccessibilityUtil;
 import nu.parley.android.util.ConnectivityMonitor;
+import nu.parley.android.util.IntentUtil;
 import nu.parley.android.util.ParleyPermissionUtil;
 import nu.parley.android.util.StyleUtil;
 import nu.parley.android.view.chat.MessageAdapter;
@@ -81,8 +85,9 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     // Is typing
     private Handler isTypingAgentHandler = new Handler();
     private Runnable isTypingAgentRunnable = null;
-    // Launching
+    // Callbacks
     private ParleyLaunchCallback launchCallback;
+    private ParleyDownloadCallback downloadCallback;
 
     public ParleyView(Context context) {
         super(context);
@@ -106,14 +111,19 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
      * Allows setting a {@link ParleyLaunchCallback} which allows client apps to change how Parley
      * "starts an Activity for result" and requests permissions.
      */
-    public void setLaunchCallback(@Nullable ParleyLaunchCallback launchCallback) {
-        if (launchCallback == null) {
-            this.launchCallback = new DefaultParleyLaunchCallback(getContext());
-        } else {
-            this.launchCallback = launchCallback;
-        }
+    public void setLaunchCallback(@NonNull ParleyLaunchCallback launchCallback) {
+        this.launchCallback = launchCallback;
         parleyMessageListener.setLaunchCallback(this.launchCallback);
         composeView.setLaunchCallback(this.launchCallback);
+    }
+
+    /**
+     * Allows setting a {@link ParleyDownloadCallback} which allows client apps to change how Parley
+     * downloads files from the chat.
+     */
+    public void setDownloadCallback(@NonNull ParleyDownloadCallback downloadCallback) {
+        this.downloadCallback = downloadCallback;
+        parleyMessageListener.setDownloadCallback(this.downloadCallback);
     }
 
     public void setListener(@Nullable Listener listener) {
@@ -160,8 +170,13 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         composeView = findViewById(R.id.compose_view);
 
         // Configure
-        launchCallback = new DefaultParleyLaunchCallback(getContext());
-        setLaunchCallback(launchCallback);
+        setLaunchCallback(new DefaultParleyLaunchCallback(getContext()));
+        setDownloadCallback(new DefaultParleyDownloadCallback(getContext(), new DefaultParleyDownloadCallback.Listener() {
+            @Override
+            public void onComplete(Uri uri) {
+                launchCallback.launchParleyActivity(IntentUtil.fromUrl(uri.toString()));
+            }
+        }));
 
         notificationsView.checkNotifications();
         recyclerView.setAdapter(adapter);
@@ -567,7 +582,8 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
 
     // Accessibility
 
-    @SuppressLint("NotifyDataSetChanged") // TalkBack updates visuals only, which is why we need to render the chat messages again
+    @SuppressLint("NotifyDataSetChanged")
+    // TalkBack updates visuals only, which is why we need to render the chat messages again
     @Override
     public void onTalkbackChanged(boolean enabled) {
         adapter.notifyDataSetChanged();

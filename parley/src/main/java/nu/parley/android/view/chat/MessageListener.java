@@ -10,7 +10,7 @@ public interface MessageListener {
 
     void onRetryMessageClicked(Message message);
 
-    void onImageClicked(Context context, Message message);
+    void onMediaClicked(Context context, Message message);
 
     void onActionClicked(View view, Action action);
 }

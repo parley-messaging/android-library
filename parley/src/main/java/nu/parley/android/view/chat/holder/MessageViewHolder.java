@@ -152,7 +152,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
                     if (retry) {
                         listener.onRetryMessageClicked(message);
                     } else if (image) {
-                        listener.onImageClicked(itemView.getContext(), message);
+                        listener.onMediaClicked(itemView.getContext(), message);
                     }
                 }
             };
