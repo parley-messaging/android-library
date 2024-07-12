@@ -32,8 +32,6 @@ public enum ApiVersion {
 
     public boolean isUsingMedia() {
         switch (this) {
-            case V1_0:
-            case V1_1:
             case V1_2:
             case V1_3:
             case V1_4:
@@ -48,8 +46,6 @@ public enum ApiVersion {
 
     public boolean isSupportingPdf() {
         switch (this) {
-            case V1_0:
-            case V1_1:
             case V1_2:
             case V1_3:
             case V1_4:
