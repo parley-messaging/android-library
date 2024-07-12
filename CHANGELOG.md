@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## 3.10.0 - Upcoming
 
 - [Send Media] Fixed an issue that could cause media to be send twice when using Android 14 or higher.
 - [Send Media] Added support for sending PDF files when using clientApi version 1.6 or higher.
@@ -16,6 +16,7 @@
 - [Strings] *DELETION*: Removed `parley_photo`.
 - [Strings] *DELETION*: Removed `parley_select_photo`.
 - [Strings] *DELETION*: Removed `parley_take_photo`.
+- [Api Version] *DELETION*: Removed support for API version 1.0 and 1.1.
 
 ## 3.9.6 - 14 Jun 2024
 

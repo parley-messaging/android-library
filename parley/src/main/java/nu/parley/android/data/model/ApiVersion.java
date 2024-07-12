@@ -8,14 +8,6 @@ public enum ApiVersion {
     /**
      * @deprecated A newer version is available to support the latest functionality of Parley.
      */
-    @Deprecated V1_0,
-    /**
-     * @deprecated A newer version is available to support the latest functionality of Parley.
-     */
-    @Deprecated V1_1,
-    /**
-     * @deprecated A newer version is available to support the latest functionality of Parley.
-     */
     @Deprecated V1_2,
     /**
      * @deprecated A newer version is available to support the latest functionality of Parley.
