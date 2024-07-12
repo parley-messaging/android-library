@@ -2,7 +2,20 @@
 
 ## Upcoming
 
-- Fixed an issue that could cause images to be send twice when using Android 14 or higher.
+- [Send Media] Fixed an issue that could cause media to be send twice when using Android 14 or higher.
+- [Send Media] Added support for sending PDF files when using clientApi version 1.6 or higher.
+- [Styling] *Addition*: Added `parley_compose_media_icon` to `ParleyComposeView`. By default this is a `+` icon to send media within the chat (camera/gallery/document).
+- [Styling] *Addition*: Added `parley_compose_media_icon_tint` to `ParleyComposeView`. Since this now reflects what it is referring to.
+- [Styling] *Deprecation*: Replacing `parley_compose_camera_tint` from `ParleyComposeView` with `parley_compose_media_icon_tint`.
+- [Styling] *DELETION*: Removed `parley_compose_camera_icon` from `ParleyComposeView`. Use `parley_compose_media_icon` instead.
+- [Styling] *DELETION*: Removed `parley_ic_camera` icon from the drawables. This has been replaced by `parley_ic_add`.
+- [Strings] *Addition*: Removed `parley_media_select`.
+- [Strings] *Addition*: Removed `parley_media_camera`.
+- [Strings] *Addition*: Removed `parley_media_gallery`.
+- [Strings] *Addition*: Removed `parley_media_document`.
+- [Strings] *DELETION*: Removed `parley_photo`.
+- [Strings] *DELETION*: Removed `parley_select_photo`.
+- [Strings] *DELETION*: Removed `parley_take_photo`.
 
 ## 3.9.6 - 14 Jun 2024
 
