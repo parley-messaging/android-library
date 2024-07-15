@@ -194,7 +194,7 @@
     <dimen name="parley_user_file_content_padding_left">16dp</dimen>
     <color name="parley_user_file_icon_tint">@color/parley_user_text_tint</color>
     <dimen name="parley_user_file_name_text_size">14sp</dimen>
-    <color name="parley_user_file_name_text_color">@color/parley_primary_color</color>
+    <color name="parley_user_file_name_text_color">@color/parley_user_text</color>
     <dimen name="parley_user_file_action_text_size">14sp</dimen>
     <color name="parley_user_file_action_text_color">@color/parley_user_text_tint</color>
     <dimen name="parley_user_meta_padding">@null</dimen>

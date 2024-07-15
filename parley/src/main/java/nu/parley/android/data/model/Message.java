@@ -338,8 +338,8 @@ public final class Message {
     public boolean hasContent() {
         return hasTextContent() ||
                 hasImageContent() ||
-                hasActionsContent() ||
-                hasCarouselContent();
+                hasFileContent() ||
+                hasActionsContent();
     }
 
     public boolean isEqualVisually(Message other) {
