@@ -1,14 +1,11 @@
 package nu.parley.android;
 
+import android.app.Activity;
 import android.util.Log;
-import android.widget.FrameLayout;
 
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 
-import com.novoda.espresso.ViewTestRule;
-
 import org.junit.AfterClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -18,10 +15,12 @@ import java.util.List;
 import nu.parley.android.view.compose.suggestion.SuggestionView;
 
 @RunWith(AndroidJUnit4ClassRunner.class)
-public class ParleySuggestionViewTest extends ParleyScreenBaseTest {
+public class ParleySuggestionViewTest extends ParleyScreenBaseTest<SuggestionView> {
 
-    @Rule
-    public ViewTestRule<FrameLayout> rule = new ViewTestRule<>(nu.parley.android.test.R.layout.view_suggestions_test);
+    @Override
+    SuggestionView createView(Activity activity) {
+        return new SuggestionView(activity);
+    }
 
     @Test
     public void suggestions_small_shouldAlignRight() {
@@ -68,17 +67,7 @@ public class ParleySuggestionViewTest extends ParleyScreenBaseTest {
     }
 
     private void renderSuggestions(final List<String> suggestions) {
-        rule.runOnMainSynchronously(new ViewTestRule.Runner<FrameLayout>() {
-            @Override
-            public void run(FrameLayout view) {
-                SuggestionView suggestionView = rule.getView().findViewById(R.id.suggestion_view);
-                suggestionView.setSuggestions(suggestions);
-            }
-        });
-//        sleepForVisual(0);
-//        sleepForVisual(1000);
-//        sleepForVisual(5000);
-//        sleepForVisual(60000);
+        getView(view -> view.setSuggestions(suggestions));
     }
 
     @AfterClass
