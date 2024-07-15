@@ -49,6 +49,7 @@ import java.util.List;
 import nu.parley.android.R;
 import nu.parley.android.data.model.Action;
 import nu.parley.android.data.model.Media;
+import nu.parley.android.data.net.Connectivity;
 import nu.parley.android.data.net.response.ParleyNotificationResponseType;
 import nu.parley.android.util.MarkdownUtil;
 import nu.parley.android.util.StyleUtil;
@@ -191,7 +192,7 @@ public final class BalloonView extends FrameLayout {
         messageLayout.setVisibility(hasTextContent ? View.VISIBLE : View.GONE);
     }
 
-    public void setImage(@Nullable Object imageUrl, boolean applyBottomCornerRadius) {
+    public void setImage(@Nullable String imageUrl, boolean applyBottomCornerRadius) {
         Glide.with(this).clear(contentImageView);
 
         if (imageUrl == null) {
@@ -199,20 +200,16 @@ public final class BalloonView extends FrameLayout {
             return;
         }
 
-        if (!(imageUrl instanceof GlideUrl) && !(imageUrl instanceof String)) {
-            Log.d(getClass().toString(), "setImage :: Detected invalid image url");
-            imageUrl = null;
-        }
-
-        imageLayout.setVisibility(imageUrl == null ? View.GONE : View.VISIBLE);
-        imageLoader.setVisibility(imageUrl == null ? View.GONE : View.VISIBLE);
+        imageLayout.setVisibility(View.VISIBLE);
+        imageLoader.setVisibility(View.VISIBLE);
 
         boolean isNameEmpty = nameTextView.getText().toString().isEmpty();
         renderImageShadows(isNameEmpty, applyBottomCornerRadius);
 
         contentImageView.setVisibility(View.VISIBLE);
+        GlideUrl url = Connectivity.toGlideUrl(imageUrl);
         Glide.with(this)
-                .load(imageUrl)
+                .load(url)
                 .transform(getImageTransformations(applyBottomCornerRadius))
                 .listener(new RequestListener<Drawable>() {
                     @Override

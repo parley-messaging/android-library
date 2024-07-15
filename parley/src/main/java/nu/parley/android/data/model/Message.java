@@ -2,7 +2,6 @@ package nu.parley.android.data.model;
 
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.load.model.GlideUrl;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -98,12 +97,13 @@ public final class Message {
         this.sendStatus = sendStatus;
     }
 
-    Message(@Nullable Integer id, Long timeStamp, @Nullable String title, @Nullable String message, @Nullable String imageUrl, Integer typeId, @Nullable Agent agent, int sendStatus, @Nullable List<Action> actions, @Nullable List<Message> carousel) {
+    public Message(@Nullable Integer id, Long timeStamp, @Nullable String title, @Nullable String message, @Nullable String imageUrl, @Nullable Media media, Integer typeId, @Nullable Agent agent, int sendStatus, @Nullable List<Action> actions, @Nullable List<Message> carousel) {
         this.id = id;
         this.timeStamp = timeStamp;
         this.title = title;
-        this.message = message;
         this.imageUrl = imageUrl;
+        this.message = message;
+        this.media = media;
         this.typeId = typeId;
         this.agent = agent;
         this.sendStatus = sendStatus;
@@ -175,7 +175,7 @@ public final class Message {
     }
 
     public static Message withMedia(Message sourceMessage, String mediaId) {
-        return new Message(sourceMessage.uuid, sourceMessage.id, sourceMessage.timeStamp, sourceMessage.message, null, new Media(mediaId), sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
+        return new Message(sourceMessage.uuid, sourceMessage.id, sourceMessage.timeStamp, sourceMessage.message, null, new Media(mediaId, "", ""), sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
     }
 
     public static Message withMessageAndDate(Message sourceMessage, String message, Date date) {
@@ -243,17 +243,11 @@ public final class Message {
         return media;
     }
 
-    /**
-     * Helper method to get the image as either the GlideUrl or String.
-     *
-     * @return The image url as GlideUrl if possible, otherwise as String. `null` if the message has no image.
-     */
     @Nullable
-    public Object getImage() {
-        if (media != null && media.getId() != null && media.getMimeType().isImage()) {
-            String mediaId = media.getIdForUrl();
+    public String getImageUrl() {
+        if (media != null && media.getMimeType().isImage()) {
             // Messages from clientApi 1.6 and higher
-            return Connectivity.toGlideUrlMedia(mediaId);
+            return media.getUrl();
         }
         if (getLegacyImageUrl() != null) {
             // Legacy: Messages from clientApi 1.5 and lower
@@ -315,7 +309,7 @@ public final class Message {
     }
 
     public boolean hasImageContent() {
-        return getImage() != null;
+        return getImageUrl() != null;
     }
 
     public boolean hasFileContent() {

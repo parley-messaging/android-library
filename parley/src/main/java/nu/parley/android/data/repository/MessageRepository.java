@@ -107,7 +107,7 @@ public final class MessageRepository {
 
     public void sendMedia(final Message message, final RepositoryCallback<Message> callback) {
         // API V1.6+: Uploading media
-        String imagePath = message.getImage().toString();
+        String imagePath = message.getImageUrl();
         File file = new File(imagePath);
         String mediaType = FileUtil.getMimeType(imagePath);
         if (mediaType == null) {
@@ -122,7 +122,7 @@ public final class MessageRepository {
             @Override
             public void onResponse(Call<ParleyResponse<ParleyResponsePostMedia>> call, Response<ParleyResponse<ParleyResponsePostMedia>> response) {
                 if (response.isSuccessful()) {
-                    Message updatedMessage = Message.withMedia(message, response.body().getData().media);
+                    Message updatedMessage = Message.withMedia(message, response.body().getData().mediaId);
                     callback.onSuccess(updatedMessage);
                 } else {
                     callback.onFailed(response.code(), Connectivity.getFormattedError(response));
