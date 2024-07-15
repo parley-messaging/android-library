@@ -246,15 +246,17 @@ public final class Message {
     /**
      * Helper method to get the image as either the GlideUrl or String.
      *
-     * @return The image url as GlideUrl if possible, otherwise as String. `null` if it has no image.
+     * @return The image url as GlideUrl if possible, otherwise as String. `null` if the message has no image.
      */
     @Nullable
     public Object getImage() {
-        if (media != null && media.getId() != null) {
+        if (media != null && media.getId() != null && media.getMimeType().isImage()) {
             String mediaId = media.getIdForUrl();
+            // Messages from clientApi 1.6 and higher
             return Connectivity.toGlideUrlMedia(mediaId);
         }
         if (getLegacyImageUrl() != null) {
+            // Legacy: Messages from clientApi 1.5 and lower
             return getLegacyImageUrl();
         }
 
@@ -280,7 +282,7 @@ public final class Message {
      * @return `true` if the message only consists of an image, `false` otherwise.
      */
     public boolean isImageOnly() {
-        return isImageContentOnly() &&
+        return isContentImageOnly() &&
                 (actions == null || actions.isEmpty());
     }
 
@@ -290,14 +292,34 @@ public final class Message {
      *
      * @return `true` if the content of the message only consists of an image, `false` otherwise.
      */
-    public boolean isImageContentOnly() {
+    public boolean isContentImageOnly() {
         return hasImageContent() &&
                 !hasTextContent() &&
                 !hasActionsContent();
     }
 
+    /**
+     * Determine whether this message consists of only a file as content. However, the message
+     * might still have actions or other content attached.
+     *
+     * @return `true` if the content of the message only consists of a file, `false` otherwise.
+     */
+    public boolean isContentFileOnly() {
+        return hasFileContent() &&
+                !hasTextContent() &&
+                !hasActionsContent();
+    }
+
+    public boolean hasName() {
+        return getAgent() != null && !agent.getName().trim().isEmpty();
+    }
+
     public boolean hasImageContent() {
-        return getLegacyImageUrl() != null || media != null;
+        return getImage() != null;
+    }
+
+    public boolean hasFileContent() {
+        return getMedia() != null && getMedia().getMimeType().isFile();
     }
 
     public boolean hasTextContent() {

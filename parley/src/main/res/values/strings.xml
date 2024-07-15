@@ -48,5 +48,6 @@
     <string name="parley_accessibility_announcement_info_received">Informational message received.</string>
     <string name="parley_accessibility_announcement_quick_replies_received">Suggestions available.</string>
     <string name="parley_accessibility_announcement_agent_typing">Agent is typing.</string>
+    <string name="parley_general_open">Open</string>
 
 </resources>

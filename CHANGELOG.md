@@ -6,7 +6,7 @@
 - [Send Media] Added support for sending PDF files when using clientApi version 1.6 or higher.
 - [Styling] *Addition*: Added `parley_compose_media_icon` to `ParleyComposeView`. By default this is a `+` icon to send media within the chat (camera/gallery/document).
 - [Styling] *Addition*: Added `parley_compose_media_icon_tint` to `ParleyComposeView`. Since this now reflects what it is referring to.
-- [Styling] *Deprecation*: Replacing `parley_compose_camera_tint` from `ParleyComposeView` with `parley_compose_media_icon_tint`.
+- [Styling] *DELETION*: Removed `parley_compose_camera_tint` from `ParleyComposeView`. Use `parley_compose_media_icon_tint` instead.
 - [Styling] *DELETION*: Removed `parley_compose_camera_icon` from `ParleyComposeView`. Use `parley_compose_media_icon` instead.
 - [Styling] *DELETION*: Removed `parley_ic_camera` icon from the drawables. This has been replaced by `parley_ic_add`.
 - [Strings] *Addition*: Removed `parley_media_select`.

@@ -1,5 +1,7 @@
 package nu.parley.android.data.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,6 +14,7 @@ public enum MimeType {
     ApplicationPdf("application/pdf"),
     Unknown("unknown");
 
+    @NonNull
     static MimeType from(String key) {
         for (MimeType mimeType : values()) {
             if (mimeType.key.equals(key)) {
@@ -33,6 +36,26 @@ public enum MimeType {
         return new ArrayList<>(Collections.singletonList(
                 MimeType.ApplicationPdf
         ));
+    }
+
+    public boolean isImage() {
+        switch (this) {
+            case ImageJpeg:
+            case ImagePng:
+            case ImageGif:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isFile() {
+        switch (this) {
+            case ApplicationPdf:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public final String key;

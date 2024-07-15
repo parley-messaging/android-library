@@ -46,4 +46,5 @@
     <string name="parley_accessibility_announcement_message_received">Bericht ontvangen.</string>
     <string name="parley_accessibility_announcement_info_received">Informatief bericht ontvangen.</string>
     <string name="parley_accessibility_announcement_quick_replies_received">Suggesties beschikbaar.</string>
+    <string name="parley_general_open">Open</string>
 </resources>

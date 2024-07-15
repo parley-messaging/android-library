@@ -24,6 +24,7 @@ import android.widget.TextView;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.accessibility.AccessibilityViewCommand;
@@ -47,9 +48,11 @@ import java.util.List;
 
 import nu.parley.android.R;
 import nu.parley.android.data.model.Action;
+import nu.parley.android.data.model.Media;
 import nu.parley.android.data.net.response.ParleyNotificationResponseType;
 import nu.parley.android.util.MarkdownUtil;
 import nu.parley.android.util.StyleUtil;
+import nu.parley.android.view.balloon.BalloonFileView;
 import nu.parley.android.view.chat.action.MessageAdditionAdapter;
 
 public final class BalloonView extends FrameLayout {
@@ -71,6 +74,7 @@ public final class BalloonView extends FrameLayout {
     private ImageView contentImageView;
     private AppCompatImageView contentImagePlaceholderView;
     private ProgressBar imageLoader;
+    private BalloonFileView fileView;
 
     private ViewGroup metaLayout;
     private TextView timeTextView;
@@ -120,6 +124,7 @@ public final class BalloonView extends FrameLayout {
         contentImageView = findViewById(R.id.image_view);
         contentImagePlaceholderView = findViewById(R.id.image_placeholder_view);
         imageLoader = findViewById(R.id.image_loader);
+        fileView = findViewById(R.id.file_view);
 
         metaLayout = findViewById(R.id.meta_layout);
         timeTextView = findViewById(R.id.time_text_view);
@@ -131,6 +136,10 @@ public final class BalloonView extends FrameLayout {
 
         titleTextView.setMovementMethod(LinkMovementMethod.getInstance());
         messageTextView.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    public void style(@StyleRes int messageStyle) {
+        fileView.style(messageStyle);
     }
 
     public void setName(@Nullable String text, boolean hasImage, boolean useBottomMargin) {
@@ -223,6 +232,10 @@ public final class BalloonView extends FrameLayout {
                 .into(contentImageView);
     }
 
+    public void setFile(@Nullable Media media, boolean showDividerTop, boolean showDividerBottom) {
+        fileView.render(media, showDividerTop, showDividerBottom);
+    }
+
     private Transformation<Bitmap> getImageTransformations(boolean applyBottomCornerRadius) {
         List<Transformation<Bitmap>> transformations = new ArrayList<>();
         transformations.add(new CenterCrop()); // Always CenterCrop
@@ -304,9 +317,7 @@ public final class BalloonView extends FrameLayout {
         actionsRecyclerView.setAdapter(adapter);
 
         boolean hasAdditions = adapter != null && adapter.getItemCount() > 0;
-        messageMetaSpace.setVisibility(hasAdditions ? View.GONE : View.VISIBLE);
         actionsRecyclerView.setVisibility(hasAdditions ? View.VISIBLE : View.GONE);
-        actionsMetaSpace.setVisibility(hasAdditions ? View.VISIBLE : View.GONE);
 
         if (adapter != null) {
             for (final Action action : adapter.getActions()) {
@@ -319,6 +330,14 @@ public final class BalloonView extends FrameLayout {
                 });
             }
         }
+    }
+
+    public void setTextMetaSpace(boolean visible) {
+        messageMetaSpace.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    public void setBottomMetaSpace(boolean visible) {
+        actionsMetaSpace.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     public void setOnContentClickListener(@Nullable View.OnClickListener clickListener) {

@@ -67,6 +67,8 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         balloonView.setImagePlaceholderTintColor(StyleUtil.getColorStateList(ta, R.styleable.ParleyMessageBase_parley_image_placeholder_tint_color));
         balloonView.setImageLoadingTintColor(StyleUtil.getColor(ta, R.styleable.ParleyMessageBase_parley_image_loader_tint_color));
 
+        balloonView.style(getStyleTheme());
+
         balloonView.setTextFont(StyleUtil.getFont(getContext(), ta, R.styleable.ParleyMessageBase_parley_font_family), StyleUtil.getFontStyle(ta, R.styleable.ParleyMessageBase_parley_font_style));
         balloonView.setTextSize(TypedValue.COMPLEX_UNIT_PX, StyleUtil.getDimension(ta, R.styleable.ParleyMessageBase_parley_text_size));
         balloonView.setTextColor(StyleUtil.getColorStateList(ta, R.styleable.ParleyMessageBase_parley_text_color));
@@ -92,7 +94,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
             balloonLayout.setVisibility(View.GONE);
         }
 
-        balloonView.refreshStyle(message.isImageContentOnly());
+        balloonView.refreshStyle(message.isContentImageOnly());
         // Agent name
         boolean showAgentName = shouldShowName() && message.getAgent() != null;
         boolean hasImage = message.getImage() != null;
@@ -102,17 +104,14 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
             balloonView.setName(null, hasImage, !message.hasTextContent());
         }
 
-        // Content: A message has either an image or some text
+        // Media: A message has either an image or a file, never both.
         balloonView.setImage(message.getImage(), message.isImageOnly());
+        boolean showFileDividerTop = message.hasName() || message.hasTextContent();
+        balloonView.setFile(message.getMedia(), showFileDividerTop, !message.hasActionsContent());
+
         balloonView.setHasTextContent(message.hasTextContent());
         balloonView.setTitle(message.getTitle());
         balloonView.setText(message.getMessage());
-
-        // Meta
-        balloonView.setInfo(message.getResponseInfoType());
-        balloonView.setTime(messageTime);
-        balloonView.setStatus(message.getSendStatus());
-        balloonView.setStatusVisible(shouldShowStatus());
 
         // Additional data
         if (message.getActions() == null) {
@@ -132,6 +131,14 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
             balloonView.setAddition(messageAdditionAdapter);
         }
 
+        // Meta
+        balloonView.setTextMetaSpace(!(message.hasFileContent() || message.hasActionsContent()));
+        balloonView.setBottomMetaSpace(message.hasFileContent() || message.hasActionsContent());
+        balloonView.setInfo(message.getResponseInfoType());
+        balloonView.setTime(messageTime);
+        balloonView.setStatus(message.getSendStatus());
+        balloonView.setStatusVisible(shouldShowStatus());
+
         balloonView.setOnContentClickListener(getContentClickListener(message));
 
         handleCarousel(message);
@@ -144,7 +151,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
     private View.OnClickListener getContentClickListener(final Message message) {
         boolean talkback = AccessibilityMonitor.isTalkbackEnabled(itemView.getContext());
         final boolean retry = message.getTypeId() != null && message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN && message.getSendStatus() == Message.SEND_STATUS_FAILED;
-        final boolean image = message.getImage() != null;
+        final boolean image = message.hasImageContent();
         if (retry || (image && !talkback)) {
             return new View.OnClickListener() {
                 @Override

@@ -49,12 +49,13 @@ public final class MessageAdditionViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void applyStyle() {
+        TypedArray taBase = getContext().obtainStyledAttributes(currentStyle, R.styleable.ParleyMessageBase);
         TypedArray ta = getContext().obtainStyledAttributes(currentStyle, R.styleable.ParleyMessageAction);
 
-        StyleUtil.StyleSpacing dividerSpaceData = StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageAction_parley_action_divider_margin, R.styleable.ParleyMessageAction_parley_action_divider_margin_top, R.styleable.ParleyMessageAction_parley_action_divider_margin_right, R.styleable.ParleyMessageAction_parley_action_divider_margin_bottom, R.styleable.ParleyMessageAction_parley_action_divider_margin_left);
+        StyleUtil.StyleSpacing dividerSpaceData = StyleUtil.getSpacingData(taBase, R.styleable.ParleyMessageBase_parley_divider_margin, R.styleable.ParleyMessageBase_parley_divider_margin_top, R.styleable.ParleyMessageBase_parley_divider_margin_right, R.styleable.ParleyMessageBase_parley_divider_margin_bottom, R.styleable.ParleyMessageBase_parley_divider_margin_left);
         dividerTopLayout.setPadding(dividerSpaceData.left, dividerSpaceData.top, dividerSpaceData.right, dividerSpaceData.bottom);
         dividerBottomLayout.setPadding(dividerSpaceData.left, dividerSpaceData.top, dividerSpaceData.right, dividerSpaceData.bottom);
-        @ColorInt @Nullable Integer backgroundColor = StyleUtil.getColor(ta, R.styleable.ParleyMessageAction_parley_action_divider_color);
+        @ColorInt @Nullable Integer backgroundColor = StyleUtil.getColor(taBase, R.styleable.ParleyMessageBase_parley_divider_color);
         if (backgroundColor != null) {
             dividerTopView.setBackgroundColor(backgroundColor);
             dividerBottomView.setBackgroundColor(backgroundColor);
@@ -70,6 +71,7 @@ public final class MessageAdditionViewHolder extends RecyclerView.ViewHolder {
         int fontStyle = StyleUtil.getFontStyle(ta, R.styleable.ParleyMessageAction_parley_action_font_style);
         titleTextView.setTypeface(font, fontStyle);
 
+        taBase.recycle();
         ta.recycle();
     }
 }
