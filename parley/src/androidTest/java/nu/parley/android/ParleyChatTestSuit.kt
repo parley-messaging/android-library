@@ -27,7 +27,6 @@ import nu.parley.android.util.mock.MockMessage.userTextAndImage
 import nu.parley.android.util.mock.MockMessage.userTextAndMedia
 import nu.parley.android.view.chat.MessageViewHolderFactory
 import org.junit.AfterClass
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -36,21 +35,21 @@ import org.junit.runner.RunWith
 class ParleyChatTestSuit : ParleyBaseViewTest<View>() {
 
     companion object {
-        private const val UrlParleyInvalid = "https://parley"
+        private const val UrlParleyInvalid = "https://parley.jpg"
         private const val UrlParleyLogoColored =
             "https://www.tracebuzz.com/assets/images/parley-blog.jpg"
         private const val UrlParleyLogoLight =
-            "https://media.licdn.com/dms/image/C560BAQGaitUb5D_v9Q/company-logo_200_200/0?e=2159024400&v=beta&t=zQCzNT4cnFEiEfzKkzBaBaGfK5rapGGXNKLFjZYFcH4"
+            "https://media.licdn.com/dms/image/C560BAQGaitUb5D_v9Q/company-logo_200_200/0?e=2159024400&v=beta&t=zQCzNT4cnFEiEfzKkzBaBaGfK5rapGGXNKLFjZYFcH4&ext=.png"
         private const val UrlParleyImageTransparency =
-            "https://images.prismic.io/endeavour-parley/48f62e1a-4450-469b-abb6-fa0e00acb68a_Chat.png?auto=compress,format&amp;h=500"
+            "https://images.prismic.io/endeavour-parley/48f62e1a-4450-469b-abb6-fa0e00acb68a_Chat.png?auto=compress,format&amp;h=500&ext=.png"
         private const val UrlParleyImageGif =
             "https://media0.giphy.com/media/kEKcOWl8RMLde/giphy.gif"
         private const val UrlParleyImagePerson =
-            "https://images.prismic.io/endeavour-parley/05e079ec-2a7a-4069-9107-6518acb2879e_Scherm%C2%ADafbeelding+2022-12-16+om+11.14.43.png?auto=compress,format"
+            "https://images.prismic.io/endeavour-parley/05e079ec-2a7a-4069-9107-6518acb2879e_Scherm%C2%ADafbeelding+2022-12-16+om+11.14.43.png?auto=compress,format&ext=.png"
         private const val UrlParleyImageWeb =
             "https://www.tracebuzz.com/assets/images/parley_tab.png"
         private const val UrlParleyImageSocials =
-            "https://images.prismic.io/endeavour-parley/72be8647-8b35-4b7e-ba6e-9e2c527d78f7_PARLEY_STILLS+-+SCENE_3_MESSAGING.jpg?auto=compress,format&h=500"
+            "https://images.prismic.io/endeavour-parley/72be8647-8b35-4b7e-ba6e-9e2c527d78f7_PARLEY_STILLS+-+SCENE_3_MESSAGING.jpg?auto=compress,format&h=500&ext=.png"
 
         @JvmStatic
         @AfterClass
@@ -169,6 +168,12 @@ class ParleyChatTestSuit : ParleyBaseViewTest<View>() {
         )
         sleepForVisual(500)
         makeScreenshot("UserMessage-TextAndImage")
+    }
+
+    @Test
+    fun userMessage_documentPending() {
+        renderMessage(userImage("file://sample.pdf", Message.SEND_STATUS_SUCCESS))
+        makeScreenshot("UserMessage-DocumentPending")
     }
 
     @Test

@@ -26,6 +26,7 @@ import java.io.File;
 
 import nu.parley.android.ParleyLaunchCallback;
 import nu.parley.android.R;
+import nu.parley.android.data.model.MimeType;
 import nu.parley.android.util.FileUtil;
 import nu.parley.android.util.StyleUtil;
 
@@ -208,17 +209,19 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
             post(new Runnable() {
                 @Override
                 public void run() {
-                    listener.onSendImage(photoPath);
+                    listener.onSendMedia(photoPath);
                 }
             });
         }
     }
 
-    public void submitSelectedImage(Intent data) {
+    public void submitSelectedMedia(Intent data) {
         if (data != null && data.getData() != null) {
             Uri uri = data.getData();
 
-            final File file = FileUtil.getFileFromContentUri(getContext(), uri);
+            String type = getContext().getContentResolver().getType(uri);
+            MimeType mimeType = MimeType.Companion.fromValue(type);
+            final File file = FileUtil.getFileFromContentUri(getContext(), uri, mimeType);
             if (file == null) {
                 showAlert(R.string.parley_send_failed_body_media_invalid);
             } else if (file.length() > MAX_MEDIA_SIZE) {
@@ -227,7 +230,7 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
                 post(new Runnable() {
                     @Override
                     public void run() {
-                        listener.onSendImage(file);
+                        listener.onSendMedia(file);
                     }
                 });
             }

@@ -2,6 +2,7 @@ package nu.parley.android.data.model
 
 import com.google.gson.annotations.SerializedName
 import nu.parley.android.data.net.Connectivity
+import java.io.File
 
 data class Media(
     @SerializedName("id") private val id: String,
@@ -10,16 +11,11 @@ data class Media(
 ) {
     companion object {
 
-        fun fromUrl(url: String): Media {
-            val fileName = url.split("/").last()
-            val mimeType = when (fileName.split(".").last()) {
-                "gif" -> MimeType.ImageGif
-                "png" -> MimeType.ImagePng
-                "jpeg", "jpg" -> MimeType.ImageJpeg
-                "pdf" -> MimeType.ApplicationPdf
-                else -> MimeType.Unknown
-            }
-            return Media(fileName, fileName, mimeType.key)
+        fun fromFile(file: File): Media {
+            val fileName = file.name
+            val extension = file.extension
+            val mimeType = MimeType.fromExtension(extension)
+            return Media(fileName, fileName, mimeType.value)
         }
     }
 
@@ -27,7 +23,7 @@ data class Media(
         return fileName ?: id.split("/").last()
     }
 
-    fun getMimeType() = MimeType.from(mimeType)
+    fun getMimeType() = MimeType.fromValue(mimeType)
 
     fun getIdForUrl(): String {
         return id

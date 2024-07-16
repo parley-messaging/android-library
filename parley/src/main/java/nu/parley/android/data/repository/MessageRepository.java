@@ -3,7 +3,9 @@ package nu.parley.android.data.repository;
 import java.io.File;
 import java.util.List;
 
+import nu.parley.android.data.model.Media;
 import nu.parley.android.data.model.Message;
+import nu.parley.android.data.model.MimeType;
 import nu.parley.android.data.net.Connectivity;
 import nu.parley.android.data.net.RepositoryCallback;
 import nu.parley.android.data.net.response.ParleyResponsePostMedia;
@@ -21,9 +23,9 @@ import retrofit2.Response;
 
 import static nu.parley.android.data.model.Message.SEND_STATUS_SUCCESS;
 
-public final class MessageRepository {
+import androidx.annotation.Nullable;
 
-    private final static String MIME_TYPE_IMAGE_FALLBACK = "image/*";
+public final class MessageRepository {
 
     public void findAll(final RepositoryCallback<ParleyResponse<List<Message>>> callback) {
         Call<ParleyResponse<List<Message>>> messagesCall = Connectivity.getRetrofit().create(MessageService.class).findAll();
@@ -67,20 +69,17 @@ public final class MessageRepository {
         });
     }
 
-    public void send(final Message message, final RepositoryCallback<Message> callback) {
+    public void send(final Message message, @Nullable final String media, final RepositoryCallback<Message> callback) {
         Call<ParleyResponse<ParleyResponsePostMessage>> messagesCall;
-        if (message.getLegacyImageUrl() == null) {
+        if (media == null) {
             // Text or media message
             messagesCall = Connectivity.getRetrofit().create(MessageService.class).post(message);
         } else {
             // Image message API V1.2: Uploading it together when sending the message
-            String url = message.getLegacyImageUrl();
-            File file = new File(url);
-            String mediaType = FileUtil.getMimeType(url);
-            if (mediaType == null) {
-                mediaType = MIME_TYPE_IMAGE_FALLBACK;
-            }
-            RequestBody requestBody = RequestBody.create(MediaType.parse(mediaType), file);
+            File file = new File(media);
+            String mediaType = FileUtil.getMimeType(file.getAbsolutePath());
+            MimeType mimeType = MimeType.Companion.fromValue(mediaType);
+            RequestBody requestBody = RequestBody.create(MediaType.parse(mimeType.getValue()), media);
 
             MultipartBody.Part filePart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
             messagesCall = Connectivity.getRetrofit().create(MessageService.class).postImage(filePart);
@@ -105,15 +104,12 @@ public final class MessageRepository {
         });
     }
 
-    public void sendMedia(final Message message, final RepositoryCallback<Message> callback) {
+    public void sendMedia(final Message message, final String media, final RepositoryCallback<Message> callback) {
         // API V1.6+: Uploading media
-        String imagePath = message.getImageUrl();
-        File file = new File(imagePath);
-        String mediaType = FileUtil.getMimeType(imagePath);
-        if (mediaType == null) {
-            mediaType = MIME_TYPE_IMAGE_FALLBACK;
-        }
-        RequestBody requestBody = RequestBody.create(MediaType.parse(mediaType), file);
+        File file = new File(media);
+        String mediaType = FileUtil.getMimeType(media);
+        MimeType mimeType = MimeType.Companion.fromValue(mediaType);
+        RequestBody requestBody = RequestBody.create(MediaType.parse(mimeType.getValue()), file);
 
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", file.getName(), requestBody);
 
@@ -122,7 +118,8 @@ public final class MessageRepository {
             @Override
             public void onResponse(Call<ParleyResponse<ParleyResponsePostMedia>> call, Response<ParleyResponse<ParleyResponsePostMedia>> response) {
                 if (response.isSuccessful()) {
-                    Message updatedMessage = Message.withMedia(message, response.body().getData().mediaId);
+                    Media media = new Media(response.body().getData().mediaId, file.getName(), mimeType.getValue());
+                    Message updatedMessage = Message.withMedia(message, media);
                     callback.onSuccess(updatedMessage);
                 } else {
                     callback.onFailed(response.code(), Connectivity.getFormattedError(response));

@@ -10,14 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.load.model.GlideUrl;
-
 import java.util.Date;
 
 import nu.parley.android.R;
 import nu.parley.android.data.model.Action;
+import nu.parley.android.data.model.Media;
 import nu.parley.android.data.model.Message;
-import nu.parley.android.data.net.Connectivity;
+import nu.parley.android.data.model.MimeType;
 import nu.parley.android.util.AccessibilityMonitor;
 import nu.parley.android.util.AccessibilityUtil;
 import nu.parley.android.util.StyleUtil;
@@ -108,7 +107,12 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         }
 
         // Media: A message has either an image or a file, never both.
-        balloonView.setImage(message.getImageUrl(), message.isImageOnly());
+        Media media = message.getMedia();
+        if (media != null && media.getMimeType().isImage()) {
+            balloonView.setImage(message.getImageUrl(), message.isImageOnly());
+        } else {
+            balloonView.setImage(null, message.isImageOnly());
+        }
         boolean showFileDividerTop = message.hasName() || message.hasTextContent();
         balloonView.setFile(message.getMedia(), showFileDividerTop, !message.hasActionsContent());
 

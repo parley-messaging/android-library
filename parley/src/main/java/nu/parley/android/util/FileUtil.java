@@ -14,11 +14,11 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import nu.parley.android.data.model.MimeType;
+
 public final class FileUtil {
 
-    public static final String MIME_TYPE_IMAGE = "image/*";
-
-    private static String getUniqueImageFileName() {
+    private static String getUniqueFileName() {
         @SuppressLint("SimpleDateFormat")
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         return "image_" + timeStamp + "_";
@@ -28,20 +28,26 @@ public final class FileUtil {
         // Create an image file name
         File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                getUniqueImageFileName(),
+                getUniqueFileName(),
                 ".jpg",
                 storageDir
         );
         return image;
     }
 
-    public static File getFileFromContentUri(Context context, Uri uri) {
+    public static File getFileFromContentUri(Context context, Uri uri, MimeType mimeType) {
         try {
             InputStream inputStream = context.getContentResolver().openInputStream(uri);
-            File file = new File(new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath() + "/" + FileUtil.getUniqueImageFileName()).getAbsolutePath());
-            copyInputStreamToFile(inputStream, file);
+            String directory;
+            if (mimeType.isImage()) {
+                directory = Environment.DIRECTORY_PICTURES;
+            } else {
+                directory = Environment.DIRECTORY_DOCUMENTS;
+            }
+            File destination = new File(new File(context.getExternalFilesDir(directory).getPath() + "/" + FileUtil.getUniqueFileName() + "." + mimeType.getExtension()).getAbsolutePath());
+            copyInputStreamToFile(inputStream, destination);
 
-            return file;
+            return destination;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

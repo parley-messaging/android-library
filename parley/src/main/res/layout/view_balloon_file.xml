@@ -6,11 +6,17 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/divider_top"
+    <FrameLayout
+        android:id="@+id/divider_top_layout"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        tools:background="@color/parley_agent_divider" />
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/divider_top"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            tools:background="@color/parley_agent_divider" />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/content_layout"
@@ -50,9 +56,15 @@
             android:textAllCaps="true" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/divider_bottom"
+    <FrameLayout
+        android:id="@+id/divider_bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        tools:background="@color/parley_agent_divider" />
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/divider_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            tools:background="@color/parley_agent_divider" />
+    </FrameLayout>
 </LinearLayout>

@@ -792,24 +792,24 @@ public final class Parley {
         this.submitMessage(message, false, false, chainListener);
     }
 
-    public void sendImageMessage(final File imageFile) {
+    public void sendImageMessage(final File mediaFile) {
         if (refreshingMessages) {
             // Wait for it
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    sendImageMessage(imageFile);
+                    sendImageMessage(mediaFile);
                 }
             }, 100);
             return;
         }
-        final Message message = Message.ofTypeOwnImage(imageFile.getAbsolutePath());
+        final Message message = Message.ofTypeOwnPendingMedia(mediaFile);
         this.submitMessage(message, true);
     }
 
     @SuppressWarnings("SameParameterValue")
     private void submitMessage(final Message message, final boolean isNewMessage) {
-        boolean triggerSentMessage = isNewMessage && getNetwork().apiVersion.isUsingMedia() && message.getLegacyImageUrl() == null;
+        boolean triggerSentMessage = isNewMessage && getNetwork().apiVersion.isUsingMedia() && message.getLocalUrl() == null;
         this.submitMessage(message, isNewMessage, triggerSentMessage, null);
     }
 
@@ -822,10 +822,10 @@ public final class Parley {
             new EventRepository().fire(EVENT_STOP_TYPING);
         }
 
-        boolean uploadMediaFirst = getNetwork().apiVersion.isUsingMedia() && message.getLegacyImageUrl() != null;
-        if (uploadMediaFirst) {
+        String uploadMedia = message.getLocalUrl();
+        if (getNetwork().apiVersion.isUsingMedia() && uploadMedia != null) {
             // Upload image first, then update the message (remove `image`, add `media`) and after that submit the actual message with the right media
-            new MessageRepository().sendMedia(message, new RepositoryCallback<Message>() {
+            new MessageRepository().sendMedia(message, uploadMedia, new RepositoryCallback<Message>() {
                 @Override
                 public void onSuccess(Message updatedMessage) {
                     uploading.remove(uuid);
@@ -864,7 +864,7 @@ public final class Parley {
             });
         } else {
             // Just submit the message (and upload images like before V1.6)
-            new MessageRepository().send(message, new RepositoryCallback<Message>() {
+            new MessageRepository().send(message, uploadMedia, new RepositoryCallback<Message>() {
                 @Override
                 public void onSuccess(final Message updatedMessage) {
                     uploading.remove(uuid);

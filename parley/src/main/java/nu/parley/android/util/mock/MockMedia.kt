@@ -5,10 +5,10 @@ import nu.parley.android.data.model.MimeType
 
 internal object MockMedia {
     fun image(fileName: String, mimeType: MimeType): Media {
-        return Media(Mock.uuid(), fileName, mimeType.key)
+        return Media(Mock.uuid(), fileName, mimeType.value)
     }
 
     fun document(fileName: String, mimeType: MimeType): Media {
-        return Media(Mock.uuid(), fileName, mimeType.key)
+        return Media(Mock.uuid(), fileName, mimeType.value)
     }
 }

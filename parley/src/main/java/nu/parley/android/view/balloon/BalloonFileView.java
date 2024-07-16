@@ -24,11 +24,13 @@ import nu.parley.android.util.StyleUtil;
 public final class BalloonFileView extends FrameLayout {
 
     private LinearLayout rootLayout;
+    private FrameLayout dividerTopLayout;
     private View dividerTop;
     private AppCompatImageView icon;
     private LinearLayout contentLayout;
     private TextView name;
     private TextView action;
+    private FrameLayout dividerBottomLayout;
     private View dividerBottom;
 
     public BalloonFileView(Context context) {
@@ -50,7 +52,9 @@ public final class BalloonFileView extends FrameLayout {
         inflate(getContext(), R.layout.view_balloon_file, this);
 
         rootLayout = findViewById(R.id.root);
+        dividerTopLayout = findViewById(R.id.divider_top_layout);
         dividerTop = findViewById(R.id.divider_top);
+        dividerBottomLayout = findViewById(R.id.divider_bottom_layout);
         dividerBottom = findViewById(R.id.divider_bottom);
         contentLayout = findViewById(R.id.content_layout);
         icon = findViewById(R.id.icon);
@@ -61,6 +65,9 @@ public final class BalloonFileView extends FrameLayout {
     public void style(@StyleRes int messageStyle) {
         TypedArray ta = getContext().obtainStyledAttributes(messageStyle, R.styleable.ParleyMessageBase);
 
+        StyleUtil.StyleSpacing dividerSpacing = StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageBase_parley_divider_margin, R.styleable.ParleyMessageBase_parley_divider_margin_top, R.styleable.ParleyMessageBase_parley_divider_margin_right, R.styleable.ParleyMessageBase_parley_divider_margin_bottom, R.styleable.ParleyMessageBase_parley_divider_margin_left);
+        dividerTopLayout.setPadding(dividerSpacing.left, dividerSpacing.top, dividerSpacing.right, dividerSpacing.bottom);
+        dividerBottomLayout.setPadding(dividerSpacing.left, dividerSpacing.top, dividerSpacing.right, dividerSpacing.bottom);
         setContentPadding(StyleUtil.getSpacingData(ta, R.styleable.ParleyMessageBase_parley_file_content_padding, R.styleable.ParleyMessageBase_parley_file_content_padding_top, R.styleable.ParleyMessageBase_parley_file_content_padding_right, R.styleable.ParleyMessageBase_parley_file_content_padding_bottom, R.styleable.ParleyMessageBase_parley_file_content_padding_left));
         @ColorInt @Nullable Integer dividerColor = StyleUtil.getColor(ta, R.styleable.ParleyMessageBase_parley_divider_color);
         if (dividerColor != null) {

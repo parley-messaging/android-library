@@ -4,11 +4,11 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import nu.parley.android.data.net.Connectivity;
 import nu.parley.android.util.CompareUtil;
 import nu.parley.android.view.chat.MessageViewHolderFactory;
 
@@ -52,7 +52,11 @@ public final class Message {
     @SerializedName("image")
     @Nullable
     @Deprecated
-    private String imageUrl;
+    private String image;
+
+    @SerializedName("mediaLocal")
+    @Nullable
+    private String localUrl;
 
     @SerializedName("media")
     @Nullable
@@ -85,23 +89,24 @@ public final class Message {
         // Hide constructor
     }
 
-    private Message(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String imageUrl, @Nullable Media media, int typeId, @Nullable Agent agent, int sendStatus) {
+    private Message(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String localUrl, @Nullable Media media, int typeId, @Nullable Agent agent, int sendStatus) {
         this.uuid = uuid;
         this.id = id;
         this.timeStamp = timeStamp;
         this.message = message;
-        this.imageUrl = imageUrl;
+        this.localUrl = localUrl;
         this.media = media;
         this.typeId = typeId;
         this.agent = agent;
         this.sendStatus = sendStatus;
     }
 
-    public Message(@Nullable Integer id, Long timeStamp, @Nullable String title, @Nullable String message, @Nullable String imageUrl, @Nullable Media media, Integer typeId, @Nullable Agent agent, int sendStatus, @Nullable List<Action> actions, @Nullable List<Message> carousel) {
+    public Message(@Nullable Integer id, Long timeStamp, @Nullable String title, @Nullable String message, @Nullable String localUrl, @Nullable Media media, Integer typeId, @Nullable Agent agent, int sendStatus, @Nullable List<Action> actions, @Nullable List<Message> carousel) {
         this.id = id;
         this.timeStamp = timeStamp;
         this.title = title;
-        this.imageUrl = imageUrl;
+        this.localUrl = localUrl;
+        this.image = localUrl;
         this.message = message;
         this.media = media;
         this.typeId = typeId;
@@ -146,9 +151,9 @@ public final class Message {
         return message;
     }
 
-    public static Message ofTypeOwnImage(String imageUrl) {
+    public static Message ofTypeOwnPendingMedia(File mediaFile) {
         Message message = Message.ofTypeOwnMessage(false);
-        message.imageUrl = imageUrl;
+        message.localUrl = mediaFile.getAbsolutePath();
         return message;
     }
 
@@ -171,15 +176,15 @@ public final class Message {
     }
 
     public static Message withIdAndStatus(Message sourceMessage, Integer id, int status) {
-        return new Message(sourceMessage.uuid, id, sourceMessage.timeStamp, sourceMessage.message, sourceMessage.imageUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, status);
+        return new Message(sourceMessage.uuid, id, sourceMessage.timeStamp, sourceMessage.message, sourceMessage.localUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, status);
     }
 
-    public static Message withMedia(Message sourceMessage, String mediaId) {
-        return new Message(sourceMessage.uuid, sourceMessage.id, sourceMessage.timeStamp, sourceMessage.message, null, new Media(mediaId, "", ""), sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
+    public static Message withMedia(Message sourceMessage, Media media) {
+        return new Message(sourceMessage.uuid, sourceMessage.id, sourceMessage.timeStamp, sourceMessage.message, null, media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
     }
 
     public static Message withMessageAndDate(Message sourceMessage, String message, Date date) {
-        return new Message(sourceMessage.uuid, sourceMessage.id, date.getTime() / 1000, message, sourceMessage.imageUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
+        return new Message(sourceMessage.uuid, sourceMessage.id, date.getTime() / 1000, message, sourceMessage.localUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
     }
 
     /**
@@ -234,24 +239,30 @@ public final class Message {
         return agent;
     }
 
-    public String getLegacyImageUrl() {
-        return imageUrl;
+    @Nullable
+    public String getLocalUrl() {
+        return localUrl;
     }
 
     @Nullable
     public Media getMedia() {
-        return media;
+        if (localUrl == null) {
+            return media;
+        } else {
+            return Media.Companion.fromFile(new File(localUrl));
+        }
     }
 
     @Nullable
     public String getImageUrl() {
+        if (image != null) {
+            // Legacy: Messages from clientApi 1.5 and lower
+            return image;
+        }
+
         if (media != null && media.getMimeType().isImage()) {
             // Messages from clientApi 1.6 and higher
             return media.getUrl();
-        }
-        if (getLegacyImageUrl() != null) {
-            // Legacy: Messages from clientApi 1.5 and lower
-            return getLegacyImageUrl();
         }
 
         return null;
@@ -342,7 +353,7 @@ public final class Message {
             return CompareUtil.equals(message, other.message) &&
                     CompareUtil.equals(typeId, other.typeId) &&
                     CompareUtil.equals(agent, other.agent) &&
-                    CompareUtil.equals(imageUrl, other.imageUrl) &&
+                    CompareUtil.equals(localUrl, other.localUrl) &&
                     CompareUtil.equals(media, other.media) &&
                     CompareUtil.equals(timeStamp, other.timeStamp) &&
                     CompareUtil.equals(sendStatus, other.sendStatus) &&
