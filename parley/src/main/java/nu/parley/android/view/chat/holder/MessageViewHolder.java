@@ -16,7 +16,6 @@ import nu.parley.android.R;
 import nu.parley.android.data.model.Action;
 import nu.parley.android.data.model.Media;
 import nu.parley.android.data.model.Message;
-import nu.parley.android.data.model.MimeType;
 import nu.parley.android.util.AccessibilityMonitor;
 import nu.parley.android.util.AccessibilityUtil;
 import nu.parley.android.util.StyleUtil;
