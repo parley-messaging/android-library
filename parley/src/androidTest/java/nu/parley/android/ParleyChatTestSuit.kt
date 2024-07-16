@@ -172,7 +172,7 @@ class ParleyChatTestSuit : ParleyBaseViewTest<View>() {
 
     @Test
     fun userMessage_documentPending() {
-        renderMessage(userImage("sample.pdf", Message.SEND_STATUS_SUCCESS))
+        renderMessage(userImage("/sample.pdf", Message.SEND_STATUS_SUCCESS))
         makeScreenshot("UserMessage-DocumentPending")
     }
 
