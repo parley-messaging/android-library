@@ -1,8 +1,9 @@
 # Changelog
 
-## Upcoming
+## 3.9.7 - 16 Jul 2024
 
 - Fixed an issue that could cause images to be send twice when using Android 14 or higher.
+- Updated TrustKit to version 1.1.5.
 
 ## 3.9.6 - 14 Jun 2024
 
