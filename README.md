@@ -25,7 +25,8 @@ Empty | Conversation
 
 ## Requirements
 
-- Java 11 (Example project uses Java 17)
+- Java 17
+- Kotlin 1.9.24
 - Android 5+ (API 21+)
 - Android target API 34 (Android 14)
 - Using AndroidX artifacts
@@ -56,7 +57,7 @@ allprojects {
 To integrate Parley, specify the following in your `app/build.gradle` file:
 
 ```groovy
-implementation 'com.github.parley-messaging:android-library:3.9.6'
+implementation 'com.github.parley-messaging:android-library:3.10.0'
 ```
 
 ### Upgrading
@@ -396,7 +397,7 @@ parleyView.setDownloadCallback(new ParleyDownloadCallback() {
 });
 ```
 
-> Note: Make sure to apply the headers when downloading the file from the given url. Otherwise the download will not succeed.
+> Note: Make sure to apply the headers when downloading the file from the given url. Otherwise the file download will not succeed.
 
 ## Customize
 
