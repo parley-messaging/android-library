@@ -260,9 +260,9 @@ public final class Message {
             return image;
         }
 
-        if (media != null && media.getMimeType().isImage()) {
+        if (getMedia() != null && getMedia().getMimeType().isImage()) {
             // Messages from clientApi 1.6 and higher
-            return media.getUrl();
+            return getMedia().getUrl();
         }
 
         return null;
