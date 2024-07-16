@@ -2,14 +2,13 @@ package nu.parley.android.data.model;
 
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.load.model.GlideUrl;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import nu.parley.android.data.net.Connectivity;
 import nu.parley.android.util.CompareUtil;
 import nu.parley.android.view.chat.MessageViewHolderFactory;
 
@@ -53,7 +52,11 @@ public final class Message {
     @SerializedName("image")
     @Nullable
     @Deprecated
-    private String imageUrl;
+    private String image;
+
+    @SerializedName("mediaLocal")
+    @Nullable
+    private String localUrl;
 
     @SerializedName("media")
     @Nullable
@@ -86,24 +89,26 @@ public final class Message {
         // Hide constructor
     }
 
-    private Message(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String imageUrl, @Nullable Media media, int typeId, @Nullable Agent agent, int sendStatus) {
+    private Message(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String localUrl, @Nullable Media media, int typeId, @Nullable Agent agent, int sendStatus) {
         this.uuid = uuid;
         this.id = id;
         this.timeStamp = timeStamp;
         this.message = message;
-        this.imageUrl = imageUrl;
+        this.localUrl = localUrl;
         this.media = media;
         this.typeId = typeId;
         this.agent = agent;
         this.sendStatus = sendStatus;
     }
 
-    Message(@Nullable Integer id, Long timeStamp, @Nullable String title, @Nullable String message, @Nullable String imageUrl, Integer typeId, @Nullable Agent agent, int sendStatus, @Nullable List<Action> actions, @Nullable List<Message> carousel) {
+    public Message(@Nullable Integer id, Long timeStamp, @Nullable String title, @Nullable String message, @Nullable String localUrl, @Nullable Media media, Integer typeId, @Nullable Agent agent, int sendStatus, @Nullable List<Action> actions, @Nullable List<Message> carousel) {
         this.id = id;
         this.timeStamp = timeStamp;
         this.title = title;
+        this.localUrl = localUrl;
+        this.image = localUrl;
         this.message = message;
-        this.imageUrl = imageUrl;
+        this.media = media;
         this.typeId = typeId;
         this.agent = agent;
         this.sendStatus = sendStatus;
@@ -146,9 +151,9 @@ public final class Message {
         return message;
     }
 
-    public static Message ofTypeOwnImage(String imageUrl) {
+    public static Message ofTypeOwnPendingMedia(File mediaFile) {
         Message message = Message.ofTypeOwnMessage(false);
-        message.imageUrl = imageUrl;
+        message.localUrl = mediaFile.getAbsolutePath();
         return message;
     }
 
@@ -171,15 +176,15 @@ public final class Message {
     }
 
     public static Message withIdAndStatus(Message sourceMessage, Integer id, int status) {
-        return new Message(sourceMessage.uuid, id, sourceMessage.timeStamp, sourceMessage.message, sourceMessage.imageUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, status);
+        return new Message(sourceMessage.uuid, id, sourceMessage.timeStamp, sourceMessage.message, sourceMessage.localUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, status);
     }
 
-    public static Message withMedia(Message sourceMessage, String mediaId) {
-        return new Message(sourceMessage.uuid, sourceMessage.id, sourceMessage.timeStamp, sourceMessage.message, null, new Media(mediaId), sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
+    public static Message withMedia(Message sourceMessage, Media media) {
+        return new Message(sourceMessage.uuid, sourceMessage.id, sourceMessage.timeStamp, sourceMessage.message, null, media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
     }
 
     public static Message withMessageAndDate(Message sourceMessage, String message, Date date) {
-        return new Message(sourceMessage.uuid, sourceMessage.id, date.getTime() / 1000, message, sourceMessage.imageUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
+        return new Message(sourceMessage.uuid, sourceMessage.id, date.getTime() / 1000, message, sourceMessage.localUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
     }
 
     /**
@@ -234,43 +239,35 @@ public final class Message {
         return agent;
     }
 
-    public String getLegacyImageUrl() {
-        return imageUrl;
-    }
-
     @Nullable
-    private GlideUrl getImageUrl() {
-        if (imageUrl == null) {
-            return null;
-        }
-        if (id == null) {
-            return null;
-        } else {
-            return Connectivity.toGlideUrl(id);
-        }
+    public String getLocalUrl() {
+        return localUrl;
     }
 
     @Nullable
     public Media getMedia() {
-        return media;
+        if (localUrl == null) {
+            return media;
+        } else {
+            return Media.Companion.fromFile(new File(localUrl));
+        }
     }
 
-    /**
-     * Helper method to get the image as either the GlideUrl or String.
-     *
-     * @return The image url as GlideUrl if possible, otherwise as String. `null` if it has no image.
-     */
     @Nullable
-    public Object getImage() {
-        if (media != null && media.getId() != null) {
-            String mediaId = media.getIdForUrl();
-            return Connectivity.toGlideUrlMedia(mediaId);
+    public String getImageUrl() {
+        if (image != null) {
+            // Legacy: Messages from clientApi 1.5 and lower
+            return image;
         }
-        if (getLegacyImageUrl() != null) {
-            return getLegacyImageUrl();
-        }
-        if (getImageUrl() != null) {
-            return getImageUrl();
+
+        if (getMedia() != null && getMedia().getMimeType().isImage()) {
+            if (localUrl == null) {
+                // Messages from clientApi 1.6 and higher
+                return getMedia().getUrl();
+            } else {
+                // Pending upload
+                return localUrl;
+            }
         }
 
         return null;
@@ -295,7 +292,7 @@ public final class Message {
      * @return `true` if the message only consists of an image, `false` otherwise.
      */
     public boolean isImageOnly() {
-        return isImageContentOnly() &&
+        return isContentImageOnly() &&
                 (actions == null || actions.isEmpty());
     }
 
@@ -305,14 +302,34 @@ public final class Message {
      *
      * @return `true` if the content of the message only consists of an image, `false` otherwise.
      */
-    public boolean isImageContentOnly() {
+    public boolean isContentImageOnly() {
         return hasImageContent() &&
                 !hasTextContent() &&
                 !hasActionsContent();
     }
 
+    /**
+     * Determine whether this message consists of only a file as content. However, the message
+     * might still have actions or other content attached.
+     *
+     * @return `true` if the content of the message only consists of a file, `false` otherwise.
+     */
+    public boolean isContentFileOnly() {
+        return hasFileContent() &&
+                !hasTextContent() &&
+                !hasActionsContent();
+    }
+
+    public boolean hasName() {
+        return getAgent() != null && !agent.getName().trim().isEmpty();
+    }
+
     public boolean hasImageContent() {
-        return getLegacyImageUrl() != null || media != null;
+        return getImageUrl() != null;
+    }
+
+    public boolean hasFileContent() {
+        return getMedia() != null && getMedia().getMimeType().isFile();
     }
 
     public boolean hasTextContent() {
@@ -331,8 +348,8 @@ public final class Message {
     public boolean hasContent() {
         return hasTextContent() ||
                 hasImageContent() ||
-                hasActionsContent() ||
-                hasCarouselContent();
+                hasFileContent() ||
+                hasActionsContent();
     }
 
     public boolean isEqualVisually(Message other) {
@@ -341,7 +358,8 @@ public final class Message {
             return CompareUtil.equals(message, other.message) &&
                     CompareUtil.equals(typeId, other.typeId) &&
                     CompareUtil.equals(agent, other.agent) &&
-                    CompareUtil.equals(imageUrl, other.imageUrl) &&
+                    CompareUtil.equals(localUrl, other.localUrl) &&
+                    CompareUtil.equals(image, other.image) &&
                     CompareUtil.equals(media, other.media) &&
                     CompareUtil.equals(timeStamp, other.timeStamp) &&
                     CompareUtil.equals(sendStatus, other.sendStatus) &&

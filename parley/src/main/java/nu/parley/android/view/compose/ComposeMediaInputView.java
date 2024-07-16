@@ -120,11 +120,11 @@ public final class ComposeMediaInputView extends FrameLayout implements View.OnC
     }
 
     private void selectDocument() {
-        select(MimeType.getDocuments());
+        select(MimeType.Companion.getDocuments());
     }
 
     private void selectImage() {
-        select(MimeType.getImages());
+        select(MimeType.Companion.getImages());
     }
 
     private void select(List<MimeType> mimeTypes) {
@@ -134,7 +134,7 @@ public final class ComposeMediaInputView extends FrameLayout implements View.OnC
 //        intent.setType(FileUtil.MIME_TYPE_IMAGE);
         String[] mimeTypeStrings = new String[mimeTypes.size()];
         for (int i = 0; i < mimeTypes.size(); i++) {
-            mimeTypeStrings[i] = mimeTypes.get(i).key;
+            mimeTypeStrings[i] = mimeTypes.get(i).getValue();
         }
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypeStrings);
 

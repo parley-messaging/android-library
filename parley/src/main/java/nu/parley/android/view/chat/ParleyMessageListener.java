@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -65,8 +66,9 @@ public final class ParleyMessageListener implements MessageListener {
         ImageViewerLoader<Message> loader = new ImageViewerLoader<Message>() {
             @Override
             public void loadImage(final ImageView imageView, final Message image) {
+                GlideUrl url = Connectivity.toGlideUrl(image.getImageUrl());
                 Glide.with(imageView.getContext())
-                        .load(image.getImage())
+                        .load(url)
                         .placeholder(android.R.color.transparent)
                         .fitCenter()
                         .into(imageView);

@@ -8,9 +8,9 @@ public final class ParleyResponsePostMedia {
 
     @SerializedName("media")
     @Nullable
-    public final String media;
+    public final String mediaId;
 
-    public ParleyResponsePostMedia(@Nullable String media) {
-        this.media = media;
+    public ParleyResponsePostMedia(@Nullable String mediaId) {
+        this.mediaId = mediaId;
     }
 }

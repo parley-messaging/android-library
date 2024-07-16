@@ -175,6 +175,13 @@
         <item name="parley_margin_bottom">@dimen/parley_user_margin_bottom</item>
         <item name="parley_margin_right">@dimen/parley_user_margin_right</item>
         <item name="parley_margin_left">@dimen/parley_user_margin_left</item>
+        <item name="parley_divider_margin">@dimen/parley_user_divider_margin</item>
+        <item name="parley_divider_margin_top">@dimen/parley_user_divider_margin_top</item>
+        <item name="parley_divider_margin_bottom">@dimen/parley_user_divider_margin_bottom</item>
+        <item name="parley_divider_margin_right">@dimen/parley_user_divider_margin_right</item>
+        <item name="parley_divider_margin_left">@dimen/parley_user_divider_margin_left</item>
+        <item name="parley_divider_color">@color/parley_user_divider</item>
+
         <item name="parley_message_content_padding">@dimen/parley_user_message_content_padding</item>
         <item name="parley_message_content_padding_top">@dimen/parley_user_message_content_padding_top</item>
         <item name="parley_message_content_padding_bottom">@dimen/parley_user_message_content_padding_bottom</item>
@@ -185,6 +192,21 @@
         <item name="parley_image_content_padding_bottom">@dimen/parley_user_image_content_padding_bottom</item>
         <item name="parley_image_content_padding_right">@dimen/parley_user_image_content_padding_right</item>
         <item name="parley_image_content_padding_left">@dimen/parley_user_image_content_padding_left</item>
+        <item name="parley_file_content_padding">@dimen/parley_user_file_content_padding</item>
+        <item name="parley_file_content_padding_top">@dimen/parley_user_file_content_padding_top</item>
+        <item name="parley_file_content_padding_bottom">@dimen/parley_user_file_content_padding_bottom</item>
+        <item name="parley_file_content_padding_right">@dimen/parley_user_file_content_padding_right</item>
+        <item name="parley_file_content_padding_left">@dimen/parley_user_file_content_padding_left</item>
+        <item name="parley_file_icon_tint_color">@color/parley_user_file_icon_tint</item>
+<!--        <item name="parley_file_name_font_family">sans</item>-->
+<!--        <item name="parley_file_name_font_style">normal</item>-->
+        <item name="parley_file_name_text_size">@dimen/parley_user_file_name_text_size</item>
+        <item name="parley_file_name_text_color">@color/parley_user_file_name_text_color</item>
+<!--        <item name="parley_file_action_font_family">sans</item>-->
+<!--        <item name="parley_file_action_font_style">normal</item>-->
+        <item name="parley_file_action_text_size">@dimen/parley_user_file_action_text_size</item>
+        <item name="parley_file_action_text_color">@color/parley_user_file_action_text_color</item>
+
         <item name="parley_meta_padding">@dimen/parley_user_meta_padding</item>
         <item name="parley_meta_padding_top">@dimen/parley_user_meta_padding_top</item>
         <item name="parley_meta_padding_bottom">@dimen/parley_user_meta_padding_bottom</item>
@@ -223,6 +245,12 @@
         <item name="parley_margin_bottom">@dimen/parley_agent_margin_bottom</item>
         <item name="parley_margin_right">@dimen/parley_agent_margin_right</item>
         <item name="parley_margin_left">@dimen/parley_agent_margin_left</item>
+        <item name="parley_divider_margin">@dimen/parley_agent_divider_margin</item>
+        <item name="parley_divider_margin_top">@dimen/parley_agent_divider_margin_top</item>
+        <item name="parley_divider_margin_bottom">@dimen/parley_agent_divider_margin_bottom</item>
+        <item name="parley_divider_margin_right">@dimen/parley_agent_divider_margin_right</item>
+        <item name="parley_divider_margin_left">@dimen/parley_agent_divider_margin_left</item>
+        <item name="parley_divider_color">@color/parley_agent_divider</item>
         <item name="parley_message_content_padding">@dimen/parley_agent_message_content_padding</item>
         <item name="parley_message_content_padding_top">@dimen/parley_agent_message_content_padding_top</item>
         <item name="parley_message_content_padding_bottom">@dimen/parley_agent_message_content_padding_bottom</item>
@@ -233,6 +261,20 @@
         <item name="parley_image_content_padding_bottom">@dimen/parley_agent_image_content_padding_bottom</item>
         <item name="parley_image_content_padding_right">@dimen/parley_agent_image_content_padding_right</item>
         <item name="parley_image_content_padding_left">@dimen/parley_agent_image_content_padding_left</item>
+        <item name="parley_file_content_padding">@dimen/parley_agent_file_content_padding</item>
+        <item name="parley_file_content_padding_top">@dimen/parley_agent_file_content_padding_top</item>
+        <item name="parley_file_content_padding_bottom">@dimen/parley_agent_file_content_padding_bottom</item>
+        <item name="parley_file_content_padding_right">@dimen/parley_agent_file_content_padding_right</item>
+        <item name="parley_file_content_padding_left">@dimen/parley_agent_file_content_padding_left</item>
+        <item name="parley_file_icon_tint_color">@color/parley_agent_file_icon_tint</item>
+        <!--        <item name="parley_file_name_font_family">sans</item>-->
+        <!--        <item name="parley_file_name_font_style">normal</item>-->
+        <item name="parley_file_name_text_size">@dimen/parley_agent_file_name_text_size</item>
+        <item name="parley_file_name_text_color">@color/parley_agent_file_name_text_color</item>
+        <!--        <item name="parley_file_action_font_family">sans</item>-->
+        <!--        <item name="parley_file_action_font_style">normal</item>-->
+        <item name="parley_file_action_text_size">@dimen/parley_agent_file_action_text_size</item>
+        <item name="parley_file_action_text_color">@color/parley_agent_file_action_text_color</item>
         <item name="parley_meta_padding">@dimen/parley_agent_meta_padding</item>
         <item name="parley_meta_padding_top">@dimen/parley_agent_meta_padding_top</item>
         <item name="parley_meta_padding_bottom">@dimen/parley_agent_meta_padding_bottom</item>
@@ -266,19 +308,13 @@
         <item name="parley_show_name">@bool/parley_agent_show_name</item>
         <item name="parley_name_color">@color/parley_agent_name</item>
         <!--<item name="parley_name_font_family">sans</item>-->
-        <!--<item name="parley_name_font_style">bold</item>-->
+        <!--<item name="parley_name_font_style">regular</item>-->
         <item name="parley_name_text_size">@dimen/parley_agent_name_text_size</item>
         <item name="parley_title_color">@color/parley_agent_title</item>
         <!--<item name="parley_title_font_family">sans</item>-->
         <!--<item name="parley_title_font_style">bold</item>-->
         <item name="parley_title_text_size">@dimen/parley_agent_title_text_size</item>
 
-        <item name="parley_action_divider_margin">@dimen/parley_agent_action_divider_margin</item>
-        <item name="parley_action_divider_margin_top">@dimen/parley_agent_action_divider_margin_top</item>
-        <item name="parley_action_divider_margin_bottom">@dimen/parley_agent_action_divider_margin_bottom</item>
-        <item name="parley_action_divider_margin_right">@dimen/parley_agent_action_divider_margin_right</item>
-        <item name="parley_action_divider_margin_left">@dimen/parley_agent_action_divider_margin_left</item>
-        <item name="parley_action_divider_color">@color/parley_agent_action_divider</item>
         <item name="parley_action_padding">@dimen/parley_agent_action_padding</item>
         <item name="parley_action_padding_top">@dimen/parley_agent_action_padding_top</item>
         <item name="parley_action_padding_bottom">@dimen/parley_agent_action_padding_bottom</item>
@@ -299,6 +335,13 @@
         <item name="parley_margin_right">@dimen/parley_agent_carousel_margin_right</item>
         <item name="parley_margin_left">@dimen/parley_agent_carousel_margin_left</item>
 
+        <item name="parley_divider_margin">@dimen/parley_agent_carousel_divider_margin</item>
+        <item name="parley_divider_margin_top">@dimen/parley_agent_carousel_divider_margin_top</item>
+        <item name="parley_divider_margin_bottom">@dimen/parley_agent_carousel_divider_margin_bottom</item>
+        <item name="parley_divider_margin_right">@dimen/parley_agent_carousel_divider_margin_right</item>
+        <item name="parley_divider_margin_left">@dimen/parley_agent_carousel_divider_margin_left</item>
+        <item name="parley_divider_color">@color/parley_agent_carousel_divider</item>
+
         <item name="parley_message_content_padding">@dimen/parley_agent_carousel_message_content_padding</item>
         <item name="parley_message_content_padding_top">@dimen/parley_agent_carousel_message_content_padding_top</item>
         <item name="parley_message_content_padding_bottom">@dimen/parley_agent_carousel_message_content_padding_bottom</item>
@@ -309,6 +352,15 @@
         <item name="parley_image_content_padding_bottom">@dimen/parley_agent_carousel_image_content_padding_bottom</item>
         <item name="parley_image_content_padding_right">@dimen/parley_agent_carousel_image_content_padding_right</item>
         <item name="parley_image_content_padding_left">@dimen/parley_agent_carousel_image_content_padding_left</item>
+        <item name="parley_file_icon_tint_color">@color/parley_agent_carousel_file_icon_tint</item>
+        <!--        <item name="parley_file_name_font_family">sans</item>-->
+        <!--        <item name="parley_file_name_font_style">normal</item>-->
+        <item name="parley_file_name_text_size">@dimen/parley_agent_carousel_file_name_text_size</item>
+        <item name="parley_file_name_text_color">@color/parley_agent_carousel_file_name_text_color</item>
+        <!--        <item name="parley_file_action_font_family">sans</item>-->
+        <!--        <item name="parley_file_action_font_style">normal</item>-->
+        <item name="parley_file_action_text_size">@dimen/parley_agent_carousel_file_action_text_size</item>
+        <item name="parley_file_action_text_color">@color/parley_agent_carousel_file_action_text_color</item>
 
         <item name="parley_image_corner_radius">@dimen/parley_agent_carousel_image_corner_radius</item>
         <item name="parley_image_placeholder">@drawable/parley_agent_carousel_image_placeholder</item>
@@ -326,12 +378,6 @@
         <!--<item name="parley_title_font_style">bold</item>-->
         <item name="parley_title_text_size">@dimen/parley_agent_carousel_title_text_size</item>
 
-        <item name="parley_action_divider_margin">@dimen/parley_agent_carousel_action_divider_margin</item>
-        <item name="parley_action_divider_margin_top">@dimen/parley_agent_carousel_action_divider_margin_top</item>
-        <item name="parley_action_divider_margin_bottom">@dimen/parley_agent_carousel_action_divider_margin_bottom</item>
-        <item name="parley_action_divider_margin_right">@dimen/parley_agent_carousel_action_divider_margin_right</item>
-        <item name="parley_action_divider_margin_left">@dimen/parley_agent_carousel_action_divider_margin_left</item>
-        <item name="parley_action_divider_color">@color/parley_agent_carousel_action_divider</item>
         <item name="parley_action_padding">@dimen/parley_agent_carousel_action_padding</item>
         <item name="parley_action_padding_top">@dimen/parley_agent_carousel_action_padding_top</item>
         <item name="parley_action_padding_bottom">@dimen/parley_agent_carousel_action_padding_bottom</item>

@@ -13,5 +13,15 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
-        android:theme="@style/ParleyTestStyle"/>
+        android:theme="@style/Theme.AppCompat">
+<!--        android:theme="@style/ParleyTestStyle" >-->
+
+        <activity android:name="nu.parley.android.util.TestActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>

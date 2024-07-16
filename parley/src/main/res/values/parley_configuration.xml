@@ -36,6 +36,12 @@
         <item name="parley_font_family">sans</item>
         <item name="parley_font_style">normal</item>
 
+        <!-- File font -->
+        <item name="parley_file_name_font_family">sans</item>
+        <item name="parley_file_name_font_style">normal</item>
+        <item name="parley_file_action_font_family">sans</item>
+        <item name="parley_file_action_font_style">bold</item>
+
         <!-- Message time font -->
         <item name="parley_time_font_family">sans</item>
         <item name="parley_time_font_style">normal</item>
@@ -128,9 +134,7 @@
     <drawable name="parley_compose_send_icon">@drawable/parley_ic_send</drawable>
     <color name="parley_compose_send_icon_tint">#FFF</color>
     <drawable name="parley_compose_media_icon">@drawable/parley_ic_add</drawable>
-    <color name="parley_compose_media_icon_tint">@color/parley_compose_camera_icon_tint</color>
-    <!-- DEPRECATED: Replace with `parley_compose_media_icon_tint` -->
-    <color name="parley_compose_camera_icon_tint">@color/parley_primary_color</color>
+    <color name="parley_compose_media_icon_tint">@color/parley_primary_color</color>
 
     <!-- Parley - Loading Message -->
     <dimen name="parley_loading_padding">@null</dimen>
@@ -169,6 +173,12 @@
     <dimen name="parley_user_margin_bottom">8dp</dimen>
     <dimen name="parley_user_margin_right">8dp</dimen>
     <dimen name="parley_user_margin_left">100dp</dimen>
+    <dimen name="parley_user_divider_margin">@null</dimen>
+    <dimen name="parley_user_divider_margin_top">0dp</dimen>
+    <dimen name="parley_user_divider_margin_bottom">0dp</dimen>
+    <dimen name="parley_user_divider_margin_right">1.5dp</dimen>
+    <dimen name="parley_user_divider_margin_left">0dp</dimen>
+    <color name="parley_user_divider">#EAEAEA</color>
     <dimen name="parley_user_message_content_padding">@null</dimen>
     <dimen name="parley_user_message_content_padding_top">8dp</dimen>
     <dimen name="parley_user_message_content_padding_bottom">8dp</dimen>
@@ -183,6 +193,16 @@
     <drawable name="parley_user_image_placeholder">@drawable/parley_ic_image_placeholder</drawable>
     <color name="parley_user_image_placeholder_tint">@color/parley_user_text</color>
     <color name="parley_user_image_loader_tint">@color/parley_loader_tint</color>
+    <dimen name="parley_user_file_content_padding">@null</dimen>
+    <dimen name="parley_user_file_content_padding_top">16dp</dimen>
+    <dimen name="parley_user_file_content_padding_bottom">16dp</dimen>
+    <dimen name="parley_user_file_content_padding_right">16dp</dimen>
+    <dimen name="parley_user_file_content_padding_left">16dp</dimen>
+    <color name="parley_user_file_icon_tint">@color/parley_user_text_tint</color>
+    <dimen name="parley_user_file_name_text_size">14sp</dimen>
+    <color name="parley_user_file_name_text_color">@color/parley_user_text</color>
+    <dimen name="parley_user_file_action_text_size">14sp</dimen>
+    <color name="parley_user_file_action_text_color">@color/parley_user_text_tint</color>
     <dimen name="parley_user_meta_padding">@null</dimen>
     <dimen name="parley_user_meta_padding_top">0dp</dimen>
     <dimen name="parley_user_meta_padding_bottom">@dimen/parley_user_message_content_padding_bottom</dimen>
@@ -205,6 +225,12 @@
     <dimen name="parley_agent_margin_bottom">8dp</dimen>
     <dimen name="parley_agent_margin_right">100dp</dimen>
     <dimen name="parley_agent_margin_left">8dp</dimen>
+    <dimen name="parley_agent_divider_margin">@null</dimen>
+    <dimen name="parley_agent_divider_margin_top">0dp</dimen>
+    <dimen name="parley_agent_divider_margin_bottom">0dp</dimen>
+    <dimen name="parley_agent_divider_margin_right">0dp</dimen>
+    <dimen name="parley_agent_divider_margin_left">1.5dp</dimen>
+    <color name="parley_agent_divider">#EAEAEA</color>
     <dimen name="parley_agent_message_content_padding">@null</dimen>
     <dimen name="parley_agent_message_content_padding_top">8dp</dimen>
     <dimen name="parley_agent_message_content_padding_bottom">8dp</dimen>
@@ -219,6 +245,16 @@
     <drawable name="parley_agent_image_placeholder">@drawable/parley_ic_image_placeholder</drawable>
     <color name="parley_agent_image_placeholder_tint">@color/parley_agent_text</color>
     <color name="parley_agent_image_loader_tint">@color/parley_loader_tint</color>
+    <dimen name="parley_agent_file_content_padding">@null</dimen>
+    <dimen name="parley_agent_file_content_padding_top">16dp</dimen>
+    <dimen name="parley_agent_file_content_padding_bottom">16dp</dimen>
+    <dimen name="parley_agent_file_content_padding_right">16dp</dimen>
+    <dimen name="parley_agent_file_content_padding_left">16dp</dimen>
+    <color name="parley_agent_file_icon_tint">@color/parley_agent_text_tint</color>
+    <dimen name="parley_agent_file_name_text_size">14dp</dimen>
+    <color name="parley_agent_file_name_text_color">@color/parley_agent_text</color>
+    <dimen name="parley_agent_file_action_text_size">14dp</dimen>
+    <color name="parley_agent_file_action_text_color">@color/parley_agent_text_tint</color>
     <dimen name="parley_agent_meta_padding">@null</dimen>
     <dimen name="parley_agent_meta_padding_top">0dp</dimen>
     <dimen name="parley_agent_meta_padding_bottom">@dimen/parley_agent_message_content_padding_bottom</dimen>
@@ -240,12 +276,6 @@
     <dimen name="parley_agent_name_text_size">@dimen/parley_agent_text_size</dimen>
     <color name="parley_agent_title">@color/parley_agent_text</color>
     <dimen name="parley_agent_title_text_size">@dimen/parley_agent_text_size</dimen>
-    <dimen name="parley_agent_action_divider_margin">@null</dimen>
-    <dimen name="parley_agent_action_divider_margin_top">0dp</dimen>
-    <dimen name="parley_agent_action_divider_margin_bottom">0dp</dimen>
-    <dimen name="parley_agent_action_divider_margin_right">0dp</dimen>
-    <dimen name="parley_agent_action_divider_margin_left">1.5dp</dimen>
-    <color name="parley_agent_action_divider">#EAEAEA</color>
     <dimen name="parley_agent_action_padding">@null</dimen>
     <dimen name="parley_agent_action_padding_top">8dp</dimen>
     <dimen name="parley_agent_action_padding_bottom">8dp</dimen>
@@ -262,6 +292,12 @@
     <dimen name="parley_agent_carousel_margin_bottom">8dp</dimen>
     <dimen name="parley_agent_carousel_margin_right">8dp</dimen>
     <dimen name="parley_agent_carousel_margin_left">8dp</dimen>
+    <dimen name="parley_agent_carousel_divider_margin">@null</dimen>
+    <dimen name="parley_agent_carousel_divider_margin_top">0dp</dimen>
+    <dimen name="parley_agent_carousel_divider_margin_bottom">0dp</dimen>
+    <dimen name="parley_agent_carousel_divider_margin_right">0dp</dimen>
+    <dimen name="parley_agent_carousel_divider_margin_left">0dp</dimen>
+    <color name="parley_agent_carousel_divider">@color/parley_agent_divider</color>
     <dimen name="parley_agent_carousel_message_content_padding">@dimen/parley_agent_message_content_padding</dimen>
     <dimen name="parley_agent_carousel_message_content_padding_top">@dimen/parley_agent_message_content_padding_top</dimen>
     <dimen name="parley_agent_carousel_message_content_padding_bottom">@dimen/parley_agent_message_content_padding_bottom</dimen>
@@ -276,17 +312,16 @@
     <drawable name="parley_agent_carousel_image_placeholder">@drawable/parley_agent_image_placeholder</drawable>
     <color name="parley_agent_carousel_image_placeholder_tint">@color/parley_agent_image_placeholder_tint</color>
     <color name="parley_agent_carousel_image_loader_tint">@color/parley_agent_image_loader_tint</color>
+    <color name="parley_agent_carousel_file_icon_tint">@color/parley_agent_file_icon_tint</color>
+    <dimen name="parley_agent_carousel_file_name_text_size">@dimen/parley_agent_file_name_text_size</dimen>
+    <color name="parley_agent_carousel_file_name_text_color">@color/parley_agent_file_name_text_color</color>
+    <dimen name="parley_agent_carousel_file_action_text_size">@dimen/parley_agent_file_action_text_size</dimen>
+    <color name="parley_agent_carousel_file_action_text_color">@color/parley_agent_file_action_text_color</color>
     <dimen name="parley_agent_carousel_text_size">@dimen/parley_agent_text_size</dimen>
     <color name="parley_agent_carousel_text">@color/parley_agent_text</color>
     <color name="parley_agent_carousel_text_tint">@color/parley_agent_text_tint</color>
     <color name="parley_agent_carousel_title">@color/parley_agent_title</color>
     <dimen name="parley_agent_carousel_title_text_size">@dimen/parley_agent_title_text_size</dimen>
-    <dimen name="parley_agent_carousel_action_divider_margin">@null</dimen>
-    <dimen name="parley_agent_carousel_action_divider_margin_top">0dp</dimen>
-    <dimen name="parley_agent_carousel_action_divider_margin_bottom">0dp</dimen>
-    <dimen name="parley_agent_carousel_action_divider_margin_right">0dp</dimen>
-    <dimen name="parley_agent_carousel_action_divider_margin_left">0dp</dimen>
-    <color name="parley_agent_carousel_action_divider">@color/parley_agent_action_divider</color>
     <dimen name="parley_agent_carousel_action_padding">@dimen/parley_agent_action_padding</dimen>
     <dimen name="parley_agent_carousel_action_padding_top">@dimen/parley_agent_action_padding_top</dimen>
     <dimen name="parley_agent_carousel_action_padding_bottom">@dimen/parley_agent_action_padding_bottom</dimen>

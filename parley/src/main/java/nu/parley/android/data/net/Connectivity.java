@@ -122,15 +122,11 @@ public final class Connectivity {
         return builder;
     }
 
-    public static GlideUrl toGlideUrl(int messageId) {
-        return toGlideUrl(Parley.getInstance().getNetwork().getBaseUrl() + "images/" + messageId);
+    public static String toMediaUrl(String mediaId) {
+        return Parley.getInstance().getNetwork().getBaseUrl() + "media/" + mediaId;
     }
 
-    public static GlideUrl toGlideUrlMedia(String mediaId) {
-        return toGlideUrl(Parley.getInstance().getNetwork().getBaseUrl() + "media/" + mediaId);
-    }
-
-    private static GlideUrl toGlideUrl(String url) {
+    public static GlideUrl toGlideUrl(String url) {
         LazyHeaders.Builder lazyHeadersBuilder = new LazyHeaders.Builder();
         for (Map.Entry<String, String> entry : getAdditionalHeaders().entrySet()) {
             lazyHeadersBuilder.addHeader(entry.getKey(), entry.getValue());

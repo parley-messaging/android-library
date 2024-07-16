@@ -24,6 +24,7 @@ import android.widget.TextView;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.accessibility.AccessibilityViewCommand;
@@ -41,15 +42,19 @@ import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import nu.parley.android.R;
 import nu.parley.android.data.model.Action;
+import nu.parley.android.data.model.Media;
+import nu.parley.android.data.net.Connectivity;
 import nu.parley.android.data.net.response.ParleyNotificationResponseType;
 import nu.parley.android.util.MarkdownUtil;
 import nu.parley.android.util.StyleUtil;
+import nu.parley.android.view.balloon.BalloonFileView;
 import nu.parley.android.view.chat.action.MessageAdditionAdapter;
 
 public final class BalloonView extends FrameLayout {
@@ -71,6 +76,7 @@ public final class BalloonView extends FrameLayout {
     private ImageView contentImageView;
     private AppCompatImageView contentImagePlaceholderView;
     private ProgressBar imageLoader;
+    private BalloonFileView fileView;
 
     private ViewGroup metaLayout;
     private TextView timeTextView;
@@ -120,6 +126,7 @@ public final class BalloonView extends FrameLayout {
         contentImageView = findViewById(R.id.image_view);
         contentImagePlaceholderView = findViewById(R.id.image_placeholder_view);
         imageLoader = findViewById(R.id.image_loader);
+        fileView = findViewById(R.id.file_view);
 
         metaLayout = findViewById(R.id.meta_layout);
         timeTextView = findViewById(R.id.time_text_view);
@@ -131,6 +138,10 @@ public final class BalloonView extends FrameLayout {
 
         titleTextView.setMovementMethod(LinkMovementMethod.getInstance());
         messageTextView.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    public void style(@StyleRes int messageStyle) {
+        fileView.style(messageStyle);
     }
 
     public void setName(@Nullable String text, boolean hasImage, boolean useBottomMargin) {
@@ -182,7 +193,7 @@ public final class BalloonView extends FrameLayout {
         messageLayout.setVisibility(hasTextContent ? View.VISIBLE : View.GONE);
     }
 
-    public void setImage(@Nullable Object imageUrl, boolean applyBottomCornerRadius) {
+    public void setImage(@Nullable String imageUrl, boolean applyBottomCornerRadius) {
         Glide.with(this).clear(contentImageView);
 
         if (imageUrl == null) {
@@ -190,20 +201,24 @@ public final class BalloonView extends FrameLayout {
             return;
         }
 
-        if (!(imageUrl instanceof GlideUrl) && !(imageUrl instanceof String)) {
-            Log.d(getClass().toString(), "setImage :: Detected invalid image url");
-            imageUrl = null;
-        }
-
-        imageLayout.setVisibility(imageUrl == null ? View.GONE : View.VISIBLE);
-        imageLoader.setVisibility(imageUrl == null ? View.GONE : View.VISIBLE);
+        imageLayout.setVisibility(View.VISIBLE);
+        imageLoader.setVisibility(View.VISIBLE);
 
         boolean isNameEmpty = nameTextView.getText().toString().isEmpty();
         renderImageShadows(isNameEmpty, applyBottomCornerRadius);
 
         contentImageView.setVisibility(View.VISIBLE);
+
+        Object url;
+        if (imageUrl.startsWith("http")) {
+            // Remote
+            url = Connectivity.toGlideUrl(imageUrl);
+        } else {
+            // Local
+            url = imageUrl;
+        }
         Glide.with(this)
-                .load(imageUrl)
+                .load(url)
                 .transform(getImageTransformations(applyBottomCornerRadius))
                 .listener(new RequestListener<Drawable>() {
                     @Override
@@ -221,6 +236,10 @@ public final class BalloonView extends FrameLayout {
                     }
                 })
                 .into(contentImageView);
+    }
+
+    public void setFile(@Nullable Media media, boolean showDividerTop, boolean showDividerBottom) {
+        fileView.render(media, showDividerTop, showDividerBottom);
     }
 
     private Transformation<Bitmap> getImageTransformations(boolean applyBottomCornerRadius) {
@@ -304,9 +323,7 @@ public final class BalloonView extends FrameLayout {
         actionsRecyclerView.setAdapter(adapter);
 
         boolean hasAdditions = adapter != null && adapter.getItemCount() > 0;
-        messageMetaSpace.setVisibility(hasAdditions ? View.GONE : View.VISIBLE);
         actionsRecyclerView.setVisibility(hasAdditions ? View.VISIBLE : View.GONE);
-        actionsMetaSpace.setVisibility(hasAdditions ? View.VISIBLE : View.GONE);
 
         if (adapter != null) {
             for (final Action action : adapter.getActions()) {
@@ -321,9 +338,19 @@ public final class BalloonView extends FrameLayout {
         }
     }
 
+    public void setTextMetaSpace(boolean visible) {
+        messageMetaSpace.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    public void setBottomMetaSpace(boolean visible) {
+        actionsMetaSpace.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
     public void setOnContentClickListener(@Nullable View.OnClickListener clickListener) {
         contentLayout.setOnClickListener(clickListener);
         contentLayout.setClickable(clickListener != null);
+        fileView.setOnClickListener(clickListener);
+        fileView.setClickable(clickListener != null);
     }
 
     // Styling

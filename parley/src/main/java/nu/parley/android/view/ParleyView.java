@@ -547,7 +547,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
 
         if (requestCode == REQUEST_SELECT_MEDIA) {
             if (resultCode == RESULT_OK) {
-                composeView.submitSelectedImage(data);
+                composeView.submitSelectedMedia(data);
             }
             return true;
         }
