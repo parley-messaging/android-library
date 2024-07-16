@@ -10,11 +10,25 @@
 - [Styling] *Addition*: Added `parley_compose_media_icon_tint` to `ParleyComposeView`. Since this now reflects what it is referring to.
 - [Styling] *DELETION*: Removed `parley_compose_camera_tint` from `ParleyComposeView`. Use `parley_compose_media_icon_tint` instead.
 - [Styling] *DELETION*: Removed `parley_compose_camera_icon` from `ParleyComposeView`. Use `parley_compose_media_icon` instead.
-- [Styling] *DELETION*: Removed `parley_ic_camera` icon from the drawables. This has been replaced by `parley_ic_add`.
+- [Styling] *REPLACED*: Replaced `parley_ic_camera` icon from the drawables with `parley_ic_add`.
+- [Styling] *REPLACED*: Replaced `parley_action_divider_margin_*` with `parley_divider_margin_*`.
+- [Styling] *REPLACED*: Replaced `parley_action_divider_color` with `parley_divider_color`.
+- [Styling] *REPLACED*: Replaced `parley_agent_action_divider_margin_*` with `parley_agent_divider_margin_*`.
+- [Styling] *Addition*: Added `parley_user_divider_margin_*` (also as `parley_divider_margin_*` for the style `ParleyMessageUserStyle`).
+- [Styling] *Addition*: Added `parley_user_divider_color` (also as `parley_divider_color` for the style `ParleyMessageUserStyle`).
+- [Styling] *Addition*: Added `parley_file_name_font_family` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_name_font_style` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_name_text_size` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_name_text_color` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_action_font_family` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_action_font_style` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_action_text_size` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_action_text_color` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
 - [Strings] *Addition*: Added `parley_media_select`.
 - [Strings] *Addition*: Added `parley_media_camera`.
 - [Strings] *Addition*: Added `parley_media_gallery`.
 - [Strings] *Addition*: Added `parley_media_document`.
+- [Strings] *Addition*: Added `parley_general_open`.
 - [Strings] *DELETION*: Removed `parley_photo`.
 - [Strings] *DELETION*: Removed `parley_select_photo`.
 - [Strings] *DELETION*: Removed `parley_take_photo`.
