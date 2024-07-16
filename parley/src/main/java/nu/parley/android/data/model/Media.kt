@@ -6,7 +6,8 @@ import java.io.File
 
 data class Media(
     @SerializedName("id") private val id: String,
-    @SerializedName("fileName") private val fileName: String?,
+    /* `filename` since clientApi 1.8 */
+    @SerializedName("filename") private val fileName: String?,
     @SerializedName("mimeType") private val mimeType: String,
 ) {
     companion object {
