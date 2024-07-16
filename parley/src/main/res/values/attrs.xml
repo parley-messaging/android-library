@@ -162,8 +162,8 @@
         <attr name="parley_send_background_tint_color" format="color" />
         <attr name="parley_send_icon" format="reference" />
         <attr name="parley_send_icon_tint_color" format="color" />
-        <attr name="parley_camera_icon" format="reference" />
-        <attr name="parley_camera_icon_tint_color" format="color" />
+        <attr name="parley_media_icon" format="reference" />
+        <attr name="parley_media_icon_tint_color" format="color" />
     </declare-styleable>
 
     <!-- Parley - Messages -->

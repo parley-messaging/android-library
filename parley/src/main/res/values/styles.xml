@@ -121,8 +121,8 @@
         </item>
         <item name="parley_send_icon">@drawable/parley_compose_send_icon</item>
         <item name="parley_send_icon_tint_color">@color/parley_compose_send_icon_tint</item>
-        <item name="parley_camera_icon">@drawable/parley_compose_camera_icon</item>
-        <item name="parley_camera_icon_tint_color">@color/parley_compose_camera_icon_tint</item>
+        <item name="parley_media_icon">@drawable/parley_compose_media_icon</item>
+        <item name="parley_media_icon_tint_color">@color/parley_compose_media_icon_tint</item>
     </style>
 
     <style name="ParleyMessageLoadingStyle">

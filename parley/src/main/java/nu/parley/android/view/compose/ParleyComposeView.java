@@ -2,7 +2,6 @@ package nu.parley.android.view.compose;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
@@ -37,7 +36,7 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
 
     private ViewGroup inputLayout;
     private EditText inputEditText;
-    private ComposeImageInputView imageInputView;
+    private ComposeMediaInputView imageInputView;
     private FloatingActionButton sendButton;
 
     private ComposeListener listener;
@@ -108,8 +107,8 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
             sendButton.setBackgroundTintList(StyleUtil.getColorStateList(ta, R.styleable.ParleyComposeView_parley_send_background_tint_color));
             sendButton.setImageDrawable(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyComposeView_parley_send_icon));
             sendButton.setSupportImageTintList(StyleUtil.getColorStateList(ta, R.styleable.ParleyComposeView_parley_send_icon_tint_color));
-            imageInputView.setImageDrawable(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyComposeView_parley_camera_icon));
-            imageInputView.setImageTintList(StyleUtil.getColorStateList(ta, R.styleable.ParleyComposeView_parley_camera_icon_tint_color));
+            imageInputView.setImageDrawable(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyComposeView_parley_media_icon));
+            imageInputView.setImageTintList(StyleUtil.getColorStateList(ta, R.styleable.ParleyComposeView_parley_media_icon_tint_color));
 
             ta.recycle();
         }

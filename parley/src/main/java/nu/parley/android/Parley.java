@@ -384,7 +384,7 @@ public final class Parley {
      * @return `true` if Parley handled this request, `false` otherwise
      */
     public static boolean onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
-        if (requestCode == ParleyView.REQUEST_SELECT_IMAGE || requestCode == ParleyView.REQUEST_TAKE_PHOTO) {
+        if (requestCode == ParleyView.REQUEST_SELECT_MEDIA || requestCode == ParleyView.REQUEST_TAKE_PHOTO) {
             if (getInstance().listener == null) {
                 // We will handle it when the listener is attached
                 new Handler().postDelayed(new Runnable() {

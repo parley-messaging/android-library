@@ -127,7 +127,9 @@
     <color name="parley_compose_send_background_tint">@color/parley_primary_color</color>
     <drawable name="parley_compose_send_icon">@drawable/parley_ic_send</drawable>
     <color name="parley_compose_send_icon_tint">#FFF</color>
-    <drawable name="parley_compose_camera_icon">@drawable/parley_ic_camera</drawable>
+    <drawable name="parley_compose_media_icon">@drawable/parley_ic_add</drawable>
+    <color name="parley_compose_media_icon_tint">@color/parley_compose_camera_icon_tint</color>
+    <!-- DEPRECATED: Replace with `parley_compose_media_icon_tint` -->
     <color name="parley_compose_camera_icon_tint">@color/parley_primary_color</color>
 
     <!-- Parley - Loading Message -->

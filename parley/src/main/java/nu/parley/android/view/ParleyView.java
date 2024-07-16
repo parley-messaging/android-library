@@ -56,7 +56,7 @@ import nu.parley.android.view.compose.suggestion.SuggestionView;
 
 public final class ParleyView extends FrameLayout implements ParleyListener, ConnectivityMonitor.Listener, AccessibilityMonitor.Listener {
 
-    public static final int REQUEST_SELECT_IMAGE = 1661;
+    public static final int REQUEST_SELECT_MEDIA = 1661;
     public static final int REQUEST_TAKE_PHOTO = 1662;
     public static final int REQUEST_PERMISSION_ACCESS_CAMERA = 1663;
     public static final int REQUEST_PERMISSION_NOTIFICATIONS = 1664;
@@ -545,7 +545,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
             return true;
         }
 
-        if (requestCode == REQUEST_SELECT_IMAGE) {
+        if (requestCode == REQUEST_SELECT_MEDIA) {
             if (resultCode == RESULT_OK) {
                 composeView.submitSelectedImage(data);
             }

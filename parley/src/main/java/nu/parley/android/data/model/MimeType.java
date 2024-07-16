@@ -2,9 +2,8 @@ package nu.parley.android.data.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
-import nu.parley.android.Parley;
 
 public enum MimeType {
     ImageJpeg("image/jpeg"),
@@ -22,16 +21,18 @@ public enum MimeType {
         return Unknown;
     }
 
-    public static List<MimeType> getSupported(ApiVersion apiVersion) {
-        ArrayList<MimeType> mimeTypes = new ArrayList<>(Arrays.asList(
+    public static List<MimeType> getImages() {
+        return new ArrayList<>(Arrays.asList(
                 MimeType.ImageJpeg,
                 MimeType.ImagePng,
                 MimeType.ImageGif
         ));
-        if (apiVersion.isSupportingPdf()) {
-            mimeTypes.add(MimeType.ApplicationPdf);
-        }
-        return mimeTypes;
+    }
+
+    public static List<MimeType> getDocuments() {
+        return new ArrayList<>(Collections.singletonList(
+                MimeType.ApplicationPdf
+        ));
     }
 
     public final String key;
