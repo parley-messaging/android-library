@@ -219,9 +219,7 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
         if (data != null && data.getData() != null) {
             Uri uri = data.getData();
 
-            String type = getContext().getContentResolver().getType(uri);
-            MimeType mimeType = MimeType.Companion.fromValue(type);
-            final File file = FileUtil.getFileFromContentUri(getContext(), uri, mimeType);
+            final File file = FileUtil.getFileFromContentUri(getContext(), uri);
             if (file == null) {
                 showAlert(R.string.parley_send_failed_body_media_invalid);
             } else if (file.length() > MAX_MEDIA_SIZE) {

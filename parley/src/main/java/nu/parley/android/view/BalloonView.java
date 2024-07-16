@@ -42,6 +42,7 @@ import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -207,7 +208,15 @@ public final class BalloonView extends FrameLayout {
         renderImageShadows(isNameEmpty, applyBottomCornerRadius);
 
         contentImageView.setVisibility(View.VISIBLE);
-        GlideUrl url = Connectivity.toGlideUrl(imageUrl);
+
+        Object url;
+        if (imageUrl.startsWith("http")) {
+            // Remote
+            url = Connectivity.toGlideUrl(imageUrl);
+        } else {
+            // Local
+            url = imageUrl;
+        }
         Glide.with(this)
                 .load(url)
                 .transform(getImageTransformations(applyBottomCornerRadius))

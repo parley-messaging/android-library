@@ -21,7 +21,7 @@ public final class FileUtil {
     private static String getUniqueFileName() {
         @SuppressLint("SimpleDateFormat")
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        return "image_" + timeStamp + "_";
+        return timeStamp;
     }
 
     public static File createImageFile(Context context) throws IOException {
@@ -35,8 +35,10 @@ public final class FileUtil {
         return image;
     }
 
-    public static File getFileFromContentUri(Context context, Uri uri, MimeType mimeType) {
+    public static File getFileFromContentUri(Context context, Uri uri) {
         try {
+            String type = context.getContentResolver().getType(uri);
+            MimeType mimeType = MimeType.Companion.fromValue(type);
             InputStream inputStream = context.getContentResolver().openInputStream(uri);
             String directory;
             if (mimeType.isImage()) {

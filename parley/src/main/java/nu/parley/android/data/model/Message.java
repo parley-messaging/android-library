@@ -261,8 +261,13 @@ public final class Message {
         }
 
         if (getMedia() != null && getMedia().getMimeType().isImage()) {
-            // Messages from clientApi 1.6 and higher
-            return getMedia().getUrl();
+            if (localUrl == null) {
+                // Messages from clientApi 1.6 and higher
+                return getMedia().getUrl();
+            } else {
+                // Pending upload
+                return localUrl;
+            }
         }
 
         return null;
