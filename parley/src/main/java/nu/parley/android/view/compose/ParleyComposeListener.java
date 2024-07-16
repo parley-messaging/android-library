@@ -17,7 +17,7 @@ public final class ParleyComposeListener implements ComposeListener {
 
     @Override
     public void onSendMedia(File file) {
-        Parley.getInstance().sendImageMessage(file);
+        Parley.getInstance().sendMediaMessage(file);
     }
 
     @Override

@@ -354,6 +354,7 @@ public final class Message {
                     CompareUtil.equals(typeId, other.typeId) &&
                     CompareUtil.equals(agent, other.agent) &&
                     CompareUtil.equals(localUrl, other.localUrl) &&
+                    CompareUtil.equals(image, other.image) &&
                     CompareUtil.equals(media, other.media) &&
                     CompareUtil.equals(timeStamp, other.timeStamp) &&
                     CompareUtil.equals(sendStatus, other.sendStatus) &&

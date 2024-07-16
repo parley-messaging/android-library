@@ -792,13 +792,13 @@ public final class Parley {
         this.submitMessage(message, false, false, chainListener);
     }
 
-    public void sendImageMessage(final File mediaFile) {
+    public void sendMediaMessage(final File mediaFile) {
         if (refreshingMessages) {
             // Wait for it
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    sendImageMessage(mediaFile);
+                    sendMediaMessage(mediaFile);
                 }
             }, 100);
             return;
