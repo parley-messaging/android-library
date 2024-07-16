@@ -308,7 +308,7 @@
         <item name="parley_show_name">@bool/parley_agent_show_name</item>
         <item name="parley_name_color">@color/parley_agent_name</item>
         <!--<item name="parley_name_font_family">sans</item>-->
-        <!--<item name="parley_name_font_style">bold</item>-->
+        <!--<item name="parley_name_font_style">regular</item>-->
         <item name="parley_name_text_size">@dimen/parley_agent_name_text_size</item>
         <item name="parley_title_color">@color/parley_agent_title</item>
         <!--<item name="parley_title_font_family">sans</item>-->

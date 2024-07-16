@@ -36,6 +36,12 @@
         <item name="parley_font_family">sans</item>
         <item name="parley_font_style">normal</item>
 
+        <!-- File font -->
+        <item name="parley_file_name_font_family">sans</item>
+        <item name="parley_file_name_font_style">normal</item>
+        <item name="parley_file_action_font_family">sans</item>
+        <item name="parley_file_action_font_style">bold</item>
+
         <!-- Message time font -->
         <item name="parley_time_font_family">sans</item>
         <item name="parley_time_font_style">normal</item>

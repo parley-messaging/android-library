@@ -67,10 +67,10 @@ public final class BalloonFileView extends FrameLayout {
             setDividerColor(dividerColor);
         }
         setIconTint(StyleUtil.getColorStateList(ta, R.styleable.ParleyMessageBase_parley_file_icon_tint_color));
-//        setNameFont(StyleUtil.getFont(getContext(), ta, R.styleable.ParleyMessageBase_parley_file_name_font_family), StyleUtil.getFontStyle(ta, R.styleable.ParleyMessageBase_parley_file_name_font_style));
+        setNameFont(StyleUtil.getFont(getContext(), ta, R.styleable.ParleyMessageBase_parley_file_name_font_family), StyleUtil.getFontStyle(ta, R.styleable.ParleyMessageBase_parley_file_name_font_style));
         setNameSize(TypedValue.COMPLEX_UNIT_PX, StyleUtil.getDimension(ta, R.styleable.ParleyMessageBase_parley_file_name_text_size));
         setNameColor(StyleUtil.getColorStateList(ta, R.styleable.ParleyMessageBase_parley_file_name_text_color));
-//        setActionFont(StyleUtil.getFont(getContext(), ta, R.styleable.ParleyMessageBase_parley_file_action_font_family), StyleUtil.getFontStyle(ta, R.styleable.ParleyMessageBase_parley_file_action_font_style));
+        setActionFont(StyleUtil.getFont(getContext(), ta, R.styleable.ParleyMessageBase_parley_file_action_font_family), StyleUtil.getFontStyle(ta, R.styleable.ParleyMessageBase_parley_file_action_font_style));
         setActionSize(TypedValue.COMPLEX_UNIT_PX, StyleUtil.getDimension(ta, R.styleable.ParleyMessageBase_parley_file_action_text_size));
         setActionColor(StyleUtil.getColorStateList(ta, R.styleable.ParleyMessageBase_parley_file_action_text_color));
 

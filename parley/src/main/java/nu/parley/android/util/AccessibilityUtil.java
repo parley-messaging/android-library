@@ -136,7 +136,7 @@ public class AccessibilityUtil {
             appendDotIfNeeded(builder);
         }
         // Media
-        if (message.hasImageContent()) {
+        if (message.hasImageContent() || message.hasFileContent()) {
             builder.append(context.getString(R.string.parley_accessibility_message_media_attached));
         }
         // Actions

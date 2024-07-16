@@ -155,13 +155,14 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         boolean talkback = AccessibilityMonitor.isTalkbackEnabled(itemView.getContext());
         final boolean retry = message.getTypeId() != null && message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN && message.getSendStatus() == Message.SEND_STATUS_FAILED;
         final boolean image = message.hasImageContent();
-        if (retry || (image && !talkback)) {
+        final boolean file = message.hasFileContent();
+        if (retry || (image && !talkback) || file) {
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (retry) {
                         listener.onRetryMessageClicked(message);
-                    } else if (image) {
+                    } else if (image || file) {
                         listener.onMediaClicked(itemView.getContext(), message);
                     }
                 }

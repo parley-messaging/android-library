@@ -340,6 +340,8 @@ public final class BalloonView extends FrameLayout {
     public void setOnContentClickListener(@Nullable View.OnClickListener clickListener) {
         contentLayout.setOnClickListener(clickListener);
         contentLayout.setClickable(clickListener != null);
+        fileView.setOnClickListener(clickListener);
+        fileView.setClickable(clickListener != null);
     }
 
     // Styling
