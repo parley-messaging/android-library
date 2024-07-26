@@ -16,6 +16,8 @@
     <string name="parley_error_action_open">Unfortunately this link couldn\'t be opened.</string>
     <string name="parley_error_permission_missing_camera">Camera permission is denied, please grant access to the camera in the app permissions.</string>
 
+    <string name="parley_message_file_downloading">File is downloading…</string>
+    <string name="parley_message_file_download_failed">The file could not be downloaded.</string>
     <string name="parley_message_meta_failed_to_send">Sending failed</string>
     <string name="parley_message_meta_media_too_large">Photo is too large</string>
 

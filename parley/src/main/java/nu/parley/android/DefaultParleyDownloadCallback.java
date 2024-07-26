@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -16,6 +17,7 @@ public class DefaultParleyDownloadCallback implements ParleyDownloadCallback {
 
     public interface Listener {
         void onComplete(Uri uri);
+        void onFailed();
     }
 
     private final Context context;
@@ -40,6 +42,7 @@ public class DefaultParleyDownloadCallback implements ParleyDownloadCallback {
             request.addRequestHeader(key, value);
         }
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
         long downloadId = downloadManager.enqueue(request);
         register(downloadId);
     }
@@ -54,7 +57,11 @@ public class DefaultParleyDownloadCallback implements ParleyDownloadCallback {
                         context.unregisterReceiver(this);
 
                         Uri uri = getDownloadManager().getUriForDownloadedFile(id);
-                        listener.onComplete(uri);
+                        if (uri == null) {
+                            listener.onFailed();
+                        } else {
+                            listener.onComplete(uri);
+                        }
                     }
                 }
             }

@@ -130,13 +130,19 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         this.listener = listener;
     }
 
+
+    @Deprecated(since = "3.10.0, replace with `setMediaEnabled`,", forRemoval = true)
+    public void setImagesEnabled(boolean enabled) {
+        setMediaEnabled(enabled);
+    }
+
     /**
      * Sets whether the user can upload images in this chat.
      *
      * @param enabled
      */
-    public void setImagesEnabled(boolean enabled) {
-        composeView.setImagesEnabled(enabled);
+    public void setMediaEnabled(boolean enabled) {
+        composeView.setMediaEnabled(enabled);
     }
 
     /**
@@ -172,6 +178,11 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         // Configure
         setLaunchCallback(new DefaultParleyLaunchCallback(getContext()));
         setDownloadCallback(new DefaultParleyDownloadCallback(getContext(), new DefaultParleyDownloadCallback.Listener() {
+            @Override
+            public void onFailed() {
+                Snackbar.make(ParleyView.this, getContext().getString(R.string.parley_message_file_download_failed), Snackbar.LENGTH_LONG).show();
+            }
+
             @Override
             public void onComplete(Uri uri) {
                 launchCallback.launchParleyActivity(IntentUtil.fromUrl(uri.toString()));
@@ -292,7 +303,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
                 StyleUtil.Helper.applyLoaderTint(statusLoader, loaderColor);
             }
 
-            setImagesEnabled(StyleUtil.getBoolean(ta, R.styleable.ParleyView_parley_images_enabled, true));
+            setMediaEnabled(StyleUtil.getBoolean(ta, R.styleable.ParleyView_parley_media_enabled, true));
 
             ParleyPosition.Vertical notificationsPosition = StyleUtil.getPositionVertical(ta, R.styleable.ParleyView_parley_notifications_position);
             setNotificationsPosition(notificationsPosition);

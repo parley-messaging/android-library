@@ -26,7 +26,6 @@ import java.io.File;
 
 import nu.parley.android.ParleyLaunchCallback;
 import nu.parley.android.R;
-import nu.parley.android.data.model.MimeType;
 import nu.parley.android.util.FileUtil;
 import nu.parley.android.util.StyleUtil;
 
@@ -247,7 +246,7 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
         imageInputView.openCamera();
     }
 
-    public void setImagesEnabled(boolean enabled) {
+    public void setMediaEnabled(boolean enabled) {
         imageInputView.setVisibility(enabled ? View.VISIBLE : View.GONE);
 
         FrameLayout.LayoutParams imageInputLayoutParams = new FrameLayout.LayoutParams(imageInputView.getLayoutParams());

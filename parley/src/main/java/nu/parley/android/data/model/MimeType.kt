@@ -10,7 +10,7 @@ enum class MimeType(
     ImagePng("image/png", listOf("png")),
     ImageGif("image/gif", listOf("gif")),
     ApplicationPdf("application/pdf", listOf("pdf")),
-    Unknown("*/*", listOf());
+    Other("*/*", listOf());
 
     fun isImage() = when (this) {
         ImageJpeg,
@@ -18,7 +18,7 @@ enum class MimeType(
         ImageGif -> true
 
         ApplicationPdf,
-        Unknown -> false
+        Other -> false
     }
 
     fun isDocument() = when (this) {
@@ -27,7 +27,7 @@ enum class MimeType(
         ImageGif -> false
 
         ApplicationPdf -> true
-        Unknown -> false
+        Other -> false
     }
 
     fun isFile() = when (this) {
@@ -36,16 +36,16 @@ enum class MimeType(
         ImageGif -> false
 
         ApplicationPdf,
-        Unknown -> true
+        Other -> true
     }
 
     fun getExtension() = extensions.first()
 
     companion object {
         fun fromUrl(url: String) = fromExtension(File(url).extension)
-        fun fromValue(value: String) = entries.firstOrNull { it.value == value } ?: Unknown
+        fun fromValue(value: String) = entries.firstOrNull { it.value == value } ?: Other
         fun fromExtension(extension: String) =
-            entries.firstOrNull { it.extensions.contains(extension) } ?: Unknown
+            entries.firstOrNull { it.extensions.contains(extension) } ?: Other
 
         val images = entries.filter { it.isImage() }
         val documents = entries.filter { it.isDocument() }

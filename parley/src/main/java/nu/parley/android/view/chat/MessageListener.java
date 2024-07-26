@@ -1,6 +1,5 @@
 package nu.parley.android.view.chat;
 
-import android.content.Context;
 import android.view.View;
 
 import nu.parley.android.data.model.Action;
@@ -10,7 +9,7 @@ public interface MessageListener {
 
     void onRetryMessageClicked(Message message);
 
-    void onMediaClicked(Context context, Message message);
+    void onMediaClicked(View view, Message message);
 
     void onActionClicked(View view, Action action);
 }

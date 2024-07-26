@@ -41,7 +41,7 @@ public final class ParleyMessageListener implements MessageListener {
     }
 
     @Override
-    public void onMediaClicked(final Context context, final Message message) {
+    public void onMediaClicked(final View view, final Message message) {
         Media media = message.getMedia();
         if (media == null) {
             return;
@@ -53,11 +53,11 @@ public final class ParleyMessageListener implements MessageListener {
             case ImageGif:
                 List<Message> list = new ArrayList<>();
                 list.add(message);
-                openImages(context, list);
+                openImages(view.getContext(), list);
                 break;
             case ApplicationPdf:
-            case Unknown:
-                openDownload(media.getIdForUrl());
+            case Other:
+                openDownload(view, media.getIdForUrl());
                 break;
         }
     }
@@ -93,11 +93,12 @@ public final class ParleyMessageListener implements MessageListener {
         }
     }
 
-    private void openDownload(String url) {
+    private void openDownload(View view, String url) {
         Uri downloadUri = Uri.parse(Parley.getInstance().getNetwork().getBaseUrl() + "media/" + url);
         Map<String, String> headers = new HashMap<>();
         headers.putAll(Connectivity.getAdditionalHeaders());
         headers.putAll(Connectivity.getParleyHeaders());
+        Snackbar.make(view, R.string.parley_message_file_downloading, Snackbar.LENGTH_LONG).show();
         downloadCallback.launchParleyDownload(
                 downloadUri.toString(),
                 headers

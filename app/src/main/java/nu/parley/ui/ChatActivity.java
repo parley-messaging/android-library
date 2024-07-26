@@ -34,7 +34,7 @@ public final class ChatActivity extends BaseActivity {
      * All of these settings are optional.
      */
     private void setParleyViewSettings() {
-//        parleyView.setImagesEnabled(false); // Optional, default `true`
+//        parleyView.setMediaEnabled(false); // Optional, default `true`
 //        parleyView.setNotificationsPosition(ParleyPosition.Vertical.BOTTOM); // Optional, default `TOP`
 
         parleyView.setListener(() -> Log.d("ChatActivity", "The user did sent a message"));

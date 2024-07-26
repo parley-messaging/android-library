@@ -64,7 +64,8 @@
     <!-- Parley - View -->
     <color name="parley_background">#EAEAEA</color>
     <color name="parley_loader_tint">@color/parley_primary_color</color>
-    <bool name="parley_images_enabled">true</bool>
+    <bool name="parley_images_enabled">true</bool> <!-- Deprecated since 3.10.0, use parley_media_enabled instead -->
+    <bool name="parley_media_enabled">@bool/parley_images_enabled</bool>
     <item name="parley_notifications_position" type="integer">top</item>
 
     <!-- Parley - Notification View-->

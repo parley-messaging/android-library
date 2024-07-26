@@ -113,7 +113,8 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
             balloonView.setImage(null, message.isImageOnly());
         }
         boolean showFileDividerTop = message.hasName() || message.hasTextContent();
-        balloonView.setFile(message.getMedia(), showFileDividerTop, !message.hasActionsContent());
+        boolean showFileDividerBottom = !message.hasActionsContent();
+        balloonView.setFile(message.getMedia(), showFileDividerTop, showFileDividerBottom);
 
         balloonView.setHasTextContent(message.hasTextContent());
         balloonView.setTitle(message.getTitle());
@@ -166,7 +167,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
                     if (retry) {
                         listener.onRetryMessageClicked(message);
                     } else if (image || file) {
-                        listener.onMediaClicked(itemView.getContext(), message);
+                        listener.onMediaClicked(itemView, message);
                     }
                 }
             };
