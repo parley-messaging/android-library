@@ -42,7 +42,6 @@ public class DefaultParleyDownloadCallback implements ParleyDownloadCallback {
             request.addRequestHeader(key, value);
         }
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-//        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
         long downloadId = downloadManager.enqueue(request);
         register(downloadId);
     }
