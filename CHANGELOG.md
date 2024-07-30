@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.10.0 - Upcoming
+## 3.10.0 - Released 30 Jul 2024
 
 - [Source] Parley now uses Kotlin at certain parts. Make sure to configure Kotlin in your project in case it doesn't use Kotlin yet.
 - [Send Media] Fixed an issue that could cause media to be send twice when using Android 14 or higher.
