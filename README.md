@@ -25,7 +25,8 @@ Empty | Conversation
 
 ## Requirements
 
-- Java 11 (Example project uses Java 17)
+- Java 17
+- Kotlin 1.9.24
 - Android 5+ (API 21+)
 - Android target API 34 (Android 14)
 - Using AndroidX artifacts
@@ -56,7 +57,7 @@ allprojects {
 To integrate Parley, specify the following in your `app/build.gradle` file:
 
 ```groovy
-implementation 'com.github.parley-messaging:android-library:3.9.7'
+implementation 'com.github.parley-messaging:android-library:3.10.0'
 ```
 
 ### Upgrading
@@ -380,6 +381,23 @@ public void `onRequestPermissionsResult`(int requestCode, @NonNull String[] perm
 ```
 
 > Note: Now that since the Fragment is handling these results now, the Activity no longer needs to forward the `onActivityResult` and `onRequestPermissionsResult` methods to Parley. So these can be removed from the Activity.
+
+### Handling Downloads
+
+By default Parley uses the `DefaultParleyDownloadCallback` which downloads files by using the native `DownloadManager` and stores them in the internal storage of the app. After downloading, it will offer the user to open the downloaded file by using the `ParleyLaunchCallback`.
+
+To change this default behavior, the download callback can be overridden by a custom implementation:
+
+```java
+parleyView.setDownloadCallback(new ParleyDownloadCallback() {
+  @Override
+  public void launchParleyDownload(String url, Map<String, String> headers) {
+    // ...
+  }
+});
+```
+
+> Note: Make sure to apply the headers when downloading the file from the given url. Otherwise the file download will not succeed.
 
 ## Customize
 

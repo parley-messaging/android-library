@@ -15,7 +15,7 @@ public final class Action {
     @SerializedName("type")
     private ButtonType type;
 
-    Action(String title, String payload) {
+    public Action(String title, String payload) {
         this.title = title;
         this.payload = payload;
     }

@@ -34,7 +34,7 @@ public final class Agent {
         return new Date(isTyping * 1000);
     }
 
-    Agent(String name) {
+    public Agent(String name) {
         this(name, null);
     }
 

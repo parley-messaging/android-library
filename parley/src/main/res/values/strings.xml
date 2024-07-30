@@ -4,17 +4,20 @@
     <string name="parley_type_message">Type a message…</string>
     <string name="parley_notification_offline">Check your internet connection</string>
     <string name="parley_notification_disabled">Notifications are disabled</string>
-    <string name="parley_select_photo">Select photo</string>
-    <string name="parley_take_photo">Take photo</string>
+    <string name="parley_media_select">Send image or document</string>
+    <string name="parley_media_camera">Camera</string>
+    <string name="parley_media_gallery">Gallery</string>
+    <string name="parley_media_document">Document</string>
     <string name="parley_notification_channel_name">Chat messages</string>
     <string name="parley_state_unconfigured">The chat is not configured.</string>
     <string name="parley_state_failed">The chat cannot be displayed at this time.</string>
     <string name="parley_general_cancel">Cancel</string>
     <string name="parley_general_ok">OK</string>
-    <string name="parley_photo">Photo</string>
     <string name="parley_error_action_open">Unfortunately this link couldn\'t be opened.</string>
     <string name="parley_error_permission_missing_camera">Camera permission is denied, please grant access to the camera in the app permissions.</string>
 
+    <string name="parley_message_file_downloading">File is downloading…</string>
+    <string name="parley_message_file_download_failed">The file could not be downloaded.</string>
     <string name="parley_message_meta_failed_to_send">Sending failed</string>
     <string name="parley_message_meta_media_too_large">Photo is too large</string>
 
@@ -47,5 +50,6 @@
     <string name="parley_accessibility_announcement_info_received">Informational message received.</string>
     <string name="parley_accessibility_announcement_quick_replies_received">Suggestions available.</string>
     <string name="parley_accessibility_announcement_agent_typing">Agent is typing.</string>
+    <string name="parley_general_open">Open</string>
 
 </resources>

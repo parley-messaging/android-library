@@ -1,9 +1,46 @@
 # Changelog
 
+## 3.10.0 - Released 30 Jul 2024
+
+- [Source] Parley now uses Kotlin at certain parts. Make sure to configure Kotlin in your project in case it doesn't use Kotlin yet.
+- [Send Media] Fixed an issue that could cause media to be send twice when using Android 14 or higher.
+- [Send Media] Added support for sending PDF files when using clientApi version 1.6 or higher.
+- [Chat Message] Added support for PDF documents within the chat.
+- [Styling] *Addition*: Added `parley_compose_media_icon` to `ParleyComposeView`. By default this is a `+` icon to send media within the chat (camera/gallery/document).
+- [Styling] *Addition*: Added `parley_compose_media_icon_tint` to `ParleyComposeView`. Since this now reflects what it is referring to.
+- [Styling] *DELETION*: Removed `parley_compose_camera_tint` from `ParleyComposeView`. Use `parley_compose_media_icon_tint` instead.
+- [Styling] *DELETION*: Removed `parley_compose_camera_icon` from `ParleyComposeView`. Use `parley_compose_media_icon` instead.
+- [Styling] *DEPRECATION*: Replace `parley_images_enabled` with `parley_media_enabled`.
+- [Styling] *REPLACED*: Replaced `parley_images_enabled` style attribute with `parley_media_enabled`.
+- [Styling] *REPLACED*: Replaced `parley_ic_camera` icon from the drawables with `parley_ic_add`.
+- [Styling] *REPLACED*: Replaced `parley_action_divider_margin_*` with `parley_divider_margin_*`.
+- [Styling] *REPLACED*: Replaced `parley_action_divider_color` with `parley_divider_color`.
+- [Styling] *REPLACED*: Replaced `parley_agent_action_divider_margin_*` with `parley_agent_divider_margin_*`.
+- [Styling] *Addition*: Added `parley_user_divider_margin_*` (also as `parley_divider_margin_*` for the style `ParleyMessageUserStyle`).
+- [Styling] *Addition*: Added `parley_user_divider_color` (also as `parley_divider_color` for the style `ParleyMessageUserStyle`).
+- [Styling] *Addition*: Added `parley_file_name_font_family` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_name_font_style` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_name_text_size` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_name_text_color` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_action_font_family` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_action_font_style` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_action_text_size` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Styling] *Addition*: Added `parley_file_action_text_color` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`).
+- [Strings] *Addition*: Added `parley_message_file_downloading`.
+- [Strings] *Addition*: Added `parley_media_select`.
+- [Strings] *Addition*: Added `parley_media_camera`.
+- [Strings] *Addition*: Added `parley_media_gallery`.
+- [Strings] *Addition*: Added `parley_media_document`.
+- [Strings] *Addition*: Added `parley_general_open`.
+- [Strings] *DELETION*: Removed `parley_photo`.
+- [Strings] *DELETION*: Removed `parley_select_photo`.
+- [Strings] *DELETION*: Removed `parley_take_photo`.
+- [Api Version] *DELETION*: Removed support for clientApi version 1.0 and 1.1.
+
 ## 3.9.7 - 16 Jul 2024
 
-- Fixed an issue that could cause images to be send twice when using Android 14 or higher.
-- Updated TrustKit to version 1.1.5.
+- [Send Media] Fixed an issue that could cause media to be send twice when using Android 14 or higher.
+- [Dependency] Updated TrustKit to version 1.1.5.
 
 ## 3.9.6 - 14 Jun 2024
 

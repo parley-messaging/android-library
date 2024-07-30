@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -29,8 +30,10 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
+import nu.parley.android.DefaultParleyDownloadCallback;
 import nu.parley.android.DefaultParleyLaunchCallback;
 import nu.parley.android.Parley;
+import nu.parley.android.ParleyDownloadCallback;
 import nu.parley.android.ParleyLaunchCallback;
 import nu.parley.android.ParleyListener;
 import nu.parley.android.R;
@@ -41,6 +44,7 @@ import nu.parley.android.notification.ParleyNotificationManager;
 import nu.parley.android.util.AccessibilityMonitor;
 import nu.parley.android.util.AccessibilityUtil;
 import nu.parley.android.util.ConnectivityMonitor;
+import nu.parley.android.util.IntentUtil;
 import nu.parley.android.util.ParleyPermissionUtil;
 import nu.parley.android.util.StyleUtil;
 import nu.parley.android.view.chat.MessageAdapter;
@@ -52,7 +56,7 @@ import nu.parley.android.view.compose.suggestion.SuggestionView;
 
 public final class ParleyView extends FrameLayout implements ParleyListener, ConnectivityMonitor.Listener, AccessibilityMonitor.Listener {
 
-    public static final int REQUEST_SELECT_IMAGE = 1661;
+    public static final int REQUEST_SELECT_MEDIA = 1661;
     public static final int REQUEST_TAKE_PHOTO = 1662;
     public static final int REQUEST_PERMISSION_ACCESS_CAMERA = 1663;
     public static final int REQUEST_PERMISSION_NOTIFICATIONS = 1664;
@@ -81,8 +85,9 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     // Is typing
     private Handler isTypingAgentHandler = new Handler();
     private Runnable isTypingAgentRunnable = null;
-    // Launching
+    // Callbacks
     private ParleyLaunchCallback launchCallback;
+    private ParleyDownloadCallback downloadCallback;
 
     public ParleyView(Context context) {
         super(context);
@@ -106,18 +111,29 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
      * Allows setting a {@link ParleyLaunchCallback} which allows client apps to change how Parley
      * "starts an Activity for result" and requests permissions.
      */
-    public void setLaunchCallback(@Nullable ParleyLaunchCallback launchCallback) {
-        if (launchCallback == null) {
-            this.launchCallback = new DefaultParleyLaunchCallback(getContext());
-        } else {
-            this.launchCallback = launchCallback;
-        }
+    public void setLaunchCallback(@NonNull ParleyLaunchCallback launchCallback) {
+        this.launchCallback = launchCallback;
         parleyMessageListener.setLaunchCallback(this.launchCallback);
         composeView.setLaunchCallback(this.launchCallback);
     }
 
+    /**
+     * Allows setting a {@link ParleyDownloadCallback} which allows client apps to change how Parley
+     * downloads files from the chat.
+     */
+    public void setDownloadCallback(@NonNull ParleyDownloadCallback downloadCallback) {
+        this.downloadCallback = downloadCallback;
+        parleyMessageListener.setDownloadCallback(this.downloadCallback);
+    }
+
     public void setListener(@Nullable Listener listener) {
         this.listener = listener;
+    }
+
+
+    @Deprecated(since = "3.10.0, replace with `setMediaEnabled`,", forRemoval = true)
+    public void setImagesEnabled(boolean enabled) {
+        setMediaEnabled(enabled);
     }
 
     /**
@@ -125,8 +141,8 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
      *
      * @param enabled
      */
-    public void setImagesEnabled(boolean enabled) {
-        composeView.setImagesEnabled(enabled);
+    public void setMediaEnabled(boolean enabled) {
+        composeView.setMediaEnabled(enabled);
     }
 
     /**
@@ -160,8 +176,18 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         composeView = findViewById(R.id.compose_view);
 
         // Configure
-        launchCallback = new DefaultParleyLaunchCallback(getContext());
-        setLaunchCallback(launchCallback);
+        setLaunchCallback(new DefaultParleyLaunchCallback(getContext()));
+        setDownloadCallback(new DefaultParleyDownloadCallback(getContext(), new DefaultParleyDownloadCallback.Listener() {
+            @Override
+            public void onFailed() {
+                Snackbar.make(ParleyView.this, getContext().getString(R.string.parley_message_file_download_failed), Snackbar.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onComplete(Uri uri) {
+                launchCallback.launchParleyActivity(IntentUtil.fromUrl(uri.toString()));
+            }
+        }));
 
         notificationsView.checkNotifications();
         recyclerView.setAdapter(adapter);
@@ -277,7 +303,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
                 StyleUtil.Helper.applyLoaderTint(statusLoader, loaderColor);
             }
 
-            setImagesEnabled(StyleUtil.getBoolean(ta, R.styleable.ParleyView_parley_images_enabled, true));
+            setMediaEnabled(StyleUtil.getBoolean(ta, R.styleable.ParleyView_parley_media_enabled, true));
 
             ParleyPosition.Vertical notificationsPosition = StyleUtil.getPositionVertical(ta, R.styleable.ParleyView_parley_notifications_position);
             setNotificationsPosition(notificationsPosition);
@@ -530,9 +556,9 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
             return true;
         }
 
-        if (requestCode == REQUEST_SELECT_IMAGE) {
+        if (requestCode == REQUEST_SELECT_MEDIA) {
             if (resultCode == RESULT_OK) {
-                composeView.submitSelectedImage(data);
+                composeView.submitSelectedMedia(data);
             }
             return true;
         }
@@ -567,7 +593,8 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
 
     // Accessibility
 
-    @SuppressLint("NotifyDataSetChanged") // TalkBack updates visuals only, which is why we need to render the chat messages again
+    @SuppressLint("NotifyDataSetChanged")
+    // TalkBack updates visuals only, which is why we need to render the chat messages again
     @Override
     public void onTalkbackChanged(boolean enabled) {
         adapter.notifyDataSetChanged();

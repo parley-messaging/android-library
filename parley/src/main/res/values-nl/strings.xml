@@ -2,17 +2,21 @@
     <string name="parley_type_message">Typ een bericht…</string>
     <string name="parley_notification_offline">Controleer uw internetverbinding</string>
     <string name="parley_notification_disabled">Meldingen zijn uitgeschakeld</string>
-    <string name="parley_select_photo">Selecteer een foto</string>
-    <string name="parley_take_photo">Maak een foto</string>
+    <string name="parley_media_select">Afbeelding of document sturen</string>
+    <string name="parley_media_camera">Camera</string>
+    <string name="parley_media_gallery">Gallerij</string>
+    <string name="parley_media_document">Document</string>
     <string name="parley_notification_channel_name">Chat berichten</string>
     <string name="parley_state_unconfigured">De chat is niet geconfigureerd.</string>
     <string name="parley_state_failed">De chat kan op het moment niet weergegeven worden.</string>
     <string name="parley_general_cancel">Annuleren</string>
     <string name="parley_general_ok">Oke</string>
-    <string name="parley_photo">Foto</string>
+    <string name="parley_general_open">Open</string>
     <string name="parley_error_action_open">Deze link kon helaas niet geopend worden.</string>
     <string name="parley_error_permission_missing_camera">Camerarechten zijn geweigerd, verleen toegang tot de camera in de app-rechten.</string>
 
+    <string name="parley_message_file_downloading">Bestand wordt gedownload…</string>
+    <string name="parley_message_file_download_failed">Het bestand kon niet gedownload worden.</string>
     <string name="parley_message_meta_failed_to_send">Versturen is mislukt</string>
     <string name="parley_message_meta_media_too_large">Foto is te groot</string>
 

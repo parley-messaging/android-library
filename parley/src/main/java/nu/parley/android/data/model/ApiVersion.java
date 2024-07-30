@@ -8,14 +8,6 @@ public enum ApiVersion {
     /**
      * @deprecated A newer version is available to support the latest functionality of Parley.
      */
-    @Deprecated V1_0,
-    /**
-     * @deprecated A newer version is available to support the latest functionality of Parley.
-     */
-    @Deprecated V1_1,
-    /**
-     * @deprecated A newer version is available to support the latest functionality of Parley.
-     */
     @Deprecated V1_2,
     /**
      * @deprecated A newer version is available to support the latest functionality of Parley.
@@ -36,12 +28,25 @@ public enum ApiVersion {
     /**
      * This is the latest supported version by the library.
      */
-    V1_7;
+    V1_7,
+    ;
 
     public boolean isUsingMedia() {
         switch (this) {
-            case V1_0:
-            case V1_1:
+            case V1_2:
+            case V1_3:
+            case V1_4:
+            case V1_5:
+                return false;
+            case V1_6:
+            case V1_7:
+                return true;
+        }
+        throw new IllegalStateException("Unhandled API version");
+    }
+
+    public boolean isSupportingPdf() {
+        switch (this) {
             case V1_2:
             case V1_3:
             case V1_4:

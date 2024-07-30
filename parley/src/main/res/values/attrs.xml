@@ -60,7 +60,7 @@
         <attr name="parley_background_color" format="color" />
         <attr name="parley_loader_tint_color" format="color" />
 
-        <attr name="parley_images_enabled" format="boolean" />
+        <attr name="parley_media_enabled" format="boolean" />
 
         <attr name="parley_notifications_position" format="enum">
             <enum name="top" value="0" />
@@ -162,8 +162,8 @@
         <attr name="parley_send_background_tint_color" format="color" />
         <attr name="parley_send_icon" format="reference" />
         <attr name="parley_send_icon_tint_color" format="color" />
-        <attr name="parley_camera_icon" format="reference" />
-        <attr name="parley_camera_icon_tint_color" format="color" />
+        <attr name="parley_media_icon" format="reference" />
+        <attr name="parley_media_icon_tint_color" format="color" />
     </declare-styleable>
 
     <!-- Parley - Messages -->
@@ -218,6 +218,13 @@
         <attr name="parley_margin_right" />
         <attr name="parley_margin_bottom" />
         <attr name="parley_margin_left" />
+        <attr name="parley_divider_margin" format="dimension" />
+        <attr name="parley_divider_margin_top" format="dimension" />
+        <attr name="parley_divider_margin_right" format="dimension" />
+        <attr name="parley_divider_margin_bottom" format="dimension" />
+        <attr name="parley_divider_margin_left" format="dimension" />
+        <attr name="parley_divider_color" format="color" />
+
         <attr name="parley_message_content_padding" format="dimension" />
         <attr name="parley_message_content_padding_top" format="dimension" />
         <attr name="parley_message_content_padding_right" format="dimension" />
@@ -228,6 +235,22 @@
         <attr name="parley_image_content_padding_right" format="dimension" />
         <attr name="parley_image_content_padding_bottom" format="dimension" />
         <attr name="parley_image_content_padding_left" format="dimension" />
+
+        <attr name="parley_file_content_padding" format="dimension" />
+        <attr name="parley_file_content_padding_top" format="dimension" />
+        <attr name="parley_file_content_padding_bottom" format="dimension" />
+        <attr name="parley_file_content_padding_right" format="dimension" />
+        <attr name="parley_file_content_padding_left" format="dimension" />
+        <attr name="parley_file_icon_tint_color" format="color" />
+        <attr name="parley_file_name_font_family" />
+        <attr name="parley_file_name_font_style" />
+        <attr name="parley_file_name_text_size" format="dimension" />
+        <attr name="parley_file_name_text_color" format="color" />
+        <attr name="parley_file_action_font_family" />
+        <attr name="parley_file_action_font_style" />
+        <attr name="parley_file_action_text_size" format="dimension" />
+        <attr name="parley_file_action_text_color" format="color" />
+
         <attr name="parley_meta_padding" format="dimension" />
         <attr name="parley_meta_padding_top" format="dimension" />
         <attr name="parley_meta_padding_right" format="dimension" />
@@ -276,22 +299,16 @@
     </declare-styleable>
 
     <declare-styleable name="ParleyMessageAction">
-        <attr name="parley_action_title_color" format="color" />
-        <attr name="parley_action_title_font_family" />
-        <attr name="parley_action_title_font_style" />
-        <attr name="parley_action_title_text_size" format="dimension"/>
-
-        <attr name="parley_action_divider_margin" format="dimension" />
-        <attr name="parley_action_divider_margin_top" format="dimension" />
-        <attr name="parley_action_divider_margin_right" format="dimension" />
-        <attr name="parley_action_divider_margin_bottom" format="dimension" />
-        <attr name="parley_action_divider_margin_left" format="dimension" />
         <attr name="parley_action_padding" format="dimension" />
         <attr name="parley_action_padding_top" format="dimension" />
         <attr name="parley_action_padding_right" format="dimension" />
         <attr name="parley_action_padding_bottom" format="dimension" />
         <attr name="parley_action_padding_left" format="dimension" />
-        <attr name="parley_action_divider_color" format="color" />
+
+        <attr name="parley_action_title_color" format="color" />
+        <attr name="parley_action_title_font_family" />
+        <attr name="parley_action_title_font_style" />
+        <attr name="parley_action_title_text_size" format="dimension" />
         <attr name="parley_action_font_family" />
         <attr name="parley_action_font_style" />
         <attr name="parley_action_text_size" format="dimension" />
@@ -365,6 +382,20 @@
         <enum name="monospace" value="3" />
     </attr>
 
+    <attr name="parley_file_name_font_family" format="reference">
+        <enum name="normal" value="0" />
+        <enum name="sans" value="1" />
+        <enum name="serif" value="2" />
+        <enum name="monospace" value="3" />
+    </attr>
+
+    <attr name="parley_file_action_font_family" format="reference">
+        <enum name="normal" value="0" />
+        <enum name="sans" value="1" />
+        <enum name="serif" value="2" />
+        <enum name="monospace" value="3" />
+    </attr>
+
     <attr name="parley_name_font_style">
         <flag name="normal" value="0" />
         <flag name="bold" value="1" />
@@ -384,6 +415,18 @@
     </attr>
 
     <attr name="parley_action_font_style">
+        <flag name="normal" value="0" />
+        <flag name="bold" value="1" />
+        <flag name="italic" value="2" />
+    </attr>
+
+    <attr name="parley_file_name_font_style">
+        <flag name="normal" value="0" />
+        <flag name="bold" value="1" />
+        <flag name="italic" value="2" />
+    </attr>
+
+    <attr name="parley_file_action_font_style">
         <flag name="normal" value="0" />
         <flag name="bold" value="1" />
         <flag name="italic" value="2" />

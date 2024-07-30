@@ -2,7 +2,6 @@ package nu.parley.android.view.compose;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
@@ -37,7 +36,7 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
 
     private ViewGroup inputLayout;
     private EditText inputEditText;
-    private ComposeImageInputView imageInputView;
+    private ComposeMediaInputView imageInputView;
     private FloatingActionButton sendButton;
 
     private ComposeListener listener;
@@ -108,8 +107,8 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
             sendButton.setBackgroundTintList(StyleUtil.getColorStateList(ta, R.styleable.ParleyComposeView_parley_send_background_tint_color));
             sendButton.setImageDrawable(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyComposeView_parley_send_icon));
             sendButton.setSupportImageTintList(StyleUtil.getColorStateList(ta, R.styleable.ParleyComposeView_parley_send_icon_tint_color));
-            imageInputView.setImageDrawable(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyComposeView_parley_camera_icon));
-            imageInputView.setImageTintList(StyleUtil.getColorStateList(ta, R.styleable.ParleyComposeView_parley_camera_icon_tint_color));
+            imageInputView.setImageDrawable(StyleUtil.getDrawable(getContext(), ta, R.styleable.ParleyComposeView_parley_media_icon));
+            imageInputView.setImageTintList(StyleUtil.getColorStateList(ta, R.styleable.ParleyComposeView_parley_media_icon_tint_color));
 
             ta.recycle();
         }
@@ -209,13 +208,13 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
             post(new Runnable() {
                 @Override
                 public void run() {
-                    listener.onSendImage(photoPath);
+                    listener.onSendMedia(photoPath);
                 }
             });
         }
     }
 
-    public void submitSelectedImage(Intent data) {
+    public void submitSelectedMedia(Intent data) {
         if (data != null && data.getData() != null) {
             Uri uri = data.getData();
 
@@ -228,7 +227,7 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
                 post(new Runnable() {
                     @Override
                     public void run() {
-                        listener.onSendImage(file);
+                        listener.onSendMedia(file);
                     }
                 });
             }
@@ -247,7 +246,7 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
         imageInputView.openCamera();
     }
 
-    public void setImagesEnabled(boolean enabled) {
+    public void setMediaEnabled(boolean enabled) {
         imageInputView.setVisibility(enabled ? View.VISIBLE : View.GONE);
 
         FrameLayout.LayoutParams imageInputLayoutParams = new FrameLayout.LayoutParams(imageInputView.getLayoutParams());

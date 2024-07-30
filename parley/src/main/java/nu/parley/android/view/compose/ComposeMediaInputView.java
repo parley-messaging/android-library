@@ -1,10 +1,9 @@
 package nu.parley.android.view.compose;
 
-import static nu.parley.android.view.ParleyView.REQUEST_SELECT_IMAGE;
+import static nu.parley.android.view.ParleyView.REQUEST_SELECT_MEDIA;
 import static nu.parley.android.view.ParleyView.REQUEST_TAKE_PHOTO;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -23,45 +21,48 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.widget.ImageViewCompat;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import nu.parley.android.Parley;
 import nu.parley.android.ParleyLaunchCallback;
 import nu.parley.android.R;
+import nu.parley.android.data.model.MimeType;
 import nu.parley.android.util.FileUtil;
 import nu.parley.android.util.ParleyPermissionUtil;
 import nu.parley.android.util.TakePictureFileProvider;
 import nu.parley.android.view.ParleyView;
 
-public final class ComposeImageInputView extends FrameLayout implements View.OnClickListener {
+public final class ComposeMediaInputView extends FrameLayout implements View.OnClickListener {
 
-    private AppCompatImageView cameraImageView;
+    private AppCompatImageView addMediaView;
     private ParleyLaunchCallback launchCallback;
 
     private File currentPhotoPath;
 
-    public ComposeImageInputView(Context context) {
+    public ComposeMediaInputView(Context context) {
         super(context);
         init();
     }
 
-    public ComposeImageInputView(Context context, AttributeSet attrs) {
+    public ComposeMediaInputView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ComposeImageInputView(Context context, AttributeSet attrs, int defStyle) {
+    public ComposeMediaInputView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
     private void init() {
-        inflate(getContext(), R.layout.view_compose_input_image, this);
+        inflate(getContext(), R.layout.view_compose_media, this);
 
-        cameraImageView = findViewById(R.id.camera_image_view);
+        addMediaView = findViewById(R.id.add_media_view);
 
         setOnClickListener(this);
     }
@@ -77,45 +78,68 @@ public final class ComposeImageInputView extends FrameLayout implements View.OnC
     }
 
     private void openImageChooser() {
+        String optionCamera = getContext().getString(R.string.parley_media_camera);
+        String optionGallery = getContext().getString(R.string.parley_media_gallery);
+        String optionDocument = getContext().getString(R.string.parley_media_document);
+
+        List<String> options = new ArrayList<>();
         if (isCameraAvailable()) {
-            // Show chooser
-            String[] options = new String[]{
-                    getContext().getString(R.string.parley_select_photo),
-                    getContext().getString(R.string.parley_take_photo)
-            };
-            new AlertDialog.Builder(getContext())
-                    .setTitle(R.string.parley_photo)
-                    .setItems(options, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which == 0) {
-                                selectImage();
-                            } else {
-                                checkCameraAccess();
-                            }
-                        }
-                    })
-                    .setNegativeButton(R.string.parley_general_cancel, null)
-                    .show();
-        } else {
-            // Force select image
-            Log.d("ParleyComposeView", "Detected camera not available, disabling camera input.");
-            selectImage();
+            options.add(optionCamera);
         }
+        options.add(optionGallery);
+        if (Parley.getInstance().getNetwork().apiVersion.isSupportingPdf()) {
+            options.add(optionDocument);
+        }
+
+        // Show chooser
+        String[] optionsArray = new String[options.size()];
+        options.toArray(optionsArray);
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.parley_media_select)
+                .setItems(optionsArray, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String selected = options.get(which);
+                        if (optionDocument.equals(selected)) {
+                            selectDocument();
+                        } else if (optionGallery.equals(selected)) {
+                            selectImage();
+                        } else if (optionCamera.equals(selected)) {
+                            checkCameraAccess();
+                        } else {
+                            Log.d("ParleyComposeView", "Unhandled selection: " + selected);
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.parley_general_cancel, null)
+                .show();
     }
 
     private boolean isCameraAvailable() {
         return getContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
     }
 
-    private void selectImage() {
-        String intentFilter = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ? Intent.ACTION_OPEN_DOCUMENT : Intent.ACTION_GET_CONTENT;
-        Intent intent = new Intent(intentFilter);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType(FileUtil.MIME_TYPE_IMAGE);
+    private void selectDocument() {
+        select(MimeType.Companion.getDocuments());
+    }
 
-        String title = getContext().getString(R.string.parley_select_photo);
-        launchIntent(Intent.createChooser(intent, title), REQUEST_SELECT_IMAGE);
+    private void selectImage() {
+        select(MimeType.Companion.getImages());
+    }
+
+    private void select(List<MimeType> mimeTypes) {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+//        intent.setType(FileUtil.MIME_TYPE_IMAGE);
+        String[] mimeTypeStrings = new String[mimeTypes.size()];
+        for (int i = 0; i < mimeTypes.size(); i++) {
+            mimeTypeStrings[i] = mimeTypes.get(i).getValue();
+        }
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypeStrings);
+
+        String title = ""; // getContext().getString(R.string.parley_media_gallery);
+        launchIntent(Intent.createChooser(intent, title), REQUEST_SELECT_MEDIA);
     }
 
     private void checkCameraAccess() {
@@ -151,11 +175,11 @@ public final class ComposeImageInputView extends FrameLayout implements View.OnC
     }
 
     public void setImageDrawable(Drawable drawable) {
-        cameraImageView.setImageDrawable(drawable);
+        addMediaView.setImageDrawable(drawable);
     }
 
     public void setImageTintList(ColorStateList color) {
-        ImageViewCompat.setImageTintList(cameraImageView, color);
+        ImageViewCompat.setImageTintList(addMediaView, color);
     }
 
     public void setLaunchCallback(@NonNull ParleyLaunchCallback launchCallback) {
