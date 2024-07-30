@@ -37,6 +37,11 @@
 - [Strings] *DELETION*: Removed `parley_take_photo`.
 - [Api Version] *DELETION*: Removed support for clientApi version 1.0 and 1.1.
 
+## 3.9.7 - 16 Jul 2024
+
+- [Send Media] Fixed an issue that could cause media to be send twice when using Android 14 or higher.
+- [Dependency] Updated TrustKit to version 1.1.5.
+
 ## 3.9.6 - 14 Jun 2024
 
 - Fixed a crash that could happen when the ParleyView is not visible/attached.

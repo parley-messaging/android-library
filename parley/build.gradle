@@ -69,7 +69,7 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:4.15.1"
 
     // TrustKit
-    implementation 'com.datatheorem.android.trustkit:trustkit:1.1.2'
+    implementation 'com.datatheorem.android.trustkit:trustkit:1.1.5'
 
     // Markdown support
     implementation "io.noties.markwon:core:4.0.2"
