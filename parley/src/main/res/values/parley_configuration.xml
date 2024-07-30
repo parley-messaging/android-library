@@ -211,7 +211,7 @@
     <dimen name="parley_user_meta_padding_left">10dp</dimen>
     <dimen name="parley_user_text_size">14sp</dimen>
     <color name="parley_user_text">#FFF</color>
-    <color name="parley_user_text_tint">#147DFA</color>
+    <color name="parley_user_text_tint">#9ACEFF</color>
     <dimen name="parley_user_time_text_size">12sp</dimen>
     <color name="parley_user_message_time">#BBC4C8</color>
     <color name="parley_user_image_time">#FFF</color>
