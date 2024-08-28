@@ -31,6 +31,6 @@ public final class ParleyComposeListener implements ComposeListener {
     }
 
     private void fireEvent(String event) {
-        new EventRepository().fire(event);
+        Parley.getInstance().getNetwork().repositories.getEventRepository().fire(event);
     }
 }

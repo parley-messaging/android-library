@@ -822,7 +822,7 @@ public final class Parley {
 
         if (showNewMessage) {
             listener.onNewMessage(message);
-            new EventRepository().fire(EVENT_STOP_TYPING);
+            getNetwork().repositories.getEventRepository().fire(EVENT_STOP_TYPING);
         }
 
         String uploadMedia = message.getLocalUrl();
