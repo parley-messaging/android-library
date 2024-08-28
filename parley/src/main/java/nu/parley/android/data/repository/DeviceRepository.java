@@ -15,18 +15,5 @@ import retrofit2.Response;
 
 public interface DeviceRepository {
 
-    public void register(final RepositoryCallback<Void> callback);
-
-    // TODO
-    public static String getDeviceId(Context context) {
-        PreferenceRepository preferences = new PreferenceRepository();
-        String deviceId = preferences.getDeviceId(context);
-        if (deviceId == null) {
-            String newDeviceId = UUID.randomUUID().toString();
-            preferences.setDeviceId(context, newDeviceId);
-            return newDeviceId;
-        } else {
-            return deviceId;
-        }
-    }
+    public void register(Device device, RepositoryCallback<Void> callback);
 }

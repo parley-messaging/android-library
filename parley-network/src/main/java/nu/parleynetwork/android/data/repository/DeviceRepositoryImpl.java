@@ -11,14 +11,9 @@ import retrofit2.Response;
 
 public final class DeviceRepositoryImpl implements nu.parley.android.data.repository.DeviceRepository {
 
-    public void register(final RepositoryCallback<Void> callback) {
-        Device device = new Device();
-
-        device.setPushToken(Parley.getInstance().getPushToken(), Parley.getInstance().getPushType());
-        device.setUserAdditionalInformation(Parley.getInstance().getUserAdditionalInformation());
-        device.setReferrer(Parley.getInstance().getReferrer());
-
-        Call<Void> registerCall = Connectivity.getRetrofit().create(DeviceService.class).register(device);
+    public void register(Device device, final RepositoryCallback<Void> callback) {
+        DeviceService deviceService = Connectivity.getRetrofit().create(DeviceService.class);
+        Call<Void> registerCall = deviceService.register(device);
         registerCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -35,17 +30,5 @@ public final class DeviceRepositoryImpl implements nu.parley.android.data.reposi
                 callback.onFailed(null, t.getMessage());
             }
         });
-    }/*
-TODO:
-    public static String getDeviceId(Context context) {
-        PreferenceRepository preferences = new PreferenceRepository();
-        String deviceId = preferences.getDeviceId(context);
-        if (deviceId == null) {
-            String newDeviceId = UUID.randomUUID().toString();
-            preferences.setDeviceId(context, newDeviceId);
-            return newDeviceId;
-        } else {
-            return deviceId;
-        }
-    }*/
+    }
 }

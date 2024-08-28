@@ -33,10 +33,12 @@ import nu.parley.android.data.net.response.ParleyResponse;
 import nu.parley.android.data.repository.DeviceRepository;
 import nu.parley.android.data.repository.EventRepository;
 import nu.parley.android.data.repository.MessageRepository;
+import nu.parley.android.data.repository.PreferenceRepository;
 import nu.parley.android.notification.PushNotificationHandler;
 import nu.parley.android.util.ChainListener;
 import nu.parley.android.util.CompareUtil;
 import nu.parley.android.util.ConnectivityMonitor;
+import nu.parley.android.util.DeviceUtil;
 import nu.parley.android.util.EmptyParleyCallback;
 import nu.parley.android.view.ParleyView;
 import nu.parley.android.view.chat.MessageViewHolderFactory;
@@ -495,7 +497,7 @@ public final class Parley {
 
         // Only additional messages are needed to retrieve
         this.refreshingMessages = true;
-        network.repositories.getDeviceRepository().register(new RepositoryCallback<Void>() {
+        network.repositories.getDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
                 new MessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
@@ -582,7 +584,7 @@ public final class Parley {
         this.secret = secret;
 
         if (uniqueDeviceIdentifier == null) {
-            this.uniqueDeviceIdentifier = DeviceRepository.getDeviceId(context);
+            this.uniqueDeviceIdentifier = PreferenceRepository.getOrGenerateDeviceId(context);
         } else {
             this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
         }
@@ -599,7 +601,7 @@ public final class Parley {
     }
 
     private void configureI(final ParleyCallback callback) {
-        network.repositories.getDeviceRepository().register(new RepositoryCallback<Void>() {
+        network.repositories.getDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
                 new MessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
@@ -653,7 +655,7 @@ public final class Parley {
         this.userAuthorization = null;
         this.userAdditionalInformation = new HashMap<>();
 
-        network.repositories.getDeviceRepository().register(new RepositoryCallback<Void>() {
+        network.repositories.getDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
                 secret = null;
@@ -718,7 +720,7 @@ public final class Parley {
 
         if (shouldConfigureForState) {
             // We should update the device
-            network.repositories.getDeviceRepository().register(new RepositoryCallback<Void>() {
+            network.repositories.getDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
                 @Override
                 public void onSuccess(Void data) {
                     callback.onSuccess();
