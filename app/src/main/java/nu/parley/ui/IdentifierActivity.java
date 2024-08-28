@@ -10,11 +10,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.security.InvalidKeyException;
@@ -30,6 +27,8 @@ import nu.parley.android.ParleyNetwork;
 import nu.parley.android.data.messages.ParleyEncryptedDataSource;
 import nu.parley.android.data.model.ApiVersion;
 import nu.parley.repository.PreferenceRepository;
+import nu.parleynetwork.android.data.repository.DeviceRepositoryImpl;
+import nu.parleynetwork.android.data.repository.ParleyNetworkRepositories;
 
 public final class IdentifierActivity extends BaseActivity {
 
@@ -119,6 +118,7 @@ public final class IdentifierActivity extends BaseActivity {
 
     private void initParley() {
 //        setParleyNetwork(); // Optional, defaults to Parley configuration
+        Parley.getInstance().getNetwork().repositories = new ParleyNetworkRepositories();
 //        setOfflineMessagingEnabled(); // Optional, default off
 //        Parley.disableOfflineMessaging();
 //        Parley.setReferrer("https://parley.nu/"); // Optional, default `null`

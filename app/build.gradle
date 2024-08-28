@@ -43,7 +43,9 @@ dependencies {
 
     // Library
 //    implementation 'com.github.parley-messaging:android-library:3.10.0' // Remote
+//    implementation 'com.github.parley-networking:android-library:3.10.0' // Remote
     implementation project(':parley') // Local
+    implementation project(':parley-network') // Local
 
     // Tests
     testImplementation 'junit:junit:4.13.2'

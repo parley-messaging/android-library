@@ -26,6 +26,7 @@ import nu.parley.android.data.messages.MessagesManager;
 import nu.parley.android.data.messages.ParleyDataSource;
 import nu.parley.android.data.model.Message;
 import nu.parley.android.data.model.PushType;
+import nu.parley.android.data.net.ParleyRepositories;
 import nu.parley.android.data.net.RepositoryCallback;
 import nu.parley.android.data.net.response.ParleyNotificationResponseType;
 import nu.parley.android.data.net.response.ParleyResponse;
@@ -494,7 +495,7 @@ public final class Parley {
 
         // Only additional messages are needed to retrieve
         this.refreshingMessages = true;
-        new DeviceRepository().register(new RepositoryCallback<Void>() {
+        network.repositories.getDeviceRepository().register(new RepositoryCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
                 new MessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
@@ -598,7 +599,7 @@ public final class Parley {
     }
 
     private void configureI(final ParleyCallback callback) {
-        new DeviceRepository().register(new RepositoryCallback<Void>() {
+        network.repositories.getDeviceRepository().register(new RepositoryCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
                 new MessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
@@ -652,7 +653,7 @@ public final class Parley {
         this.userAuthorization = null;
         this.userAdditionalInformation = new HashMap<>();
 
-        new DeviceRepository().register(new RepositoryCallback<Void>() {
+        network.repositories.getDeviceRepository().register(new RepositoryCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
                 secret = null;
@@ -717,7 +718,7 @@ public final class Parley {
 
         if (shouldConfigureForState) {
             // We should update the device
-            new DeviceRepository().register(new RepositoryCallback<Void>() {
+            network.repositories.getDeviceRepository().register(new RepositoryCallback<Void>() {
                 @Override
                 public void onSuccess(Void data) {
                     callback.onSuccess();

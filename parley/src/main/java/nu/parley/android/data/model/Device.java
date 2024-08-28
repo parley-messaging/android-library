@@ -2,23 +2,32 @@ package nu.parley.android.data.model;
 
 import androidx.annotation.Nullable;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.Map;
 
 public final class Device {
 
-    @SerializedName("pushToken")
+    public Device() {
+    }
+
+    public Device(
+            String pushToken,
+            Integer pushType,
+            Map<String, String> userAdditionalInformation,
+            @Nullable String referrer
+    ) {
+        this.pushToken = pushToken;
+        this.pushType = pushType;
+        this.userAdditionalInformation = userAdditionalInformation;
+        this.referrer = referrer;
+    }
+
     private String pushToken;
 
-    @SerializedName("pushType")
     private Integer pushType = 6;
 
-    @SerializedName("userAdditionalInformation")
     private Map<String, String> userAdditionalInformation;
 
     @Nullable
-    @SerializedName("referrer")
     private String referrer;
 
     public void setPushToken(String pushToken, PushType pushType) {

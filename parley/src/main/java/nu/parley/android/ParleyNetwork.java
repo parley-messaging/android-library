@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nu.parley.android.data.model.ApiVersion;
+import nu.parley.android.data.net.ParleyRepositories;
 import okhttp3.Interceptor;
 
 /**
@@ -26,6 +27,8 @@ public final class ParleyNetwork {
     final Integer securityConfigResourceFile;
     public final String path;
     public final ApiVersion apiVersion;
+    // TODO: Make final (not-null)
+    public ParleyRepositories repositories = null;
 
     /**
      * Applies the default network settings of Parley.
