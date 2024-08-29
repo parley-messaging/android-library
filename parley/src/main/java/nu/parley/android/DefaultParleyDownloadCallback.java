@@ -11,10 +11,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import java.util.HashMap;
 import java.util.Map;
-
-import nu.parley.android.data.net.Connectivity;
 
 public class DefaultParleyDownloadCallback implements ParleyDownloadCallback {
 
@@ -36,15 +33,10 @@ public class DefaultParleyDownloadCallback implements ParleyDownloadCallback {
     }
 
     @Override
-    public void launchParleyDownload(String url) {
-        Uri downloadUri = Uri.parse(Parley.getInstance().getNetwork().getBaseUrl() + "media/" + url);
+    public void launchParleyDownload(String url, Map<String, String> headers) {
         DownloadManager downloadManager = getDownloadManager();
+        Uri downloadUri = Uri.parse(url);
         DownloadManager.Request request = new DownloadManager.Request(downloadUri);
-
-        Map<String, String> headers = new HashMap<>();
-        headers.putAll(Connectivity.getAdditionalHeaders());
-        headers.putAll(Connectivity.getParleyHeaders());
-
         for (String key : headers.keySet()) {
             String value = headers.get(key);
             request.addRequestHeader(key, value);
