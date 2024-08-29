@@ -4,5 +4,5 @@ import java.util.Map;
 
 public interface ParleyDownloadCallback {
 
-    void launchParleyDownload(String url, Map<String, String> headers);
+    void launchParleyDownload(String url);
 }

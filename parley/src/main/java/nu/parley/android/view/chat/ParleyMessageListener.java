@@ -94,14 +94,9 @@ public final class ParleyMessageListener implements MessageListener {
     }
 
     private void openDownload(View view, String url) {
-        Uri downloadUri = Uri.parse(Parley.getInstance().getNetwork().getBaseUrl() + "media/" + url);
-        Map<String, String> headers = new HashMap<>();
-        headers.putAll(Connectivity.getAdditionalHeaders());
-        headers.putAll(Connectivity.getParleyHeaders());
         Snackbar.make(view, R.string.parley_message_file_downloading, Snackbar.LENGTH_LONG).show();
         downloadCallback.launchParleyDownload(
-                downloadUri.toString(),
-                headers
+                url
         );
     }
 
