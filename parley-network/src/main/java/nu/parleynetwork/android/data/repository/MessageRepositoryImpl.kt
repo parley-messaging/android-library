@@ -1,158 +1,192 @@
-package nu.parleynetwork.android.data.repository;
+package nu.parleynetwork.android.data.repository
 
-import static nu.parley.android.data.model.Message.SEND_STATUS_SUCCESS;
+import nu.parley.android.data.model.Media
+import nu.parley.android.data.model.Message
+import nu.parley.android.data.model.MimeType.Companion.fromValue
+import nu.parley.android.data.net.Connectivity
+import nu.parley.android.data.net.RepositoryCallback
+import nu.parley.android.data.net.response.ParleyPaging
+import nu.parley.android.data.net.response.ParleyResponse
+import nu.parley.android.data.net.response.ParleyResponsePostMedia
+import nu.parley.android.data.net.response.ParleyResponsePostMessage
+import nu.parley.android.data.net.service.MessageService
+import nu.parley.android.data.repository.MessageRepository
+import nu.parley.android.util.FileUtil
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.File
 
-import androidx.annotation.Nullable;
+class MessageRepositoryImpl : MessageRepository {
+    public override fun findAll(callback: RepositoryCallback<ParleyResponse<List<Message>>>) {
+        var messagesCall = Connectivity.getRetrofit().create(
+            MessageService::class.java
+        ).findAll()
 
-import java.io.File;
-import java.util.List;
-
-import nu.parley.android.data.model.Media;
-import nu.parley.android.data.model.Message;
-import nu.parley.android.data.model.MimeType;
-import nu.parley.android.data.net.Connectivity;
-import nu.parley.android.data.net.RepositoryCallback;
-import nu.parley.android.data.net.response.ParleyPaging;
-import nu.parley.android.data.net.response.ParleyResponse;
-import nu.parley.android.data.net.response.ParleyResponsePostMedia;
-import nu.parley.android.data.net.response.ParleyResponsePostMessage;
-import nu.parley.android.data.net.service.MessageService;
-import nu.parley.android.data.repository.MessageRepository;
-import nu.parley.android.util.FileUtil;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class MessageRepositoryImpl implements MessageRepository {
-
-    public void findAll(final RepositoryCallback<ParleyResponse<List<Message>>> callback) {
-        Call<ParleyResponse<List<Message>>> messagesCall = Connectivity.getRetrofit().create(MessageService.class).findAll();
-
-        messagesCall.enqueue(new Callback<ParleyResponse<List<Message>>>() {
-            @Override
-            public void onResponse(Call<ParleyResponse<List<Message>>> call, Response<ParleyResponse<List<Message>>> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess(response.body());
+        messagesCall.enqueue(object : Callback<ParleyResponse<List<Message>>> {
+            public override fun onResponse(
+                call: Call<ParleyResponse<List<Message>>>,
+                response: Response<ParleyResponse<List<Message>>>
+            ) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(response.body())
                 } else {
-                    callback.onFailed(response.code(), Connectivity.getFormattedError(response));
+                    callback.onFailed(response.code(), Connectivity.getFormattedError(response))
                 }
             }
 
-            @Override
-            public void onFailure(Call<ParleyResponse<List<Message>>> call, Throwable t) {
-                t.printStackTrace();
-                callback.onFailed(null, t.getMessage());
+            public override fun onFailure(call: Call<ParleyResponse<List<Message>>>, t: Throwable) {
+                t.printStackTrace()
+                callback.onFailed(null, t.message)
             }
-        });
+        })
     }
 
-    public void getOlder(final ParleyPaging previousPaging, final RepositoryCallback<ParleyResponse<List<Message>>> callback) {
-        Call<ParleyResponse<List<Message>>> messagesCall = Connectivity.getRetrofit().create(MessageService.class).getOlder(previousPaging.getBefore());
+    public override fun getOlder(
+        previousPaging: ParleyPaging,
+        callback: RepositoryCallback<ParleyResponse<List<Message>>>
+    ) {
+        var messagesCall = Connectivity.getRetrofit().create(
+            MessageService::class.java
+        ).getOlder(previousPaging.before)
 
-        messagesCall.enqueue(new Callback<ParleyResponse<List<Message>>>() {
-            @Override
-            public void onResponse(Call<ParleyResponse<List<Message>>> call, Response<ParleyResponse<List<Message>>> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess(response.body());
+        messagesCall.enqueue(object : Callback<ParleyResponse<List<Message>>> {
+            public override fun onResponse(
+                call: Call<ParleyResponse<List<Message>>>,
+                response: Response<ParleyResponse<List<Message>>>
+            ) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(response.body())
                 } else {
-                    callback.onFailed(response.code(), Connectivity.getFormattedError(response));
+                    callback.onFailed(response.code(), Connectivity.getFormattedError(response))
                 }
             }
 
-            @Override
-            public void onFailure(Call<ParleyResponse<List<Message>>> call, Throwable t) {
-                t.printStackTrace();
-                callback.onFailed(null, t.getMessage());
+            public override fun onFailure(call: Call<ParleyResponse<List<Message>>>, t: Throwable) {
+                t.printStackTrace()
+                callback.onFailed(null, t.message)
             }
-        });
+        })
     }
 
-    public void send(final Message message, @Nullable final String media, final RepositoryCallback<Message> callback) {
-        Call<ParleyResponse<ParleyResponsePostMessage>> messagesCall;
+    public override fun send(
+        message: Message,
+        media: String?,
+        callback: RepositoryCallback<Message>
+    ) {
+        var messagesCall: Call<ParleyResponse<ParleyResponsePostMessage?>?>
         if (media == null) {
             // Text or media message
-            messagesCall = Connectivity.getRetrofit().create(MessageService.class).post(message);
+            messagesCall =
+                Connectivity.getRetrofit().create(MessageService::class.java).post(message)
         } else {
             // Image message API V1.2: Uploading it together when sending the message
-            File file = new File(media);
-            String mediaType = FileUtil.getMimeType(file.getAbsolutePath());
-            MimeType mimeType = MimeType.Companion.fromValue(mediaType);
-            RequestBody requestBody = RequestBody.create(MediaType.parse(mimeType.getValue()), media);
+            var file = File(media)
+            var mediaType = FileUtil.getMimeType(file.absolutePath)
+            var mimeType = fromValue(
+                mediaType!!
+            )
+            var requestBody = RequestBody.create(MediaType.parse(mimeType.value), media)
 
-            MultipartBody.Part filePart = MultipartBody.Part.createFormData("image", file.getName(), requestBody);
-            messagesCall = Connectivity.getRetrofit().create(MessageService.class).postImage(filePart);
+            var filePart = MultipartBody.Part.createFormData("image", file.name, requestBody)
+            messagesCall =
+                Connectivity.getRetrofit().create(MessageService::class.java).postImage(filePart)
         }
 
-        messagesCall.enqueue(new Callback<ParleyResponse<ParleyResponsePostMessage>>() {
-            @Override
-            public void onResponse(Call<ParleyResponse<ParleyResponsePostMessage>> call, Response<ParleyResponse<ParleyResponsePostMessage>> response) {
-                if (response.isSuccessful()) {
-                    Message updatedMessage = Message.withIdAndStatus(message, response.body().getData().getMessageId(), SEND_STATUS_SUCCESS);
-                    callback.onSuccess(updatedMessage);
+        messagesCall.enqueue(object : Callback<ParleyResponse<ParleyResponsePostMessage?>?> {
+            public override fun onResponse(
+                call: Call<ParleyResponse<ParleyResponsePostMessage?>?>,
+                response: Response<ParleyResponse<ParleyResponsePostMessage?>?>
+            ) {
+                if (response.isSuccessful) {
+                    var updatedMessage = Message.withIdAndStatus(
+                        message, response.body()!!
+                            .data?.messageId, Message.SEND_STATUS_SUCCESS
+                    )
+                    callback.onSuccess(updatedMessage)
                 } else {
-                    callback.onFailed(response.code(), Connectivity.getFormattedError(response));
+                    callback.onFailed(response.code(), Connectivity.getFormattedError(response))
                 }
             }
 
-            @Override
-            public void onFailure(Call<ParleyResponse<ParleyResponsePostMessage>> call, Throwable t) {
-                t.printStackTrace();
-                callback.onFailed(null, t.getMessage());
+            public override fun onFailure(
+                call: Call<ParleyResponse<ParleyResponsePostMessage?>?>,
+                t: Throwable
+            ) {
+                t.printStackTrace()
+                callback.onFailed(null, t.message)
             }
-        });
+        })
     }
 
-    public void sendMedia(final Message message, final String media, final RepositoryCallback<Message> callback) {
+    public override fun sendMedia(
+        message: Message,
+        media: String,
+        callback: RepositoryCallback<Message>
+    ) {
         // API V1.6+: Uploading media
-        File file = new File(media);
-        String mediaType = FileUtil.getMimeType(media);
-        MimeType mimeType = MimeType.Companion.fromValue(mediaType);
-        RequestBody requestBody = RequestBody.create(MediaType.parse(mimeType.getValue()), file);
+        var file = File(media)
+        var mediaType = FileUtil.getMimeType(media)
+        var mimeType = fromValue(
+            mediaType!!
+        )
+        var requestBody = RequestBody.create(MediaType.parse(mimeType.value), file)
 
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("media", file.getName(), requestBody);
+        var filePart = MultipartBody.Part.createFormData("media", file.name, requestBody)
 
-        Call<ParleyResponse<ParleyResponsePostMedia>> messagesCall = Connectivity.getRetrofit().create(MessageService.class).postMedia(filePart);
-        messagesCall.enqueue(new Callback<ParleyResponse<ParleyResponsePostMedia>>() {
-            @Override
-            public void onResponse(Call<ParleyResponse<ParleyResponsePostMedia>> call, Response<ParleyResponse<ParleyResponsePostMedia>> response) {
-                if (response.isSuccessful()) {
-                    Media media = new Media(response.body().getData().mediaId, file.getName(), mimeType.getValue());
-                    Message updatedMessage = Message.withMedia(message, media);
-                    callback.onSuccess(updatedMessage);
+        var messagesCall = Connectivity.getRetrofit().create(
+            MessageService::class.java
+        ).postMedia(filePart)
+        messagesCall.enqueue(object : Callback<ParleyResponse<ParleyResponsePostMedia>> {
+            public override fun onResponse(
+                call: Call<ParleyResponse<ParleyResponsePostMedia>>,
+                response: Response<ParleyResponse<ParleyResponsePostMedia>>
+            ) {
+                if (response.isSuccessful) {
+                    var media = Media(
+                        response.body()!!.data.mediaId!!, file.name, mimeType.value
+                    )
+                    var updatedMessage = Message.withMedia(message, media)
+                    callback.onSuccess(updatedMessage)
                 } else {
-                    callback.onFailed(response.code(), Connectivity.getFormattedError(response));
+                    callback.onFailed(response.code(), Connectivity.getFormattedError(response))
                 }
             }
 
-            @Override
-            public void onFailure(Call<ParleyResponse<ParleyResponsePostMedia>> call, Throwable t) {
-                t.printStackTrace();
-                callback.onFailed(null, t.getMessage());
+            public override fun onFailure(
+                call: Call<ParleyResponse<ParleyResponsePostMedia>>,
+                t: Throwable
+            ) {
+                t.printStackTrace()
+                callback.onFailed(null, t.message)
             }
-        });
+        })
     }
 
-    public void get(final Integer messageId, final RepositoryCallback<Message> callback) {
-        Call<ParleyResponse<Message>> messagesCall = Connectivity.getRetrofit().create(MessageService.class).get(messageId);
+    public override fun get(messageId: Int, callback: RepositoryCallback<Message>) {
+        var messagesCall = Connectivity.getRetrofit().create(
+            MessageService::class.java
+        ).get(messageId)
 
-        messagesCall.enqueue(new Callback<ParleyResponse<Message>>() {
-            @Override
-            public void onResponse(Call<ParleyResponse<Message>> call, Response<ParleyResponse<Message>> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess(response.body().getData());
+        messagesCall.enqueue(object : Callback<ParleyResponse<Message>> {
+            public override fun onResponse(
+                call: Call<ParleyResponse<Message>>,
+                response: Response<ParleyResponse<Message>>
+            ) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(response.body()!!.data)
                 } else {
-                    callback.onFailed(response.code(), Connectivity.getFormattedError(response));
+                    callback.onFailed(response.code(), Connectivity.getFormattedError(response))
                 }
             }
 
-            @Override
-            public void onFailure(Call<ParleyResponse<Message>> call, Throwable t) {
-                t.printStackTrace();
-                callback.onFailed(null, t.getMessage());
+            public override fun onFailure(call: Call<ParleyResponse<Message>>, t: Throwable) {
+                t.printStackTrace()
+                callback.onFailed(null, t.message)
             }
-        });
+        })
     }
 }

@@ -1,26 +1,25 @@
-package nu.parleynetwork.android.data.repository;
+package nu.parleynetwork.android.data.repository
 
-import nu.parley.android.data.net.Connectivity;
-import nu.parley.android.data.net.service.EventService;
-import nu.parley.android.data.repository.EventRepository;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import nu.parley.android.data.net.Connectivity
+import nu.parley.android.data.net.service.EventService
+import nu.parley.android.data.repository.EventRepository
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-public class EventRepositoryImpl implements EventRepository {
-
-    public void fire(String event) {
-        Call<Void> eventCall = Connectivity.getRetrofit().create(EventService.class).fire(event);
-        eventCall.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+class EventRepositoryImpl : EventRepository {
+    public override fun fire(event: String) {
+        var eventCall = Connectivity.getRetrofit().create(
+            EventService::class.java
+        ).fire(event)
+        eventCall.enqueue(object : Callback<Void?> {
+            public override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
                 // Ignore
             }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public override fun onFailure(call: Call<Void?>, t: Throwable) {
                 // Ignore
             }
-        });
+        })
     }
 }

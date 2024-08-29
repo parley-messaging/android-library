@@ -1,30 +1,23 @@
-package nu.parleynetwork.android.data.model;
+package nu.parleynetwork.android.data.model
 
-import androidx.annotation.Nullable;
+import com.google.gson.annotations.SerializedName
+import nu.parley.android.data.model.Device
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.Map;
-
-import nu.parley.android.data.model.Device;
-
-public final class DeviceJson {
-
+class DeviceJson {
     @SerializedName("pushToken")
-    private String pushToken;
+    private val pushToken: String? = null
 
     @SerializedName("pushType")
-    private Integer pushType = 6;
+    private val pushType = 6
 
     @SerializedName("userAdditionalInformation")
-    private Map<String, String> userAdditionalInformation;
+    private val userAdditionalInformation: Map<String, String>? = null
 
-    @Nullable
     @SerializedName("referrer")
-    private String referrer;
+    private val referrer: String? = null
 
-    public Device toModel() {
-        return new Device(pushToken, pushType, userAdditionalInformation, referrer);
+    fun toModel(): Device {
+        return Device(pushToken, pushType, userAdditionalInformation, referrer)
     }
 }
 

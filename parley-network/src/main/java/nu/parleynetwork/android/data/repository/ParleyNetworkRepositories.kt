@@ -1,27 +1,16 @@
-package nu.parleynetwork.android.data.repository;
+package nu.parleynetwork.android.data.repository
 
-import nu.parley.android.data.net.ParleyRepositories;
-import nu.parley.android.data.repository.DeviceRepository;
-import nu.parley.android.data.repository.EventRepository;
-import nu.parley.android.data.repository.MessageRepository;
+import nu.parley.android.data.net.ParleyRepositories
+import nu.parley.android.data.repository.DeviceRepository
+import nu.parley.android.data.repository.EventRepository
+import nu.parley.android.data.repository.MessageRepository
 
-public class ParleyNetworkRepositories implements ParleyRepositories {
-    private DeviceRepository deviceRepository = new DeviceRepositoryImpl();
-    private EventRepository eventRepository = new EventRepositoryImpl();
-    private MessageRepository messageRepository = new MessageRepositoryImpl();
+class ParleyNetworkRepositories : ParleyRepositories {
+    private val deviceRepository: DeviceRepository = DeviceRepositoryImpl()
+    private val eventRepository: EventRepository = EventRepositoryImpl()
+    private val messageRepository: MessageRepository = MessageRepositoryImpl()
 
-    @Override
-    public DeviceRepository getDeviceRepository() {
-        return deviceRepository;
-    }
-
-    @Override
-    public EventRepository getEventRepository() {
-        return eventRepository;
-    }
-
-    @Override
-    public MessageRepository getMessageRepository() {
-        return messageRepository;
-    }
+    public override fun getDeviceRepository(): DeviceRepository = deviceRepository
+    public override fun getEventRepository(): EventRepository = eventRepository
+    public override fun getMessageRepository(): MessageRepository = messageRepository
 }

@@ -1,34 +1,33 @@
-package nu.parleynetwork.android.data.repository;
+package nu.parleynetwork.android.data.repository
 
-import nu.parley.android.Parley;
-import nu.parley.android.data.model.Device;
-import nu.parley.android.data.net.Connectivity;
-import nu.parley.android.data.net.RepositoryCallback;
-import nu.parley.android.data.net.service.DeviceService;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import nu.parley.android.data.model.Device
+import nu.parley.android.data.net.Connectivity
+import nu.parley.android.data.net.RepositoryCallback
+import nu.parley.android.data.net.service.DeviceService
+import nu.parley.android.data.repository.DeviceRepository
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-public final class DeviceRepositoryImpl implements nu.parley.android.data.repository.DeviceRepository {
-
-    public void register(Device device, final RepositoryCallback<Void> callback) {
-        DeviceService deviceService = Connectivity.getRetrofit().create(DeviceService.class);
-        Call<Void> registerCall = deviceService.register(device);
-        registerCall.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess(null);
+class DeviceRepositoryImpl : DeviceRepository {
+    public override fun register(device: Device, callback: RepositoryCallback<Void>) {
+        var deviceService = Connectivity.getRetrofit().create(
+            DeviceService::class.java
+        )
+        var registerCall = deviceService.register(device)
+        registerCall.enqueue(object : Callback<Void?> {
+            public override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(null)
                 } else {
-                    callback.onFailed(response.code(), Connectivity.getFormattedError(response));
+                    callback.onFailed(response.code(), Connectivity.getFormattedError(response))
                 }
             }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                t.printStackTrace();
-                callback.onFailed(null, t.getMessage());
+            public override fun onFailure(call: Call<Void?>, t: Throwable) {
+                t.printStackTrace()
+                callback.onFailed(null, t.message)
             }
-        });
+        })
     }
 }
