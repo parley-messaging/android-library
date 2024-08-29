@@ -9,8 +9,4 @@ import retrofit2.http.POST;
 public interface DeviceService {
 
     void register(RepositoryCallback<Void> callback, Device device);
-
-    @POST("devices")
-    Call<Void> register(@Body Device device);
-
 }

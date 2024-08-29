@@ -2,22 +2,23 @@ package nu.parleynetwork.android.data.model
 
 import com.google.gson.annotations.SerializedName
 import nu.parley.android.data.model.Device
+import nu.parleynetwork.android.data.net.DeviceService
 
-class DeviceJson {
+class DeviceJson(
     @SerializedName("pushToken")
-    private val pushToken: String? = null
-
+    private val pushToken: String? = null,
     @SerializedName("pushType")
-    private val pushType = 6
-
+    private val pushType: Int = 6,
     @SerializedName("userAdditionalInformation")
-    private val userAdditionalInformation: Map<String, String>? = null
-
+    private val userAdditionalInformation: Map<String, String>? = null,
     @SerializedName("referrer")
-    private val referrer: String? = null
+    private val referrer: String? = null,
+) {
 
-    fun toModel(): Device {
-        return Device(pushToken, pushType, userAdditionalInformation, referrer)
+    companion object {
+        fun fromModel(device: Device) = with(device) {
+            DeviceJson(pushToken, pushType, userAdditionalInformation, referrer)
+        }
     }
 }
 

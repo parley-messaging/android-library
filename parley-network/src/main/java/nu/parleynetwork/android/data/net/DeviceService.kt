@@ -7,5 +7,5 @@ import retrofit2.http.POST
 
 internal interface DeviceService {
     @POST("devices")
-    fun register(@Body device: DeviceJson?): Call<Void?>?
+    fun register(@Body device: DeviceJson): Call<Void>
 }

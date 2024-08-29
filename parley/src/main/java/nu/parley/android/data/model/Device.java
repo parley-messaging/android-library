@@ -21,14 +21,14 @@ public final class Device {
         this.referrer = referrer;
     }
 
-    private String pushToken;
+    public String pushToken;
 
-    private Integer pushType = 6;
+    public Integer pushType = 6;
 
-    private Map<String, String> userAdditionalInformation;
+    public Map<String, String> userAdditionalInformation;
 
     @Nullable
-    private String referrer;
+    public String referrer;
 
     public void setPushToken(String pushToken, PushType pushType) {
         this.pushToken = pushToken;
