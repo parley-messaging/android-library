@@ -66,7 +66,7 @@ public final class MessageJson {
 
     @SerializedName("media")
     @Nullable
-    private Media media;
+    private MediaJson media;
 
     @SerializedName("buttons")
     @Nullable
@@ -95,7 +95,7 @@ public final class MessageJson {
         // Hide constructor
     }
 
-    private MessageJson(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String localUrl, @Nullable Media media, int typeId, @Nullable AgentJson agent, int sendStatus) {
+    private MessageJson(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String localUrl, @Nullable MediaJson media, int typeId, @Nullable AgentJson agent, int sendStatus) {
         this.uuid = uuid;
         this.id = id;
         this.timeStamp = timeStamp;
@@ -107,7 +107,7 @@ public final class MessageJson {
         this.sendStatus = sendStatus;
     }
 
-    public MessageJson(@Nullable Integer id, Long timeStamp, @Nullable String title, @Nullable String message, @Nullable String localUrl, @Nullable Media media, Integer typeId, @Nullable AgentJson agent, int sendStatus, @Nullable List<ActionJson> actions, @Nullable List<MessageJson> carousel) {
+    public MessageJson(@Nullable Integer id, Long timeStamp, @Nullable String title, @Nullable String message, @Nullable String localUrl, @Nullable MediaJson media, Integer typeId, @Nullable AgentJson agent, int sendStatus, @Nullable List<ActionJson> actions, @Nullable List<MessageJson> carousel) {
         this.id = id;
         this.timeStamp = timeStamp;
         this.title = title;
@@ -188,7 +188,7 @@ public final class MessageJson {
                 message.getTitle(),
                 message.getMessage(),
                 message.getLocalUrl(),
-                message.getMedia(),
+                MediaJson.Companion.from(message.getMedia()),
                 message.getTypeId(),
                 AgentJson.Companion.from(message.getAgent()),
                 message.getSendStatus(),
@@ -233,7 +233,7 @@ public final class MessageJson {
         return new MessageJson(sourceMessage.uuid, id, sourceMessage.timeStamp, sourceMessage.message, sourceMessage.localUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, status);
     }
 
-    public static MessageJson withMedia(MessageJson sourceMessage, Media media) {
+    public static MessageJson withMedia(MessageJson sourceMessage, MediaJson media) {
         return new MessageJson(sourceMessage.uuid, sourceMessage.id, sourceMessage.timeStamp, sourceMessage.message, null, media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
     }
 
@@ -294,40 +294,6 @@ public final class MessageJson {
     }
 
     @Nullable
-    public String getLocalUrl() {
-        return localUrl;
-    }
-
-    @Nullable
-    public Media getMedia() {
-        if (localUrl == null) {
-            return media;
-        } else {
-            return Media.Companion.fromFile(new File(localUrl));
-        }
-    }
-
-    @Nullable
-    public String getImageUrl() {
-        if (image != null) {
-            // Legacy: Messages from clientApi 1.5 and lower
-            return image;
-        }
-
-        if (getMedia() != null && getMedia().getMimeType().isImage()) {
-            if (localUrl == null) {
-                // Messages from clientApi 1.6 and higher
-                return getMedia().getUrl();
-            } else {
-                // Pending upload
-                return localUrl;
-            }
-        }
-
-        return null;
-    }
-
-    @Nullable
     public Date getDate() {
         if (timeStamp == null) {
             return null;
@@ -346,7 +312,7 @@ public final class MessageJson {
                 title,
                 message,
                 localUrl,
-                media,
+                media.toMedia(),
                 typeId,
                 agent.toAgent(),
                 sendStatus,
@@ -355,51 +321,8 @@ public final class MessageJson {
         );
     }
 
-    /**
-     * Determine whether this message consists of only an image. This indicates that it has no
-     * additional data, such as the actions data.
-     *
-     * @return `true` if the message only consists of an image, `false` otherwise.
-     */
-    public boolean isImageOnly() {
-        return isContentImageOnly() &&
-                (actions == null || actions.isEmpty());
-    }
-
-    /**
-     * Determine whether this message consists of only an image as content. However, the message
-     * might still have actions or other content attached.
-     *
-     * @return `true` if the content of the message only consists of an image, `false` otherwise.
-     */
-    public boolean isContentImageOnly() {
-        return hasImageContent() &&
-                !hasTextContent() &&
-                !hasActionsContent();
-    }
-
-    /**
-     * Determine whether this message consists of only a file as content. However, the message
-     * might still have actions or other content attached.
-     *
-     * @return `true` if the content of the message only consists of a file, `false` otherwise.
-     */
-    public boolean isContentFileOnly() {
-        return hasFileContent() &&
-                !hasTextContent() &&
-                !hasActionsContent();
-    }
-
     public boolean hasName() {
         return getAgent() != null && !agent.getName().trim().isEmpty();
-    }
-
-    public boolean hasImageContent() {
-        return getImageUrl() != null;
-    }
-
-    public boolean hasFileContent() {
-        return getMedia() != null && getMedia().getMimeType().isFile();
     }
 
     public boolean hasTextContent() {
@@ -413,13 +336,6 @@ public final class MessageJson {
 
     public boolean hasCarouselContent() {
         return carousel != null && !carousel.isEmpty();
-    }
-
-    public boolean hasContent() {
-        return hasTextContent() ||
-                hasImageContent() ||
-                hasFileContent() ||
-                hasActionsContent();
     }
 
     public boolean isEqualVisually(MessageJson other) {
