@@ -4,6 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public final class ParleyPaging {
 
+    public ParleyPaging(String before, String after) {
+        this.before = before;
+        this.after = after;
+    }
+
     @SerializedName("before")
     private String before;
 

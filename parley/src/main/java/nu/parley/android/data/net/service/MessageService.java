@@ -21,11 +21,9 @@ public interface MessageService {
 
     Call<ParleyResponse<Message>> get(RepositoryCallback<ParleyResponse<Message>> callback, Integer id);
 
-    @GET("messages")
     Call<ParleyResponse<List<Message>>> findAll();
 
-    @GET
-    Call<ParleyResponse<List<Message>>> getOlder(@Url String url);
+    Call<ParleyResponse<List<Message>>> getOlder(String url);
 
     @POST("messages")
     Call<ParleyResponse<ParleyResponsePostMessage>> post(@Body Message chatMessage);
