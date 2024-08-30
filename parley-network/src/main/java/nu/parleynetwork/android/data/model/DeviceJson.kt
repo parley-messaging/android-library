@@ -1,24 +1,31 @@
 package nu.parleynetwork.android.data.model
 
+import com.bumptech.glide.Glide.init
 import com.google.gson.annotations.SerializedName
 import nu.parley.android.data.model.Device
 import nu.parleynetwork.android.data.net.DeviceService
 
 class DeviceJson(
-    @SerializedName("pushToken")
-    private val pushToken: String? = null,
-    @SerializedName("pushType")
-    private val pushType: Int = 6,
-    @SerializedName("userAdditionalInformation")
-    private val userAdditionalInformation: Map<String, String>? = null,
-    @SerializedName("referrer")
-    private val referrer: String? = null,
+    device: Device
 ) {
 
-    companion object {
-        fun fromModel(device: Device) = with(device) {
-            DeviceJson(pushToken, pushType, userAdditionalInformation, referrer)
-        }
+    @SerializedName("pushToken")
+    private val pushToken: String?
+
+    @SerializedName("pushType")
+    private val pushType: Int
+
+    @SerializedName("userAdditionalInformation")
+    private val userAdditionalInformation: Map<String, String>?
+
+    @SerializedName("referrer")
+    private val referrer: String?
+
+    init {
+        pushToken = device.pushToken
+        pushType = device.pushType
+        userAdditionalInformation = device.userAdditionalInformation
+        referrer = device.referrer
     }
 }
 

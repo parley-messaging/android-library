@@ -15,7 +15,7 @@ class DeviceRepositoryImpl : DeviceRepository {
         var deviceService = Connectivity.getRetrofit().create(
             DeviceService::class.java
         )
-        var registerCall = deviceService.register(DeviceJson.fromModel(device))
+        var registerCall = deviceService.register(DeviceJson(device))
         registerCall.enqueue(object : Callback<Void?> {
             public override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
                 if (response.isSuccessful) {
