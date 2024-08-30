@@ -3,6 +3,7 @@ package nu.parley.android.data.net.service;
 import java.util.List;
 
 import nu.parley.android.data.model.Message;
+import nu.parley.android.data.net.RepositoryCallback;
 import nu.parley.android.data.net.response.ParleyResponsePostMedia;
 import nu.parley.android.data.net.response.ParleyResponsePostMessage;
 import nu.parley.android.data.net.response.ParleyResponse;
@@ -18,8 +19,7 @@ import retrofit2.http.Url;
 
 public interface MessageService {
 
-    @GET("messages/{id}")
-    Call<ParleyResponse<Message>> get(@Path("id") Integer id);
+    Call<ParleyResponse<Message>> get(RepositoryCallback<ParleyResponse<Message>> callback, Integer id);
 
     @GET("messages")
     Call<ParleyResponse<List<Message>>> findAll();

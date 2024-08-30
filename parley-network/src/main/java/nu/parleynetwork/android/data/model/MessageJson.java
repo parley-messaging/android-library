@@ -1,21 +1,27 @@
-package nu.parley.android.data.model;
+package nu.parleynetwork.android.data.model;
 
 import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import nu.parley.android.data.model.Action;
+import nu.parley.android.data.model.Agent;
+import nu.parley.android.data.model.Media;
+import nu.parley.android.data.model.Message;
+import nu.parley.android.data.model.PushMessage;
 import nu.parley.android.util.CompareUtil;
 import nu.parley.android.view.chat.MessageViewHolderFactory;
 
 /**
  * Message model for the Parley chat. Every item shown in the chat is a message.
  */
-public final class Message {
+public final class MessageJson {
 
     public final static int SEND_STATUS_PENDING = 0;
     public final static int SEND_STATUS_SUCCESS = 1;
@@ -64,11 +70,11 @@ public final class Message {
 
     @SerializedName("buttons")
     @Nullable
-    private List<Action> actions;
+    private List<ActionJson> actions;
 
     @SerializedName("carousel")
     @Nullable
-    private List<Message> carousel;
+    private List<MessageJson> carousel;
 
     @SerializedName("quickReplies")
     @Nullable
@@ -80,16 +86,16 @@ public final class Message {
 
     @SerializedName("agent")
     @Nullable
-    private Agent agent;
+    private AgentJson agent;
 
     @SerializedName("send_status")
     private int sendStatus = SEND_STATUS_SUCCESS;
 
-    private Message() {
+    private MessageJson() {
         // Hide constructor
     }
 
-    private Message(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String localUrl, @Nullable Media media, int typeId, @Nullable Agent agent, int sendStatus) {
+    private MessageJson(UUID uuid, @Nullable Integer id, long timeStamp, @Nullable String message, @Nullable String localUrl, @Nullable Media media, int typeId, @Nullable AgentJson agent, int sendStatus) {
         this.uuid = uuid;
         this.id = id;
         this.timeStamp = timeStamp;
@@ -101,7 +107,7 @@ public final class Message {
         this.sendStatus = sendStatus;
     }
 
-    public Message(@Nullable Integer id, Long timeStamp, @Nullable String title, @Nullable String message, @Nullable String localUrl, @Nullable Media media, Integer typeId, @Nullable Agent agent, int sendStatus, @Nullable List<Action> actions, @Nullable List<Message> carousel) {
+    public MessageJson(@Nullable Integer id, Long timeStamp, @Nullable String title, @Nullable String message, @Nullable String localUrl, @Nullable Media media, Integer typeId, @Nullable AgentJson agent, int sendStatus, @Nullable List<ActionJson> actions, @Nullable List<MessageJson> carousel) {
         this.id = id;
         this.timeStamp = timeStamp;
         this.title = title;
@@ -116,75 +122,123 @@ public final class Message {
         this.carousel = carousel;
     }
 
-    private static Message ofType(int typeId) {
-        Message message = new Message();
+    private static MessageJson ofType(int typeId) {
+        MessageJson message = new MessageJson();
         message.id = null;
         message.typeId = typeId;
         message.timeStamp = new Date().getTime() / 1000;
         return message;
     }
 
-    public static Message ofTypeInfo(String text) {
-        Message message = ofType(MessageViewHolderFactory.MESSAGE_TYPE_INFO);
+    public static MessageJson ofTypeInfo(String text) {
+        MessageJson message = ofType(MessageViewHolderFactory.MESSAGE_TYPE_INFO);
         message.message = text;
         return message;
     }
 
-    public static Message ofTypeDate(Date date) {
-        Message message = ofType(MessageViewHolderFactory.MESSAGE_TYPE_DATE);
+    public static MessageJson ofTypeDate(Date date) {
+        MessageJson message = ofType(MessageViewHolderFactory.MESSAGE_TYPE_DATE);
         message.message = date.toString();
         message.timeStamp = date.getTime() / 1000;
         return message;
     }
 
-    public static Message ofTypeAgentTyping() {
+    public static MessageJson ofTypeAgentTyping() {
         return ofType(MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING);
     }
 
-    public static Message ofTypeOwnMessage(String text) {
+    public static MessageJson ofTypeOwnMessage(String text) {
         return ofTypeOwnMessage(text, false);
     }
 
-    public static Message ofTypeOwnMessage(String text, boolean silent) {
-        Message message = Message.ofTypeOwnMessage(silent);
+    public static MessageJson ofTypeOwnMessage(String text, boolean silent) {
+        MessageJson message = MessageJson.ofTypeOwnMessage(silent);
         message.message = text;
         return message;
     }
 
-    public static Message ofTypeOwnPendingMedia(File mediaFile) {
-        Message message = Message.ofTypeOwnMessage(false);
+    public static MessageJson ofTypeOwnPendingMedia(File mediaFile) {
+        MessageJson message = MessageJson.ofTypeOwnMessage(false);
         message.localUrl = mediaFile.getAbsolutePath();
         return message;
     }
 
-    private static Message ofTypeOwnMessage(boolean silent) {
-        Message message = ofType(silent ? MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_SYSTEM_USER : MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN);
+    private static MessageJson ofTypeOwnMessage(boolean silent) {
+        MessageJson message = ofType(silent ? MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_SYSTEM_USER : MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN);
         message.sendStatus = SEND_STATUS_PENDING;
         return message;
     }
 
-    public static Message ofLoaderType() {
+    public static MessageJson ofLoaderType() {
         return ofType(MessageViewHolderFactory.MESSAGE_TYPE_LOADER);
     }
 
-    public static Message from(PushMessage pushMessage) {
-        Message message = Message.ofType(pushMessage.getTypeId());
+    public static MessageJson from(PushMessage pushMessage) {
+        MessageJson message = MessageJson.ofType(pushMessage.getTypeId());
         message.id = pushMessage.getId();
         message.message = pushMessage.getBody();
         message.timeStamp = new Date().getTime() / 1000;
         return message;
     }
 
-    public static Message withIdAndStatus(Message sourceMessage, Integer id, int status) {
-        return new Message(sourceMessage.uuid, id, sourceMessage.timeStamp, sourceMessage.message, sourceMessage.localUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, status);
+    public static MessageJson from(Message message) {
+        return new MessageJson(
+                message.getId(),
+                message.getTimeStamp(),
+                message.getTitle(),
+                message.getMessage(),
+                message.getLocalUrl(),
+                message.getMedia(),
+                message.getTypeId(),
+                AgentJson.Companion.from(message.getAgent()),
+                message.getSendStatus(),
+                actionListToActionJsonList(message.getActions()),
+                messageListToMessageJsonList(message.getCarousel())
+        );
     }
 
-    public static Message withMedia(Message sourceMessage, Media media) {
-        return new Message(sourceMessage.uuid, sourceMessage.id, sourceMessage.timeStamp, sourceMessage.message, null, media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
+    private static List<MessageJson> messageListToMessageJsonList(List<Message> messageList) {
+        List<MessageJson> messageJsonList = new ArrayList<>();
+        for (Message carouselMessage : messageList) {
+            messageJsonList.add(MessageJson.from(carouselMessage));
+        }
+        return messageJsonList;
     }
 
-    public static Message withMessageAndDate(Message sourceMessage, String message, Date date) {
-        return new Message(sourceMessage.uuid, sourceMessage.id, date.getTime() / 1000, message, sourceMessage.localUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
+    private static List<Message> messageJsonListToMessageList(List<MessageJson> messageJsonList) {
+        List<Message> messageList = new ArrayList<>();
+        for (MessageJson carouselMessageJson : messageJsonList) {
+            messageList.add(carouselMessageJson.toMessage());
+        }
+        return messageList;
+    }
+
+    private static List<ActionJson> actionListToActionJsonList(List<Action> actionList) {
+        List<ActionJson> actionJsonList = new ArrayList<>();
+        for (Action action : actionList) {
+            actionJsonList.add(ActionJson.Companion.from(action));
+        }
+        return actionJsonList;
+    }
+
+    private static List<Action> actionJsonListToActionList(List<ActionJson> actionJsonList) {
+        List<Action> actionList = new ArrayList<>();
+        for (ActionJson actionJson : actionJsonList) {
+            actionList.add(new Action(actionJson.getTitle(), actionJson.getPayload(), actionJson.getType()));
+        }
+        return actionList;
+    }
+
+    public static MessageJson withIdAndStatus(MessageJson sourceMessage, Integer id, int status) {
+        return new MessageJson(sourceMessage.uuid, id, sourceMessage.timeStamp, sourceMessage.message, sourceMessage.localUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, status);
+    }
+
+    public static MessageJson withMedia(MessageJson sourceMessage, Media media) {
+        return new MessageJson(sourceMessage.uuid, sourceMessage.id, sourceMessage.timeStamp, sourceMessage.message, null, media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
+    }
+
+    public static MessageJson withMessageAndDate(MessageJson sourceMessage, String message, Date date) {
+        return new MessageJson(sourceMessage.uuid, sourceMessage.id, date.getTime() / 1000, message, sourceMessage.localUrl, sourceMessage.media, sourceMessage.typeId, sourceMessage.agent, sourceMessage.sendStatus);
     }
 
     /**
@@ -197,11 +251,6 @@ public final class Message {
     @Nullable
     public Integer getId() {
         return id;
-    }
-
-    @Nullable
-    public Long getTimeStamp() {
-        return timeStamp;
     }
 
     @Nullable
@@ -220,12 +269,12 @@ public final class Message {
     }
 
     @Nullable
-    public List<Action> getActions() {
+    public List<ActionJson> getActions() {
         return actions;
     }
 
     @Nullable
-    public List<Message> getCarousel() {
+    public List<MessageJson> getCarousel() {
         return carousel;
     }
 
@@ -240,7 +289,7 @@ public final class Message {
     }
 
     @Nullable
-    public Agent getAgent() {
+    public AgentJson getAgent() {
         return agent;
     }
 
@@ -288,6 +337,22 @@ public final class Message {
 
     public int getSendStatus() {
         return sendStatus;
+    }
+
+    public Message toMessage() {
+        return new Message(
+                id,
+                timeStamp,
+                title,
+                message,
+                localUrl,
+                media,
+                typeId,
+                agent.toAgent(),
+                sendStatus,
+                actionJsonListToActionList(actions),
+                messageJsonListToMessageList(carousel)
+        );
     }
 
     /**
@@ -357,7 +422,7 @@ public final class Message {
                 hasActionsContent();
     }
 
-    public boolean isEqualVisually(Message other) {
+    public boolean isEqualVisually(MessageJson other) {
         if (uuid == other.uuid) {
             // Same message
             return CompareUtil.equals(message, other.message) &&

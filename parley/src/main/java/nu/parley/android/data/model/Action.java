@@ -20,6 +20,12 @@ public final class Action {
         this.payload = payload;
     }
 
+    public Action(String title, String payload, ButtonType type) {
+        this.title = title;
+        this.payload = payload;
+        this.type = type;
+    }
+
     public String getTitle() {
         return title;
     }

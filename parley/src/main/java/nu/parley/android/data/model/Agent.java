@@ -6,16 +6,12 @@ import java.util.Date;
 
 public final class Agent {
 
-    @SerializedName("id")
     private Integer id;
 
-    @SerializedName("name")
     private String name;
 
-    @SerializedName("avatar")
     private String avatar;
 
-    @SerializedName("isTyping")
     private long isTyping;
 
     public Integer getId() {
@@ -40,6 +36,13 @@ public final class Agent {
 
     Agent(String name, String avatarUrl) {
         this.name = name;
+        this.avatar = avatarUrl;
+    }
+
+    public Agent(Integer id, String name, long isTyping, String avatarUrl) {
+        this.id = id;
+        this.name = name;
+        this.isTyping = isTyping;
         this.avatar = avatarUrl;
     }
 }

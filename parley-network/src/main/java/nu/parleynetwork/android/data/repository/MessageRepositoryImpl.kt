@@ -12,6 +12,7 @@ import nu.parley.android.data.net.response.ParleyResponsePostMessage
 import nu.parley.android.data.net.service.MessageService
 import nu.parley.android.data.repository.MessageRepository
 import nu.parley.android.util.FileUtil
+import nu.parleynetwork.android.data.model.MessageJson
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -168,22 +169,24 @@ class MessageRepositoryImpl : MessageRepository {
 
     public override fun get(messageId: Int, callback: RepositoryCallback<Message>) {
         var messagesCall = Connectivity.getRetrofit().create(
-            MessageService::class.java
+            nu.parleynetwork.android.data.net.MessageService::class.java
         ).get(messageId)
 
-        messagesCall.enqueue(object : Callback<ParleyResponse<Message>> {
+        messagesCall.enqueue(object : Callback<ParleyResponse<MessageJson>> {
             public override fun onResponse(
-                call: Call<ParleyResponse<Message>>,
-                response: Response<ParleyResponse<Message>>
+                call: Call<ParleyResponse<MessageJson>>,
+                response: Response<ParleyResponse<MessageJson>>
             ) {
                 if (response.isSuccessful) {
-                    callback.onSuccess(response.body()!!.data)
+                    val messageJson = response.body()!!.data
+                    val message = messageJson.toMessage()
+                    callback.onSuccess(message)
                 } else {
                     callback.onFailed(response.code(), Connectivity.getFormattedError(response))
                 }
             }
 
-            public override fun onFailure(call: Call<ParleyResponse<Message>>, t: Throwable) {
+            public override fun onFailure(call: Call<ParleyResponse<MessageJson>>, t: Throwable) {
                 t.printStackTrace()
                 callback.onFailed(null, t.message)
             }
