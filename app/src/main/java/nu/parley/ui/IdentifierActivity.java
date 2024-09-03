@@ -28,6 +28,7 @@ import nu.parley.android.data.messages.ParleyEncryptedDataSource;
 import nu.parley.android.data.model.ApiVersion;
 import nu.parley.repository.PreferenceRepository;
 import nu.parleynetwork.android.data.repository.DeviceRepositoryImpl;
+import nu.parleynetwork.android.data.repository.ParleyNetworkJsonParser;
 import nu.parleynetwork.android.data.repository.ParleyNetworkRepositories;
 
 public final class IdentifierActivity extends BaseActivity {
@@ -119,6 +120,7 @@ public final class IdentifierActivity extends BaseActivity {
     private void initParley() {
 //        setParleyNetwork(); // Optional, defaults to Parley configuration
         Parley.getInstance().getNetwork().repositories = new ParleyNetworkRepositories();
+        Parley.getInstance().getNetwork().jsonParser = new ParleyNetworkJsonParser();
 //        setOfflineMessagingEnabled(); // Optional, default off
 //        Parley.disableOfflineMessaging();
 //        Parley.setReferrer("https://parley.nu/"); // Optional, default `null`

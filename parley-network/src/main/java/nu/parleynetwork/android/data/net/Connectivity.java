@@ -106,9 +106,10 @@ public final class Connectivity {
      * @return the OkHttpClient.Builder with the added interceptor.
      */
     private static OkHttpClient.Builder addInterceptor(OkHttpClient.Builder builder) {
-        if (Parley.getInstance().getNetwork().interceptor != null) {
-            return builder.addInterceptor(Parley.getInstance().getNetwork().interceptor);
-        }
+        //TODO
+//        if (Parley.getInstance().getNetwork().interceptor != null) {
+//            return builder.addInterceptor(Parley.getInstance().getNetwork().interceptor);
+//        }
         return builder;
     }
 

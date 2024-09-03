@@ -3,14 +3,13 @@ package nu.parley.android.notification;
 import android.content.Context;
 import android.content.Intent;
 
-import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.Map;
 
+import nu.parley.android.Parley;
 import nu.parley.android.data.model.Message;
 import nu.parley.android.data.model.PushEventBody;
 import nu.parley.android.data.model.PushMessage;
@@ -62,11 +61,11 @@ public final class PushNotificationHandler {
     }
 
     private static PushEventBody getParleyPushEventBody(Map<String, String> data) {
-        return new Gson().fromJson(getParleyObjectStringValue(data, OBJECT), PushEventBody.class);
+        return Parley.getInstance().getNetwork().jsonParser.getPushEventBody(data);
     }
 
     private static PushMessage getParleyPushMessageBody(Map<String, String> data) {
-        return new Gson().fromJson(getParleyObjectStringValue(data, OBJECT), PushMessage.class);
+        return Parley.getInstance().getNetwork().jsonParser.getPushMessageBody(data);
     }
 
     private static String getParleyObjectStringValue(Map<String, String> data, String key) {

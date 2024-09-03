@@ -5,15 +5,11 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -32,6 +28,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import nu.parley.android.Parley;
 import nu.parley.android.data.model.Message;
 
 /**
@@ -53,9 +50,6 @@ public final class ParleyEncryptedDataSource implements ParleyDataSource {
     private static final String ENCRYPTION_FILE_NAME_MESSAGES = "messages";
     private static final String ENCRYPTION_FILE_NAME_INFO = "info";
     private static final String ENCRYPTION_FILE_NAME_PAGING = "paging";
-
-    private final Type messagesListType = new TypeToken<List<Message>>() {
-    }.getType();
 
     private final File cacheFileMessages;
     private final File cacheFileInfo;
@@ -128,7 +122,7 @@ public final class ParleyEncryptedDataSource implements ParleyDataSource {
     }
 
     private void cacheMessages(List<Message> messages) {
-        String messageInJson = new Gson().toJson(messages);
+        String messageInJson = Parley.getInstance().getNetwork().jsonParser.messagesToJson(messages);
         cacheData(cacheFileMessages, messageInJson.getBytes());
     }
 
@@ -211,7 +205,7 @@ public final class ParleyEncryptedDataSource implements ParleyDataSource {
     private List<Message> getCachedMessages() {
         byte[] decrypted = getCachedData(cacheFileMessages);
         if (decrypted.length > 0) {
-            return new Gson().fromJson(new String(decrypted), messagesListType);
+            return Parley.getInstance().getNetwork().jsonParser.jsonToMessages(new String(decrypted));
         } else {
             return new ArrayList<>();
         }
