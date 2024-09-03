@@ -16,21 +16,16 @@ public final class ParleyResponse<T> {
         this.welcomeMessage = welcomeMessage;
     }
 
-    @SerializedName("data")
     private T data;
 
-    @SerializedName("agent")
     @Nullable
     private Agent agent;
 
-    @SerializedName("paging")
     private ParleyPaging paging;
 
-    @SerializedName("stickyMessage")
     @Nullable
     private String stickyMessage;
 
-    @SerializedName("welcomeMessage")
     @Nullable
     private String welcomeMessage;
 

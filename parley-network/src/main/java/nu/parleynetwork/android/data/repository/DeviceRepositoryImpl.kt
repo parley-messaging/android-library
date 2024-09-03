@@ -1,10 +1,10 @@
 package nu.parleynetwork.android.data.repository
 
 import nu.parley.android.data.model.Device
-import nu.parley.android.data.net.Connectivity
 import nu.parley.android.data.net.RepositoryCallback
 import nu.parley.android.data.repository.DeviceRepository
 import nu.parleynetwork.android.data.model.DeviceJson
+import nu.parleynetwork.android.data.net.Connectivity
 import nu.parleynetwork.android.data.net.DeviceService
 import retrofit2.Call
 import retrofit2.Callback

@@ -3,7 +3,6 @@ package nu.parleynetwork.android.data.repository
 import nu.parley.android.data.model.Media
 import nu.parley.android.data.model.Message
 import nu.parley.android.data.model.MimeType.Companion.fromValue
-import nu.parley.android.data.net.Connectivity
 import nu.parley.android.data.net.RepositoryCallback
 import nu.parley.android.data.net.response.ParleyPaging
 import nu.parley.android.data.net.response.ParleyResponse
@@ -15,6 +14,7 @@ import nu.parleynetwork.android.data.model.MessageJson
 import nu.parleynetwork.android.data.model.ParleyResponseJson
 import nu.parleynetwork.android.data.model.ParleyResponsePostMediaJson
 import nu.parleynetwork.android.data.model.ParleyResponsePostMessageJson
+import nu.parleynetwork.android.data.net.Connectivity
 import nu.parleynetwork.android.data.net.MessageService
 import okhttp3.MediaType
 import okhttp3.MultipartBody

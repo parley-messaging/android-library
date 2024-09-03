@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 
 public final class ParleyResponsePostMedia {
 
-    @SerializedName("media")
     @Nullable
     public final String mediaId;
 

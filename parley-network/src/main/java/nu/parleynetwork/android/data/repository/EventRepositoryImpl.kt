@@ -1,7 +1,7 @@
 package nu.parleynetwork.android.data.repository
 
-import nu.parley.android.data.net.Connectivity
 import nu.parley.android.data.repository.EventRepository
+import nu.parleynetwork.android.data.net.Connectivity
 import nu.parleynetwork.android.data.net.EventService
 import retrofit2.Call
 import retrofit2.Callback

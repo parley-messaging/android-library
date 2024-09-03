@@ -9,10 +9,8 @@ public final class ParleyPaging {
         this.after = after;
     }
 
-    @SerializedName("before")
     private String before;
 
-    @SerializedName("after")
     private String after;
 
     public String getBefore() {
