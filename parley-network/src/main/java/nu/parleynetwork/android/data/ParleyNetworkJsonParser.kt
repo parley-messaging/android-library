@@ -1,4 +1,4 @@
-package nu.parleynetwork.android.data.repository
+package nu.parleynetwork.android.data
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -11,11 +11,9 @@ import nu.parley.android.notification.PushNotificationHandler
 import org.json.JSONException
 import java.lang.reflect.Type
 
-class ParleyNetworkJsonParser : ParleyJsonParser {
-    companion object {
-        private const val OBJECT: String = "object"
-        private val messagesListType: Type = object : TypeToken<List<Message>>() {}.type
-    }
+object ParleyNetworkJsonParser : ParleyJsonParser {
+    private const val OBJECT: String = "object"
+    private val messagesListType: Type = object : TypeToken<List<Message>>() {}.type
 
     override fun getPushEventBody(data: Map<String, String>): PushEventBody =
         Gson().fromJson(

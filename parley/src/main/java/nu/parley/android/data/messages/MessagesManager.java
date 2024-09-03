@@ -40,7 +40,7 @@ public final class MessagesManager {
 
             String cachedPaging = dataSource.get(ParleyKeyValueDataSource.KEY_PAGING);
             if (cachedPaging != null) {
-                this.paging = Parley.getInstance().getNetwork().jsonParser.jsonToParleyPaging(cachedPaging);
+                this.paging = Parley.getInstance().getNetwork().config.getJsonParser().jsonToParleyPaging(cachedPaging);
             }
         }
         formatMessages();
@@ -266,7 +266,7 @@ public final class MessagesManager {
         if (isCachingEnabled()) {
             dataSource.set(
                     ParleyKeyValueDataSource.KEY_PAGING,
-                    Parley.getInstance().getNetwork().jsonParser.parleyPagingToJson(paging)
+                    Parley.getInstance().getNetwork().config.getJsonParser().parleyPagingToJson(paging)
             );
         }
     }

@@ -1,15 +1,11 @@
 package nu.parley.android;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.XmlRes;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import nu.parley.android.data.model.ApiVersion;
-import nu.parley.android.data.net.ParleyJsonParser;
-import nu.parley.android.data.net.ParleyRepositories;
 
 /**
  * Provides the network configuration for Parley.
@@ -21,15 +17,12 @@ public final class ParleyNetwork {
 
     public final String url;
     public final Map<String, String> headers;
-//    @Nullable
-//    public Interceptor interceptor;
     @XmlRes
     final Integer securityConfigResourceFile;
     public final String path;
     public final ApiVersion apiVersion;
     // TODO: Make final (not-null)
-    public ParleyRepositories repositories = null;
-    public ParleyJsonParser jsonParser = null;
+    public NetworkConfig config = null;
 
     /**
      * Applies the default network settings of Parley.
@@ -72,19 +65,6 @@ public final class ParleyNetwork {
         this.securityConfigResourceFile = securityConfigResourceFile;
         this.headers = headers;
     }
-
-
-    //TODO
-    /**
-     * Sets the network interceptor for the Parley client.
-     *
-     * @param interceptor the interceptor to set
-     * @return the current instance of the Parley network configuration
-     */
-//    public ParleyNetwork setInterceptor(Interceptor interceptor) {
-//        this.interceptor = interceptor;
-//        return this;
-//    }
 
     /**
      * @return The base url with the domain and the path

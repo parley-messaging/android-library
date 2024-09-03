@@ -61,11 +61,11 @@ public final class PushNotificationHandler {
     }
 
     private static PushEventBody getParleyPushEventBody(Map<String, String> data) {
-        return Parley.getInstance().getNetwork().jsonParser.getPushEventBody(data);
+        return Parley.getInstance().getNetwork().config.getJsonParser().getPushEventBody(data);
     }
 
     private static PushMessage getParleyPushMessageBody(Map<String, String> data) {
-        return Parley.getInstance().getNetwork().jsonParser.getPushMessageBody(data);
+        return Parley.getInstance().getNetwork().config.getJsonParser().getPushMessageBody(data);
     }
 
     private static String getParleyObjectStringValue(Map<String, String> data, String key) {

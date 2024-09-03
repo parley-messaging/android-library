@@ -19,8 +19,10 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
+import nu.parley.android.NetworkConfig;
 import nu.parley.android.Parley;
 import nu.parley.android.data.net.response.ParleyErrorResponse;
+import nu.parleynetwork.android.data.ParleyNetworkConfig;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -106,11 +108,13 @@ public final class Connectivity {
      * @return the OkHttpClient.Builder with the added interceptor.
      */
     private static OkHttpClient.Builder addInterceptor(OkHttpClient.Builder builder) {
-        //TODO
-//        if (Parley.getInstance().getNetwork().interceptor != null) {
-//            return builder.addInterceptor(Parley.getInstance().getNetwork().interceptor);
-//        }
-        return builder;
+        NetworkConfig config = Parley.getInstance().getNetwork().config;
+        if (!(Parley.getInstance().getNetwork().config instanceof NetworkConfig)) return builder;
+
+        Interceptor interceptor = ((ParleyNetworkConfig) Parley.getInstance().getNetwork().config).getInterceptor();
+        if (interceptor == null) return builder;
+
+        return builder.addInterceptor(interceptor);
     }
 
     public static String toMediaUrl(String mediaId) {

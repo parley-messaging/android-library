@@ -122,7 +122,7 @@ public final class ParleyEncryptedDataSource implements ParleyDataSource {
     }
 
     private void cacheMessages(List<Message> messages) {
-        String messageInJson = Parley.getInstance().getNetwork().jsonParser.messagesToJson(messages);
+        String messageInJson = Parley.getInstance().getNetwork().config.getJsonParser().messagesToJson(messages);
         cacheData(cacheFileMessages, messageInJson.getBytes());
     }
 
@@ -205,7 +205,7 @@ public final class ParleyEncryptedDataSource implements ParleyDataSource {
     private List<Message> getCachedMessages() {
         byte[] decrypted = getCachedData(cacheFileMessages);
         if (decrypted.length > 0) {
-            return Parley.getInstance().getNetwork().jsonParser.jsonToMessages(new String(decrypted));
+            return Parley.getInstance().getNetwork().config.getJsonParser().jsonToMessages(new String(decrypted));
         } else {
             return new ArrayList<>();
         }
