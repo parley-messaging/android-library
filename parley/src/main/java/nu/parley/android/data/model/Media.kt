@@ -1,12 +1,14 @@
 package nu.parley.android.data.model
 
+import com.google.gson.annotations.SerializedName
 import nu.parley.android.data.net.Connectivity
 import java.io.File
 
 data class Media(
-    val id: String,
-    private val fileName: String?,
-    private val mimeType: String,
+    @SerializedName("id") private val id: String,
+    /* `filename` since clientApi 1.8 */
+    @SerializedName("filename") private val fileName: String?,
+    @SerializedName("mimeType") private val mimeType: String,
 ) {
     companion object {
 
@@ -17,10 +19,6 @@ data class Media(
             return Media(fileName, fileName, mimeType.value)
         }
     }
-
-    fun getRawFileName() = fileName
-
-    fun getRawMimeType() = mimeType
 
     fun getFileName(): String {
         return fileName ?: id.split("/").last()

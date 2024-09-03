@@ -3,7 +3,6 @@ package nu.parleynetwork.android.data.repository
 import nu.parley.android.data.model.Device
 import nu.parley.android.data.net.RepositoryCallback
 import nu.parley.android.data.repository.DeviceRepository
-import nu.parleynetwork.android.data.model.DeviceJson
 import nu.parleynetwork.android.data.net.Connectivity
 import nu.parleynetwork.android.data.net.DeviceService
 import retrofit2.Call
@@ -15,7 +14,7 @@ class DeviceRepositoryImpl : DeviceRepository {
         var deviceService = Connectivity.getRetrofit().create(
             DeviceService::class.java
         )
-        var registerCall = deviceService.register(DeviceJson(device))
+        var registerCall = deviceService.register(device)
         registerCall.enqueue(object : Callback<Void?> {
             public override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
                 if (response.isSuccessful) {

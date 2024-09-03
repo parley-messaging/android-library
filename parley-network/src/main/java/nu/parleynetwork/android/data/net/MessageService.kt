@@ -1,12 +1,9 @@
 package nu.parleynetwork.android.data.net
 
+import nu.parley.android.data.model.Message
 import nu.parley.android.data.net.response.ParleyResponse
 import nu.parley.android.data.net.response.ParleyResponsePostMedia
 import nu.parley.android.data.net.response.ParleyResponsePostMessage
-import nu.parleynetwork.android.data.model.MessageJson
-import nu.parleynetwork.android.data.model.ParleyResponseJson
-import nu.parleynetwork.android.data.model.ParleyResponsePostMediaJson
-import nu.parleynetwork.android.data.model.ParleyResponsePostMessageJson
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -20,16 +17,16 @@ import retrofit2.http.Url
 internal interface MessageService {
 
     @GET("messages/{id}")
-    fun get(@Path("id") id: Int): Call<ParleyResponseJson<MessageJson>>
+    fun get(@Path("id") id: Int): Call<ParleyResponse<Message>>
 
     @GET("messages")
-    fun findAll(): Call<ParleyResponseJson<List<MessageJson>>>
+    fun findAll(): Call<ParleyResponse<List<Message>>>
 
     @GET
-    fun getOlder(@Url url: String): Call<ParleyResponseJson<List<MessageJson>>>
+    fun getOlder(@Url url: String): Call<ParleyResponse<List<Message>>>
 
     @POST("messages")
-    fun post(@Body chatMessage: MessageJson): Call<ParleyResponseJson<ParleyResponsePostMessageJson>>
+    fun post(@Body chatMessage: Message): Call<ParleyResponse<ParleyResponsePostMessage>>
 
     /**
      * @param filePart
@@ -38,9 +35,9 @@ internal interface MessageService {
     @Multipart
     @POST("messages")
     @Deprecated("Use {@link MessageService#postMedia(MultipartBody.Part)} from API 1.6 and onwards.")
-    fun postImage(@Part filePart: MultipartBody.Part): Call<ParleyResponseJson<ParleyResponsePostMessageJson>>
+    fun postImage(@Part filePart: MultipartBody.Part): Call<ParleyResponse<ParleyResponsePostMessage>>
 
     @Multipart
     @POST("media")
-    fun postMedia(@Part filePart: MultipartBody.Part): Call<ParleyResponseJson<ParleyResponsePostMediaJson>>
+    fun postMedia(@Part filePart: MultipartBody.Part): Call<ParleyResponse<ParleyResponsePostMedia>>
 }

@@ -2,6 +2,8 @@ package nu.parley.android.data.model;
 
 import androidx.annotation.Nullable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.File;
 import java.util.Date;
 import java.util.List;
@@ -21,49 +23,66 @@ public final class Message {
 
     private UUID uuid = UUID.randomUUID();
 
+    @SerializedName("id")
     @Nullable
     private Integer id;
 
+    @SerializedName("time")
     @Nullable
     private Long timeStamp;
 
+    @SerializedName("title")
     @Nullable
     private String title;
 
+    @SerializedName("message")
     @Nullable
     private String message;
 
+    /**
+     * Not serialized from backend, but serialized by datasource when offline messaging is enabled.
+     */
+    @SerializedName("response_info_type")
     @Nullable
     private String responseInfoType;
 
     /**
      * <b>Deprecated</b>: Use `media` instead
      */
+    @SerializedName("image")
     @Nullable
     @Deprecated
     private String image;
 
+    @SerializedName("mediaLocal")
     @Nullable
     private String localUrl;
 
+    @SerializedName("media")
     @Nullable
     private Media media;
 
+    @SerializedName("buttons")
     @Nullable
     private List<Action> actions;
 
+    @SerializedName("carousel")
     @Nullable
     private List<Message> carousel;
 
+    @SerializedName("quickReplies")
     @Nullable
     private List<String> quickReplies;
 
+    @SerializedName("typeId")
     @Nullable
     private Integer typeId; // Inside carousels, this key doesn't exist and therefore is `null`
 
+    @SerializedName("agent")
     @Nullable
     private Agent agent;
 
+    @SerializedName("send_status")
     private int sendStatus = SEND_STATUS_SUCCESS;
 
     private Message() {
@@ -178,11 +197,6 @@ public final class Message {
     @Nullable
     public Integer getId() {
         return id;
-    }
-
-    @Nullable
-    public Long getTimeStamp() {
-        return timeStamp;
     }
 
     @Nullable
