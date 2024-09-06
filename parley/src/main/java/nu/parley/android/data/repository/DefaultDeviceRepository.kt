@@ -1,15 +1,14 @@
-package nu.parleynetwork.android.data.repository
+package nu.parley.android.data.repository
 
 import nu.parley.android.data.model.Device
+import nu.parley.android.data.net.Connectivity
 import nu.parley.android.data.net.RepositoryCallback
-import nu.parley.android.data.repository.DeviceRepository
-import nu.parleynetwork.android.data.net.Connectivity
-import nu.parleynetwork.android.data.net.DeviceService
+import nu.parley.android.data.net.service.DeviceService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DeviceRepositoryImpl : DeviceRepository {
+class DefaultDeviceRepository : DeviceRepository {
     public override fun register(device: Device, callback: RepositoryCallback<Void>) {
         var deviceService = Connectivity.getRetrofit().create(
             DeviceService::class.java

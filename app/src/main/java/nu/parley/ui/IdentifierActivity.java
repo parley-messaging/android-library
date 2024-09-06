@@ -27,7 +27,7 @@ import nu.parley.android.ParleyNetwork;
 import nu.parley.android.data.messages.ParleyEncryptedDataSource;
 import nu.parley.android.data.model.ApiVersion;
 import nu.parley.repository.PreferenceRepository;
-import nu.parleynetwork.android.data.ParleyNetworkConfig;
+import nu.parley.android.ParleyNetworkConfig;
 
 public final class IdentifierActivity extends BaseActivity {
 

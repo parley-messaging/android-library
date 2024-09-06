@@ -1,4 +1,4 @@
-package nu.parleynetwork.android.data.net
+package nu.parley.android.data.net.service
 
 import nu.parley.android.data.model.Message
 import nu.parley.android.data.net.response.ParleyResponse

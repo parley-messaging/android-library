@@ -1,17 +1,16 @@
-package nu.parleynetwork.android.data.repository
+package nu.parley.android.data.repository
 
 import nu.parley.android.data.model.Media
 import nu.parley.android.data.model.Message
 import nu.parley.android.data.model.MimeType.Companion.fromValue
+import nu.parley.android.data.net.Connectivity
 import nu.parley.android.data.net.RepositoryCallback
 import nu.parley.android.data.net.response.ParleyPaging
 import nu.parley.android.data.net.response.ParleyResponse
 import nu.parley.android.data.net.response.ParleyResponsePostMedia
 import nu.parley.android.data.net.response.ParleyResponsePostMessage
-import nu.parley.android.data.repository.MessageRepository
+import nu.parley.android.data.net.service.MessageService
 import nu.parley.android.util.FileUtil
-import nu.parleynetwork.android.data.net.Connectivity
-import nu.parleynetwork.android.data.net.MessageService
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -20,7 +19,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
-class MessageRepositoryImpl : MessageRepository {
+class DefaultMessageRepository : MessageRepository {
     public override fun findAll(callback: RepositoryCallback<ParleyResponse<List<Message>>>) {
         var messagesCall = Connectivity.getRetrofit().create(
             MessageService::class.java
@@ -50,7 +49,7 @@ class MessageRepositoryImpl : MessageRepository {
         callback: RepositoryCallback<ParleyResponse<List<Message>>>
     ) {
         var messagesCall = Connectivity.getRetrofit().create(
-            nu.parleynetwork.android.data.net.MessageService::class.java
+            MessageService::class.java
         ).getOlder(previousPaging.before)
 
         messagesCall.enqueue(object : Callback<ParleyResponse<List<Message>>> {
@@ -170,7 +169,7 @@ class MessageRepositoryImpl : MessageRepository {
 
     public override fun get(messageId: Int, callback: RepositoryCallback<Message>) {
         var messagesCall = Connectivity.getRetrofit().create(
-            nu.parleynetwork.android.data.net.MessageService::class.java
+            MessageService::class.java
         ).get(messageId)
 
         messagesCall.enqueue(object : Callback<ParleyResponse<Message>> {

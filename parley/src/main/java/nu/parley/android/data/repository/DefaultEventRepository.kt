@@ -1,13 +1,12 @@
-package nu.parleynetwork.android.data.repository
+package nu.parley.android.data.repository
 
-import nu.parley.android.data.repository.EventRepository
-import nu.parleynetwork.android.data.net.Connectivity
-import nu.parleynetwork.android.data.net.EventService
+import nu.parley.android.data.net.Connectivity
+import nu.parley.android.data.net.service.EventService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class EventRepositoryImpl : EventRepository {
+class DefaultEventRepository : EventRepository {
     public override fun fire(event: String) {
         var eventCall = Connectivity.getRetrofit().create(
             EventService::class.java

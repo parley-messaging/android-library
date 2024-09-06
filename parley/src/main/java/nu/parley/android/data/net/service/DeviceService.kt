@@ -1,4 +1,4 @@
-package nu.parleynetwork.android.data.net
+package nu.parley.android.data.net.service
 
 import nu.parley.android.data.model.Device
 import retrofit2.Call

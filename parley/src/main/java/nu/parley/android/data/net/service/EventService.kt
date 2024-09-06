@@ -1,4 +1,4 @@
-package nu.parleynetwork.android.data.net
+package nu.parley.android.data.net.service
 
 import retrofit2.Call
 import retrofit2.http.POST
