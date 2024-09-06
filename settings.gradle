@@ -1,2 +1,1 @@
-include ':app', ':parley'
-include ':parley-network'
+include ':app', ':parley', ':parley-network'

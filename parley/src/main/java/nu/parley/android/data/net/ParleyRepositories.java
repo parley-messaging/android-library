@@ -6,7 +6,7 @@ import nu.parley.android.data.repository.MessageRepository;
 
 public interface ParleyRepositories {
 
-    public DeviceRepository getDeviceRepository();;
+    public DeviceRepository getDeviceRepository();
 
     public EventRepository getEventRepository();
 

@@ -5,5 +5,4 @@ import nu.parley.android.data.net.ParleyRepositories
 
 interface NetworkConfig {
     val repositories: ParleyRepositories
-    val jsonParser: ParleyJsonParser
 }

@@ -8,5 +8,4 @@ class ParleyNetworkConfig(
     val interceptor: Interceptor? = null
 ) : NetworkConfig {
     override val repositories = ParleyNetworkRepositories
-    override val jsonParser = ParleyNetworkJsonParser
 }

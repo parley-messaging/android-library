@@ -1,20 +1,21 @@
 package nu.parley.android.data.messages;
 
-import static nu.parley.android.util.DateUtil.isSameDay;
-import static nu.parley.android.view.chat.MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING;
-
 import androidx.annotation.Nullable;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import nu.parley.android.Parley;
 import nu.parley.android.data.model.Message;
 import nu.parley.android.data.net.response.ParleyPaging;
 import nu.parley.android.util.CompareUtil;
 import nu.parley.android.util.ListUtil;
+
+import static nu.parley.android.util.DateUtil.isSameDay;
+import static nu.parley.android.view.chat.MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING;
 
 public final class MessagesManager {
 
@@ -40,7 +41,7 @@ public final class MessagesManager {
 
             String cachedPaging = dataSource.get(ParleyKeyValueDataSource.KEY_PAGING);
             if (cachedPaging != null) {
-                this.paging = Parley.getInstance().getNetwork().config.getJsonParser().jsonToParleyPaging(cachedPaging);
+                this.paging = new Gson().fromJson(cachedPaging, ParleyPaging.class);
             }
         }
         formatMessages();
@@ -264,10 +265,7 @@ public final class MessagesManager {
     public void applyPaging(ParleyPaging paging) {
         this.paging = paging;
         if (isCachingEnabled()) {
-            dataSource.set(
-                    ParleyKeyValueDataSource.KEY_PAGING,
-                    Parley.getInstance().getNetwork().config.getJsonParser().parleyPagingToJson(paging)
-            );
+            dataSource.set(ParleyKeyValueDataSource.KEY_PAGING, new Gson().toJson(paging));
         }
     }
 
