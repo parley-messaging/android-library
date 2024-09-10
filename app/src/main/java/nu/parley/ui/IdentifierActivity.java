@@ -21,7 +21,6 @@ import java.util.Map;
 
 import nu.parley.ParleyCustomerAuthorization;
 import nu.parley.R;
-import nu.parley.android.DefaultNetworkConfig;
 import nu.parley.android.Parley;
 import nu.parley.android.ParleyCallback;
 import nu.parley.android.ParleyNetwork;
@@ -116,7 +115,7 @@ public final class IdentifierActivity extends BaseActivity {
     }
 
     private void initParley() {
-        setParleyNetwork(); // Optional, defaults to Parley configuration
+//        setParleyNetwork(); // Optional, defaults to Parley configuration
 //        setOfflineMessagingEnabled(); // Optional, default off
 //        Parley.disableOfflineMessaging();
 //        Parley.setReferrer("https://parley.nu/"); // Optional, default `null`
