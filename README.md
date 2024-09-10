@@ -222,10 +222,18 @@ Parley.setNetwork(network);
 
 **Custom interceptor**
 
-If needed to apply a custom interceptor, for example when the headers could be dynamic. This can be done by creating an `okhttp3.Interceptor` and attaching that to the ParleyNetwork:
+If needed to apply a custom interceptor, for example when the headers could be dynamic. This can be done by creating an `okhttp3.Interceptor`, then you create a new DefaultNetworkConfig and use the interceptor as an argument. This DefaultNetworkConfig can be set on the ParleyNetwork class:
 
 ```java
-network.setInterceptor(interceptor);
+network.config = new DefaultNetworkConfig(interceptor);
+```
+
+**Custom network config**
+
+If using a custom interceptor is not enough for your usecase, you can choose to create you own NetworkConfig implementation. You'll need to create your versions of NetworkConfig, ParleyRepositories, DeviceRepository, EventRepository and MessageRepository. Then you can set your custom NetworkConfig like this:
+
+```java
+network.config = new YourNetworkConfig();
 ```
 
 **Custom SSL pinning**
