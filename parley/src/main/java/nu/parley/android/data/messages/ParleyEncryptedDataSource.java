@@ -164,12 +164,12 @@ public final class ParleyEncryptedDataSource implements ParleyDataSource {
             saveToFile(file, encrypted, salt, iv);
             return;
         } catch (NoSuchAlgorithmException |
-                 InvalidKeySpecException |
-                 NoSuchPaddingException |
-                 InvalidKeyException |
-                 InvalidAlgorithmParameterException |
-                 IllegalBlockSizeException |
-                 BadPaddingException e) {
+                InvalidKeySpecException |
+                NoSuchPaddingException |
+                InvalidKeyException |
+                InvalidAlgorithmParameterException |
+                IllegalBlockSizeException |
+                BadPaddingException e) {
             e.printStackTrace();
         }
         Log.d("EncryptedDataSource", "cacheMessages :: Caching data failed!");
@@ -196,12 +196,12 @@ public final class ParleyEncryptedDataSource implements ParleyDataSource {
 
             return decrypt(newGenKeySpec, retrievedIv, retrievedData);
         } catch (NoSuchAlgorithmException |
-                 InvalidKeyException |
-                 InvalidAlgorithmParameterException |
-                 NoSuchPaddingException |
-                 BadPaddingException |
-                 InvalidKeySpecException |
-                 IllegalBlockSizeException e) {
+                InvalidKeyException |
+                InvalidAlgorithmParameterException |
+                NoSuchPaddingException |
+                BadPaddingException |
+                InvalidKeySpecException |
+                IllegalBlockSizeException e) {
             e.printStackTrace();
             Log.d("EncryptedDataSource", "getCachedMessages :: Failed to retrieve cached messages");
         }

@@ -8,24 +8,21 @@ import nu.parley.android.data.model.Agent;
 
 public final class ParleyResponse<T> {
 
-    public ParleyResponse(T data, @Nullable Agent agent, ParleyPaging paging, @Nullable String stickyMessage, @Nullable String welcomeMessage) {
-        this.data = data;
-        this.agent = agent;
-        this.paging = paging;
-        this.stickyMessage = stickyMessage;
-        this.welcomeMessage = welcomeMessage;
-    }
-
+    @SerializedName("data")
     private T data;
 
+    @SerializedName("agent")
     @Nullable
     private Agent agent;
 
+    @SerializedName("paging")
     private ParleyPaging paging;
 
+    @SerializedName("stickyMessage")
     @Nullable
     private String stickyMessage;
 
+    @SerializedName("welcomeMessage")
     @Nullable
     private String welcomeMessage;
 

@@ -98,39 +98,6 @@ public final class Connectivity {
         }
     }
 
-    /**
-     * Adds an interceptor to the OkHttpClient.Builder.
-     *
-     * @param builder the OkHttpClient.Builder to add the interceptor to.
-     * @return the OkHttpClient.Builder with the added interceptor.
-     */
-    private static OkHttpClient.Builder addInterceptor(OkHttpClient.Builder builder) {
-        NetworkConfig config = Parley.getInstance().getNetwork().config;
-        if (!(Parley.getInstance().getNetwork().config instanceof NetworkConfig)) return builder;
-
-        Interceptor interceptor = ((ParleyNetworkConfig) Parley.getInstance().getNetwork().config).getInterceptor();
-        if (interceptor == null) return builder;
-
-        return builder.addInterceptor(interceptor);
-    }
-
-    public static <T> String getFormattedError(retrofit2.Response<T> response) {
-        try {
-            if (response.errorBody() == null) {
-                return response.message();
-            }
-            ParleyErrorResponse error = new Gson().fromJson(response.errorBody().string(), ParleyErrorResponse.class);
-            String message = error.getMessage();
-            if (message == null) {
-                return response.message();
-            } else {
-                return message;
-            }
-        } catch (JsonSyntaxException | IOException e) {
-            return response.message();
-        }
-    }
-
     public static Map<String, String> getAdditionalHeaders() {
         return Parley.getInstance().getNetwork().headers;
     }
@@ -157,5 +124,38 @@ public final class Connectivity {
             lazyHeadersBuilder.addHeader(entry.getKey(), entry.getValue());
         }
         return new GlideUrl(url, lazyHeadersBuilder.build());
+    }
+
+    /**
+     * Adds an interceptor to the OkHttpClient.Builder.
+     *
+     * @param builder the OkHttpClient.Builder to add the interceptor to.
+     * @return the OkHttpClient.Builder with the added interceptor.
+     */
+    private static OkHttpClient.Builder addInterceptor(OkHttpClient.Builder builder) {
+        NetworkConfig config = Parley.getInstance().getNetwork().config;
+
+        if (!(Parley.getInstance().getNetwork().config instanceof ParleyNetworkConfig)) return builder;
+        Interceptor interceptor = ((ParleyNetworkConfig) Parley.getInstance().getNetwork().config).getInterceptor();
+
+        if (interceptor == null) return builder;
+        return builder.addInterceptor(interceptor);
+    }
+
+    public static <T> String getFormattedError(retrofit2.Response<T> response) {
+        try {
+            if (response.errorBody() == null) {
+                return response.message();
+            }
+            ParleyErrorResponse error = new Gson().fromJson(response.errorBody().string(), ParleyErrorResponse.class);
+            String message = error.getMessage();
+            if (message == null) {
+                return response.message();
+            } else {
+                return message;
+            }
+        } catch (JsonSyntaxException | IOException e) {
+            return response.message();
+        }
     }
 }

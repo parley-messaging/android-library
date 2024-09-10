@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public final class ParleyResponsePostMessage {
 
+    @SerializedName("messageId")
     @Nullable
     private String messageId;
 

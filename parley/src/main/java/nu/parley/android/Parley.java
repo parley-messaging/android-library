@@ -496,7 +496,7 @@ public final class Parley {
         network.config.getRepositories().getDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
-                getNetwork().config.getRepositories().getMessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
+                network.config.getRepositories().getMessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
                     @Override
                     public void onSuccess(ParleyResponse<List<Message>> data) {
                         refreshingMessages = false;
@@ -600,7 +600,7 @@ public final class Parley {
         network.config.getRepositories().getDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
-                getNetwork().config.getRepositories().getMessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
+                network.config.getRepositories().getMessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
                     @Override
                     public void onSuccess(ParleyResponse<List<Message>> data) {
                         messagesManager.begin(data.getWelcomeMessage(), data.getStickyMessage(), data.getData(), data.getPaging());

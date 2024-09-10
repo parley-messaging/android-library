@@ -117,8 +117,6 @@ public final class IdentifierActivity extends BaseActivity {
 
     private void initParley() {
 //        setParleyNetwork(); // Optional, defaults to Parley configuration
-        // TODO: Find a nice way to set this
-        Parley.getInstance().getNetwork().config = new ParleyNetworkConfig();
 //        setOfflineMessagingEnabled(); // Optional, default off
 //        Parley.disableOfflineMessaging();
 //        Parley.setReferrer("https://parley.nu/"); // Optional, default `null`
