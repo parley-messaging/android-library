@@ -21,7 +21,7 @@ public final class ParleyNetwork {
     final Integer securityConfigResourceFile;
     public final String path;
     public final ApiVersion apiVersion;
-    public NetworkConfig config = new ParleyNetworkConfig();
+    public NetworkConfig config = new DefaultNetworkConfig();
 
     /**
      * Applies the default network settings of Parley.
