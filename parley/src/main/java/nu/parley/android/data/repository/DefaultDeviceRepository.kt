@@ -1,32 +1,26 @@
 package nu.parley.android.data.repository
 
+import com.google.gson.Gson
+import nu.parley.android.Parley
 import nu.parley.android.data.model.Device
-import nu.parley.android.data.net.Connectivity
+import nu.parley.android.data.net.ParleyHttpRequestMethod
 import nu.parley.android.data.net.RepositoryCallback
-import nu.parley.android.data.net.service.DeviceService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import nu.parley.android.data.net.service.DefaultNetworkSession
 
 class DefaultDeviceRepository : DeviceRepository {
     public override fun register(device: Device, callback: RepositoryCallback<Void>) {
-        var deviceService = Connectivity.getRetrofit().create(
-            DeviceService::class.java
+        val network = Parley.getInstance().network
+        network.networkSession.request(
+            network.url + network.path + "devices",
+            Gson().toJson(device),
+            ParleyHttpRequestMethod.Post,
+            emptyMap(),
+            onCompetion = {
+                callback.onSuccess(null)
+            },
+            onFailed = { statusCode, message ->
+                callback.onFailed(statusCode, message)
+            }
         )
-        var registerCall = deviceService.register(device)
-        registerCall.enqueue(object : Callback<Void?> {
-            public override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
-                if (response.isSuccessful) {
-                    callback.onSuccess(null)
-                } else {
-                    callback.onFailed(response.code(), Connectivity.getFormattedError(response))
-                }
-            }
-
-            public override fun onFailure(call: Call<Void?>, t: Throwable) {
-                t.printStackTrace()
-                callback.onFailed(null, t.message)
-            }
-        })
     }
 }

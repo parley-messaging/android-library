@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nu.parley.android.data.model.ApiVersion;
+import nu.parley.android.data.net.service.DefaultNetworkSession;
+import nu.parley.android.data.net.service.ParleyNetworkSession;
 
 /**
  * Provides the network configuration for Parley.
@@ -21,7 +23,7 @@ public final class ParleyNetwork {
     final Integer securityConfigResourceFile;
     public final String path;
     public final ApiVersion apiVersion;
-    public NetworkConfig config = new DefaultNetworkConfig();
+    public ParleyNetworkSession networkSession = new DefaultNetworkSession();
 
     /**
      * Applies the default network settings of Parley.

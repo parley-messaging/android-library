@@ -1,24 +1,22 @@
 package nu.parley.android.data.repository
 
-import nu.parley.android.data.net.Connectivity
-import nu.parley.android.data.net.service.EventService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import nu.parley.android.Parley
+import nu.parley.android.data.net.ParleyHttpRequestMethod
 
 class DefaultEventRepository : EventRepository {
     public override fun fire(event: String) {
-        var eventCall = Connectivity.getRetrofit().create(
-            EventService::class.java
-        ).fire(event)
-        eventCall.enqueue(object : Callback<Void> {
-            public override fun onResponse(call: Call<Void>, response: Response<Void>) {
+        val network = Parley.getInstance().network
+        network.networkSession.request(
+            network.url + network.path + "services/event/$event",
+            "",
+            ParleyHttpRequestMethod.Post,
+            emptyMap(),
+            onCompetion = {
+                // Ignore
+            },
+            onFailed = { _, _ ->
                 // Ignore
             }
-
-            public override fun onFailure(call: Call<Void>, t: Throwable) {
-                // Ignore
-            }
-        })
+        )
     }
 }

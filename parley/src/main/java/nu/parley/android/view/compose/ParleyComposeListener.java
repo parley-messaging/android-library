@@ -3,6 +3,7 @@ package nu.parley.android.view.compose;
 import java.io.File;
 
 import nu.parley.android.Parley;
+import nu.parley.android.data.repository.DefaultEventRepository;
 
 import static nu.parley.android.notification.PushNotificationHandler.EVENT_START_TYPING;
 import static nu.parley.android.notification.PushNotificationHandler.EVENT_STOP_TYPING;
@@ -30,6 +31,6 @@ public final class ParleyComposeListener implements ComposeListener {
     }
 
     private void fireEvent(String event) {
-        Parley.getInstance().getNetwork().config.getRepositories().getEventRepository().fire(event);
+        new DefaultEventRepository().fire(event);
     }
 }

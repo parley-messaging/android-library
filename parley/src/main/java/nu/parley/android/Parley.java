@@ -29,6 +29,9 @@ import nu.parley.android.data.model.PushType;
 import nu.parley.android.data.net.RepositoryCallback;
 import nu.parley.android.data.net.response.ParleyNotificationResponseType;
 import nu.parley.android.data.net.response.ParleyResponse;
+import nu.parley.android.data.repository.DefaultDeviceRepository;
+import nu.parley.android.data.repository.DefaultEventRepository;
+import nu.parley.android.data.repository.DefaultMessageRepository;
 import nu.parley.android.data.repository.PreferenceRepository;
 import nu.parley.android.notification.PushNotificationHandler;
 import nu.parley.android.util.ChainListener;
@@ -493,10 +496,10 @@ public final class Parley {
 
         // Only additional messages are needed to retrieve
         this.refreshingMessages = true;
-        network.config.getRepositories().getDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
+        new DefaultDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
-                network.config.getRepositories().getMessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
+                new DefaultMessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
                     @Override
                     public void onSuccess(ParleyResponse<List<Message>> data) {
                         refreshingMessages = false;
@@ -597,10 +600,10 @@ public final class Parley {
     }
 
     private void configureI(final ParleyCallback callback) {
-        network.config.getRepositories().getDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
+        new DefaultDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
-                network.config.getRepositories().getMessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
+                new DefaultMessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
                     @Override
                     public void onSuccess(ParleyResponse<List<Message>> data) {
                         messagesManager.begin(data.getWelcomeMessage(), data.getStickyMessage(), data.getData(), data.getPaging());
@@ -651,7 +654,7 @@ public final class Parley {
         this.userAuthorization = null;
         this.userAdditionalInformation = new HashMap<>();
 
-        network.config.getRepositories().getDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
+        new DefaultDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
             @Override
             public void onSuccess(Void data) {
                 secret = null;
@@ -716,7 +719,7 @@ public final class Parley {
 
         if (shouldConfigureForState) {
             // We should update the device
-            network.config.getRepositories().getDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
+            new DefaultDeviceRepository().register(DeviceUtil.getDevice(), new RepositoryCallback<Void>() {
                 @Override
                 public void onSuccess(Void data) {
                     callback.onSuccess();
@@ -757,7 +760,7 @@ public final class Parley {
             return;
         }
         loadingMore = true;
-        getNetwork().config.getRepositories().getMessageRepository().getOlder(messagesManager.getPaging(), new RepositoryCallback<ParleyResponse<List<Message>>>() {
+        new DefaultMessageRepository().getOlder(messagesManager.getPaging(), new RepositoryCallback<ParleyResponse<List<Message>>>() {
             @Override
             public void onSuccess(ParleyResponse<List<Message>> data) {
                 loadingMore = false;
@@ -818,13 +821,13 @@ public final class Parley {
 
         if (showNewMessage) {
             listener.onNewMessage(message);
-            getNetwork().config.getRepositories().getEventRepository().fire(EVENT_STOP_TYPING);
+            new DefaultEventRepository().fire(EVENT_STOP_TYPING);
         }
 
         String uploadMedia = message.getLocalUrl();
         if (getNetwork().apiVersion.isUsingMedia() && uploadMedia != null) {
             // Upload image first, then update the message (remove `image`, add `media`) and after that submit the actual message with the right media
-            getNetwork().config.getRepositories().getMessageRepository().sendMedia(message, uploadMedia, new RepositoryCallback<Message>() {
+            new DefaultMessageRepository().sendMedia(message, uploadMedia, new RepositoryCallback<Message>() {
                 @Override
                 public void onSuccess(Message updatedMessage) {
                     uploading.remove(uuid);
@@ -863,7 +866,7 @@ public final class Parley {
             });
         } else {
             // Just submit the message (and upload images like before V1.6)
-            getNetwork().config.getRepositories().getMessageRepository().send(message, uploadMedia, new RepositoryCallback<Message>() {
+            new DefaultMessageRepository().send(message, uploadMedia, new RepositoryCallback<Message>() {
                 @Override
                 public void onSuccess(final Message updatedMessage) {
                     uploading.remove(uuid);
@@ -966,7 +969,7 @@ public final class Parley {
             return;
         }
 
-        getNetwork().config.getRepositories().getMessageRepository().get(messageId, new RepositoryCallback<Message>() {
+        new DefaultMessageRepository().get(messageId, new RepositoryCallback<Message>() {
             @Override
             public void onSuccess(Message message) {
                 if (listener != null) {

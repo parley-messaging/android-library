@@ -16,16 +16,17 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
-import nu.parley.android.NetworkConfig;
 import nu.parley.android.Parley;
-import nu.parley.android.DefaultNetworkConfig;
 import nu.parley.android.data.net.response.ParleyErrorResponse;
+import nu.parley.android.data.net.service.DefaultNetworkSession;
+import nu.parley.android.data.net.service.ParleyNetworkSession;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public final class Connectivity {
 
@@ -47,11 +48,25 @@ public final class Connectivity {
     }
 
     /**
+     * Get a Retrofit instance with Parley's url and path and OkHttpClient.
+     *
+     * @return Retrofit
+     */
+    public static Retrofit getRetrofitWithScalar() {
+        Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
+                .baseUrl(Parley.getInstance().getNetwork().getBaseUrl())
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .client(getOkHttpClient());
+
+        return retrofitBuilder.build();
+    }
+
+    /**
      * Get a OkHttpClient instance with Parley identification header.
      *
      * @return OkHttpClient
      */
-    private static OkHttpClient getOkHttpClient() {
+    public static OkHttpClient getOkHttpClient() {
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
                     @Override
@@ -133,10 +148,10 @@ public final class Connectivity {
      * @return the OkHttpClient.Builder with the added interceptor.
      */
     private static OkHttpClient.Builder addInterceptor(OkHttpClient.Builder builder) {
-        NetworkConfig config = Parley.getInstance().getNetwork().config;
+        ParleyNetworkSession networkSession = Parley.getInstance().getNetwork().networkSession;
 
-        if (!(Parley.getInstance().getNetwork().config instanceof DefaultNetworkConfig)) return builder;
-        Interceptor interceptor = ((DefaultNetworkConfig) Parley.getInstance().getNetwork().config).getInterceptor();
+        if (!(networkSession instanceof DefaultNetworkSession)) return builder;
+        Interceptor interceptor = ((DefaultNetworkSession) networkSession).getInterceptor();
 
         if (interceptor == null) return builder;
         return builder.addInterceptor(interceptor);
