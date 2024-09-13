@@ -33,15 +33,17 @@ final class DeviceRepository {
         )
     }
 
-    fun getDeviceId(context: Context): String {
-        var preferences = PreferenceRepository()
-        var deviceId = preferences.getDeviceId(context)
-        if (deviceId == null) {
-            var newDeviceId = UUID.randomUUID().toString()
-            preferences.setDeviceId(context, newDeviceId)
-            return newDeviceId
-        } else {
-            return deviceId
+    companion object {
+        fun getDeviceId(context: Context): String {
+            var preferences = PreferenceRepository()
+            var deviceId = preferences.getDeviceId(context)
+            if (deviceId == null) {
+                var newDeviceId = UUID.randomUUID().toString()
+                preferences.setDeviceId(context, newDeviceId)
+                return newDeviceId
+            } else {
+                return deviceId
+            }
         }
     }
 }
