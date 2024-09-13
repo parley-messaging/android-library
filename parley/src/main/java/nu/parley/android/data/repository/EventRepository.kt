@@ -1,6 +1,22 @@
-package nu.parley.android.data.repository;
+package nu.parley.android.data.repository
 
-public interface EventRepository {
+import nu.parley.android.Parley
+import nu.parley.android.data.net.ParleyHttpRequestMethod
 
-    public void fire(String event);
+final class EventRepository {
+    fun fire(event: String?) {
+        val network = Parley.getInstance().network
+        network.networkSession.request(
+            network.url + network.path + "services/event/$event",
+            "",
+            ParleyHttpRequestMethod.Post,
+            emptyMap(),
+            onCompetion = {
+                // Ignore
+            },
+            onFailed = { _, _ ->
+                // Ignore
+            }
+        )
+    }
 }

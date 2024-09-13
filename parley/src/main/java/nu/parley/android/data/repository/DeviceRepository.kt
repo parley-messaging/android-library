@@ -1,9 +1,33 @@
-package nu.parley.android.data.repository;
+package nu.parley.android.data.repository
 
-import nu.parley.android.data.model.Device;
-import nu.parley.android.data.net.RepositoryCallback;
+import com.google.gson.Gson
+import nu.parley.android.Parley
+import nu.parley.android.data.model.Device
+import nu.parley.android.data.net.ParleyHttpRequestMethod
+import nu.parley.android.data.net.RepositoryCallback
 
-public interface DeviceRepository {
+final class DeviceRepository {
 
-    public void register(Device device, RepositoryCallback<Void> callback);
+    fun register(callback: RepositoryCallback<Void>) {
+        val parley = Parley.getInstance()
+        val device = Device().apply {
+            setPushToken(parley.pushToken, parley.pushType)
+            setUserAdditionalInformation(parley.userAdditionalInformation)
+            setReferrer(parley.referrer)
+        }
+
+        val network = parley.network
+        network.networkSession.request(
+            network.url + network.path + "devices",
+            Gson().toJson(device),
+            ParleyHttpRequestMethod.Post,
+            emptyMap(),
+            onCompetion = {
+                callback.onSuccess(null)
+            },
+            onFailed = { statusCode, message ->
+                callback.onFailed(statusCode, message)
+            }
+        )
+    }
 }
