@@ -18,7 +18,7 @@ import javax.net.ssl.X509TrustManager;
 
 import nu.parley.android.Parley;
 import nu.parley.android.data.net.response.ParleyErrorResponse;
-import nu.parley.android.data.net.service.DefaultNetworkSession;
+import nu.parley.android.data.net.service.RetrofitNetworkSession;
 import nu.parley.android.data.net.service.ParleyNetworkSession;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -120,8 +120,8 @@ public final class Connectivity {
     private static OkHttpClient.Builder addInterceptor(OkHttpClient.Builder builder) {
         ParleyNetworkSession networkSession = Parley.getInstance().getNetwork().networkSession;
 
-        if (!(networkSession instanceof DefaultNetworkSession)) return builder;
-        Interceptor interceptor = ((DefaultNetworkSession) networkSession).getInterceptor();
+        if (!(networkSession instanceof RetrofitNetworkSession)) return builder;
+        Interceptor interceptor = ((RetrofitNetworkSession) networkSession).getInterceptor();
 
         if (interceptor == null) return builder;
         return builder.addInterceptor(interceptor);

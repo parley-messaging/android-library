@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import nu.parley.android.data.model.ApiVersion;
-import nu.parley.android.data.net.service.DefaultNetworkSession;
+import nu.parley.android.data.net.service.RetrofitNetworkSession;
 import nu.parley.android.data.net.service.ParleyNetworkSession;
 
 /**
@@ -34,7 +34,7 @@ public final class ParleyNetwork {
         this.apiVersion = ApiVersion.V1_7;
         this.securityConfigResourceFile = R.xml.parley_network_security_config;
         this.headers = new HashMap<>();
-        this.networkSession = new DefaultNetworkSession();
+        this.networkSession = new RetrofitNetworkSession();
     }
 
     /**
@@ -44,7 +44,7 @@ public final class ParleyNetwork {
      */
     @SuppressWarnings("unused")
     public ParleyNetwork(String url, String path, ApiVersion apiVersion, @XmlRes Integer securityConfigResourceFile) {
-        this(url, path, apiVersion, securityConfigResourceFile, new HashMap<String, String>(), new DefaultNetworkSession());
+        this(url, path, apiVersion, securityConfigResourceFile, new HashMap<String, String>(), new RetrofitNetworkSession());
     }
 
     /**
@@ -76,7 +76,7 @@ public final class ParleyNetwork {
         this.apiVersion = apiVersion;
         this.securityConfigResourceFile = securityConfigResourceFile;
         this.headers = headers;
-        this.networkSession = new DefaultNetworkSession();
+        this.networkSession = new RetrofitNetworkSession();
     }
 
     /**

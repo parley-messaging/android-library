@@ -225,7 +225,7 @@ Parley.setNetwork(network);
 If needed to apply a custom interceptor, for example when the headers could be dynamic. This can be done by creating an `okhttp3.Interceptor`. A custom interceptor can be set by using the optional parameter `parleyNetworkSession` in `ParleyNetwork`:
 
 ```java
-ParleyNetworkSession networkSession = new DefaultNetworkSession(interceptor);
+ParleyNetworkSession networkSession = new RetrofitNetworkSession(interceptor);
 ParleyNetwork network = new ParleyNetwork(
         "https://api.parley.nu/",
         "clientApi/v1.7/",
@@ -239,7 +239,7 @@ Parley.setNetwork(network);
 
 **Custom network config**
 
-If using a custom interceptor is not enough for your usecase, you can choose to create you own DefaultNetworkSession implementation. You'll need to implement the ParleyNetworkSession interface. Then you can set your custom ParleyNetworkSession when constructing ParleyNetwork:
+If using a custom interceptor is not enough for your usecase, you can choose to create you own RetrofitNetworkSession implementation. You'll need to implement the ParleyNetworkSession interface. Then you can set your custom ParleyNetworkSession by using the optional parameter `parleyNetworkSession` in `ParleyNetwork`:
 
 ```java
 ParleyNetworkSession networkSession = new CustomNetworkSession();
