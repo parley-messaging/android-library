@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.Nullable;
 
-public final class PreferenceRepository {
+final class PreferenceRepository {
 
     enum Key {
         DEVICE_ID("device_id");

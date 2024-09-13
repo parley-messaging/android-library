@@ -20,7 +20,6 @@ class DefaultNetworkSession(
         url: String,
         data: String?,
         method: ParleyHttpRequestMethod,
-        headers: Map<String, String>,
         onCompetion: (String) -> Unit,
         onFailed: (Int?, String?) -> Unit
     ) {
@@ -56,7 +55,6 @@ class DefaultNetworkSession(
         media: String,
         mimeType: String,
         formDataName: String,
-        headers: Map<String, String>,
         onCompetion: (String) -> Unit,
         onFailed: (Int?, String?) -> Unit
     ) {
@@ -72,7 +70,6 @@ class DefaultNetworkSession(
         media: File,
         mimeType: String,
         formDataName: String,
-        headers: Map<String, String>,
         onCompetion: (String) -> Unit,
         onFailed: (Int?, String?) -> Unit
     ) {

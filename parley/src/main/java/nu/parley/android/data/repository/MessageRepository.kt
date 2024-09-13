@@ -27,7 +27,6 @@ final class MessageRepository {
             network.url + network.path + "messages",
             null,
             ParleyHttpRequestMethod.Get,
-            emptyMap(),
             onCompetion = {
                 val response = Gson()
                     .getAdapter(MessagesResponseTypeToken())
@@ -49,7 +48,6 @@ final class MessageRepository {
             network.url + network.path + previousPaging.before,
             null,
             ParleyHttpRequestMethod.Get,
-            emptyMap(),
             onCompetion = {
                 val response = Gson()
                     .getAdapter(MessagesResponseTypeToken())
@@ -88,7 +86,6 @@ final class MessageRepository {
                 url,
                 Gson().toJson(message),
                 ParleyHttpRequestMethod.Post,
-                emptyMap(),
                 onCompetion = onCompetion,
                 onFailed = onFailed
             )
@@ -98,7 +95,6 @@ final class MessageRepository {
                 File(media),
                 FileUtil.getMimeType(File(media).absolutePath),
                 "image",
-                emptyMap(),
                 onCompetion = onCompetion,
                 onFailed = onFailed
             )
@@ -117,7 +113,6 @@ final class MessageRepository {
             media,
             FileUtil.getMimeType(media),
             "media",
-            emptyMap(),
             onCompetion = {
                 val response = Gson()
                     .getAdapter(MessagesResponsePostMediaTypeToken())
@@ -145,7 +140,6 @@ final class MessageRepository {
             network.url + network.path + "messages/$messageId",
             null,
             ParleyHttpRequestMethod.Get,
-            emptyMap(),
             onCompetion = {
                 val response = Gson()
                     .getAdapter(MessageResponseTypeToken())

@@ -23,7 +23,6 @@ final class DeviceRepository {
             network.url + network.path + "devices",
             Gson().toJson(device),
             ParleyHttpRequestMethod.Post,
-            emptyMap(),
             onCompetion = {
                 callback.onSuccess(null)
             },

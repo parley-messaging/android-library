@@ -10,7 +10,6 @@ final class EventRepository {
             network.url + network.path + "services/event/$event",
             "",
             ParleyHttpRequestMethod.Post,
-            emptyMap(),
             onCompetion = {
                 // Ignore
             },
