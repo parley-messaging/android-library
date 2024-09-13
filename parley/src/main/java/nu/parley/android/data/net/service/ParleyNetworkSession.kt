@@ -3,7 +3,6 @@ package nu.parley.android.data.net.service
 import nu.parley.android.data.model.Message
 import nu.parley.android.data.net.ParleyHttpRequestMethod
 import nu.parley.android.data.net.response.ParleyErrorResponse
-import nu.parley.android.data.net.response.ParleyHttpDataResponse
 import nu.parley.android.data.net.response.ParleyResponse
 import retrofit2.Call
 import retrofit2.http.GET

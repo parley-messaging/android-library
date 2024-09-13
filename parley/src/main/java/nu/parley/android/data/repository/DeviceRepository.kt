@@ -1,10 +1,12 @@
 package nu.parley.android.data.repository
 
+import android.content.Context
 import com.google.gson.Gson
 import nu.parley.android.Parley
 import nu.parley.android.data.model.Device
 import nu.parley.android.data.net.ParleyHttpRequestMethod
 import nu.parley.android.data.net.RepositoryCallback
+import java.util.UUID
 
 final class DeviceRepository {
 
@@ -29,5 +31,17 @@ final class DeviceRepository {
                 callback.onFailed(statusCode, message)
             }
         )
+    }
+
+    fun getDeviceId(context: Context): String {
+        var preferences = PreferenceRepository()
+        var deviceId = preferences.getDeviceId(context)
+        if (deviceId == null) {
+            var newDeviceId = UUID.randomUUID().toString()
+            preferences.setDeviceId(context, newDeviceId)
+            return newDeviceId
+        } else {
+            return deviceId
+        }
     }
 }

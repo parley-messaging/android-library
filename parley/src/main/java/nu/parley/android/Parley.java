@@ -32,7 +32,6 @@ import nu.parley.android.data.net.response.ParleyResponse;
 import nu.parley.android.data.repository.DeviceRepository;
 import nu.parley.android.data.repository.EventRepository;
 import nu.parley.android.data.repository.MessageRepository;
-import nu.parley.android.data.repository.PreferenceRepository;
 import nu.parley.android.notification.PushNotificationHandler;
 import nu.parley.android.util.ChainListener;
 import nu.parley.android.util.CompareUtil;
@@ -582,7 +581,7 @@ public final class Parley {
         this.secret = secret;
 
         if (uniqueDeviceIdentifier == null) {
-            this.uniqueDeviceIdentifier = PreferenceRepository.getOrGenerateDeviceId(context);
+            this.uniqueDeviceIdentifier = new DeviceRepository().getDeviceId(context);
         } else {
             this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
         }

@@ -1,10 +1,8 @@
 package nu.parley.android.data.net.service
 
-import nu.parley.android.data.model.MimeType
 import nu.parley.android.data.model.MimeType.Companion.fromValue
 import nu.parley.android.data.net.Connectivity
 import nu.parley.android.data.net.ParleyHttpRequestMethod
-import nu.parley.android.util.FileUtil
 import okhttp3.Interceptor
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -26,14 +24,16 @@ class DefaultNetworkSession(
         onCompetion: (String) -> Unit,
         onFailed: (Int?, String?) -> Unit
     ) {
-        var networkService = Connectivity.getRetrofitWithScalar().create(
+        var networkService = Connectivity.getRetrofit().create(
             ParleyNetworkService::class.java
         )
-        var retrofitCall = if (method == ParleyHttpRequestMethod.Post) {
-            networkService.post(url, data!!)
-        } else {
-            // TODO: Support more methods?
-            networkService.request(url)
+        var retrofitCall = when (method) {
+            ParleyHttpRequestMethod.Post -> {
+                networkService.post(url, data!!)
+            }
+            ParleyHttpRequestMethod.Get -> {
+                networkService.request(url)
+            }
         }
 
         retrofitCall.enqueue(object : retrofit2.Callback<String> {
@@ -88,7 +88,7 @@ class DefaultNetworkSession(
         onCompetion: (String) -> Unit,
         onFailed: (Int?, String?) -> Unit
     ) {
-        val networkService = Connectivity.getRetrofitWithScalar().create(
+        val networkService = Connectivity.getRetrofit().create(
             ParleyNetworkService::class.java
         )
         val retrofitCall = networkService.upload(url, filePart)

@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.Nullable;
 
-import java.util.UUID;
-
 public final class PreferenceRepository {
 
     enum Key {
@@ -24,22 +22,6 @@ public final class PreferenceRepository {
 
     private SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-    }
-
-    public static String getOrGenerateDeviceId(Context context) {
-        PreferenceRepository preferences = new PreferenceRepository();
-        String deviceId = preferences.getDeviceId(context);
-        if (deviceId == null) {
-            return generateDeviceId(context, preferences);
-        } else {
-            return deviceId;
-        }
-    }
-
-    private static String generateDeviceId(Context context, PreferenceRepository preferences) {
-        String newDeviceId = UUID.randomUUID().toString();
-        preferences.setDeviceId(context, newDeviceId);
-        return newDeviceId;
     }
 
     @Nullable

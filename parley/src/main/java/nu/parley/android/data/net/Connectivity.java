@@ -25,7 +25,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public final class Connectivity {
@@ -41,20 +40,6 @@ public final class Connectivity {
     public static Retrofit getRetrofit() {
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
                 .baseUrl(Parley.getInstance().getNetwork().getBaseUrl())
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(getOkHttpClient());
-
-        return retrofitBuilder.build();
-    }
-
-    /**
-     * Get a Retrofit instance with Parley's url and path and OkHttpClient.
-     *
-     * @return Retrofit
-     */
-    public static Retrofit getRetrofitWithScalar() {
-        Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
-                .baseUrl(Parley.getInstance().getNetwork().getBaseUrl())
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .client(getOkHttpClient());
 
@@ -66,7 +51,7 @@ public final class Connectivity {
      *
      * @return OkHttpClient
      */
-    public static OkHttpClient getOkHttpClient() {
+    private static OkHttpClient getOkHttpClient() {
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
                     @Override
@@ -126,21 +111,6 @@ public final class Connectivity {
         return headers;
     }
 
-    public static String toMediaUrl(String mediaId) {
-        return Parley.getInstance().getNetwork().getBaseUrl() + "media/" + mediaId;
-    }
-
-    public static GlideUrl toGlideUrl(String url) {
-        LazyHeaders.Builder lazyHeadersBuilder = new LazyHeaders.Builder();
-        for (Map.Entry<String, String> entry : getAdditionalHeaders().entrySet()) {
-            lazyHeadersBuilder.addHeader(entry.getKey(), entry.getValue());
-        }
-        for (Map.Entry<String, String> entry : getParleyHeaders().entrySet()) {
-            lazyHeadersBuilder.addHeader(entry.getKey(), entry.getValue());
-        }
-        return new GlideUrl(url, lazyHeadersBuilder.build());
-    }
-
     /**
      * Adds an interceptor to the OkHttpClient.Builder.
      *
@@ -155,6 +125,21 @@ public final class Connectivity {
 
         if (interceptor == null) return builder;
         return builder.addInterceptor(interceptor);
+    }
+
+    public static String toMediaUrl(String mediaId) {
+        return Parley.getInstance().getNetwork().getBaseUrl() + "media/" + mediaId;
+    }
+
+    public static GlideUrl toGlideUrl(String url) {
+        LazyHeaders.Builder lazyHeadersBuilder = new LazyHeaders.Builder();
+        for (Map.Entry<String, String> entry : getAdditionalHeaders().entrySet()) {
+            lazyHeadersBuilder.addHeader(entry.getKey(), entry.getValue());
+        }
+        for (Map.Entry<String, String> entry : getParleyHeaders().entrySet()) {
+            lazyHeadersBuilder.addHeader(entry.getKey(), entry.getValue());
+        }
+        return new GlideUrl(url, lazyHeadersBuilder.build());
     }
 
     public static <T> String getFormattedError(retrofit2.Response<T> response) {
