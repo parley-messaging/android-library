@@ -222,18 +222,36 @@ Parley.setNetwork(network);
 
 **Custom interceptor**
 
-If needed to apply a custom interceptor, for example when the headers could be dynamic. This can be done by creating an `okhttp3.Interceptor`, then you create a new DefaultNetworkConfig and use the interceptor as an argument. This DefaultNetworkConfig can be set on the ParleyNetwork class:
+If needed to apply a custom interceptor, for example when the headers could be dynamic. This can be done by creating an `okhttp3.Interceptor`. A custom interceptor can be set by using the optional parameter `parleyNetworkSession` in `ParleyNetwork`:
 
 ```java
-network.config = new DefaultNetworkConfig(interceptor);
+ParleyNetworkSession networkSession = new DefaultNetworkSession(interceptor);
+ParleyNetwork network = new ParleyNetwork(
+        "https://api.parley.nu/",
+        "clientApi/v1.7/",
+        ApiVersion.V1_7,
+        R.xml.parley_network_security_config,
+        networkSession
+);
+
+Parley.setNetwork(network);
 ```
 
 **Custom network config**
 
-If using a custom interceptor is not enough for your usecase, you can choose to create you own NetworkConfig implementation. You'll need to create your versions of NetworkConfig, ParleyRepositories, DeviceRepository, EventRepository and MessageRepository. Then you can set your custom NetworkConfig like this:
+If using a custom interceptor is not enough for your usecase, you can choose to create you own DefaultNetworkSession implementation. You'll need to implement the ParleyNetworkSession interface. Then you can set your custom ParleyNetworkSession when constructing ParleyNetwork:
 
 ```java
-network.config = new YourNetworkConfig();
+ParleyNetworkSession networkSession = new CustomNetworkSession();
+ParleyNetwork network = new ParleyNetwork(
+        "https://api.parley.nu/",
+        "clientApi/v1.7/",
+        ApiVersion.V1_7,
+        R.xml.parley_network_security_config,
+        networkSession
+);
+
+Parley.setNetwork(network);
 ```
 
 **Custom SSL pinning**
