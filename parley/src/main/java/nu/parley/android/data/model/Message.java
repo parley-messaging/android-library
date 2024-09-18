@@ -266,7 +266,8 @@ public final class Message {
         }
 
         if (image != null) {
-            // Legacy: Messages from clientApi 1.5 and lower
+            // Legacy: Messages from clientApi 1.5 and lower.
+            // Legacy: Agent messages have both media and image filled.
             return image;
         }
 
