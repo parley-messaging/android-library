@@ -255,11 +255,6 @@ public final class Message {
 
     @Nullable
     public String getImageUrl() {
-        if (image != null) {
-            // Legacy: Messages from clientApi 1.5 and lower
-            return image;
-        }
-
         if (getMedia() != null && getMedia().getMimeType().isImage()) {
             if (localUrl == null) {
                 // Messages from clientApi 1.6 and higher
@@ -268,6 +263,12 @@ public final class Message {
                 // Pending upload
                 return localUrl;
             }
+        }
+
+        if (image != null) {
+            // Legacy: Messages from clientApi 1.5 and lower.
+            // Legacy: Agent messages have both media and image filled.
+            return image;
         }
 
         return null;
