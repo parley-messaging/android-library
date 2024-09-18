@@ -581,7 +581,7 @@ public final class Parley {
         this.secret = secret;
 
         if (uniqueDeviceIdentifier == null) {
-            this.uniqueDeviceIdentifier = DeviceRepository.getDeviceId(context);
+            this.uniqueDeviceIdentifier = DeviceRepository.Companion.getDeviceId(context);
         } else {
             this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
         }

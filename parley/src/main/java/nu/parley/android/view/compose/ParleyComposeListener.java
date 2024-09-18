@@ -1,12 +1,12 @@
 package nu.parley.android.view.compose;
 
+import static nu.parley.android.notification.PushNotificationHandler.EVENT_START_TYPING;
+import static nu.parley.android.notification.PushNotificationHandler.EVENT_STOP_TYPING;
+
 import java.io.File;
 
 import nu.parley.android.Parley;
 import nu.parley.android.data.repository.EventRepository;
-
-import static nu.parley.android.notification.PushNotificationHandler.EVENT_START_TYPING;
-import static nu.parley.android.notification.PushNotificationHandler.EVENT_STOP_TYPING;
 
 public final class ParleyComposeListener implements ComposeListener {
 
