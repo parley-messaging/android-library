@@ -57,7 +57,7 @@ allprojects {
 To integrate Parley, specify the following in your `app/build.gradle` file:
 
 ```groovy
-implementation 'com.github.parley-messaging:android-library:3.10.0'
+implementation 'com.github.parley-messaging:android-library:3.11.0'
 ```
 
 ### Upgrading
@@ -222,7 +222,7 @@ Parley.setNetwork(network);
 
 **Custom interceptor**
 
-If needed to apply a custom interceptor, for example when the headers could be dynamic. This can be done by creating an `okhttp3.Interceptor`. A custom interceptor can be set by using the optional parameter `parleyNetworkSession` in `ParleyNetwork`:
+If the only need is to apply a custom interceptor to the default network session of Parley, for example when using dynamic headers. It's possible to create an `okhttp3.Interceptor`, create the default `RetrofitNetworkSession` with the interceptor and provide that to the `ParleyNetwork` configuration.
 
 ```java
 ParleyNetworkSession networkSession = new RetrofitNetworkSession(interceptor);
@@ -239,7 +239,7 @@ Parley.setNetwork(network);
 
 **Custom network config**
 
-If using a custom interceptor is not enough for your usecase, you can choose to create you own RetrofitNetworkSession implementation. You'll need to implement the ParleyNetworkSession interface. Then you can set your custom ParleyNetworkSession by using the optional parameter `parleyNetworkSession` in `ParleyNetwork`:
+If using a custom interceptor is not enough, it's also possible to fully create you own `ParleyNetworkSession` implementation. You'll need to implement the `ParleyNetworkSession` interface. Then provide the custom `ParleyNetworkSession` to the `ParleyNetwork` configuration:
 
 ```java
 ParleyNetworkSession networkSession = new CustomNetworkSession();
