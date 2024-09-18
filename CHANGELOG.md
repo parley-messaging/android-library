@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.11.0 - Released 18 Sep 2024
+
+- [Chat Message] Fixed an issue causing agent images not to load since 3.10.0.
+- [Network] Added support for providing a custom network session to prevent using Parley's default implementation. Check out the [Advanced - Network](https://github.com/parley-messaging/android-library?tab=readme-ov-file#network) section to use this.
+- [Network] *Important* `ParleyNetwork.setInterceptor()` is removed. Use a custom network session instead, or provide the interceptor with the default `RetrofitNetworkSession` of Parley, as described in the [Advanced - Network](https://github.com/parley-messaging/android-library?tab=readme-ov-file#network) section.
+
 ## 3.10.0 - Released 30 Jul 2024
 
 - [Source] Parley now uses Kotlin at certain parts. Make sure to configure Kotlin in your project in case it doesn't use Kotlin yet.

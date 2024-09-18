@@ -18,12 +18,14 @@ import javax.net.ssl.X509TrustManager;
 
 import nu.parley.android.Parley;
 import nu.parley.android.data.net.response.ParleyErrorResponse;
+import nu.parley.android.data.net.service.RetrofitNetworkSession;
+import nu.parley.android.data.net.service.ParleyNetworkSession;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public final class Connectivity {
 
@@ -38,7 +40,7 @@ public final class Connectivity {
     public static Retrofit getRetrofit() {
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
                 .baseUrl(Parley.getInstance().getNetwork().getBaseUrl())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .client(getOkHttpClient());
 
         return retrofitBuilder.build();
@@ -116,10 +118,13 @@ public final class Connectivity {
      * @return the OkHttpClient.Builder with the added interceptor.
      */
     private static OkHttpClient.Builder addInterceptor(OkHttpClient.Builder builder) {
-        if (Parley.getInstance().getNetwork().interceptor != null) {
-            return builder.addInterceptor(Parley.getInstance().getNetwork().interceptor);
-        }
-        return builder;
+        ParleyNetworkSession networkSession = Parley.getInstance().getNetwork().networkSession;
+
+        if (!(networkSession instanceof RetrofitNetworkSession)) return builder;
+        Interceptor interceptor = ((RetrofitNetworkSession) networkSession).getInterceptor();
+
+        if (interceptor == null) return builder;
+        return builder.addInterceptor(interceptor);
     }
 
     public static String toMediaUrl(String mediaId) {
