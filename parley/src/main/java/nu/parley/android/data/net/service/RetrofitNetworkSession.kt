@@ -20,7 +20,7 @@ class RetrofitNetworkSession(
         url: String,
         data: String?,
         method: ParleyHttpRequestMethod,
-        onCompetion: (String) -> Unit,
+        onCompletion: (String) -> Unit,
         onFailed: (Int?, String?) -> Unit
     ) {
         var networkService = Connectivity.getRetrofit().create(
@@ -38,7 +38,7 @@ class RetrofitNetworkSession(
         retrofitCall.enqueue(object : retrofit2.Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String?>) {
                 if (response.isSuccessful) {
-                    onCompetion(response.body()!!)
+                    onCompletion(response.body()!!)
                 } else {
                     onFailed(response.code(), Connectivity.getFormattedError(response))
                 }
@@ -55,14 +55,14 @@ class RetrofitNetworkSession(
         media: String,
         mimeType: String,
         formDataName: String,
-        onCompetion: (String) -> Unit,
+        onCompletion: (String) -> Unit,
         onFailed: (Int?, String?) -> Unit
     ) {
         val file = File(media)
         val requestBody = RequestBody.create(MediaType.parse(fromValue(mimeType).value), file)
         val filePart = MultipartBody.Part.createFormData(formDataName, file.name, requestBody)
 
-        upload(url, filePart, onCompetion, onFailed)
+        upload(url, filePart, onCompletion, onFailed)
     }
 
     override fun upload(
@@ -70,19 +70,19 @@ class RetrofitNetworkSession(
         media: File,
         mimeType: String,
         formDataName: String,
-        onCompetion: (String) -> Unit,
+        onCompletion: (String) -> Unit,
         onFailed: (Int?, String?) -> Unit
     ) {
         val requestBody = RequestBody.create(MediaType.parse(fromValue(mimeType).value), media)
         val filePart = MultipartBody.Part.createFormData(formDataName, media.name, requestBody)
 
-        upload(url, filePart, onCompetion, onFailed)
+        upload(url, filePart, onCompletion, onFailed)
     }
 
     private fun upload(
         url: String,
         filePart: MultipartBody.Part,
-        onCompetion: (String) -> Unit,
+        onCompletion: (String) -> Unit,
         onFailed: (Int?, String?) -> Unit
     ) {
         val networkService = Connectivity.getRetrofit().create(
@@ -93,7 +93,7 @@ class RetrofitNetworkSession(
         retrofitCall.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String?>) {
                 if (response.isSuccessful) {
-                    onCompetion(response.body()!!)
+                    onCompletion(response.body()!!)
                 } else {
                     onFailed(response.code(), Connectivity.getFormattedError(response))
                 }
