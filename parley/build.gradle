@@ -3,7 +3,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.jetbrains.kotlin.android'
 
 group = 'com.github.parley-messaging'
-version = '3.11.0'
+version = '3.11.1'
 
 android {
     namespace 'nu.parley.android'

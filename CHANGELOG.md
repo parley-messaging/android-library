@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.11.1 - Released 8 Oct 2024
+
+- [Network] Fixed a typo when providing a custom network session (`onCompetion` > `onCompletion`).
+
 ## 3.11.0 - Released 18 Sep 2024
 
 - [Chat Message] Fixed an issue causing agent images not to load since 3.10.0.
