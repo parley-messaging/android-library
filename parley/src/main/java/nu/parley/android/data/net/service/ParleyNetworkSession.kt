@@ -9,7 +9,7 @@ interface ParleyNetworkSession {
         url: String,
         data: String?,
         method: ParleyHttpRequestMethod,
-        onCompetion: (String) -> Unit,
+        onCompletion: (String) -> Unit,
         onFailed: (Int?, String?) -> Unit
     )
 
@@ -18,7 +18,7 @@ interface ParleyNetworkSession {
         media: String,
         mimeType: String,
         formDataName: String,
-        onCompetion: (String) -> Unit,
+        onCompletion: (String) -> Unit,
         onFailed: (Int?, String?) -> Unit
     )
 
@@ -27,7 +27,7 @@ interface ParleyNetworkSession {
         media: File,
         mimeType: String,
         formDataName: String,
-        onCompetion: (String) -> Unit,
+        onCompletion: (String) -> Unit,
         onFailed: (Int?, String?) -> Unit
     )
 }
