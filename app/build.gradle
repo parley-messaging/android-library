@@ -5,14 +5,55 @@ android {
     namespace "nu.parley"
     compileSdk 34
     defaultConfig {
-        applicationId "nu.parley"
+        applicationId "com.webuildapps.tracebuzz.parleydemo"
         minSdkVersion 21
         targetSdk 34
-        versionCode 1
-        versionName "3.11.0"
+        versionCode System.getenv("VERSION_CODE") as Integer ?: 1
+        versionName rootProject.ext.parley_version_name
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    def keyProps = new Properties()
+    keyProps.load(rootProject.file("keystore.properties").newReader())
+    signingConfigs {
+        alpha {
+            storeFile file('../alpha.jks')
+            storePassword System.getenv("KEYSTORE_ALPHA_PASSWORD") ?: keyProps['KEYSTORE_ALPHA_PASSWORD']
+            keyAlias System.getenv("KEYSTORE_ALPHA_KEY") ?: keyProps['KEYSTORE_ALPHA_KEY']
+            keyPassword System.getenv("KEYSTORE_ALPHA_KEY_PASSWORD") ?: keyProps['KEYSTORE_ALPHA_KEY_PASSWORD']
+        }
+
+        release {
+            storeFile file('../release.jks')
+            storePassword System.getenv("KEYSTORE_RELEASE_PASSWORD") ?:  keyProps['KEYSTORE_RELEASE_PASSWORD']
+            keyAlias System.getenv("KEYSTORE_RELEASE_KEY") ?:  keyProps['KEYSTORE_RELEASE_KEY']
+            keyPassword System.getenv("KEYSTORE_RELEASE_KEY_PASSWORD") ?:  keyProps['KEYSTORE_RELEASE_KEY_PASSWORD']
+        }
+    }
+
+
     buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            resValue "string", "app_name", "PARLEY Debug"
+
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        alpha {
+            initWith(buildTypes.release)
+            matchingFallbacks = ['release']
+
+            applicationIdSuffix '.alpha'
+            resValue "string", "app_name", "PARLEY Alpha"
+            signingConfig signingConfigs.alpha
+
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
