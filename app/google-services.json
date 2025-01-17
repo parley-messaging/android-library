@@ -3,9 +3,53 @@
     "project_number": "93965780292",
     "firebase_url": "https://parley-demo.firebaseio.com",
     "project_id": "parley-demo",
-    "storage_bucket": "parley-demo.appspot.com"
+    "storage_bucket": "parley-demo.firebasestorage.app"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93965780292:android:b982288effbc8924",
+        "android_client_info": {
+          "package_name": "com.webuildapps.tracebuzz.parleydemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93965780292-mvvnjhemrflrcvjkc9a6ua1ra1k9s7ek.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.webuildapps.tracebuzz.parleydemo",
+            "certificate_hash": "6f89ada725cc6066a5637ac77f398a5464e496ab"
+          }
+        },
+        {
+          "client_id": "93965780292-vb1g2ek4vnu1qmnt4roe0b7vsro8533c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWcNtu4Rbs3IEA_kcgk3UusyskGxjKkP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93965780292-vb1g2ek4vnu1qmnt4roe0b7vsro8533c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "93965780292-09i3vafhvrggm4i4cf27nr95idvk200d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nu.parley"
+              }
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:93965780292:android:60a536ba8b385110",

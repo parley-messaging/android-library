@@ -3,7 +3,6 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.jetbrains.kotlin.android'
 
 group = 'com.github.parley-messaging'
-version = '3.11.1'
 
 android {
     namespace 'nu.parley.android'
@@ -12,8 +11,8 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 34
-        versionCode 1
-        versionName version
+        versionCode System.getenv("VERSION_CODE") as Integer ?: 1
+        versionName rootProject.ext.parley_version_name
 
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
