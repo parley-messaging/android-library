@@ -43,6 +43,9 @@ android {
         }
 
         alpha {
+            initWith(buildTypes.release)
+            matchingFallbacks = ['release']
+
             applicationIdSuffix '.alpha'
             resValue "string", "app_name", "PARLEY Alpha"
             signingConfig signingConfigs.alpha
