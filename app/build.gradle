@@ -55,6 +55,9 @@ android {
         }
 
         release {
+            resValue "string", "app_name", "Parley"
+            signingConfig signingConfigs.release
+
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
