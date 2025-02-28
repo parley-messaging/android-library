@@ -49,6 +49,114 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93965780292:android:6c5406cb4ba11bd1874311",
+        "android_client_info": {
+          "package_name": "com.webuildapps.tracebuzz.parleydemo.alpha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93965780292-vb1g2ek4vnu1qmnt4roe0b7vsro8533c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWcNtu4Rbs3IEA_kcgk3UusyskGxjKkP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93965780292-vb1g2ek4vnu1qmnt4roe0b7vsro8533c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "93965780292-09i3vafhvrggm4i4cf27nr95idvk200d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nu.parley"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93965780292:android:2c12a4f9ef20895e874311",
+        "android_client_info": {
+          "package_name": "com.webuildapps.tracebuzz.parleydemo.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93965780292-vb1g2ek4vnu1qmnt4roe0b7vsro8533c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWcNtu4Rbs3IEA_kcgk3UusyskGxjKkP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93965780292-vb1g2ek4vnu1qmnt4roe0b7vsro8533c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "93965780292-09i3vafhvrggm4i4cf27nr95idvk200d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nu.parley"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93965780292:android:60a536ba8b385110",
+        "android_client_info": {
+          "package_name": "nu.parley"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93965780292-vb1g2ek4vnu1qmnt4roe0b7vsro8533c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWcNtu4Rbs3IEA_kcgk3UusyskGxjKkP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93965780292-vb1g2ek4vnu1qmnt4roe0b7vsro8533c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "93965780292-09i3vafhvrggm4i4cf27nr95idvk200d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nu.parley"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
