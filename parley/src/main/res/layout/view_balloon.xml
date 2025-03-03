@@ -32,7 +32,6 @@
                         android:id="@+id/image_view"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
-                        android:importantForAccessibility="no"
                         android:minWidth="300dp"
                         android:scaleType="fitXY" />
 
@@ -41,7 +40,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:importantForAccessibility="no"
+                        android:contentDescription="@string/parley_accessibility_message_image_placeholder"
                         android:maxWidth="300dp"
                         android:maxHeight="180dp"
                         android:visibility="gone"

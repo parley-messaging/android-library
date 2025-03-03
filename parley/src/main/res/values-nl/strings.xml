@@ -38,6 +38,7 @@
     <string name="parley_accessibility_message_from_agent">Bericht van agent.</string>
     <string name="parley_accessibility_message_from_agent_x">Bericht van %s.</string>
     <string name="parley_accessibility_message_media_attached">Media bijgevoegd.</string>
+    <string name="parley_accessibility_message_image_placeholder">Placeholder afbeelding.</string>
     <string name="parley_accessibility_message_actions_attached">Acties bijgevoegd.</string>
     <string name="parley_accessibility_message_time">Om</string>
     <string name="parley_accessibility_message_loading">Oudere berichten worden opgehaald.</string>
