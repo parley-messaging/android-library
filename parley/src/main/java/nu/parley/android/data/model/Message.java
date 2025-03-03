@@ -321,6 +321,19 @@ public final class Message {
                 !hasActionsContent();
     }
 
+    /**
+     * Determine whether this message consistes of only text as content.
+     *
+     * @return `true` if the content of the message is text only, `false` otherwise.
+     */
+    public boolean isTextOnly() {
+        return hasTextContent() &&
+                !hasActionsContent() &&
+                !hasImageContent() &&
+                !hasFileContent() &&
+                !hasCarouselContent();
+    }
+
     public boolean hasName() {
         return getAgent() != null && !agent.getName().trim().isEmpty();
     }
