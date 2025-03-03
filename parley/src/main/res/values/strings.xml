@@ -25,6 +25,7 @@
     <string name="parley_send_failed_body_selecting_image">The photo cannot be sent.</string>
     <string name="parley_send_failed_body_media_invalid">Photo cannot be processed.</string>
     <string name="parley_send_failed_body_media_too_large">The photo is too large to send.</string>
+    <string name="parley_snackbar_close">Ok</string>
 
     <!-- Image Viewer -->
     <string name="image_viewer_title">Image</string>

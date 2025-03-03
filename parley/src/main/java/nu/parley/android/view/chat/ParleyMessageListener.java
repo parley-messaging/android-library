@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
@@ -98,24 +99,30 @@ public final class ParleyMessageListener implements MessageListener {
         Map<String, String> headers = new HashMap<>();
         headers.putAll(Connectivity.getAdditionalHeaders());
         headers.putAll(Connectivity.getParleyHeaders());
-        Snackbar.make(view, R.string.parley_message_file_downloading, Snackbar.LENGTH_LONG).show();
+        showSnackbar(view, R.string.parley_message_file_downloading, R.string.parley_snackbar_close);
         downloadCallback.launchParleyDownload(
                 downloadUri.toString(),
                 headers
         );
     }
 
+    private void showSnackbar(View view, @StringRes Integer message, @StringRes Integer actionMessage) {
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(actionMessage, v -> { snackbar.dismiss(); });
+        snackbar.show();
+    }
+
     private void openUrl(View view, String url) {
         try {
             Intent intent = IntentUtil.fromUrl(url);
             if (intent == null) {
-                Snackbar.make(view, R.string.parley_error_action_open, Snackbar.LENGTH_LONG).show();
+                showSnackbar(view, R.string.parley_error_action_open, R.string.parley_snackbar_close);
             } else {
                 launchCallback.launchParleyActivity(intent);
             }
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
-            Snackbar.make(view, R.string.parley_error_action_open, Snackbar.LENGTH_LONG).show();
+            showSnackbar(view, R.string.parley_error_action_open, R.string.parley_snackbar_close);
         }
     }
 
