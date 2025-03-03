@@ -29,13 +29,13 @@ public final class ImageViewer<T> {
         private Context context;
         private BuilderData<T> data;
 
-        public Builder(Context context, T[] images, ImageViewerLoader<T> loader) {
-            this(context, new ArrayList<>(Arrays.asList(images)), loader);
+        public Builder(Context context, T[] images, List<String> fileNames, ImageViewerLoader<T> loader) {
+            this(context, new ArrayList<>(Arrays.asList(images)), fileNames,  loader);
         }
 
-        public Builder(Context context, List<T> images, ImageViewerLoader<T> loader) {
+        public Builder(Context context, List<T> images, List<String> fileNames, ImageViewerLoader<T> loader) {
             this.context = context;
-            this.data = new BuilderData<>(images, loader);
+            this.data = new BuilderData<>(images, fileNames, loader);
         }
 
         public ImageViewer<T> build() {

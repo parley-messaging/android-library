@@ -51,9 +51,11 @@ public final class ParleyMessageListener implements MessageListener {
             case ImageJpeg:
             case ImagePng:
             case ImageGif:
+                List<String> fileNames = new ArrayList<String>();
                 List<Message> list = new ArrayList<>();
+                fileNames.add(message.getMedia().getFileName());
                 list.add(message);
-                openImages(view.getContext(), list);
+                openImages(view.getContext(), list, fileNames);
                 break;
             case ApplicationPdf:
             case Other:
@@ -62,10 +64,11 @@ public final class ParleyMessageListener implements MessageListener {
         }
     }
 
-    private static void openImages(Context context, List<Message> list) {
+    private static void openImages(Context context, List<Message> list, List<String> fileNames) {
         ImageViewerLoader<Message> loader = new ImageViewerLoader<Message>() {
             @Override
             public void loadImage(final ImageView imageView, final Message image) {
+
                 GlideUrl url = Connectivity.toGlideUrl(image.getImageUrl());
                 Glide.with(imageView.getContext())
                         .load(url)
@@ -74,7 +77,7 @@ public final class ParleyMessageListener implements MessageListener {
                         .into(imageView);
             }
         };
-        new ImageViewer.Builder<>(context, list, loader)
+        new ImageViewer.Builder<>(context, list, fileNames, loader)
                 .show(true);
     }
 
