@@ -140,6 +140,11 @@ public final class BalloonView extends FrameLayout {
         messageTextView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    public void setContainerFocusable(boolean isFocusable) {
+        contentLayout.setFocusable(isFocusable);
+        contentLayout.setFocusableInTouchMode(isFocusable);
+    }
+
     public void style(@StyleRes int messageStyle) {
         fileView.style(messageStyle);
     }

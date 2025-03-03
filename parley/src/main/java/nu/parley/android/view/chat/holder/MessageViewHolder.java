@@ -152,6 +152,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
 
         // Accessibility
         balloonView.setContentDescription(AccessibilityUtil.getContentDescription(itemView, message));
+        if (message.isTextOnly()) balloonView.setContainerFocusable(false);
     }
 
     @Nullable
