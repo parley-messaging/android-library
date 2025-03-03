@@ -24,12 +24,11 @@ final class ImageViewerDialog<T> {
             }
         });
 
-        view.setImages(builderData.images, builderData.loader);
+        view.setImages(builderData.images, builderData.fileNames, builderData.loader);
 
         dialog = new AlertDialog.Builder(context, R.style.ImageViewer)
                 .setView(view)
                 .create();
-
     }
 
     void show(boolean animate) {

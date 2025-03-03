@@ -79,8 +79,8 @@ public final class ImageViewerView<T> extends FrameLayout implements ImageViewer
         viewPager.setPagingEnabled(true);
     }
 
-    public void setImages(final List<T> images, final ImageViewerLoader<T> loader) {
-        ImageViewerViewPagerAdapter adapter = new ImageViewerViewPagerAdapter<>(images, ImageViewerView.this, loader);
+    public void setImages(final List<T> images, final List<String> fileNames, final ImageViewerLoader<T> loader) {
+        ImageViewerViewPagerAdapter adapter = new ImageViewerViewPagerAdapter<>(images, fileNames, ImageViewerView.this, loader);
         viewPager.setAdapter(adapter);
 
         int selectedPage = 0;
