@@ -76,7 +76,7 @@ public final class ParleyStickyView extends FrameLayout {
     public void setMessage(String text) {
         setVisibility(text == null ? View.GONE : View.VISIBLE);
         if (text != null) {
-            messageTextView.setText(MarkdownUtil.convert(getContext(), text));
+            messageTextView.setText(MarkdownUtil.formatText(getContext(), text));
         }
     }
 }

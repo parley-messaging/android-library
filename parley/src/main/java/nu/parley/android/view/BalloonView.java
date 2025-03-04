@@ -7,13 +7,14 @@ import static nu.parley.android.util.DateUtil.formatTime;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -36,13 +37,11 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -162,7 +161,7 @@ public final class BalloonView extends FrameLayout {
     public void setText(@Nullable String text) {
         messageTextView.setVisibility(text == null ? View.GONE : View.VISIBLE);
         if (text != null) {
-            messageTextView.setText(MarkdownUtil.convert(getContext(), text));
+            messageTextView.setText(MarkdownUtil.formatText(getContext(), text));
         }
     }
 
@@ -288,7 +287,21 @@ public final class BalloonView extends FrameLayout {
             metaShadowView.setVisibility(View.GONE);
         } else {
             timeTextView.setText(formatTime(date));
+            determineShadowLayoutParamsBasedOnFontScale();
         }
+    }
+
+    private void determineShadowLayoutParamsBasedOnFontScale() {
+        Configuration configuration = getContext().getResources().getConfiguration();
+        int maxHeight = getContext().getResources().getDimensionPixelSize(R.dimen.parley_image_height_size);
+        float fontScale = configuration.fontScale;
+        int shadowSize = getContext().getResources().getDimensionPixelSize(R.dimen.parley_image_meta_shadow_size);
+        float newSize = shadowSize * fontScale;
+        float newHeight = newSize;
+        if (newHeight > maxHeight) {
+            newHeight = maxHeight;
+        }
+        metaShadowView.setLayoutParams(new LayoutParams((int) newSize, (int) newHeight, Gravity.BOTTOM | Gravity.END));
     }
 
     public void setLayoutGravity(int gravity) {
