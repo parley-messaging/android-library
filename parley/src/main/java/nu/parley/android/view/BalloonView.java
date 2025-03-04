@@ -42,7 +42,6 @@ import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -162,7 +161,7 @@ public final class BalloonView extends FrameLayout {
     public void setText(@Nullable String text) {
         messageTextView.setVisibility(text == null ? View.GONE : View.VISIBLE);
         if (text != null) {
-            messageTextView.setText(MarkdownUtil.convert(getContext(), text));
+            messageTextView.setText(MarkdownUtil.formatText(getContext(), text));
         }
     }
 
