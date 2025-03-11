@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -18,12 +19,14 @@ import nu.parley.android.R;
 final class ImageViewerViewPagerAdapter<T> extends PagerAdapter {
 
     private List<T> images;
+    private List<String> fileNames;
     private ImageViewerListener zoomListener;
     private ImageViewerLoader<T> loader;
     private boolean lastZoomedState = false;
 
-    ImageViewerViewPagerAdapter(List<T> images, ImageViewerListener zoomListener, ImageViewerLoader<T> loader) {
+    ImageViewerViewPagerAdapter(List<T> images, List<String> fileNames, ImageViewerListener zoomListener, ImageViewerLoader<T> loader) {
         this.images = images;
+        this.fileNames = fileNames;
         this.zoomListener = zoomListener;
         this.loader = loader;
     }
@@ -36,6 +39,10 @@ final class ImageViewerViewPagerAdapter<T> extends PagerAdapter {
         container.addView(view);
 
         final TouchImageView imageView = view.findViewById(R.id.image_view);
+
+        final TextView fileName = view.findViewById(R.id.file_name);
+        fileName.setText(fileNames.get(position));
+
         imageView.setOnTouchImageViewListener(new OnTouchImageViewListener() {
             @Override
             public void onMove() {
