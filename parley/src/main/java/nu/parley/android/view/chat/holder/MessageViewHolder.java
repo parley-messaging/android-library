@@ -161,7 +161,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         final boolean retry = message.getTypeId() != null && message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_MESSAGE_OWN && message.getSendStatus() == Message.SEND_STATUS_FAILED;
         final boolean image = message.hasImageContent();
         final boolean file = message.hasFileContent();
-        if (retry || (image && !talkback) || file) {
+        if (retry || image || file) {
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
