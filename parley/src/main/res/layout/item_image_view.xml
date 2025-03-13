@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.ortiz.touchview.TouchImageView
-        android:id="@+id/image_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter" />
+        android:layout_height="match_parent">
+
+        <com.ortiz.touchview.TouchImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/file_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/parley_user_image_file_name_margin"
+            android:background="#fff"
+            android:padding="@dimen/parley_user_image_file_name_padding"
+            android:textAlignment="center"
+            android:textColor="@color/parley_agent_text"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="File.img" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/loader"

@@ -41,7 +41,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:importantForAccessibility="no"
+                        android:contentDescription="@string/parley_accessibility_message_image_placeholder"
                         android:maxWidth="300dp"
                         android:maxHeight="180dp"
                         android:visibility="gone"

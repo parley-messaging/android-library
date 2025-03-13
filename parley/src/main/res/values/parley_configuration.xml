@@ -196,6 +196,8 @@
     <dimen name="parley_user_image_content_padding_right">7dp</dimen>
     <dimen name="parley_user_image_content_padding_left">5dp</dimen>
     <dimen name="parley_user_image_corner_radius">10dp</dimen>
+    <dimen name="parley_user_image_file_name_margin">16dp</dimen>
+    <dimen name="parley_user_image_file_name_padding">8dp</dimen>
     <drawable name="parley_user_image_placeholder">@drawable/parley_ic_image_placeholder</drawable>
     <color name="parley_user_image_placeholder_tint">@color/parley_user_text</color>
     <color name="parley_user_image_loader_tint">@color/parley_loader_tint</color>
