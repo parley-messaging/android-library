@@ -3,6 +3,7 @@ package nu.parley.android.view;
 import static nu.parley.android.data.model.Message.SEND_STATUS_FAILED;
 import static nu.parley.android.data.model.Message.SEND_STATUS_PENDING;
 import static nu.parley.android.data.model.Message.SEND_STATUS_SUCCESS;
+import static nu.parley.android.data.net.response.ParleyNotificationResponseType.MediaTooLarge;
 import static nu.parley.android.util.DateUtil.formatTime;
 
 import android.content.Context;
@@ -191,6 +192,7 @@ public final class BalloonView extends FrameLayout {
         } else {
             infoTextView.setText(null);
         }
+        updateInfoShadowView();
     }
 
     public void setHasTextContent(boolean hasTextContent) {
@@ -263,17 +265,7 @@ public final class BalloonView extends FrameLayout {
         StyleUtil.Helper.applyCornerRadius((GradientDrawable) infoShadowView.getBackground().mutate(), 0, 0, bottomCornerRadius, bottomCornerRadius);
         StyleUtil.Helper.applyCornerRadius((GradientDrawable) metaShadowView.getBackground().mutate(), 0, 0, bottomCornerRadius, 0);
 
-        // Show / update them
-        post(new Runnable() {
-            @Override
-            public void run() {
-                FrameLayout.LayoutParams nameLayoutParams = new FrameLayout.LayoutParams(nameShadowView.getLayoutParams());
-                nameLayoutParams.width = nameTextView.getWidth() + StyleUtil.dpToPx(NAME_SHADOW_EXTRA_WIDTH);
-                //noinspection SuspiciousNameCombination // It should be squared
-                nameLayoutParams.height = nameLayoutParams.width;
-                nameShadowView.setLayoutParams(nameLayoutParams);
-            }
-        });
+        updateNameShadowView();
         nameShadowView.setVisibility(hideName ? View.GONE : View.VISIBLE);
     }
 
@@ -292,21 +284,37 @@ public final class BalloonView extends FrameLayout {
             metaShadowView.setVisibility(View.GONE);
         } else {
             timeTextView.setText(formatTime(date));
-            determineShadowLayoutParamsBasedOnFontScale();
+            updateMetaShadowView();
         }
     }
 
-    private void determineShadowLayoutParamsBasedOnFontScale() {
+    private void updateShadowView(View view, int shadowSize, int maxHeight, int gravity) {
         Configuration configuration = getContext().getResources().getConfiguration();
-        int maxHeight = getContext().getResources().getDimensionPixelSize(R.dimen.parley_image_height_size);
         float fontScale = configuration.fontScale;
-        int shadowSize = getContext().getResources().getDimensionPixelSize(R.dimen.parley_image_meta_shadow_size);
         float newSize = shadowSize * fontScale;
         float newHeight = newSize;
         if (newHeight > maxHeight) {
             newHeight = maxHeight;
         }
-        metaShadowView.setLayoutParams(new LayoutParams((int) newSize, (int) newHeight, Gravity.BOTTOM | Gravity.END));
+        view.setLayoutParams(new LayoutParams((int) newSize, (int) newHeight, gravity));
+    }
+
+    private void updateMetaShadowView() {
+        int maxHeight = getContext().getResources().getDimensionPixelSize(R.dimen.parley_image_height_size);
+        int shadowSize = getContext().getResources().getDimensionPixelSize(R.dimen.parley_image_meta_shadow_size);
+        updateShadowView(metaShadowView, shadowSize, maxHeight, Gravity.BOTTOM | Gravity.END);
+    }
+
+    private void updateNameShadowView() {
+        int maxHeight = getContext().getResources().getDimensionPixelSize(R.dimen.parley_image_height_size);
+        int shadowSize = getContext().getResources().getDimensionPixelSize(R.dimen.parley_name_shadow_size);
+        updateShadowView(nameShadowView, shadowSize, maxHeight, Gravity.TOP | Gravity.START);
+    }
+
+    private void updateInfoShadowView() {
+        int maxHeight = getContext().getResources().getDimensionPixelSize(R.dimen.parley_image_height_size) / 2;
+        int shadowHeight = getContext().getResources().getDimensionPixelSize(R.dimen.parley_info_name_shadow_min_height);
+        updateShadowView(infoShadowView, shadowHeight, maxHeight, Gravity.BOTTOM);
     }
 
     public void setLayoutGravity(int gravity) {

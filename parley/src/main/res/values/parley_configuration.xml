@@ -166,11 +166,6 @@
     <dimen name="parley_date_text_size">12sp</dimen>
     <color name="parley_date_text">#FFF</color>
 
-    <!-- Parley - Image Message -->
-    <dimen name="parley_image_meta_shadow_size">150dp</dimen>
-    <dimen name="parley_image_height_size">180dp</dimen>
-
-
     <!-- Parley - User Message -->
     <drawable name="parley_user_background">@drawable/parley_ic_balloon_user</drawable>
     <color name="parley_user_background_tint">@color/parley_primary_color</color>

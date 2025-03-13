@@ -78,8 +78,8 @@
 
                     <View
                         android:id="@+id/name_shadow_view"
-                        android:layout_width="180dp"
-                        android:layout_height="180dp"
+                        android:layout_width="@dimen/parley_name_shadow_size"
+                        android:layout_height="@dimen/parley_name_shadow_size"
                         android:background="@drawable/parley_shadow_image_corner" />
 
                     <TextView
@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:background="@drawable/parley_shadow_image_bottom"
-                        android:minHeight="50dp" />
+                        android:minHeight="@dimen/parley_info_name_shadow_min_height" />
 
                     <View
                         android:id="@+id/meta_shadow_view"
