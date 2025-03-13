@@ -47,7 +47,7 @@ public final class InfoViewHolder extends ParleyBaseViewHolder {
 
     @Override
     public void show(Message message) {
-        messageTextView.setText(MarkdownUtil.convert(getContext(), message.getMessage()));
+        messageTextView.setText(MarkdownUtil.formatText(getContext(), message.getMessage()));
 
         // Accessibility
         itemView.setContentDescription(AccessibilityUtil.getContentDescription(itemView, message));

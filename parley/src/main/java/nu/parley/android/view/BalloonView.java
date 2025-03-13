@@ -3,17 +3,19 @@ package nu.parley.android.view;
 import static nu.parley.android.data.model.Message.SEND_STATUS_FAILED;
 import static nu.parley.android.data.model.Message.SEND_STATUS_PENDING;
 import static nu.parley.android.data.model.Message.SEND_STATUS_SUCCESS;
+import static nu.parley.android.data.net.response.ParleyNotificationResponseType.MediaTooLarge;
 import static nu.parley.android.util.DateUtil.formatTime;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -36,13 +38,11 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -167,7 +167,7 @@ public final class BalloonView extends FrameLayout {
     public void setText(@Nullable String text) {
         messageTextView.setVisibility(text == null ? View.GONE : View.VISIBLE);
         if (text != null) {
-            messageTextView.setText(MarkdownUtil.convert(getContext(), text));
+            messageTextView.setText(MarkdownUtil.formatText(getContext(), text));
         }
     }
 
@@ -192,6 +192,7 @@ public final class BalloonView extends FrameLayout {
         } else {
             infoTextView.setText(null);
         }
+        updateInfoShadowView();
     }
 
     public void setHasTextContent(boolean hasTextContent) {
@@ -264,17 +265,7 @@ public final class BalloonView extends FrameLayout {
         StyleUtil.Helper.applyCornerRadius((GradientDrawable) infoShadowView.getBackground().mutate(), 0, 0, bottomCornerRadius, bottomCornerRadius);
         StyleUtil.Helper.applyCornerRadius((GradientDrawable) metaShadowView.getBackground().mutate(), 0, 0, bottomCornerRadius, 0);
 
-        // Show / update them
-        post(new Runnable() {
-            @Override
-            public void run() {
-                FrameLayout.LayoutParams nameLayoutParams = new FrameLayout.LayoutParams(nameShadowView.getLayoutParams());
-                nameLayoutParams.width = nameTextView.getWidth() + StyleUtil.dpToPx(NAME_SHADOW_EXTRA_WIDTH);
-                //noinspection SuspiciousNameCombination // It should be squared
-                nameLayoutParams.height = nameLayoutParams.width;
-                nameShadowView.setLayoutParams(nameLayoutParams);
-            }
-        });
+        updateNameShadowView();
         nameShadowView.setVisibility(hideName ? View.GONE : View.VISIBLE);
     }
 
@@ -293,7 +284,37 @@ public final class BalloonView extends FrameLayout {
             metaShadowView.setVisibility(View.GONE);
         } else {
             timeTextView.setText(formatTime(date));
+            updateMetaShadowView();
         }
+    }
+
+    private void updateShadowView(View view, int shadowSize, int maxHeight, int gravity) {
+        Configuration configuration = getContext().getResources().getConfiguration();
+        float fontScale = configuration.fontScale;
+        float newSize = shadowSize * fontScale;
+        float newHeight = newSize;
+        if (newHeight > maxHeight) {
+            newHeight = maxHeight;
+        }
+        view.setLayoutParams(new LayoutParams((int) newSize, (int) newHeight, gravity));
+    }
+
+    private void updateMetaShadowView() {
+        int maxHeight = getContext().getResources().getDimensionPixelSize(R.dimen.parley_image_height_size);
+        int shadowSize = getContext().getResources().getDimensionPixelSize(R.dimen.parley_image_meta_shadow_size);
+        updateShadowView(metaShadowView, shadowSize, maxHeight, Gravity.BOTTOM | Gravity.END);
+    }
+
+    private void updateNameShadowView() {
+        int maxHeight = getContext().getResources().getDimensionPixelSize(R.dimen.parley_image_height_size);
+        int shadowSize = getContext().getResources().getDimensionPixelSize(R.dimen.parley_name_shadow_size);
+        updateShadowView(nameShadowView, shadowSize, maxHeight, Gravity.TOP | Gravity.START);
+    }
+
+    private void updateInfoShadowView() {
+        int maxHeight = getContext().getResources().getDimensionPixelSize(R.dimen.parley_image_height_size) / 2;
+        int shadowHeight = getContext().getResources().getDimensionPixelSize(R.dimen.parley_info_name_shadow_min_height);
+        updateShadowView(infoShadowView, shadowHeight, maxHeight, Gravity.BOTTOM);
     }
 
     public void setLayoutGravity(int gravity) {
