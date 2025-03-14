@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.11.2 - Released 14 Mar 2025
+
+- [Accessibility] Fixed not being able to open images when using TalkBack.
+- [Accessibility] Showing images fullscreen now show the image name. 
+- [Balloon] Fixed shadows not resizing when font size changes.
+- [Accessibility] Links in the chat are now always underline and bold.
+- [Accessibility] Improved navigation when a chat message contains only text.
+
 ## 3.11.1 - Released 8 Oct 2024
 
 - [Network] Fixed a typo when providing a custom network session (`onCompetion` > `onCompletion`).
