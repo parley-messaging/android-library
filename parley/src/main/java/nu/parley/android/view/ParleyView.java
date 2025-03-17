@@ -23,6 +23,7 @@ import android.widget.TextView;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -180,7 +181,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         setDownloadCallback(new DefaultParleyDownloadCallback(getContext(), new DefaultParleyDownloadCallback.Listener() {
             @Override
             public void onFailed() {
-                Snackbar.make(ParleyView.this, getContext().getString(R.string.parley_message_file_download_failed), Snackbar.LENGTH_LONG).show();
+                showSnackbar(ParleyView.this, R.string.parley_message_file_download_failed, R.string.parley_snackbar_close);
             }
 
             @Override
@@ -220,6 +221,12 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
                 checkSuggestionsTransparency();
             }
         });
+    }
+
+    private void showSnackbar(View view, @StringRes Integer message, @StringRes Integer actionMessage) {
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(actionMessage, v -> { snackbar.dismiss(); });
+        snackbar.show();
     }
 
     private void checkSuggestionsTransparency() {
@@ -574,7 +581,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
                 if (result == PackageManager.PERMISSION_GRANTED) {
                     composeView.onCameraPermissionGranted();
                 } else {
-                    Snackbar.make(getRootView(), R.string.parley_error_permission_missing_camera, Snackbar.LENGTH_LONG).show();
+                    showSnackbar(getRootView(), R.string.parley_error_permission_missing_camera, R.string.parley_snackbar_close);
                 }
                 return true;
             }
