@@ -27,5 +27,5 @@ task clean(type: Delete) {
 }
 
 ext {
-    parley_version_name = "3.11.2"
+    parley_version_name = "3.11.3"
 }
