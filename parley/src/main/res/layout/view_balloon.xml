@@ -186,14 +186,22 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <TextView
-                    android:id="@+id/time_text_view"
+                <FrameLayout
+                    android:id="@+id/time_background_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|start"
-                    android:importantForAccessibility="no"
-                    android:includeFontPadding="false"
-                    tools:text="15:47" />
+                    android:background="@color/parley_background">
+
+                    <TextView
+                        android:id="@+id/time_text_view"
+                        android:layout_marginHorizontal="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|start"
+                        android:importantForAccessibility="no"
+                        android:includeFontPadding="false"
+                        tools:text="15:47" />
+                </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/status_layout"

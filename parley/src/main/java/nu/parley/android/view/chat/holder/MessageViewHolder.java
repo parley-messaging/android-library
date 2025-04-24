@@ -78,7 +78,7 @@ public abstract class MessageViewHolder extends ParleyBaseViewHolder {
         balloonView.setTimeFont(StyleUtil.getFont(getContext(), ta, R.styleable.ParleyMessageBase_parley_time_font_family), StyleUtil.getFontStyle(ta, R.styleable.ParleyMessageBase_parley_time_font_style));
         balloonView.setTimeTextSize(TypedValue.COMPLEX_UNIT_PX, StyleUtil.getDimension(ta, R.styleable.ParleyMessageBase_parley_time_text_size));
         balloonView.setTimeColor(StyleUtil.getColorStateList(ta, R.styleable.ParleyMessageBase_parley_message_time_color), StyleUtil.getColorStateList(ta, R.styleable.ParleyMessageBase_parley_image_time_color));
-
+        balloonView.setTimeBackground(StyleUtil.getColorStateList(ta, R.styleable.ParleyMessageBase_parley_message_time_background_color));
         ta.recycle();
     }
 
