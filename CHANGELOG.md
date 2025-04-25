@@ -3,6 +3,7 @@
 ## 3.11.3 - Released 25 Apr 2025
 
 - [Accessibility] Added configurable background color to time in messages.
+- [Accessibility] Date labels are now marked as headings for accessibility.
 - [Styling] *Addition*: Added `parley_message_time_background_color` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`). Defaults being `parley_user_image_time_background` and `parley_agent_image_time_background`, transparent.
 
 ## 3.11.2 - Released 14 Mar 2025
