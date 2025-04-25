@@ -31,7 +31,7 @@
     <!-- Accessibility -->
     <string name="parley_accessibility_close">Sluiten</string>
     <string name="parley_accessibility_button">Knop</string>
-    <string name="parley_accessibility_photo_button">Foto. Knop.</string>
+    <string name="parley_accessibility_photo_button">Foto</string>
     <string name="parley_accessibility_send">Versturen</string>
     <string name="parley_accessibility_message_informational">Informatief bericht.</string>
     <string name="parley_accessibility_message_from_you">Bericht van jou.</string>
