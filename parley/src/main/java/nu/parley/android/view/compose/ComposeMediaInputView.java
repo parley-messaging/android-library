@@ -20,7 +20,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.widget.ImageViewCompat;
 
 import java.io.File;
@@ -39,7 +39,7 @@ import nu.parley.android.view.ParleyView;
 
 public final class ComposeMediaInputView extends FrameLayout implements View.OnClickListener {
 
-    private AppCompatImageView addMediaView;
+    private AppCompatImageButton addMediaView;
     private ParleyLaunchCallback launchCallback;
 
     private File currentPhotoPath;
@@ -64,7 +64,7 @@ public final class ComposeMediaInputView extends FrameLayout implements View.OnC
 
         addMediaView = findViewById(R.id.add_media_view);
 
-        setOnClickListener(this);
+        addMediaView.setOnClickListener(this);
     }
 
     @Nullable
