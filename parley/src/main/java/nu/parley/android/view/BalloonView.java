@@ -80,6 +80,7 @@ public final class BalloonView extends FrameLayout {
 
     private ViewGroup metaLayout;
     private TextView timeTextView;
+    private FrameLayout timeBackgroundView;
     private ViewGroup statusLayout;
     private AppCompatImageView statusImageView;
 
@@ -91,6 +92,7 @@ public final class BalloonView extends FrameLayout {
     private ColorStateList messageTimeColor;
     private ColorStateList messageStatusColor;
     private ColorStateList imageTimeColor;
+    private ColorStateList timeBackgroundColor;
     private ColorStateList imageStatusColor;
 
     public BalloonView(Context context) {
@@ -130,6 +132,7 @@ public final class BalloonView extends FrameLayout {
 
         metaLayout = findViewById(R.id.meta_layout);
         timeTextView = findViewById(R.id.time_text_view);
+        timeBackgroundView = findViewById(R.id.time_background_view);
         statusLayout = findViewById(R.id.status_layout);
         statusImageView = findViewById(R.id.status_image_view);
 
@@ -383,8 +386,8 @@ public final class BalloonView extends FrameLayout {
 
     public void refreshStyle(boolean isMetaOnImage) {
         timeTextView.setTextColor(isMetaOnImage ? imageTimeColor : messageTimeColor);
+        timeBackgroundView.setBackgroundTintList(timeBackgroundColor);
         ImageViewCompat.setImageTintList(statusImageView, isMetaOnImage ? imageStatusColor : messageStatusColor);
-
         metaShadowView.setVisibility(isMetaOnImage ? View.VISIBLE : View.GONE);
     }
 
@@ -424,6 +427,10 @@ public final class BalloonView extends FrameLayout {
         this.messageTimeColor = messageTimeColor;
         this.imageTimeColor = imageTimeColor;
         this.infoTextView.setTextColor(imageTimeColor);
+    }
+
+    public void setTimeBackground(ColorStateList timeBackgroundColor) {
+        this.timeBackgroundColor = timeBackgroundColor;
     }
 
     public void setTimeFont(Typeface font, int style) {

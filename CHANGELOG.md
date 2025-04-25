@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.11.3 - Unreleased
+- [Accessibility] Added configurable background color to time in messages.
+
 ## 3.11.2 - Released 14 Mar 2025
 
 - [Accessibility] Fixed not being able to open images when using TalkBack.

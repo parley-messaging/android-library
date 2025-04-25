@@ -228,6 +228,7 @@
         <!--<item name="parley_time_font_style">normal</item>-->
         <item name="parley_time_text_size">@dimen/parley_user_time_text_size</item>
         <item name="parley_message_time_color">@color/parley_user_message_time</item>
+        <item name="parley_message_time_background_color">@color/parley_user_image_time_background</item>
         <item name="parley_image_time_color">@color/parley_user_image_time</item>
 
         <!-- User values -->
@@ -296,6 +297,7 @@
         <!--<item name="parley_time_font_style">normal</item>-->
         <item name="parley_time_text_size">@dimen/parley_agent_time_text_size</item>
         <item name="parley_message_time_color">@color/parley_agent_message_time</item>
+        <item name="parley_message_time_background_color">@color/parley_agent_image_time_background</item>
         <item name="parley_image_time_color">@color/parley_agent_image_time</item>
 
         <!-- Agent values -->

@@ -272,6 +272,7 @@
         <attr name="parley_time_font_style" />
         <attr name="parley_time_text_size" format="dimension" />
         <attr name="parley_message_time_color" format="color" />
+        <attr name="parley_message_time_background_color" format="color" />
         <attr name="parley_image_time_color" format="color" />
     </declare-styleable>
 
