@@ -14,6 +14,8 @@ import nu.parley.android.util.StyleUtil;
 
 import static nu.parley.android.util.DateUtil.formatDate;
 
+import androidx.core.view.ViewCompat;
+
 public final class DateViewHolder extends ParleyBaseViewHolder {
 
     private ViewGroup dateContentView;
@@ -51,6 +53,8 @@ public final class DateViewHolder extends ParleyBaseViewHolder {
         Typeface font = StyleUtil.getFont(getContext(), ta, R.styleable.ParleyDateMessage_parley_font_family);
         int fontStyle = StyleUtil.getFontStyle(ta, R.styleable.ParleyDateMessage_parley_font_style);
         dateTextView.setTypeface(font, fontStyle);
+
+        ViewCompat.setAccessibilityHeading(dateTextView, true);
 
         ta.recycle();
     }
