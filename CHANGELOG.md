@@ -2,11 +2,14 @@
 
 ## 3.11.4 - Unreleased
 
-- [Accessibility] Added configurable background color to time and checkmark in messages. `parley_meta_background_corner_radius` `parley_meta_background_color`
+- [Accessibility] Added configurable background color to time and checkmark in messages als made corner radius configurable. `parley_meta_background_corner_radius` `parley_meta_background_color` renamed from `parley_message_time_background_color`, also renamed `parley_user_image_time_background` and `parley_agent_image_time_background` to `parley_user_meta_background_color` and `parley_agent_meta_background_color`
 
 ## 3.11.3 - Released 28 Apr 2025
 
 - [Accessibility] Added configurable background color to time in messages.
+- [Accessibility] Date labels are now marked as headings for accessibility.
+- [Accessibility] Add media is now marked as button for accessibility.
+- [Styling] *Addition*: Added `parley_message_time_background_color` (for the styles `ParleyMessageUserStyle` and `ParleyMessageAgentStyle`). Defaults being `parley_user_image_time_background` and `parley_agent_image_time_background`, transparent.
 
 ## 3.11.2 - Released 14 Mar 2025
 
