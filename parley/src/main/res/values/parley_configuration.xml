@@ -218,7 +218,7 @@
     <dimen name="parley_user_time_text_size">12sp</dimen>
     <color name="parley_user_message_time">#BBC4C8</color>
     <color name="parley_user_image_time">#FFF</color>
-    <dimen name="parley_user_meta_background_corner_radius">4dp</dimen>
+    <dimen name="parley_user_meta_background_corner_radius">0dp</dimen>
     <color name="parley_user_meta_background">@color/transparent</color>
     <color name="parley_user_message_status">@color/parley_user_message_time</color>
     <color name="parley_user_image_status">@color/parley_user_image_time</color>
@@ -272,7 +272,7 @@
     <dimen name="parley_agent_time_text_size">12sp</dimen>
     <color name="parley_agent_message_time">#BBC4C8</color>
     <color name="parley_agent_image_time">#FFF</color>
-    <dimen name="parley_agent_meta_background_corner_radius">4dp</dimen>
+    <dimen name="parley_agent_meta_background_corner_radius">0dp</dimen>
     <color name="parley_agent_meta_status_background">@color/transparent</color>
     <dimen name="parley_agent_name_padding">@null</dimen>
     <dimen name="parley_agent_name_padding_top">8dp</dimen>
