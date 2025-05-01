@@ -1,9 +1,11 @@
 # Changelog
 
 ## 3.11.4 - Unreleased
+
 - [Accessibility] Added configurable background color to time and checkmark in messages. `parley_meta_background_corner_radius` `parley_meta_background_color`
 
 ## 3.11.3 - Released 28 Apr 2025
+
 - [Accessibility] Added configurable background color to time in messages.
 
 ## 3.11.2 - Released 14 Mar 2025
