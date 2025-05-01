@@ -3,7 +3,6 @@ package nu.parley.android.view;
 import static nu.parley.android.data.model.Message.SEND_STATUS_FAILED;
 import static nu.parley.android.data.model.Message.SEND_STATUS_PENDING;
 import static nu.parley.android.data.model.Message.SEND_STATUS_SUCCESS;
-import static nu.parley.android.data.net.response.ParleyNotificationResponseType.MediaTooLarge;
 import static nu.parley.android.util.DateUtil.formatTime;
 
 import android.content.Context;
@@ -20,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -80,7 +80,7 @@ public final class BalloonView extends FrameLayout {
 
     private ViewGroup metaLayout;
     private TextView timeTextView;
-    private FrameLayout timeBackgroundView;
+    private LinearLayout metaBackgroundView;
     private ViewGroup statusLayout;
     private AppCompatImageView statusImageView;
 
@@ -89,10 +89,11 @@ public final class BalloonView extends FrameLayout {
 
     // Styling
     private int imageCornerRadius;
+    private int metaBackgroundCornerRadius;
     private ColorStateList messageTimeColor;
     private ColorStateList messageStatusColor;
     private ColorStateList imageTimeColor;
-    private ColorStateList timeBackgroundColor;
+    private ColorStateList metaBackgroundColor;
     private ColorStateList imageStatusColor;
 
     public BalloonView(Context context) {
@@ -132,7 +133,7 @@ public final class BalloonView extends FrameLayout {
 
         metaLayout = findViewById(R.id.meta_layout);
         timeTextView = findViewById(R.id.time_text_view);
-        timeBackgroundView = findViewById(R.id.time_background_view);
+        metaBackgroundView = findViewById(R.id.meta_background_view);
         statusLayout = findViewById(R.id.status_layout);
         statusImageView = findViewById(R.id.status_image_view);
 
@@ -386,9 +387,16 @@ public final class BalloonView extends FrameLayout {
 
     public void refreshStyle(boolean isMetaOnImage) {
         timeTextView.setTextColor(isMetaOnImage ? imageTimeColor : messageTimeColor);
-        timeBackgroundView.setBackgroundTintList(timeBackgroundColor);
+        updateMetaBackground();
         ImageViewCompat.setImageTintList(statusImageView, isMetaOnImage ? imageStatusColor : messageStatusColor);
         metaShadowView.setVisibility(isMetaOnImage ? View.VISIBLE : View.GONE);
+    }
+
+    public void updateMetaBackground() {
+        GradientDrawable background = new GradientDrawable();
+        background.setColor(metaBackgroundColor);
+        background.setCornerRadius(metaBackgroundCornerRadius);
+        metaBackgroundView.setBackground(background);
     }
 
     public void setNamePadding(StyleUtil.StyleSpacing data) {
@@ -429,8 +437,12 @@ public final class BalloonView extends FrameLayout {
         this.infoTextView.setTextColor(imageTimeColor);
     }
 
-    public void setTimeBackground(ColorStateList timeBackgroundColor) {
-        this.timeBackgroundColor = timeBackgroundColor;
+    public void setMetaBackground(ColorStateList metaBackgroundColor) {
+        this.metaBackgroundColor = metaBackgroundColor;
+    }
+
+    public void setMetaBackgroundCornerRadius(int radius) {
+        this.metaBackgroundCornerRadius = radius;
     }
 
     public void setTimeFont(Typeface font, int style) {
