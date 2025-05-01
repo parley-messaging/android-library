@@ -32,7 +32,7 @@
     <!-- Accessibility -->
     <string name="parley_accessibility_close">Close</string>
     <string name="parley_accessibility_button">Button</string>
-    <string name="parley_accessibility_photo_button">Photo. Button.</string>
+    <string name="parley_accessibility_photo_button">Photo</string>
     <string name="parley_accessibility_send">Send</string>
     <string name="parley_accessibility_message_informational">Informational message.</string>
     <string name="parley_accessibility_message_from_you">Message from you.</string>
