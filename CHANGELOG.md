@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.11.4 - Unreleased
+## 3.11.4 - Released 2 May 2025
 
 - [Accessibility] Added configurable background color to time and checkmark in messages and made corner radius configurable.
 - [Styling] Added `parley_meta_background_corner_radius` to style the corner radius of the meta background.
