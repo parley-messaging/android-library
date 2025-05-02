@@ -186,42 +186,43 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <FrameLayout
-                    android:id="@+id/time_background_view"
+                <LinearLayout
+                    android:id="@+id/meta_background_view"
+                    android:orientation="horizontal"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="2dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/parley_background">
 
                     <TextView
                         android:id="@+id/time_text_view"
-                        android:layout_marginHorizontal="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|start"
                         android:importantForAccessibility="no"
                         android:includeFontPadding="false"
                         tools:text="15:47" />
-                </FrameLayout>
 
-                <FrameLayout
-                    android:id="@+id/status_layout"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginLeft="4dp"
-                    android:orientation="horizontal">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/status_image_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                    <FrameLayout
+                        android:id="@+id/status_layout"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:layout_gravity="center"
-                        android:importantForAccessibility="no"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/parley_ic_check"
-                        tools:visibility="visible" />
-                </FrameLayout>
+                        android:layout_marginStart="4dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/status_image_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:importantForAccessibility="no"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/parley_ic_check"
+                            tools:visibility="visible" />
+                    </FrameLayout>
+                </LinearLayout>
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
