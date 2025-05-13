@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.11.5 - Released 13 May 2025
+
+- [Styling] Made meta background styling only for when it's above an image.
+
 ## 3.11.4 - Released 2 May 2025
 
 - [Accessibility] Added configurable background color to time and checkmark in messages and made corner radius configurable.
