@@ -387,16 +387,20 @@ public final class BalloonView extends FrameLayout {
 
     public void refreshStyle(boolean isMetaOnImage) {
         timeTextView.setTextColor(isMetaOnImage ? imageTimeColor : messageTimeColor);
-        updateMetaBackground();
+        updateMetaBackground(isMetaOnImage);
         ImageViewCompat.setImageTintList(statusImageView, isMetaOnImage ? imageStatusColor : messageStatusColor);
         metaShadowView.setVisibility(isMetaOnImage ? View.VISIBLE : View.GONE);
     }
 
-    public void updateMetaBackground() {
-        GradientDrawable background = new GradientDrawable();
-        background.setColor(metaBackgroundColor);
-        background.setCornerRadius(metaBackgroundCornerRadius);
-        metaBackgroundView.setBackground(background);
+    public void updateMetaBackground(Boolean isMetaOnImage) {
+        if (isMetaOnImage) {
+            GradientDrawable background = new GradientDrawable();
+            background.setColor(metaBackgroundColor);
+            background.setCornerRadius(metaBackgroundCornerRadius);
+            metaBackgroundView.setBackground(background);
+        } else {
+            metaBackgroundView.setBackground(null);
+        }
     }
 
     public void setNamePadding(StyleUtil.StyleSpacing data) {
