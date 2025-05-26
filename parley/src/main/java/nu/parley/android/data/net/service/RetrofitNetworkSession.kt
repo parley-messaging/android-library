@@ -28,10 +28,13 @@ class RetrofitNetworkSession(
         )
         var retrofitCall = when (method) {
             ParleyHttpRequestMethod.Post -> {
-                networkService.post(url, data!!)
+                networkService.post(url, data)
             }
             ParleyHttpRequestMethod.Get -> {
                 networkService.request(url)
+            }
+            ParleyHttpRequestMethod.Put -> {
+                networkService.put(url, data)
             }
         }
 

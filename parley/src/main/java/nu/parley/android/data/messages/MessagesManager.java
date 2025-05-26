@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import nu.parley.android.data.model.Message;
-import nu.parley.android.data.net.response.ParleyPaging;
+import nu.parley.android.data.net.response.base.PagingResponse;
 import nu.parley.android.util.CompareUtil;
 import nu.parley.android.util.ListUtil;
 
@@ -24,7 +24,7 @@ public final class MessagesManager {
 
     private String welcomeMessage;
     private String stickyMessage;
-    private ParleyPaging paging;
+    private PagingResponse paging;
 
     private ParleyDataSource dataSource = null;
 
@@ -41,7 +41,7 @@ public final class MessagesManager {
 
             String cachedPaging = dataSource.get(ParleyKeyValueDataSource.KEY_PAGING);
             if (cachedPaging != null) {
-                this.paging = new Gson().fromJson(cachedPaging, ParleyPaging.class);
+                this.paging = new Gson().fromJson(cachedPaging, PagingResponse.class);
             }
         }
         formatMessages();
@@ -66,7 +66,7 @@ public final class MessagesManager {
         return pendingMessages;
     }
 
-    public void begin(@Nullable String welcomeMessage, @Nullable String stickyMessage, List<Message> messages, ParleyPaging paging) {
+    public void begin(@Nullable String welcomeMessage, @Nullable String stickyMessage, List<Message> messages, PagingResponse paging) {
         this.originalMessages.clear();
         this.originalMessages.addAll(messages);
         this.stickyMessage = stickyMessage;
@@ -258,11 +258,11 @@ public final class MessagesManager {
     }
 
     @Nullable
-    public ParleyPaging getPaging() {
+    public PagingResponse getPaging() {
         return paging;
     }
 
-    public void applyPaging(ParleyPaging paging) {
+    public void applyPaging(PagingResponse paging) {
         this.paging = paging;
         if (isCachingEnabled()) {
             dataSource.set(ParleyKeyValueDataSource.KEY_PAGING, new Gson().toJson(paging));
