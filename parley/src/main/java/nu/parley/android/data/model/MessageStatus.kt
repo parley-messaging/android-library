@@ -9,6 +9,6 @@ enum class MessageStatus(
     ;
 
     companion object {
-        fun from(key: Int) = entries.firstOrNull { it.key == key }
+        fun from(key: Int?) = entries.firstOrNull { it.key == key }
     }
 }

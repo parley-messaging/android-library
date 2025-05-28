@@ -1,21 +1,25 @@
 package nu.parley.android.data.messages;
 
+import static nu.parley.android.util.DateUtil.isSameDay;
+import static nu.parley.android.view.chat.MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING;
+
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import nu.parley.android.data.model.Message;
+import nu.parley.android.data.model.MessageStatus;
 import nu.parley.android.data.net.response.base.PagingResponse;
 import nu.parley.android.util.CompareUtil;
 import nu.parley.android.util.ListUtil;
-
-import static nu.parley.android.util.DateUtil.isSameDay;
-import static nu.parley.android.view.chat.MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING;
 
 public final class MessagesManager {
 
@@ -87,6 +91,7 @@ public final class MessagesManager {
             dataSource.set(ParleyKeyValueDataSource.KEY_MESSAGE_INFO, welcomeMessage);
         }
     }
+
 
     public void moreLoad(List<Message> messages) {
         originalMessages.addAll(messages);
@@ -297,9 +302,18 @@ public final class MessagesManager {
     }
 
     public void disableCaching() {
-        if(this.dataSource != null) {
+        if (this.dataSource != null) {
             this.dataSource.clear();
         }
         this.dataSource = null;
+    }
+
+    public void updateRead(@NotNull Set<Integer> messageIds) {
+        for (Message message : originalMessages) {
+            if (messageIds.contains(message.getId())) {
+                message.setStatus(MessageStatus.Read);
+            }
+        }
+        formatMessages();
     }
 }

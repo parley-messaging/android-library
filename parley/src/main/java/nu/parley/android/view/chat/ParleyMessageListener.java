@@ -35,6 +35,13 @@ public final class ParleyMessageListener implements MessageListener {
     private ParleyLaunchCallback launchCallback;
     private ParleyDownloadCallback downloadCallback;
 
+    private MessageStatusWorker messageStatusWorker = new MessageStatusWorker();
+
+    @Override
+    public void onRendered(Message message) {
+        messageStatusWorker.add(message);
+    }
+
     @Override
     public void onRetryMessageClicked(Message message) {
         Parley.getInstance().resendMessage(message);

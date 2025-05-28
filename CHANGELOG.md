@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.12.0 - Upcoming
+
+- [Source] Updated the way network calls are done under-the-hood.
+- [Source] Added support for clientApi 1.8 and 1.9 (latest).
+- [Chat] Now marking agent messages as read when they are rendered.
+- [Chat] Added `Parley.getUnseenCount(ParleyDataCallback<Integer> callback)` to retrieve the amount of unseen messages when using clientApi 1.9.
+
 ## 3.11.5 - Released 13 May 2025
 
 - [Styling] Made meta background styling only for when it's above an image.
