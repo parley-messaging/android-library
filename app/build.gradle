@@ -6,7 +6,7 @@ android {
     compileSdk 34
     defaultConfig {
         applicationId "com.webuildapps.tracebuzz.parleydemo"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdk 34
         versionCode System.getenv("VERSION_CODE") as Integer ?: 1
         versionName rootProject.ext.parley_version_name

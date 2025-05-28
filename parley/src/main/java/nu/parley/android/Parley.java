@@ -13,8 +13,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.datatheorem.android.trustkit.TrustKit;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -597,8 +595,6 @@ public final class Parley {
         }
         messagesManager.clear(false);
 
-        applySslPinning(context);
-
         if (ConnectivityMonitor.isNetworkOffline(context)) {
             // Direct callback
             setState(messagesManager.isCachingEnabled() ? State.CONFIGURED : State.FAILED);
@@ -765,15 +761,6 @@ public final class Parley {
                 callback.onFailure(code, message);
             }
         });
-    }
-
-    private void applySslPinning(Context context) {
-        try {
-            TrustKit.initializeWithNetworkSecurityConfiguration(context, this.network.securityConfigResourceFile);
-        } catch (IllegalStateException e) {
-            // TrustKit was already initialized!
-            e.printStackTrace();
-        }
     }
 
     public void loadMoreMessages() {

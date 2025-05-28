@@ -2,7 +2,6 @@ package nu.parley.android.data.net;
 
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
-import com.datatheorem.android.trustkit.TrustKit;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -79,24 +78,7 @@ public final class Connectivity {
 
         okHttpClientBuilder = addInterceptor(okHttpClientBuilder);
 
-        applySslPinning(okHttpClientBuilder);
-
         return okHttpClientBuilder.build();
-    }
-
-    private static void applySslPinning(OkHttpClient.Builder okHttpClientBuilder) {
-        URL url;
-        String serverHostname;
-        try {
-            url = new URL(Parley.getInstance().getNetwork().url);
-            serverHostname = url.getHost();
-
-            SSLSocketFactory sslSocketFactory = TrustKit.getInstance().getSSLSocketFactory(serverHostname);
-            X509TrustManager trustManager = TrustKit.getInstance().getTrustManager(serverHostname);
-            okHttpClientBuilder.sslSocketFactory(sslSocketFactory, trustManager);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
     }
 
     public static Map<String, String> getAdditionalHeaders() {
