@@ -26,7 +26,7 @@ class ChatActivity : BaseActivity() {
         setupToolbar()
 
         setParleyViewSettings()
-        pollUnreadCount()
+//        pollUnreadCount()
     }
 
     /**
