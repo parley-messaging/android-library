@@ -2,7 +2,8 @@
 
 ## 3.12.0 - Upcoming
 
-- [Source] **IMPORTANT**: Minimum SDK updated to API 24 (Android 7). 
+- [Source] **IMPORTANT**: Minimum SDK updated to API 24 (Android 7).
+- [Source] **IMPORTANT**: Target SDK updated to API 35 (Android 15).
 - [Source] Updated the way network calls are done under-the-hood.
 - [Source] Added support for clientApi 1.8 and 1.9 (latest).
 - [Chat] Now marking agent messages as read when they are rendered.
