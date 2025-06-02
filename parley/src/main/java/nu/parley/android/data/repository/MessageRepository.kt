@@ -2,7 +2,6 @@ package nu.parley.android.data.repository
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.suspendCancellableCoroutine
 import nu.parley.android.Parley
 import nu.parley.android.data.model.Media
 import nu.parley.android.data.model.Message
@@ -13,7 +12,6 @@ import nu.parley.android.data.net.RepositoryCallback
 import nu.parley.android.data.net.request.UpdateMessageStatusRequest
 import nu.parley.android.data.net.response.base.DataResponse
 import nu.parley.android.data.net.response.base.PagingResponse
-import nu.parley.android.data.net.response.base.VoidResponse
 import nu.parley.android.data.net.response.message.CreateMediaResponse
 import nu.parley.android.data.net.response.message.CreateMessageResponse
 import nu.parley.android.data.net.response.message.GetMessagesResponse
