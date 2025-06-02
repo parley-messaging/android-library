@@ -25,10 +25,10 @@ import java.util.Set;
 import nu.parley.android.data.messages.MessagesManager;
 import nu.parley.android.data.messages.ParleyDataSource;
 import nu.parley.android.data.model.Message;
+import nu.parley.android.data.model.NotificationType;
 import nu.parley.android.data.model.PushType;
 import nu.parley.android.data.net.RepositoryCallback;
-import nu.parley.android.data.net.response.ParleyNotificationResponseType;
-import nu.parley.android.data.net.response.ParleyResponse;
+import nu.parley.android.data.net.response.message.GetMessagesResponse;
 import nu.parley.android.data.repository.DeviceRepository;
 import nu.parley.android.data.repository.EventRepository;
 import nu.parley.android.data.repository.MessageRepository;
@@ -494,12 +494,12 @@ public final class Parley {
 
         // Only additional messages are needed to retrieve
         this.refreshingMessages = true;
-        new DeviceRepository().register(new RepositoryCallback<Void>() {
+        new DeviceRepository().register(new RepositoryCallback<>() {
             @Override
             public void onSuccess(Void data) {
-                new MessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
+                new MessageRepository().findAll(new RepositoryCallback<>() {
                     @Override
-                    public void onSuccess(ParleyResponse<List<Message>> data) {
+                    public void onSuccess(GetMessagesResponse data) {
                         refreshingMessages = false;
 
                         // Update paging, if needed
@@ -532,7 +532,7 @@ public final class Parley {
                     public void onFailed(Integer code, String message) {
                         refreshingMessages = false;
 
-                        if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                        if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                             // We are fine with being offline
                             if (state != State.CONFIGURED) {
                                 setState(State.CONFIGURED);
@@ -548,7 +548,7 @@ public final class Parley {
             public void onFailed(Integer code, String message) {
                 refreshingMessages = false;
 
-                if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                     // We are fine with being offline
                     if (state != State.CONFIGURED) {
                         setState(State.CONFIGURED);
@@ -558,6 +558,10 @@ public final class Parley {
                 }
             }
         });
+    }
+
+    private boolean isOfflineErrorCode(Integer code) {
+        return code == null;
     }
 
     /**
@@ -598,12 +602,12 @@ public final class Parley {
     }
 
     private void configureI(final ParleyCallback callback) {
-        new DeviceRepository().register(new RepositoryCallback<Void>() {
+        new DeviceRepository().register(new RepositoryCallback<>() {
             @Override
             public void onSuccess(Void data) {
-                new MessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
+                new MessageRepository().findAll(new RepositoryCallback<>() {
                     @Override
-                    public void onSuccess(ParleyResponse<List<Message>> data) {
+                    public void onSuccess(GetMessagesResponse data) {
                         messagesManager.begin(data.getWelcomeMessage(), data.getStickyMessage(), data.getData(), data.getPaging());
 
                         setState(State.CONFIGURED);
@@ -614,7 +618,7 @@ public final class Parley {
 
                     @Override
                     public void onFailed(Integer code, String message) {
-                        if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                        if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                             setState(State.CONFIGURED);
                             callback.onSuccess();
                         } else {
@@ -627,7 +631,7 @@ public final class Parley {
 
             @Override
             public void onFailed(Integer code, String message) {
-                if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                     setState(State.CONFIGURED);
                     callback.onSuccess();
                 } else {
@@ -758,9 +762,9 @@ public final class Parley {
             return;
         }
         loadingMore = true;
-        new MessageRepository().getOlder(messagesManager.getPaging(), new RepositoryCallback<ParleyResponse<List<Message>>>() {
+        new MessageRepository().getOlder(messagesManager.getPaging(), new RepositoryCallback<>() {
             @Override
-            public void onSuccess(ParleyResponse<List<Message>> data) {
+            public void onSuccess(GetMessagesResponse data) {
                 loadingMore = false;
                 messagesManager.applyPaging(data.getPaging());
                 listener.onReceivedMoreMessages(data.getData());
@@ -842,11 +846,11 @@ public final class Parley {
                 @Override
                 public void onFailed(Integer code, String errorMessage) {
                     uploading.remove(uuid);
-                    if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                    if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                         // It is cached, this will be handled later
                     } else {
                         Message updatedMessage = Message.withIdAndStatus(message, message.getId(), SEND_STATUS_FAILED);
-                        ParleyNotificationResponseType type = ParleyNotificationResponseType.from(errorMessage);
+                        NotificationType type = NotificationType.Companion.from(errorMessage);
                         if (type != null) {
                             updatedMessage.setResponseInfoType(errorMessage);
                         }
@@ -882,7 +886,7 @@ public final class Parley {
                 @Override
                 public void onFailed(Integer code, String errorMessage) {
                     uploading.remove(uuid);
-                    if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                    if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                         // It is cached, this will be handled later
                     } else {
                         Message updatedMessage = Message.withIdAndStatus(message, message.getId(), SEND_STATUS_FAILED);

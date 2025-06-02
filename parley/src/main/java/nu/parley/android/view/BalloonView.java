@@ -50,8 +50,8 @@ import java.util.List;
 import nu.parley.android.R;
 import nu.parley.android.data.model.Action;
 import nu.parley.android.data.model.Media;
+import nu.parley.android.data.model.NotificationType;
 import nu.parley.android.data.net.Connectivity;
-import nu.parley.android.data.net.response.ParleyNotificationResponseType;
 import nu.parley.android.util.MarkdownUtil;
 import nu.parley.android.util.StyleUtil;
 import nu.parley.android.view.balloon.BalloonFileView;
@@ -176,7 +176,7 @@ public final class BalloonView extends FrameLayout {
     }
 
     public void setInfo(@Nullable String text) {
-        ParleyNotificationResponseType type = ParleyNotificationResponseType.from(text);
+        NotificationType type = NotificationType.Companion.from(text);
         infoTextView.setVisibility(type == null ? View.GONE : View.VISIBLE);
         infoShadowView.setVisibility(type == null ? View.GONE : View.VISIBLE);
         if (type != null) {

@@ -17,9 +17,9 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
 import nu.parley.android.Parley;
-import nu.parley.android.data.net.response.ParleyErrorResponse;
-import nu.parley.android.data.net.service.RetrofitNetworkSession;
+import nu.parley.android.data.net.response.base.ErrorResponse;
 import nu.parley.android.data.net.service.ParleyNetworkSession;
+import nu.parley.android.data.net.service.RetrofitNetworkSession;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -72,6 +72,7 @@ public final class Connectivity {
                         return chain.proceed(request);
                     }
                 })
+                .callTimeout(30, TimeUnit.SECONDS)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS);
@@ -147,7 +148,7 @@ public final class Connectivity {
             if (response.errorBody() == null) {
                 return response.message();
             }
-            ParleyErrorResponse error = new Gson().fromJson(response.errorBody().string(), ParleyErrorResponse.class);
+            ErrorResponse error = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
             String message = error.getMessage();
             if (message == null) {
                 return response.message();
