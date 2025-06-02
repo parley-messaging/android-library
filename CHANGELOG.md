@@ -2,10 +2,12 @@
 
 ## 3.12.0 - Upcoming
 
+- [Source] **IMPORTANT**: Minimum SDK updated to API 24 (Android 7). 
 - [Source] Updated the way network calls are done under-the-hood.
 - [Source] Added support for clientApi 1.8 and 1.9 (latest).
 - [Chat] Now marking agent messages as read when they are rendered.
 - [Chat] Added `Parley.getUnseenCount(ParleyDataCallback<Integer> callback)` to retrieve the amount of unseen messages when using clientApi 1.9.
+- [Dependency] TrustKit is now not needed anymore and has been removed.
 
 ## 3.11.5 - Released 13 May 2025
 
