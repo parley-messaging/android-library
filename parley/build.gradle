@@ -6,11 +6,11 @@ group = 'com.github.parley-messaging'
 
 android {
     namespace 'nu.parley.android'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         minSdk 24
-        targetSdk 34
+        targetSdk 35
         versionCode System.getenv("VERSION_CODE") as Integer ?: 1
         versionName rootProject.ext.parley_version_name
 

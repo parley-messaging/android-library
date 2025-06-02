@@ -3,11 +3,11 @@ apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     namespace "nu.parley"
-    compileSdk 34
+    compileSdk 35
     defaultConfig {
         applicationId "com.webuildapps.tracebuzz.parleydemo"
         minSdkVersion 24
-        targetSdk 34
+        targetSdk 35
         versionCode System.getenv("VERSION_CODE") as Integer ?: 1
         versionName rootProject.ext.parley_version_name
 
