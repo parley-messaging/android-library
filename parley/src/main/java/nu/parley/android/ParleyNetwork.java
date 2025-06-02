@@ -15,7 +15,8 @@ import nu.parley.android.data.net.service.ParleyNetworkSession;
 public final class ParleyNetwork {
 
     private static final String DEFAULT_NETWORK_URL = "https://api.parley.nu/";
-    private static final String DEFAULT_NETWORK_PATH = "clientApi/v1.7/";
+    private static final String DEFAULT_NETWORK_PATH = "clientApi/v1.9/";
+    private static final ApiVersion DEFAULT_NETWORK_API_VERSION = ApiVersion.V1_9;
 
     public final String url;
     public final Map<String, String> headers;
@@ -31,7 +32,7 @@ public final class ParleyNetwork {
     ParleyNetwork() {
         this.url = DEFAULT_NETWORK_URL;
         this.path = DEFAULT_NETWORK_PATH;
-        this.apiVersion = ApiVersion.V1_7;
+        this.apiVersion = DEFAULT_NETWORK_API_VERSION;
         this.securityConfigResourceFile = R.xml.parley_network_security_config;
         this.headers = new HashMap<>();
         this.networkSession = new RetrofitNetworkSession();

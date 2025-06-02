@@ -313,6 +313,12 @@ public final class Parley {
         getInstance().setPushTokenI(pushToken, pushType, callback);
     }
 
+    public static void getUnseenCount(
+            ParleyDataCallback<Integer> callback
+    ) {
+        getInstance().getUnseenCountI(callback);
+    }
+
     /**
      * Handle remote message.
      *
@@ -745,6 +751,20 @@ public final class Parley {
         this.pushToken = pushToken;
         this.pushType = pushType;
         this.registerDeviceIfNeeded(callback);
+    }
+
+    private void getUnseenCountI(final ParleyDataCallback<Integer> callback) {
+        new MessageRepository().getUnseen(new RepositoryCallback<>() {
+            @Override
+            public void onSuccess(Integer data) {
+                callback.onSuccess(data);
+            }
+
+            @Override
+            public void onFailed(Integer code, String message) {
+                callback.onFailure(code, message);
+            }
+        });
     }
 
     private void applySslPinning(Context context) {

@@ -47,6 +47,7 @@ public final class MessageAdapter extends RecyclerView.Adapter<ParleyBaseViewHol
         if (message.getTypeId() != null && message.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_LOADER) {
             Parley.getInstance().loadMoreMessages();
         }
+        listener.onRendered(message);
     }
 
     @Override

@@ -16,15 +16,16 @@ import nu.parley.android.data.net.response.message.CreateMediaResponse
 import nu.parley.android.data.net.response.message.CreateMessageResponse
 import nu.parley.android.data.net.response.message.GetMessagesResponse
 import nu.parley.android.data.net.response.message.GetUnseenResponse
-import nu.parley.android.data.net.response.message.UpdateMessagesResponse
 import nu.parley.android.util.FileUtil
 import java.io.File
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 internal class MessageRepository {
     private class TypeTokenMessage : TypeToken<DataResponse<Message>>()
     private class TypeTokenMessages : TypeToken<GetMessagesResponse>()
     private class TypeTokenCreate : TypeToken<DataResponse<CreateMessageResponse>>()
-    private class TypeTokenUpdateStatus : TypeToken<DataResponse<UpdateMessagesResponse>>()
+//    private class TypeTokenUpdateStatus : TypeToken<VoidResponse>()
     private class TypeTokenCreateMedia : TypeToken<DataResponse<CreateMediaResponse>>()
     private class TypeTokenUnseenCount : TypeToken<DataResponse<GetUnseenResponse>>()
 
@@ -78,7 +79,7 @@ internal class MessageRepository {
                 .getAdapter(TypeTokenCreate())
                 .fromJson(it)
 
-            var updatedMessage = Message.withIdAndStatus(
+            val updatedMessage = Message.withIdAndStatus(
                 message,
                 response.data.messageId,
                 Message.SEND_STATUS_SUCCESS,
@@ -162,6 +163,11 @@ internal class MessageRepository {
 
     fun getUnseen(callback: RepositoryCallback<Int>) {
         val network = Parley.getInstance().network
+        if (network.apiVersion.isSupportingMessageStatus.not()) {
+            // This is not possible on older clientApi versions
+            callback.onFailed(-1, "This clientApi version does not support retrieving the unseen count.")
+            return
+        }
         network.networkSession.request(
             network.url + network.path + "messages/unseen/count",
             null,
@@ -178,25 +184,34 @@ internal class MessageRepository {
         )
     }
 
-    fun updateStatusRead(messageIds: List<Int>, callback: RepositoryCallback<List<Int>>) {
+    suspend fun updateStatusRead(messageIds: Set<Int>, callback: RepositoryCallback<Void>) {
         val network = Parley.getInstance().network
-        network.networkSession.request(
-            network.url + network.path + "messages/status/${MessageStatus.Read.key}",
-            Gson().toJson(
-                UpdateMessageStatusRequest(
-                    messageIds,
-                )
-            ),
-            ParleyHttpRequestMethod.Put,
-            onCompletion = {
-                val response = Gson()
-                    .getAdapter(TypeTokenUpdateStatus())
-                    .fromJson(it)
-                callback.onSuccess(response.data.messageIds)
-            },
-            onFailed = { statusCode, message ->
-                callback.onFailed(statusCode, message)
-            }
-        )
+        if (network.apiVersion.isSupportingMessageStatus.not()) {
+            // This is not possible on older clientApi versions
+            callback.onSuccess(null)
+            return
+        }
+        suspendCoroutine { cont ->
+            network.networkSession.request(
+                network.url + network.path + "messages/status/${MessageStatus.Read.key}",
+                Gson().toJson(
+                    UpdateMessageStatusRequest(
+                        messageIds,
+                    )
+                ),
+                ParleyHttpRequestMethod.Put,
+                onCompletion = {
+//                val response = Gson()
+//                    .getAdapter(TypeTokenUpdateStatus())
+//                    .fromJson(it)
+                    callback.onSuccess(null)
+                    cont.resume(Unit)
+                },
+                onFailed = { statusCode, message ->
+                    callback.onFailed(statusCode, message)
+                    cont.resume(Unit)
+                }
+            )
+        }
     }
 }
