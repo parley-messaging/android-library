@@ -9,18 +9,25 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView.OnEditorActionListener
+import android.widget.Toast
+import androidx.annotation.Nullable
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import nu.parley.ParleyCustomerAuthorization
 import nu.parley.R
 import nu.parley.android.Parley
 import nu.parley.android.ParleyCallback
+import nu.parley.android.ParleyDataCallback
 import nu.parley.android.ParleyNetwork
 import nu.parley.android.data.messages.ParleyEncryptedDataSource
 import nu.parley.android.data.model.ApiVersion
 import nu.parley.repository.PreferenceRepository
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
+import kotlin.time.Duration.Companion.seconds
 
 class IdentifierActivity : BaseActivity() {
 
@@ -32,6 +39,8 @@ class IdentifierActivity : BaseActivity() {
     private val customerIdEditText by lazy { findViewById<EditText>(R.id.customer_id_edit_text) }
     private val startChatButton by lazy { findViewById<Button>(R.id.start_chat_button) }
     private val startChatLoader by lazy { findViewById<ProgressBar>(R.id.start_chat_loader) }
+    private val lightweightButton by lazy { findViewById<Button>(R.id.lightweight_button) }
+    private val lightweightLoader by lazy { findViewById<ProgressBar>(R.id.lightweight_loader) }
 
     private val submitActionListener =
         OnEditorActionListener { v, actionId, event ->
@@ -60,7 +69,24 @@ class IdentifierActivity : BaseActivity() {
         customerIdEditText.setText(preferenceRepository.getCustomerId(this))
         customerIdEditText.setOnEditorActionListener(submitActionListener)
 
-        startChatButton.setOnClickListener { v: View? -> openChatActivity() }
+        startChatButton.setOnClickListener {
+            openChatActivity()
+        }
+        lightweightButton.setOnClickListener {
+            setParleyNetwork()
+            registerUserWithCustomerId()
+            Parley.setup(getCurrentIdentifier(), getCurrentDeviceId())
+            pollUnreadCount()
+//            Parley.registerDevice(object : ParleyCallback {
+//                override fun onSuccess() {
+//                    pollUnreadCount()
+//                }
+//
+//                override fun onFailure(code: Int?, message: String?) {
+//                    TODO("Not yet implemented")
+//                }
+//            })
+        }
     }
 
     private fun openChatActivity() {
@@ -101,6 +127,37 @@ class IdentifierActivity : BaseActivity() {
         startChatLoader.visibility = View.GONE
     }
 
+    private fun getCurrentIdentifier(): String {
+        return PreferenceRepository().getIdentifier(this)
+    }
+
+    private fun getCurrentDeviceId(): String? {
+//        return null
+        return "_device_id_3"
+    }
+
+    /**
+     * Simple sample of polling for the unread count.
+     */
+    private fun pollUnreadCount() {
+        lifecycleScope.launch {
+            while (true) {
+                delay(5.seconds)
+                Parley.getUnseenCount(
+                    object : ParleyDataCallback<Int> {
+                        override fun onSuccess(data: Int?) {
+                            Toast.makeText(this@IdentifierActivity, data.toString(), Toast.LENGTH_LONG).show()
+                        }
+
+                        override fun onFailure(code: Int?, message: String?) {
+                            Toast.makeText(this@IdentifierActivity, message.toString(), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                )
+            }
+        }
+    }
+
     private fun initParley() {
 //        setParleyNetwork(); // Optional, defaults to Parley configuration
 //        setOfflineMessagingEnabled(); // Optional, default off
@@ -112,8 +169,7 @@ class IdentifierActivity : BaseActivity() {
         startChatButton.isEnabled = false
         startChatLoader.visibility = View.VISIBLE
 
-        val identifier = PreferenceRepository().getIdentifier(this)
-        Parley.configure(this, identifier, object : ParleyCallback {
+        Parley.configure(this, getCurrentIdentifier(), getCurrentDeviceId(), object : ParleyCallback {
             override fun onSuccess() {
                 startChatButton.isEnabled = true
                 startChatLoader.visibility = View.GONE

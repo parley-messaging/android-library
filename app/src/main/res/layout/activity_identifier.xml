@@ -103,6 +103,31 @@
                     android:visibility="gone"
                     tools:visibility="visible" />
             </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin">
+
+                <Button
+                    android:id="@+id/lightweight_button"
+                    style="@style/AppTheme.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin_small"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Lightweight" />
+
+                <ProgressBar
+                    android:id="@+id/lightweight_loader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:indeterminateTint="@color/colorWhite"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
