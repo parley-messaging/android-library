@@ -279,7 +279,7 @@ public final class MessagesManager {
     }
 
     public boolean canLoadMore() {
-        return paging != null && paging.getBefore() != null;
+        return paging != null && !paging.getBefore().isBlank();
     }
 
     public List<String> getAvailableQuickReplies() {
