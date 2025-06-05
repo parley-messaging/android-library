@@ -317,6 +317,22 @@ It is also possible to send silent messages. Those messages are not visible in t
 Parley.send("User opened chat", true)
 ```
 
+### Get unseen count
+
+```kotlin
+Parley.getUnseenCount(
+    object : ParleyDataCallback<Int> {
+        override fun onSuccess(count: Int) {
+            onSuccess(count)
+        }
+
+        override fun onFailure(code: Int, message: String) {
+            onFailure(code, message)
+        }
+    }
+)
+```
+
 ### Referrer
 
 ```kotlin
@@ -341,14 +357,6 @@ Resetting Parley will clear the current user information and chat data that is i
 
 ```kotlin
 Parley.reset()
-```
-
-### Purge memory
-
-There is also the possibility to only remove the data that is in memory of Parley. The difference with the `reset()` method is that this one does not update the backend. In fact, this can be seen as the app going 'inactive' and clearing its memory, while the user keeps being logged in. However, Parley will not be able to recover from this automatically and therefore it is required to call the `configure()` method again to use Parley.
-
-```kotlin
-Parley.purgeLocalMemory()
 ```
 
 ### Handling Activity results inside Fragment
