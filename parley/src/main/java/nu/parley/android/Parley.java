@@ -88,8 +88,8 @@ public final class Parley {
      * TODO: Document
      */
     @SuppressWarnings("unused")
-    public static void setup(final String secret, final String uniqueDeviceIdentifier) {
-        getInstance().setupI(secret, uniqueDeviceIdentifier);
+    public static void setup(final Context context, final String secret, final @Nullable String uniqueDeviceIdentifier) {
+        getInstance().setupI(context, secret, uniqueDeviceIdentifier);
     }
 
     /**
@@ -600,19 +600,19 @@ public final class Parley {
         }
     }
 
-    private void setupI(String secret, String uniqueDeviceIdentifier) {
+    private void setupI(Context context, String secret, @Nullable String uniqueDeviceIdentifier) {
         this.secret = secret;
-        this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
+        if (uniqueDeviceIdentifier == null) {
+            this.uniqueDeviceIdentifier = DeviceRepository.Companion.getDeviceId(context);
+        } else {
+            this.uniqueDeviceIdentifier =  uniqueDeviceIdentifier;
+        }
     }
 
     private void configureI(Context context, String secret, @Nullable String uniqueDeviceIdentifier, final ParleyCallback callback) {
         setState(State.CONFIGURING);
 
-        if (uniqueDeviceIdentifier == null) {
-            setupI(secret, DeviceRepository.Companion.getDeviceId(context));
-        } else {
-            setupI(secret, uniqueDeviceIdentifier);
-        }
+        setupI(context, secret, uniqueDeviceIdentifier);
 
         messagesManager.clear(false);
 

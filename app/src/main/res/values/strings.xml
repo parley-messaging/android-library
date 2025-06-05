@@ -11,7 +11,8 @@
     <string name="identifier_title">Enter identifier screen</string>
     <string name="identifier_hello">Hello!</string>
     <string name="identifier_enter_your_own_identifier">Enter your identification code to start a chat session.</string>
-    <string name="identifier_start_chat">Start chat</string>
+    <string name="identifier_open_then_start">Open chat > Start Parley</string>
+    <string name="identifier_start_then_open">Start Parley > Open chat</string>
 
     <string name="identifier_invalid_identifier_title">Incorrect identification code</string>
     <string name="identifier_invalid_identifier_body">You have entered an incorrect identification code. Try again.</string>
@@ -23,4 +24,11 @@
 
     <!-- Accessibility -->
     <string name="accessibility_parley_header">Parley logo: Redefining customer happiness</string>
+    <string name="identifier_lightweight_setup">Setup</string>
+    <string name="identifier_lightweight_open">Open chat</string>
+    <string name="identifier_lightweight_register_device">Register device</string>
+    <string name="identifier_lightweight_get_unseen">Get unseen count</string>
+    <string name="identifier_lightweight_message_setup_completed">Setup completed</string>
+    <string name="identifier_lightweight_message_device_registered">Device is registered</string>
+    <string name="identifier_lightweight_message_x_unseen_messages">%d unseen messages</string>
 </resources>

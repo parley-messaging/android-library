@@ -1,8 +1,10 @@
-package nu.parley.ui
+package nu.parley.util
 
+import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -10,14 +12,20 @@ import androidx.appcompat.widget.Toolbar
 import nu.parley.R
 
 abstract class BaseActivity : AppCompatActivity() {
-    protected fun setupToolbar() {
+
+    protected val preferences by lazy { Preferences(this) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
 
         setSupportActionBar(toolbar)
 
-        if (supportActionBar != null) {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     protected fun showAlertDialog(@StringRes titleResId: Int, @StringRes messageResId: Int) {
@@ -47,5 +55,13 @@ abstract class BaseActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    protected fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    protected fun showToast(@StringRes resource: Int) {
+        showToast(getString(resource))
     }
 }

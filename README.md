@@ -102,16 +102,11 @@ Parley needs a push token to successfully handle remote notifications.
 
 After receiving a push token via your Firebase instance, pass it to the Parley instance in order to support remote notifications. This is can be done by using `Parley.setPushToken(pushToken);`.
 
-```java
-Parley.setPushToken("pushToken");
-```
-
-**Other push types**
-
-```java
-Parley.setPushToken("pushToken", PushType.CUSTOM_WEBHOOK);
-Parley.setPushToken("pushToken", PushType.CUSTOM_WEBHOOK_BEHIND_OAUTH);
-Parley.setPushToken("pushToken", PushType.FCM); // Default
+```kotlin
+Parley.setPushToken(token)
+// Parley.setPushToken(token, PushType.FCM) // Default
+// Parley.setPushToken(token, PushType.CUSTOM_WEBHOOK)
+// Parley.setPushToken(token, PushType.CUSTOM_WEBHOOK_BEHIND_OAUTH)
 ```
 
 **Handle remote notifications**
@@ -121,25 +116,23 @@ Open your `FirebaseMessagingService` and:
 - Add `Parley.setPushToken(token)` to the `onNewToken` method to update the push token when this happens.
 - Add `Parley.handle(context, remoteMessage, intent)` to the `onMessageReceived` method to handle remote notifications.
 
-```java
-public final class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
-    
-    @Override
-    public void onNewToken(@NonNull String token) {
-      super.onNewToken(token);
-  
-      Parley.setPushToken(token);
-    }
+```kotlin
+class FirebaseMessagingService : FirebaseMessagingService() {
+  override fun onNewToken(token: String) {
+    super.onNewToken(token)
 
-    @Override
-    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage);
+    Parley.setPushToken(token)
+  }
 
-        Intent intent = new Intent(this, ChatActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+  override fun onMessageReceived(remoteMessage: RemoteMessage) {
+    super.onMessageReceived(remoteMessage)
 
-        boolean handledByParley = Parley.handle(this, remoteMessage.getData(), intent);
-    }
+    val intent = Intent(this, ChatActivity::class.java)
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+    @Suppress("UNUSED_VARIABLE")
+    val handledByParley = Parley.handle(this, remoteMessage.data, intent)
+  }
 }
 ```
 
@@ -147,23 +140,28 @@ public final class FirebaseMessagingService extends com.google.firebase.messagin
 
 Open the *Activity* in which the `ParleyView` is visible and add `Parley.onActivityResult(requestCode, resultCode, data)` to the `onActivityResult` method of the *Activity*.
 
-```java
-@Override
-protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
+```kotlin
+@Deprecated("Deprecated in Java")
+override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+  super.onActivityResult(requestCode, resultCode, data)
 
-    boolean handledByParley = Parley.onActivityResult(requestCode, resultCode, data);
+  @Suppress("UNUSED_VARIABLE")
+  val handledByParley = MethodsBase.onActivityResult(requestCode, resultCode, data)
 }
 ```
 
 Also add `Parley.onRequestPermissionsResult(requestCode, permissions, grantResults)` to the `onRequestPermissionsResult` method of the *Activity*.
 
-```java
-@Override
-public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+```kotlin
+override fun onRequestPermissionsResult(
+  requestCode: Int,
+  permissions: Array<String>,
+  grantResults: IntArray
+) {
+  super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-    boolean handledByParley = Parley.onRequestPermissionsResult(requestCode, permissions, grantResults);
+  @Suppress("UNUSED_VARIABLE")
+  val handledByParley = MethodsBase.onRequestPermissionsResult(requestCode, permissions, grantResults)
 }
 ```
 
@@ -186,55 +184,40 @@ Parley allows the usage of advanced configurations, such as specifying the netwo
 
 The network configuration can be set by setting a `ParleyNetwork` with the `Parley.setNetwork(_ network: ParleyNetwork)` method.
 
-```java
-ParleyNetwork network = new ParleyNetwork(
-        "https://api.parley.nu/",
-        "clientApi/v1.7/",
-        ApiVersion.V1_7, // Must correspond to the same version in the path 
-        nu.parley.android.R.xml.parley_network_security_config // Must be the same resource as defined in `AndroidManifest.xml`
-);
+```kotlin
+val headers = mutableMapOf<String, String>()
+headers["X-Custom-Header"] = "Custom header value"
 
-Parley.setNetwork(network);
+val network = ParleyNetwork(
+  "https://api.parley.nu/", // Default
+  "clientApi/v1.9/", // Default
+  ApiVersion.V1_9, // Must correspond to the same version in the path
+  nu.parley.android.R.xml.parley_network_security_config, // Must be the same resource as defined in `AndroidManifest.xml`
+  headers, // Optional, default empty map 
+)
+
+Parley.setNetwork(network) // Optional, defaults to Parley configuration
 ```
 
 *Note that when using a custom Network Security Configuration, it is also required to use the same reference in inside the `AndroidManifest.xml`.*
-
-**Custom headers**
-
-Custom headers can be set by using the optional parameter `headers` in `ParleyNetwork`. The parameter accepts a `Map<String, String>`.
-
-Note that the headers used by Parley itself cannot be overridden.
-
-```java
-Map<String, String> headers = new HashMap<>();
-headers.put("X-Custom-Header", "Custom header value");
-
-ParleyNetwork network = new ParleyNetwork(
-        "https://api.parley.nu/",
-        "clientApi/v1.7/",
-        ApiVersion.V1_7,
-        R.xml.parley_network_security_config,
-        headers
-);
-
-Parley.setNetwork(network);
-```
 
 **Custom interceptor**
 
 If the only need is to apply a custom interceptor to the default network session of Parley, for example when using dynamic headers. It's possible to create an `okhttp3.Interceptor`, create the default `RetrofitNetworkSession` with the interceptor and provide that to the `ParleyNetwork` configuration.
 
-```java
-ParleyNetworkSession networkSession = new RetrofitNetworkSession(interceptor);
-ParleyNetwork network = new ParleyNetwork(
-        "https://api.parley.nu/",
-        "clientApi/v1.7/",
-        ApiVersion.V1_7,
-        R.xml.parley_network_security_config,
-        networkSession
-);
+```kotlin
+val networkSession = RetrofitNetworkSession(interceptor);
 
-Parley.setNetwork(network);
+val network = ParleyNetwork(
+    "https://api.parley.nu/",
+    "clientApi/v1.9/",
+    ApiVersion.V1_9,
+    nu.parley.android.R.xml.parley_network_security_config,
+    headers,
+    networkSession,
+)
+
+Parley.setNetwork(network)
 ```
 
 **Custom network config**
@@ -278,8 +261,8 @@ When a certificate is going to expire you can safely transition by adding the ne
 
 The chat can be identified and encrypted by applying an authorization token to the `Parley.setUserInformation(authorization)` method. The token can easily be generated on a secure location by following the _[Authorization header](https://developers.parley.nu/docs/authorization-header)_ documentation.
 
-```java
-String authorization = "ZGFhbnw5ZTA5ZjQ2NWMyMGNjYThiYjMxNzZiYjBhOTZmZDNhNWY0YzVlZjYzMGVhNGZmMWUwMjFjZmE0NTEyYjlmMDQwYTJkMTJmNTQwYTE1YmUwYWU2YTZjNTc4NjNjN2IxMmRjODNhNmU1ODNhODhkMmQwNzY2MGYxZTEzZDVhNDk1Mnw1ZDcwZjM5ZTFlZWE5MTM2YmM3MmIwMzk4ZDcyZjEwNDJkNzUwOTBmZmJjNDM3OTg5ZWU1MzE5MzdlZDlkYmFmNTU1YTcyNTUyZWEyNjllYmI5Yzg5ZDgyZGQ3MDYwYTRjZGYxMzE3NWJkNTUwOGRhZDRmMDA1MTEzNjlkYjkxNQ";
+```kotlin
+val authorization = "ZGFhbnw5ZTA5ZjQ2NWMyMGNjYThiYjMxNzZiYjBhOTZmZDNhNWY0YzVlZjYzMGVhNGZmMWUwMjFjZmE0NTEyYjlmMDQwYTJkMTJmNTQwYTE1YmUwYWU2YTZjNTc4NjNjN2IxMmRjODNhNmU1ODNhODhkMmQwNzY2MGYxZTEzZDVhNDk1Mnw1ZDcwZjM5ZTFlZWE5MTM2YmM3MmIwMzk4ZDcyZjEwNDJkNzUwOTBmZmJjNDM3OTg5ZWU1MzE5MzdlZDlkYmFmNTU1YTcyNTUyZWEyNjllYmI5Yzg5ZDgyZGQ3MDYwYTRjZGYxMzE3NWJkNTUwOGRhZDRmMDA1MTEzNjlkYjkxNQ";
 Parley.setUserInformation(authorization);
 ```
 
@@ -287,64 +270,65 @@ Parley.setUserInformation(authorization);
 
 Additionally, you can set additional information of the user by using the `additionalInformation` parameter in `Parley.setUserInformation()` method. The parameter accepts a `Map<String, String>`.
 
-```java
-Map<String, String> additionalInformation = new HashMap<>();
-additionalInformation.put(Parley.ADDITIONAL_VALUE_NAME, "John Doe");
-additionalInformation.put(Parley.ADDITIONAL_VALUE_EMAIL, "j.doe@parley.nu");
-additionalInformation.put(Parley.ADDITIONAL_VALUE_ADDRESS, "Randstad 21 30, 1314, Nederland");
+```kotlin
+val additionalInformation = mutableMapOf<String, String>()
+additionalInformation[Parley.ADDITIONAL_VALUE_NAME] = "John Doe"
+additionalInformation[Parley.ADDITIONAL_VALUE_EMAIL] = "j.doe@parley.nu"
+additionalInformation[Parley.ADDITIONAL_VALUE_ADDRESS] = "Randstad 21 30, 1314, Nederland"
 
-String authorization = "ZGFhbnw5ZTA5ZjQ2NWMyMGNjYThiYjMxNzZiYjBhOTZmZDNhNWY0YzVlZjYzMGVhNGZmMWUwMjFjZmE0NTEyYjlmMDQwYTJkMTJmNTQwYTE1YmUwYWU2YTZjNTc4NjNjN2IxMmRjODNhNmU1ODNhODhkMmQwNzY2MGYxZTEzZDVhNDk1Mnw1ZDcwZjM5ZTFlZWE5MTM2YmM3MmIwMzk4ZDcyZjEwNDJkNzUwOTBmZmJjNDM3OTg5ZWU1MzE5MzdlZDlkYmFmNTU1YTcyNTUyZWEyNjllYmI5Yzg5ZDgyZGQ3MDYwYTRjZGYxMzE3NWJkNTUwOGRhZDRmMDA1MTEzNjlkYjkxNQ";
-Parley.setUserInformation(authorization, additionalInformation);
+val authorization = ParleyCustomerAuthorization.example()
+Parley.setUserInformation(authorization, additionalInformation)
 ```
 
 **Clear user information**
 
-```java
-Parley.clearUserInformation();
+```kotlin
+Parley.clearUserInformation() // Clear user information if needed (for example when the user logs out).
 ```
 
 ### Offline messaging
 
 Offline messaging can be enabled with the `Parley.enableOfflineMessaging(dataSource)` method. `ParleyDataSource` is an interface that can be used to create your own (secure) data source. In addition to this, Parley provides an encrypted data source called `ParleyEncryptedDataSource` which uses AES encryption.
 
-```java
-Parley.enableOfflineMessaging(new ParleyEncryptedDataSource(this, "1234567890123456"));
+```kotlin
+val dataSource = ParleyEncryptedDataSource(context, "1234567890123456")
+Parley.enableOfflineMessaging(dataSource) // Optional, default off
 ```
 
 **Disable offline messaging**
 
-```java
-Parley.disableOfflineMessaging();
+```kotlin
+Parley.disableOfflineMessaging() // Disable offline messaging if it was enabled earlier
 ```
 
 ### Send a (silent) message
 
 In some cases it may be handy to send a message for the user. You can easily do this by calling;
 
-```java
-Parley.send("Lorem ipsum dolar sit amet");
+```kotlin
+Parley.send("Lorem ipsum dolar sit amet")
 ```
 
 **Silent**
 
 It is also possible to send silent messages. Those messages are not visible in the chat.
 
-```java
-Parley.send("User opened chat", true);
+```kotlin
+Parley.send("User opened chat", true)
 ```
 
 ### Referrer
 
-```java
-Parley.setReferrer("https://parley.nu/");
+```kotlin
+Parley.setReferrer("https://parley.nu/")
 ```
 
 ### Custom Unique Device Identifier
 
 By default Parley uses a random UUID as device identifier which will be stored in the shared preferences. This can be overridden by passing a custom `uniqueDeviceIdentifier` to the configure method:
 
-```java
-Parley.configure(this, "appSecret", "uniqueDeviceIdentifier");
+```kotlin
+Parley.configure(this, "appSecret", "uniqueDeviceIdentifier")
 ```
 
 _When passing the `uniqueDeviceIdentifier` to the configure method, Parley will not store it. Client applications are responsible for storing it and providing Parley with the same ID in this case._
@@ -355,21 +339,22 @@ Parley doesn't need to be reset usually, but in some cases this might be wanted.
 
 Resetting Parley will clear the current user information and chat data that is in memory as well as deregister the device's push token to Parley. This ensures that registered users will not receive push notifications anymore that are not intended for them. Requires calling the `configure()` method again to use Parley.
 
-```java
-Parley.reset();
+```kotlin
+Parley.reset()
 ```
 
 ### Purge memory
 
 There is also the possibility to only remove the data that is in memory of Parley. The difference with the `reset()` method is that this one does not update the backend. In fact, this can be seen as the app going 'inactive' and clearing its memory, while the user keeps being logged in. However, Parley will not be able to recover from this automatically and therefore it is required to call the `configure()` method again to use Parley.
 
-```java
-Parley.purgeLocalMemory();
+```kotlin
+Parley.purgeLocalMemory()
 ```
 
 ### Handling Activity results inside Fragment
 
 By default Parley uses the activity when it calls `startActivityForResult()` or `requestPermissions()`, resulting in the `onActivityResult` and `onRequestPermissionsResult` being called on the activity in return. However, when the `ParleyView` is used inside a fragment, it is more neat to handle these results inside the fragment as well. This can be done by setting the launch callback on the `ParleyView`:
+
 ```java
 parleyView.setLaunchCallback(new ParleyLaunchCallback() {
     @Override
@@ -390,6 +375,7 @@ parleyView.setLaunchCallback(new ParleyLaunchCallback() {
 ```
 
 Next, make sure to forward the *Fragment* results:
+
 ```java
 @Override
 public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -446,16 +432,16 @@ parleyView.setListener(new ParleyView.Listener() {
 
 Image upload is enabled by default. The `ParleyView.setImagesEnabled(enabled)` method can be used to disable this.
 
-```java
-parleyView.setImagesEnabled(false);
+```kotlin
+parleyView.setImagesEnabled(false)
 ```
 
 **Notifications position**
 
 The sticky and internet connection notifications are placed on the top by default. The `ParleyView.setNotificationsPosition(position)` can be used to bring them to the bottom.
 
-```java
-parleyView.setNotificationsPosition(ParleyPosition.Vertical.BOTTOM);
+```kotlin
+parleyView.setNotificationsPosition(ParleyPosition.Vertical.BOTTOM)
 ```
 
 **Styling**

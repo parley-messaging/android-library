@@ -4,13 +4,14 @@ import android.content.Intent
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import nu.parley.android.Parley
+import nu.parley.methods.MethodsBase
 import nu.parley.ui.ChatActivity
 
 class FirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
 
-        Parley.setPushToken(token)
+        MethodsBase.setPushToken(token)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -20,6 +21,6 @@ class FirebaseMessagingService : FirebaseMessagingService() {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
 
         @Suppress("UNUSED_VARIABLE")
-        val handledByParley = Parley.handle(this, remoteMessage.data, intent)
+        val handledByParley = MethodsBase.handle(this, remoteMessage.data, intent)
     }
 }
