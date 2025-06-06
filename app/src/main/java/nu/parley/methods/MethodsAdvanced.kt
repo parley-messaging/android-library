@@ -26,7 +26,6 @@ object MethodsAdvanced {
             "https://api.parley.nu/", // Default
             "clientApi/v1.9/", // Default
             ApiVersion.V1_9, // Must correspond to the same version in the path
-            nu.parley.android.R.xml.parley_network_security_config, // Must be the same resource as defined in `AndroidManifest.xml`
             headers, // Optional, default empty map
         )
 

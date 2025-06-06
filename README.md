@@ -104,9 +104,6 @@ After receiving a push token via your Firebase instance, pass it to the Parley i
 
 ```kotlin
 Parley.setPushToken(token)
-// Parley.setPushToken(token, PushType.FCM) // Default
-// Parley.setPushToken(token, PushType.CUSTOM_WEBHOOK)
-// Parley.setPushToken(token, PushType.CUSTOM_WEBHOOK_BEHIND_OAUTH)
 ```
 
 **Handle remote notifications**
@@ -146,7 +143,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
   super.onActivityResult(requestCode, resultCode, data)
 
   @Suppress("UNUSED_VARIABLE")
-  val handledByParley = MethodsBase.onActivityResult(requestCode, resultCode, data)
+  val handledByParley = Parley.onActivityResult(requestCode, resultCode, data)
 }
 ```
 
@@ -161,20 +158,9 @@ override fun onRequestPermissionsResult(
   super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
   @Suppress("UNUSED_VARIABLE")
-  val handledByParley = MethodsBase.onRequestPermissionsResult(requestCode, permissions, grantResults)
+  val handledByParley = Parley.onRequestPermissionsResult(requestCode, permissions, grantResults)
 }
 ```
-
-### Step 5: Network Security Configuration
-
-By default Parley enforces the use of SSL pinning. Open the `AndroidManifest.xml` and add the Network Security Configuration of Parley to the `Application` tag.
-
-```xml
-<application
-    android:networkSecurityConfig="@xml/parley_network_security_config">
-```
-
-*More information about the Network Security Configuration can be found on [Android Developers](https://developer.android.com/training/articles/security-config).*
 
 ## Advanced
 
@@ -192,14 +178,11 @@ val network = ParleyNetwork(
   "https://api.parley.nu/", // Default
   "clientApi/v1.9/", // Default
   ApiVersion.V1_9, // Must correspond to the same version in the path
-  nu.parley.android.R.xml.parley_network_security_config, // Must be the same resource as defined in `AndroidManifest.xml`
   headers, // Optional, default empty map 
 )
 
 Parley.setNetwork(network) // Optional, defaults to Parley configuration
 ```
-
-*Note that when using a custom Network Security Configuration, it is also required to use the same reference in inside the `AndroidManifest.xml`.*
 
 **Custom interceptor**
 
@@ -212,7 +195,6 @@ val network = ParleyNetwork(
     "https://api.parley.nu/",
     "clientApi/v1.9/",
     ApiVersion.V1_9,
-    nu.parley.android.R.xml.parley_network_security_config,
     headers,
     networkSession,
 )
@@ -230,32 +212,30 @@ ParleyNetwork network = new ParleyNetwork(
         "https://api.parley.nu/",
         "clientApi/v1.7/",
         ApiVersion.V1_7,
-        R.xml.parley_network_security_config,
         networkSession
 );
 
 Parley.setNetwork(network);
 ```
 
-**Custom SSL pinning**
+**SSL pinning**
 
-With the default configuration Parley enforces SSL pinning. Customizing this can be done by creating a new `network_security_config.xml` file.
+By default Parley enforces the use of SSL pinning on the Parley domain.
 
-In the `AndroidManifest.xml` set the `networkSecurityConfig` property to the created `network_security_config.xml`.
-
-Next, pass the new `network_security_config` to the ParleyNetwork object when calling `Parley.setNetwork(network)`.
-
-**Enforcing SSL pinning**
-
-Parley uses TrustKit to support SSL pinning on lower API levels. To enforce SSL pinning, make sure that the `network_security_config.xml` has the following in the `<domain-config>` block as well:
+When using a custom domain, make sure to create and apply the network security configuration for your domain. This could also be done if you want to make overriding the configuration explicit.
+To replace the one that Parley automatically adds, this can be done as follows in the `AndroidManifest.xml`:
 
 ```xml
-<trustkit-config enforcePinning="true"/>
+<application
+        android:networkSecurityConfig="@xml/parley_network_security_config"
+        tools:replace="android:networkSecurityConfig">
 ```
 
-*Note that setting this `true` will enforce SSL pinning and causes all requests to fail if SSL pinning fails. Whereas setting this `false` will still execute SSL pinning, but requests will proceed if SSL pinning fails.*
-
 When a certificate is going to expire you can safely transition by adding the new pin to the `network_security_config.xml`. It is important to leave the old pin in the app until after the new one is valid. In the next release the old pin can be removed. However, Android requires at least 2 pins inside the `network_security_config.xml`, so the old one can remain until the next one is needed.
+
+**The default network security configuration of Parley can be found in [parley_network_security_configuration.xml](parley/src/main/res/xml/parley_network_security_config.xml).**
+
+*More information about the Network Security Configuration can be found on [Android Developers](https://developer.android.com/privacy-and-security/security-config).*
 
 ### User information
 
