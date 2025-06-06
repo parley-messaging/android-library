@@ -10,7 +10,7 @@ interface ParleyNetworkSession {
         data: String?,
         method: ParleyHttpRequestMethod,
         onCompletion: (String) -> Unit,
-        onFailed: (Int?, String?) -> Unit
+        onFailed: (Int, String) -> Unit
     )
 
     fun upload(
@@ -19,7 +19,7 @@ interface ParleyNetworkSession {
         mimeType: String,
         formDataName: String,
         onCompletion: (String) -> Unit,
-        onFailed: (Int?, String?) -> Unit
+        onFailed: (Int, String) -> Unit
     )
 
     fun upload(
@@ -28,6 +28,6 @@ interface ParleyNetworkSession {
         mimeType: String,
         formDataName: String,
         onCompletion: (String) -> Unit,
-        onFailed: (Int?, String?) -> Unit
+        onFailed: (Int, String) -> Unit
     )
 }
