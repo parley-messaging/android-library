@@ -9,6 +9,11 @@
 - [Chat] Now marking agent messages as read when they are rendered.
 - [Chat] Added `Parley.getUnseenCount(ParleyDataCallback<Integer> callback)` to retrieve the amount of unseen messages when using clientApi 1.9.
 - [Dependency] TrustKit is now not needed anymore and has been removed.
+- [Lightweight Configure] Added `setup()` method to setup Parley, but not configure it yet.
+- [Lightweight Configure] Added `registerDevice()` method to setup Parley, so that the current device can be registered even when `configure()` has not been called earlier.
+- [Lightweight Configure] It remains still required to call the `configure()` method when the chat needs to be shown.
+- [Example] The example project has been updated to Kotlin and to better reflect which methods Parley exposes.
+- [Example] Added a special flow (lightweight configure).
 
 ## 3.11.5 - Released 13 May 2025
 

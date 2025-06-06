@@ -85,6 +85,41 @@ public final class Parley {
     }
 
     /**
+     * Convenience for setup(context, secret, null).
+     *
+     * @see #setup(Context, String, String)
+     */
+    @SuppressWarnings("unused")
+    public static void setup(final Context context, final String secret) {
+        getInstance().setupI(context, secret, null);
+    }
+
+    /**
+     * Setup Parley Messaging without actually configuring it. Does not register the device or
+     * retrieve messages directly. Showing the chat will still require to call the configure method.
+     *
+     * @param context Context of the application.
+     * @param secret  Application secret of your Parley instance.
+     * @param uniqueDeviceIdentifier The device identifier to use for device registration.
+     */
+    @SuppressWarnings("unused")
+    public static void setup(final Context context, final String secret, final @Nullable String uniqueDeviceIdentifier) {
+        getInstance().setupI(context, secret, uniqueDeviceIdentifier);
+    }
+
+    /**
+     * Registers the current device to the currently configured user authorization in Parley.
+     * Parley already does this automatically when calling the configure method.
+     * <p>
+     * <b>Note</b>: Make sure to set the user authorization first before calling this.
+     * </p>
+     */
+    @SuppressWarnings("unused")
+    public static void registerDevice(final ParleyCallback callback) {
+        getInstance().registerDeviceI(callback);
+    }
+
+    /**
      * Convenience for configure(context, secret, {@link EmptyParleyCallback}).
      *
      * @see #configure(Context, String, ParleyCallback)
@@ -137,7 +172,7 @@ public final class Parley {
      * @param callback               {@link ParleyCallback} indicating the result of configuring.
      */
     @SuppressWarnings("WeakerAccess")
-    public static void configure(@NonNull final Context context, @NonNull final String secret, @NonNull final String uniqueDeviceIdentifier, @NonNull final ParleyCallback callback) {
+    public static void configure(@NonNull final Context context, @NonNull final String secret, @Nullable final String uniqueDeviceIdentifier, @NonNull final ParleyCallback callback) {
         getInstance().configureI(context, secret, uniqueDeviceIdentifier, callback);
     }
 
@@ -584,29 +619,34 @@ public final class Parley {
         }
     }
 
-    private void configureI(Context context, String secret, @Nullable String uniqueDeviceIdentifier, final ParleyCallback callback) {
-        setState(State.CONFIGURING);
+    private void setupI(Context context, String secret, @Nullable String uniqueDeviceIdentifier) {
         this.secret = secret;
-
         if (uniqueDeviceIdentifier == null) {
             this.uniqueDeviceIdentifier = DeviceRepository.Companion.getDeviceId(context);
         } else {
-            this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
+            this.uniqueDeviceIdentifier =  uniqueDeviceIdentifier;
         }
+    }
+
+    private void configureI(Context context, String secret, @Nullable String uniqueDeviceIdentifier, final ParleyCallback callback) {
+        setState(State.CONFIGURING);
+
+        setupI(context, secret, uniqueDeviceIdentifier);
+
         messagesManager.clear(false);
 
         if (ConnectivityMonitor.isNetworkOffline(context)) {
             // Direct callback
             setState(messagesManager.isCachingEnabled() ? State.CONFIGURED : State.FAILED);
         } else {
-            configureI(callback);
+            loadInitial(callback);
         }
     }
 
-    private void configureI(final ParleyCallback callback) {
-        new DeviceRepository().register(new RepositoryCallback<>() {
+    private void loadInitial(final ParleyCallback callback) {
+        registerDeviceI(new ParleyCallback() {
             @Override
-            public void onSuccess(Void data) {
+            public void onSuccess() {
                 new MessageRepository().findAll(new RepositoryCallback<>() {
                     @Override
                     public void onSuccess(GetMessagesResponse data) {
@@ -632,7 +672,7 @@ public final class Parley {
             }
 
             @Override
-            public void onFailed(Integer code, String message) {
+            public void onFailure(@Nullable Integer code, @Nullable String message) {
                 if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                     setState(State.CONFIGURED);
                     callback.onSuccess();
@@ -644,6 +684,20 @@ public final class Parley {
         });
     }
 
+    private void registerDeviceI(final ParleyCallback callback) {
+        new DeviceRepository().register(new RepositoryCallback<>() {
+            @Override
+            public void onSuccess(Void data) {
+                callback.onSuccess();
+            }
+
+            @Override
+            public void onFailed(Integer code, String message) {
+                callback.onFailure(code, message);
+            }
+        });
+    }
+
     private void reconfigure(ParleyCallback callback) {
         retrievedFirstMessages = false;
         messagesManager.clear(true);
@@ -651,7 +705,7 @@ public final class Parley {
         setState(State.UNCONFIGURED);
         setState(State.CONFIGURING);
 
-        configureI(callback);
+        loadInitial(callback);
     }
 
     private void resetI(final ParleyCallback callback) {

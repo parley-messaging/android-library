@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import nu.parley.BuildConfig
 import nu.parley.R
+import nu.parley.util.BaseActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity() {

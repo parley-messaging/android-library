@@ -1,4 +1,4 @@
-package nu.parley
+package nu.parley.util
 
 import android.util.Base64
 import java.math.BigInteger
@@ -15,18 +15,18 @@ import javax.crypto.spec.SecretKeySpec
  * This is intended as an example inside the demo app to show the use of registered customers in Parley.
  * Especially the `parleySharedSecret` should **not exist anywhere** on the client device.
  */
-class ParleyCustomerAuthorization {
+object ParleyCustomerAuthorization {
 
-    companion object {
-        private const val APPLICATION_AUTHORIZATION_SECRET = "fe4d1ba9-1428-45ae-b8e9-6859a2782776"
-    }
+    private const val APPLICATION_AUTHORIZATION_SECRET = "fe4d1ba9-1428-45ae-b8e9-6859a2782776"
+    private const val SampleAuthorization = "ZGFhbnw5ZTA5ZjQ2NWMyMGNjYThiYjMxNzZiYjBhOTZmZDNhNWY0YzVlZjYzMGVhNGZmMWUwMjFjZmE0NTEyYjlmMDQwYTJkMTJmNTQwYTE1YmUwYWU2YTZjNTc4NjNjN2IxMmRjODNhNmU1ODNhODhkMmQwNzY2MGYxZTEzZDVhNDk1Mnw1ZDcwZjM5ZTFlZWE5MTM2YmM3MmIwMzk4ZDcyZjEwNDJkNzUwOTBmZmJjNDM3OTg5ZWU1MzE5MzdlZDlkYmFmNTU1YTcyNTUyZWEyNjllYmI5Yzg5ZDgyZGQ3MDYwYTRjZGYxMzE3NWJkNTUwOGRhZDRmMDA1MTEzNjlkYjkxNQ"
+
+    fun example() = SampleAuthorization
 
     /** @noinspection UnnecessaryLocalVariable
      */
     @Throws(InvalidKeyException::class, NoSuchAlgorithmException::class)
     fun generate(customerId: String, parleySharedSecret: String): String {
         // 1: CustomerAuthenticationKey
-
         val customerAuthenticationKey = encryptSHA512(customerId, APPLICATION_AUTHORIZATION_SECRET)
 
         // 2: VerifyHash

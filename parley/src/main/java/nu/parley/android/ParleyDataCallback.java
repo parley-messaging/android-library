@@ -15,8 +15,8 @@ public interface ParleyDataCallback<T> {
     /**
      * Indicates that the operation failed for some reason.
      *
-     * @param code    Status code of the failing operation, or `null` if not available.
-     * @param message Message describing the failure, or `null` if not available.
+     * @param code    Status code of the failing operation.
+     * @param message Message describing the failure.
      */
-    void onFailure(@Nullable Integer code, @Nullable String message);
+    void onFailure(Integer code, String message);
 }

@@ -165,7 +165,7 @@ internal class MessageRepository {
         val network = Parley.getInstance().network
         if (network.apiVersion.isSupportingMessageStatus.not()) {
             // This is not possible on older clientApi versions
-            callback.onFailed(-1, "This clientApi version does not support retrieving the unseen count.")
+            callback.onFailed(-1, "ClientApi ${network.apiVersion} does not support retrieving the unseen count.")
             return
         }
         network.networkSession.request(
