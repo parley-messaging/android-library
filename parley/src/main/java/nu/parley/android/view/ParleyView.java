@@ -331,6 +331,15 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
         }
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        // When orientation changes, visibility is not changed to invisible/gone, need to clear the listeners as well here. https://github.com/parley-messaging/android-library/issues/105
+        Parley.getInstance().clearListener();
+        connectivityMonitor.unregister(getContext());
+        accessibilityMonitor.unregister(getContext());
+        super.onDetachedFromWindow();
+    }
+
     private void requestPermissionsIfNeeded() {
         ParleyNotificationManager.createChannels(getContext().getApplicationContext()); // Required for Android 12
 
