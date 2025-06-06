@@ -85,7 +85,22 @@ public final class Parley {
     }
 
     /**
-     * TODO: Document
+     * Convenience for setup(context, secret, null).
+     *
+     * @see #setup(Context, String, String)
+     */
+    @SuppressWarnings("unused")
+    public static void setup(final Context context, final String secret) {
+        getInstance().setupI(context, secret, null);
+    }
+
+    /**
+     * Setup Parley Messaging without actually configuring it. Does not register the device or
+     * retrieve messages directly. Showing the chat will still require to call the configure method.
+     *
+     * @param context Context of the application.
+     * @param secret  Application secret of your Parley instance.
+     * @param uniqueDeviceIdentifier The device identifier to use for device registration.
      */
     @SuppressWarnings("unused")
     public static void setup(final Context context, final String secret, final @Nullable String uniqueDeviceIdentifier) {
@@ -93,7 +108,11 @@ public final class Parley {
     }
 
     /**
-     * TODO: Document
+     * Registers the current device to the currently configured user authorization in Parley.
+     * Parley already does this automatically when calling the configure method.
+     * <p>
+     * <b>Note</b>: Make sure to set the user authorization first before calling this.
+     * </p>
      */
     @SuppressWarnings("unused")
     public static void registerDevice(final ParleyCallback callback) {
