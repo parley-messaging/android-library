@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.11.6 - Released 12 Jun 2025
+
+- [Chat] Resolved a memory leak when rotating the device when Parley is or was shown.
+- [SSL Pinning] Updated SSL pinning public key of Parley.
+
 ## 3.11.5 - Released 13 May 2025
 
 - [Styling] Made meta background styling only for when it's above an image.
