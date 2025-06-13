@@ -26,9 +26,17 @@ public enum ApiVersion {
      */
     V1_6,
     /**
-     * This is the latest supported version by the library.
+     * This is a previous version that is supported by the library.
      */
     V1_7,
+    /**
+     * This is a previous version that is supported by the library.
+     */
+    V1_8,
+    /**
+     * This is the latest supported version by the library.
+     */
+    V1_9,
     ;
 
     public boolean isUsingMedia() {
@@ -40,6 +48,8 @@ public enum ApiVersion {
                 return false;
             case V1_6:
             case V1_7:
+            case V1_8:
+            case V1_9:
                 return true;
         }
         throw new IllegalStateException("Unhandled API version");
@@ -54,6 +64,24 @@ public enum ApiVersion {
                 return false;
             case V1_6:
             case V1_7:
+            case V1_8:
+            case V1_9:
+                return true;
+        }
+        throw new IllegalStateException("Unhandled API version");
+    }
+
+    public boolean isSupportingMessageStatus() {
+        switch (this) {
+            case V1_2:
+            case V1_3:
+            case V1_4:
+            case V1_5:
+            case V1_6:
+            case V1_7:
+            case V1_8:
+                return false;
+            case V1_9:
                 return true;
         }
         throw new IllegalStateException("Unhandled API version");

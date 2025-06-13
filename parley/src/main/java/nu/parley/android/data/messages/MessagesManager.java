@@ -1,21 +1,25 @@
 package nu.parley.android.data.messages;
 
+import static nu.parley.android.util.DateUtil.isSameDay;
+import static nu.parley.android.view.chat.MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING;
+
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import nu.parley.android.data.model.Message;
-import nu.parley.android.data.net.response.ParleyPaging;
+import nu.parley.android.data.model.MessageStatus;
+import nu.parley.android.data.net.response.base.PagingResponse;
 import nu.parley.android.util.CompareUtil;
 import nu.parley.android.util.ListUtil;
-
-import static nu.parley.android.util.DateUtil.isSameDay;
-import static nu.parley.android.view.chat.MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING;
 
 public final class MessagesManager {
 
@@ -24,7 +28,7 @@ public final class MessagesManager {
 
     private String welcomeMessage;
     private String stickyMessage;
-    private ParleyPaging paging;
+    private PagingResponse paging;
 
     private ParleyDataSource dataSource = null;
 
@@ -41,7 +45,7 @@ public final class MessagesManager {
 
             String cachedPaging = dataSource.get(ParleyKeyValueDataSource.KEY_PAGING);
             if (cachedPaging != null) {
-                this.paging = new Gson().fromJson(cachedPaging, ParleyPaging.class);
+                this.paging = new Gson().fromJson(cachedPaging, PagingResponse.class);
             }
         }
         formatMessages();
@@ -66,7 +70,7 @@ public final class MessagesManager {
         return pendingMessages;
     }
 
-    public void begin(@Nullable String welcomeMessage, @Nullable String stickyMessage, List<Message> messages, ParleyPaging paging) {
+    public void begin(@Nullable String welcomeMessage, @Nullable String stickyMessage, List<Message> messages, PagingResponse paging) {
         this.originalMessages.clear();
         this.originalMessages.addAll(messages);
         this.stickyMessage = stickyMessage;
@@ -87,6 +91,7 @@ public final class MessagesManager {
             dataSource.set(ParleyKeyValueDataSource.KEY_MESSAGE_INFO, welcomeMessage);
         }
     }
+
 
     public void moreLoad(List<Message> messages) {
         originalMessages.addAll(messages);
@@ -258,11 +263,11 @@ public final class MessagesManager {
     }
 
     @Nullable
-    public ParleyPaging getPaging() {
+    public PagingResponse getPaging() {
         return paging;
     }
 
-    public void applyPaging(ParleyPaging paging) {
+    public void applyPaging(PagingResponse paging) {
         this.paging = paging;
         if (isCachingEnabled()) {
             dataSource.set(ParleyKeyValueDataSource.KEY_PAGING, new Gson().toJson(paging));
@@ -274,7 +279,7 @@ public final class MessagesManager {
     }
 
     public boolean canLoadMore() {
-        return paging != null && paging.getBefore() != null;
+        return paging != null && !paging.getBefore().isBlank();
     }
 
     public List<String> getAvailableQuickReplies() {
@@ -297,9 +302,18 @@ public final class MessagesManager {
     }
 
     public void disableCaching() {
-        if(this.dataSource != null) {
+        if (this.dataSource != null) {
             this.dataSource.clear();
         }
         this.dataSource = null;
+    }
+
+    public void updateRead(@NotNull Set<Integer> messageIds) {
+        for (Message message : originalMessages) {
+            if (messageIds.contains(message.getId())) {
+                message.setStatus(MessageStatus.Read);
+            }
+        }
+        formatMessages();
     }
 }

@@ -21,21 +21,26 @@ class RetrofitNetworkSession(
         data: String?,
         method: ParleyHttpRequestMethod,
         onCompletion: (String) -> Unit,
-        onFailed: (Int?, String?) -> Unit
+        onFailed: (Int, String) -> Unit
     ) {
-        var networkService = Connectivity.getRetrofit().create(
+        val networkService = Connectivity.getRetrofit().create(
             ParleyNetworkService::class.java
         )
-        var retrofitCall = when (method) {
+        val retrofitCall = when (method) {
             ParleyHttpRequestMethod.Post -> {
-                networkService.post(url, data!!)
+                networkService.post(url, data)
             }
+
             ParleyHttpRequestMethod.Get -> {
                 networkService.request(url)
             }
+
+            ParleyHttpRequestMethod.Put -> {
+                networkService.put(url, data)
+            }
         }
 
-        retrofitCall.enqueue(object : retrofit2.Callback<String> {
+        retrofitCall.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String?>) {
                 if (response.isSuccessful) {
                     onCompletion(response.body()!!)
@@ -45,7 +50,7 @@ class RetrofitNetworkSession(
             }
 
             override fun onFailure(call: Call<String>, t: Throwable) {
-                onFailed(null, t.message)
+                onFailed(-1, t.message ?: "Unknown failure")
             }
         })
     }
@@ -56,7 +61,7 @@ class RetrofitNetworkSession(
         mimeType: String,
         formDataName: String,
         onCompletion: (String) -> Unit,
-        onFailed: (Int?, String?) -> Unit
+        onFailed: (Int, String) -> Unit
     ) {
         val file = File(media)
         val requestBody = RequestBody.create(MediaType.parse(fromValue(mimeType).value), file)
@@ -71,7 +76,7 @@ class RetrofitNetworkSession(
         mimeType: String,
         formDataName: String,
         onCompletion: (String) -> Unit,
-        onFailed: (Int?, String?) -> Unit
+        onFailed: (Int, String) -> Unit
     ) {
         val requestBody = RequestBody.create(MediaType.parse(fromValue(mimeType).value), media)
         val filePart = MultipartBody.Part.createFormData(formDataName, media.name, requestBody)
@@ -83,7 +88,7 @@ class RetrofitNetworkSession(
         url: String,
         filePart: MultipartBody.Part,
         onCompletion: (String) -> Unit,
-        onFailed: (Int?, String?) -> Unit
+        onFailed: (Int, String) -> Unit
     ) {
         val networkService = Connectivity.getRetrofit().create(
             ParleyNetworkService::class.java
@@ -100,7 +105,7 @@ class RetrofitNetworkSession(
             }
 
             override fun onFailure(call: Call<String>, t: Throwable) {
-                onFailed(null, t.message)
+                onFailed(-1, t.message ?: "Unknown failure")
             }
         })
     }

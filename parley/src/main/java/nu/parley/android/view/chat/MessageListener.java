@@ -7,6 +7,7 @@ import nu.parley.android.data.model.Message;
 
 public interface MessageListener {
 
+    void onRendered(Message message);
     void onRetryMessageClicked(Message message);
 
     void onMediaClicked(View view, Message message);

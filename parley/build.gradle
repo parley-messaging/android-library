@@ -6,11 +6,11 @@ group = 'com.github.parley-messaging'
 
 android {
     namespace 'nu.parley.android'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
-        minSdk 21
-        targetSdk 34
+        minSdk 24
+        targetSdk 35
         versionCode System.getenv("VERSION_CODE") as Integer ?: 1
         versionName rootProject.ext.parley_version_name
 
@@ -69,9 +69,6 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:4.15.1"
     implementation 'androidx.core:core-ktx:1.13.1'
     annotationProcessor "com.github.bumptech.glide:compiler:4.15.1"
-
-    // TrustKit
-    implementation 'com.datatheorem.android.trustkit:trustkit:1.1.5'
 
     // Markdown support
     implementation "io.noties.markwon:core:4.0.2"

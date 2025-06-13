@@ -62,6 +62,10 @@ public final class Message {
     @Nullable
     private Media media;
 
+    @SerializedName("status")
+    @Nullable // API 1.9+
+    private Integer status;
+
     @SerializedName("buttons")
     @Nullable
     private List<Action> actions;
@@ -242,6 +246,15 @@ public final class Message {
     @Nullable
     public String getLocalUrl() {
         return localUrl;
+    }
+
+    @Nullable
+    public MessageStatus getStatus() {
+        return MessageStatus.Companion.from(status);
+    }
+
+    public void setStatus(MessageStatus status) {
+        this.status = status.getKey();
     }
 
     @Nullable

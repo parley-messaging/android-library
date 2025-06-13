@@ -1,13 +1,11 @@
 package nu.parley.android;
 
-import androidx.annotation.XmlRes;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import nu.parley.android.data.model.ApiVersion;
-import nu.parley.android.data.net.service.RetrofitNetworkSession;
 import nu.parley.android.data.net.service.ParleyNetworkSession;
+import nu.parley.android.data.net.service.RetrofitNetworkSession;
 
 /**
  * Provides the network configuration for Parley.
@@ -15,12 +13,11 @@ import nu.parley.android.data.net.service.ParleyNetworkSession;
 public final class ParleyNetwork {
 
     private static final String DEFAULT_NETWORK_URL = "https://api.parley.nu/";
-    private static final String DEFAULT_NETWORK_PATH = "clientApi/v1.7/";
+    private static final String DEFAULT_NETWORK_PATH = "clientApi/v1.9/";
+    private static final ApiVersion DEFAULT_NETWORK_API_VERSION = ApiVersion.V1_9;
 
     public final String url;
     public final Map<String, String> headers;
-    @XmlRes
-    final Integer securityConfigResourceFile;
     public final String path;
     public final ApiVersion apiVersion;
     public final ParleyNetworkSession networkSession;
@@ -31,30 +28,29 @@ public final class ParleyNetwork {
     ParleyNetwork() {
         this.url = DEFAULT_NETWORK_URL;
         this.path = DEFAULT_NETWORK_PATH;
-        this.apiVersion = ApiVersion.V1_7;
-        this.securityConfigResourceFile = R.xml.parley_network_security_config;
+        this.apiVersion = DEFAULT_NETWORK_API_VERSION;
         this.headers = new HashMap<>();
         this.networkSession = new RetrofitNetworkSession();
     }
 
     /**
-     * Convenience for ParleyNetwork(url, path, apiVersion, securityConfigResourceFile, headers).
+     * Convenience for ParleyNetwork(url, path, apiVersion, headers).
      *
-     * @see #ParleyNetwork(String, String, ApiVersion, Integer, Map)
+     * @see #ParleyNetwork(String, String, ApiVersion, Map)
      */
     @SuppressWarnings("unused")
-    public ParleyNetwork(String url, String path, ApiVersion apiVersion, @XmlRes Integer securityConfigResourceFile) {
-        this(url, path, apiVersion, securityConfigResourceFile, new HashMap<String, String>(), new RetrofitNetworkSession());
+    public ParleyNetwork(String url, String path, ApiVersion apiVersion) {
+        this(url, path, apiVersion, new HashMap<>(), new RetrofitNetworkSession());
     }
 
     /**
-     * Convenience for ParleyNetwork(url, path, apiVersion, securityConfigResourceFile, parleyNetworkSession).
+     * Convenience for ParleyNetwork(url, path, apiVersion, parleyNetworkSession).
      *
-     * @see #ParleyNetwork(String, String, ApiVersion, Integer, Map)
+     * @see #ParleyNetwork(String, String, ApiVersion, Map)
      */
     @SuppressWarnings("unused")
-    public ParleyNetwork(String url, String path, ApiVersion apiVersion, @XmlRes Integer securityConfigResourceFile, ParleyNetworkSession parleyNetworkSession) {
-        this(url, path, apiVersion, securityConfigResourceFile, new HashMap<String, String>(), parleyNetworkSession);
+    public ParleyNetwork(String url, String path, ApiVersion apiVersion, ParleyNetworkSession parleyNetworkSession) {
+        this(url, path, apiVersion, new HashMap<>(), parleyNetworkSession);
     }
 
     /**
@@ -67,14 +63,12 @@ public final class ParleyNetwork {
      * @param url                        Url to your Parley backend service.
      * @param path                       Path to the Parley chat API.
      * @param apiVersion                 API version of the Parley chat API. Note that the `path` should use the same api version as well.
-     * @param securityConfigResourceFile Android Network Security Configuration file xml resource with SSL Pinning configuration.
      * @param headers                    Additional headers to append to each network request of Parley.
      */
-    public ParleyNetwork(String url, String path, ApiVersion apiVersion, @XmlRes Integer securityConfigResourceFile, Map<String, String> headers) {
+    public ParleyNetwork(String url, String path, ApiVersion apiVersion, Map<String, String> headers) {
         this.url = url;
         this.path = path;
         this.apiVersion = apiVersion;
-        this.securityConfigResourceFile = securityConfigResourceFile;
         this.headers = headers;
         this.networkSession = new RetrofitNetworkSession();
     }
@@ -89,14 +83,12 @@ public final class ParleyNetwork {
      * @param url                        Url to your Parley backend service.
      * @param path                       Path to the Parley chat API.
      * @param apiVersion                 API version of the Parley chat API. Note that the `path` should use the same api version as well.
-     * @param securityConfigResourceFile Android Network Security Configuration file xml resource with SSL Pinning configuration.
      * @param headers                    Additional headers to append to each network request of Parley.
      */
-    public ParleyNetwork(String url, String path, ApiVersion apiVersion, @XmlRes Integer securityConfigResourceFile, Map<String, String> headers, ParleyNetworkSession parleyNetworkSession) {
+    public ParleyNetwork(String url, String path, ApiVersion apiVersion, Map<String, String> headers, ParleyNetworkSession parleyNetworkSession) {
         this.url = url;
         this.path = path;
         this.apiVersion = apiVersion;
-        this.securityConfigResourceFile = securityConfigResourceFile;
         this.headers = headers;
         this.networkSession = parleyNetworkSession;
     }

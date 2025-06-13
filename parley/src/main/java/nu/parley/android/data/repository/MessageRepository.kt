@@ -5,23 +5,31 @@ import com.google.gson.reflect.TypeToken
 import nu.parley.android.Parley
 import nu.parley.android.data.model.Media
 import nu.parley.android.data.model.Message
+import nu.parley.android.data.model.MessageStatus
 import nu.parley.android.data.model.MimeType.Companion.fromValue
 import nu.parley.android.data.net.ParleyHttpRequestMethod
 import nu.parley.android.data.net.RepositoryCallback
-import nu.parley.android.data.net.response.ParleyPaging
-import nu.parley.android.data.net.response.ParleyResponse
-import nu.parley.android.data.net.response.ParleyResponsePostMedia
-import nu.parley.android.data.net.response.ParleyResponsePostMessage
+import nu.parley.android.data.net.request.UpdateMessageStatusRequest
+import nu.parley.android.data.net.response.base.DataResponse
+import nu.parley.android.data.net.response.base.PagingResponse
+import nu.parley.android.data.net.response.message.CreateMediaResponse
+import nu.parley.android.data.net.response.message.CreateMessageResponse
+import nu.parley.android.data.net.response.message.GetMessagesResponse
+import nu.parley.android.data.net.response.message.GetUnseenResponse
 import nu.parley.android.util.FileUtil
 import java.io.File
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
-final class MessageRepository {
-    private class MessageResponseTypeToken : TypeToken<ParleyResponse<Message>>()
-    private class MessagesResponseTypeToken : TypeToken<ParleyResponse<List<Message>>>()
-    private class MessagesResponsePostMessageTypeToken : TypeToken<ParleyResponse<ParleyResponsePostMessage>>()
-    private class MessagesResponsePostMediaTypeToken : TypeToken<ParleyResponse<ParleyResponsePostMedia>>()
+internal class MessageRepository {
+    private class TypeTokenMessage : TypeToken<DataResponse<Message>>()
+    private class TypeTokenMessages : TypeToken<GetMessagesResponse>()
+    private class TypeTokenCreate : TypeToken<DataResponse<CreateMessageResponse>>()
+//    private class TypeTokenUpdateStatus : TypeToken<VoidResponse>()
+    private class TypeTokenCreateMedia : TypeToken<DataResponse<CreateMediaResponse>>()
+    private class TypeTokenUnseenCount : TypeToken<DataResponse<GetUnseenResponse>>()
 
-    public fun findAll(callback: RepositoryCallback<ParleyResponse<List<Message>>>) {
+    fun findAll(callback: RepositoryCallback<GetMessagesResponse>) {
         val network = Parley.getInstance().network
         network.networkSession.request(
             network.url + network.path + "messages",
@@ -29,7 +37,7 @@ final class MessageRepository {
             ParleyHttpRequestMethod.Get,
             onCompletion = {
                 val response = Gson()
-                    .getAdapter(MessagesResponseTypeToken())
+                    .getAdapter(TypeTokenMessages())
                     .fromJson(it)
                 callback.onSuccess(response)
             },
@@ -39,9 +47,9 @@ final class MessageRepository {
         )
     }
 
-    public fun getOlder(
-        previousPaging: ParleyPaging,
-        callback: RepositoryCallback<ParleyResponse<List<Message>>>
+    fun getOlder(
+        previousPaging: PagingResponse,
+        callback: RepositoryCallback<GetMessagesResponse>
     ) {
         val network = Parley.getInstance().network
         network.networkSession.request(
@@ -50,7 +58,7 @@ final class MessageRepository {
             ParleyHttpRequestMethod.Get,
             onCompletion = {
                 val response = Gson()
-                    .getAdapter(MessagesResponseTypeToken())
+                    .getAdapter(TypeTokenMessages())
                     .fromJson(it)
                 callback.onSuccess(response)
             },
@@ -60,7 +68,7 @@ final class MessageRepository {
         )
     }
 
-    public fun send(
+    fun send(
         message: Message,
         media: String?,
         callback: RepositoryCallback<Message>
@@ -68,12 +76,13 @@ final class MessageRepository {
         val network = Parley.getInstance().network
         val onCompletion: (String) -> Unit = {
             val response = Gson()
-                .getAdapter(MessagesResponsePostMessageTypeToken())
+                .getAdapter(TypeTokenCreate())
                 .fromJson(it)
 
-            var updatedMessage = Message.withIdAndStatus(
+            val updatedMessage = Message.withIdAndStatus(
                 message,
-                response.data.messageId, Message.SEND_STATUS_SUCCESS
+                response.data.messageId,
+                Message.SEND_STATUS_SUCCESS,
             )
             callback.onSuccess(updatedMessage)
         }
@@ -101,7 +110,7 @@ final class MessageRepository {
         }
     }
 
-    public fun sendMedia(
+    fun sendMedia(
         message: Message,
         media: String,
         callback: RepositoryCallback<Message>
@@ -115,7 +124,7 @@ final class MessageRepository {
             "media",
             onCompletion = {
                 val response = Gson()
-                    .getAdapter(MessagesResponsePostMediaTypeToken())
+                    .getAdapter(TypeTokenCreateMedia())
                     .fromJson(it)
 
                 val mediaType = FileUtil.getMimeType(media)
@@ -123,7 +132,7 @@ final class MessageRepository {
                 val updatedMessage = Message.withMedia(
                     message,
                     Media(
-                        response.data.mediaId!!, File(media).name, mimeType.value
+                        response.data.id, File(media).name, mimeType.value
                     )
                 )
                 callback.onSuccess(updatedMessage)
@@ -134,7 +143,7 @@ final class MessageRepository {
         )
     }
 
-    public fun get(messageId: Int, callback: RepositoryCallback<Message>) {
+    fun get(messageId: Int, callback: RepositoryCallback<Message>) {
         val network = Parley.getInstance().network
         network.networkSession.request(
             network.url + network.path + "messages/$messageId",
@@ -142,7 +151,7 @@ final class MessageRepository {
             ParleyHttpRequestMethod.Get,
             onCompletion = {
                 val response = Gson()
-                    .getAdapter(MessageResponseTypeToken())
+                    .getAdapter(TypeTokenMessage())
                     .fromJson(it)
                 callback.onSuccess(response.data)
             },
@@ -150,5 +159,59 @@ final class MessageRepository {
                 callback.onFailed(statusCode, message)
             }
         )
+    }
+
+    fun getUnseen(callback: RepositoryCallback<Int>) {
+        val network = Parley.getInstance().network
+        if (network.apiVersion.isSupportingMessageStatus.not()) {
+            // This is not possible on older clientApi versions
+            callback.onFailed(-1, "ClientApi ${network.apiVersion} does not support retrieving the unseen count.")
+            return
+        }
+        network.networkSession.request(
+            network.url + network.path + "messages/unseen/count",
+            null,
+            ParleyHttpRequestMethod.Get,
+            onCompletion = {
+                val response = Gson()
+                    .getAdapter(TypeTokenUnseenCount())
+                    .fromJson(it)
+                callback.onSuccess(response.data.count)
+            },
+            onFailed = { statusCode, message ->
+                callback.onFailed(statusCode, message)
+            }
+        )
+    }
+
+    suspend fun updateStatusRead(messageIds: Set<Int>, callback: RepositoryCallback<Void>) {
+        val network = Parley.getInstance().network
+        if (network.apiVersion.isSupportingMessageStatus.not()) {
+            // This is not possible on older clientApi versions
+            callback.onSuccess(null)
+            return
+        }
+        suspendCoroutine { cont ->
+            network.networkSession.request(
+                network.url + network.path + "messages/status/${MessageStatus.Read.key}",
+                Gson().toJson(
+                    UpdateMessageStatusRequest(
+                        messageIds,
+                    )
+                ),
+                ParleyHttpRequestMethod.Put,
+                onCompletion = {
+//                val response = Gson()
+//                    .getAdapter(TypeTokenUpdateStatus())
+//                    .fromJson(it)
+                    callback.onSuccess(null)
+                    cont.resume(Unit)
+                },
+                onFailed = { statusCode, message ->
+                    callback.onFailed(statusCode, message)
+                    cont.resume(Unit)
+                }
+            )
+        }
     }
 }

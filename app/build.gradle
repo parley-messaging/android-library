@@ -3,11 +3,11 @@ apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     namespace "nu.parley"
-    compileSdk 34
+    compileSdk 35
     defaultConfig {
         applicationId "com.webuildapps.tracebuzz.parleydemo"
-        minSdkVersion 21
-        targetSdk 34
+        minSdkVersion 24
+        targetSdk 35
         versionCode System.getenv("VERSION_CODE") as Integer ?: 1
         versionName rootProject.ext.parley_version_name
 
@@ -38,7 +38,7 @@ android {
             applicationIdSuffix '.debug'
             resValue "string", "app_name", "PARLEY Debug"
 
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
@@ -90,7 +90,7 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:23.4.1"
 
     // Library
-//    implementation 'com.github.parley-messaging:android-library:3.11.6' // Remote
+//    implementation 'com.github.parley-messaging:android-library:3.12.0' // Remote
     implementation project(':parley') // Local
 
     // Tests

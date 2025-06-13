@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -78,30 +79,148 @@
                 android:lines="1"
                 android:maxLength="20" />
 
-            <FrameLayout
+            <!-- Flow: Default -->
+
+            <LinearLayout
+                android:id="@+id/flow_default_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_margin">
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/start_chat_button"
-                    style="@style/AppTheme.Button"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_margin_small"
-                    android:fontFamily="@font/montserrat"
-                    android:text="@string/identifier_start_chat" />
+                    android:layout_marginTop="@dimen/default_margin">
 
-                <ProgressBar
-                    android:id="@+id/start_chat_loader"
-                    android:layout_width="wrap_content"
+                    <Button
+                        android:id="@+id/default_start_button"
+                        style="@style/AppTheme.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin_small"
+                        android:fontFamily="@font/montserrat"
+                        android:text="@string/identifier_open_then_start" />
+
+                    <ProgressBar
+                        android:id="@+id/default_start_loader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="4dp"
+                        android:indeterminateTint="@color/colorWhite"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <!-- Flow: Lightweight -->
+
+            <LinearLayout
+                android:id="@+id/flow_lightweight_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="4dp"
-                    android:indeterminateTint="@color/colorWhite"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-            </FrameLayout>
+                    android:layout_marginTop="@dimen/default_margin">
+
+                    <Button
+                        android:id="@+id/lightweight_setup"
+                        style="@style/AppTheme.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin_small"
+                        android:fontFamily="@font/montserrat"
+                        android:text="@string/identifier_lightweight_setup" />
+
+                    <ProgressBar
+                        android:id="@+id/lightweight_setup_loader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="4dp"
+                        android:indeterminateTint="@color/colorWhite"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin_small">
+
+                    <Button
+                        android:id="@+id/lightweight_open"
+                        style="@style/AppTheme.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin_small"
+                        android:fontFamily="@font/montserrat"
+                        android:text="@string/identifier_lightweight_open" />
+
+                    <ProgressBar
+                        android:id="@+id/lightweight_open_loader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="4dp"
+                        android:indeterminateTint="@color/colorWhite"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin_small">
+
+                    <Button
+                        android:id="@+id/lightweight_register_device"
+                        style="@style/AppTheme.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin_small"
+                        android:fontFamily="@font/montserrat"
+                        android:text="@string/identifier_lightweight_register_device" />
+
+                    <ProgressBar
+                        android:id="@+id/lightweight_register_device_loader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="4dp"
+                        android:indeterminateTint="@color/colorWhite"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin_small">
+
+                    <Button
+                        android:id="@+id/lightweight_get_unseen"
+                        style="@style/AppTheme.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin_small"
+                        android:fontFamily="@font/montserrat"
+                        android:text="@string/identifier_lightweight_get_unseen" />
+
+                    <ProgressBar
+                        android:id="@+id/lightweight_get_unseen_loader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="4dp"
+                        android:indeterminateTint="@color/colorWhite"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </FrameLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

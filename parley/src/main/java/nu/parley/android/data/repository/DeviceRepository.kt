@@ -8,7 +8,7 @@ import nu.parley.android.data.net.ParleyHttpRequestMethod
 import nu.parley.android.data.net.RepositoryCallback
 import java.util.UUID
 
-final class DeviceRepository {
+internal class DeviceRepository {
 
     fun register(callback: RepositoryCallback<Void>) {
         val parley = Parley.getInstance()

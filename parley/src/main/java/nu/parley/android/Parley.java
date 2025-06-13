@@ -13,8 +13,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.datatheorem.android.trustkit.TrustKit;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,10 +23,10 @@ import java.util.Set;
 import nu.parley.android.data.messages.MessagesManager;
 import nu.parley.android.data.messages.ParleyDataSource;
 import nu.parley.android.data.model.Message;
+import nu.parley.android.data.model.NotificationType;
 import nu.parley.android.data.model.PushType;
 import nu.parley.android.data.net.RepositoryCallback;
-import nu.parley.android.data.net.response.ParleyNotificationResponseType;
-import nu.parley.android.data.net.response.ParleyResponse;
+import nu.parley.android.data.net.response.message.GetMessagesResponse;
 import nu.parley.android.data.repository.DeviceRepository;
 import nu.parley.android.data.repository.EventRepository;
 import nu.parley.android.data.repository.MessageRepository;
@@ -87,6 +85,41 @@ public final class Parley {
     }
 
     /**
+     * Convenience for setup(context, secret, null).
+     *
+     * @see #setup(Context, String, String)
+     */
+    @SuppressWarnings("unused")
+    public static void setup(final Context context, final String secret) {
+        getInstance().setupI(context, secret, null);
+    }
+
+    /**
+     * Setup Parley Messaging without actually configuring it. Does not register the device or
+     * retrieve messages directly. Showing the chat will still require to call the configure method.
+     *
+     * @param context Context of the application.
+     * @param secret  Application secret of your Parley instance.
+     * @param uniqueDeviceIdentifier The device identifier to use for device registration.
+     */
+    @SuppressWarnings("unused")
+    public static void setup(final Context context, final String secret, final @Nullable String uniqueDeviceIdentifier) {
+        getInstance().setupI(context, secret, uniqueDeviceIdentifier);
+    }
+
+    /**
+     * Registers the current device to the currently configured user authorization in Parley.
+     * Parley already does this automatically when calling the configure method.
+     * <p>
+     * <b>Note</b>: Make sure to set the user authorization first before calling this.
+     * </p>
+     */
+    @SuppressWarnings("unused")
+    public static void registerDevice(final ParleyCallback callback) {
+        getInstance().registerDeviceI(callback);
+    }
+
+    /**
      * Convenience for configure(context, secret, {@link EmptyParleyCallback}).
      *
      * @see #configure(Context, String, ParleyCallback)
@@ -139,7 +172,7 @@ public final class Parley {
      * @param callback               {@link ParleyCallback} indicating the result of configuring.
      */
     @SuppressWarnings("WeakerAccess")
-    public static void configure(@NonNull final Context context, @NonNull final String secret, @NonNull final String uniqueDeviceIdentifier, @NonNull final ParleyCallback callback) {
+    public static void configure(@NonNull final Context context, @NonNull final String secret, @Nullable final String uniqueDeviceIdentifier, @NonNull final ParleyCallback callback) {
         getInstance().configureI(context, secret, uniqueDeviceIdentifier, callback);
     }
 
@@ -311,6 +344,16 @@ public final class Parley {
     @SuppressWarnings("WeakerAccess")
     public static void setPushToken(@Nullable String pushToken, PushType pushType, ParleyCallback callback) {
         getInstance().setPushTokenI(pushToken, pushType, callback);
+    }
+
+    /**
+     * Gets the unseen messages count.
+     * @param callback {@link ParleyCallback<Integer>} indicating the result of the unseen count call, success case contains the count in the `data` field.
+     */
+    public static void getUnseenCount(
+            ParleyDataCallback<Integer> callback
+    ) {
+        getInstance().getUnseenCountI(callback);
     }
 
     /**
@@ -494,12 +537,12 @@ public final class Parley {
 
         // Only additional messages are needed to retrieve
         this.refreshingMessages = true;
-        new DeviceRepository().register(new RepositoryCallback<Void>() {
+        new DeviceRepository().register(new RepositoryCallback<>() {
             @Override
             public void onSuccess(Void data) {
-                new MessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
+                new MessageRepository().findAll(new RepositoryCallback<>() {
                     @Override
-                    public void onSuccess(ParleyResponse<List<Message>> data) {
+                    public void onSuccess(GetMessagesResponse data) {
                         refreshingMessages = false;
 
                         // Update paging, if needed
@@ -532,7 +575,7 @@ public final class Parley {
                     public void onFailed(Integer code, String message) {
                         refreshingMessages = false;
 
-                        if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                        if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                             // We are fine with being offline
                             if (state != State.CONFIGURED) {
                                 setState(State.CONFIGURED);
@@ -548,7 +591,7 @@ public final class Parley {
             public void onFailed(Integer code, String message) {
                 refreshingMessages = false;
 
-                if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                     // We are fine with being offline
                     if (state != State.CONFIGURED) {
                         setState(State.CONFIGURED);
@@ -558,6 +601,10 @@ public final class Parley {
                 }
             }
         });
+    }
+
+    private boolean isOfflineErrorCode(Integer code) {
+        return code == null;
     }
 
     /**
@@ -576,34 +623,37 @@ public final class Parley {
         }
     }
 
-    private void configureI(Context context, String secret, @Nullable String uniqueDeviceIdentifier, final ParleyCallback callback) {
-        setState(State.CONFIGURING);
+    private void setupI(Context context, String secret, @Nullable String uniqueDeviceIdentifier) {
         this.secret = secret;
-
         if (uniqueDeviceIdentifier == null) {
             this.uniqueDeviceIdentifier = DeviceRepository.Companion.getDeviceId(context);
         } else {
-            this.uniqueDeviceIdentifier = uniqueDeviceIdentifier;
+            this.uniqueDeviceIdentifier =  uniqueDeviceIdentifier;
         }
-        messagesManager.clear(false);
+    }
 
-        applySslPinning(context);
+    private void configureI(Context context, String secret, @Nullable String uniqueDeviceIdentifier, final ParleyCallback callback) {
+        setState(State.CONFIGURING);
+
+        setupI(context, secret, uniqueDeviceIdentifier);
+
+        messagesManager.clear(false);
 
         if (ConnectivityMonitor.isNetworkOffline(context)) {
             // Direct callback
             setState(messagesManager.isCachingEnabled() ? State.CONFIGURED : State.FAILED);
         } else {
-            configureI(callback);
+            loadInitial(callback);
         }
     }
 
-    private void configureI(final ParleyCallback callback) {
-        new DeviceRepository().register(new RepositoryCallback<Void>() {
+    private void loadInitial(final ParleyCallback callback) {
+        registerDeviceI(new ParleyCallback() {
             @Override
-            public void onSuccess(Void data) {
-                new MessageRepository().findAll(new RepositoryCallback<ParleyResponse<List<Message>>>() {
+            public void onSuccess() {
+                new MessageRepository().findAll(new RepositoryCallback<>() {
                     @Override
-                    public void onSuccess(ParleyResponse<List<Message>> data) {
+                    public void onSuccess(GetMessagesResponse data) {
                         messagesManager.begin(data.getWelcomeMessage(), data.getStickyMessage(), data.getData(), data.getPaging());
 
                         setState(State.CONFIGURED);
@@ -614,7 +664,7 @@ public final class Parley {
 
                     @Override
                     public void onFailed(Integer code, String message) {
-                        if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                        if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                             setState(State.CONFIGURED);
                             callback.onSuccess();
                         } else {
@@ -626,14 +676,28 @@ public final class Parley {
             }
 
             @Override
-            public void onFailed(Integer code, String message) {
-                if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+            public void onFailure(@Nullable Integer code, @Nullable String message) {
+                if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                     setState(State.CONFIGURED);
                     callback.onSuccess();
                 } else {
                     setState(State.FAILED);
                     callback.onFailure(code, message);
                 }
+            }
+        });
+    }
+
+    private void registerDeviceI(final ParleyCallback callback) {
+        new DeviceRepository().register(new RepositoryCallback<>() {
+            @Override
+            public void onSuccess(Void data) {
+                callback.onSuccess();
+            }
+
+            @Override
+            public void onFailed(Integer code, String message) {
+                callback.onFailure(code, message);
             }
         });
     }
@@ -645,7 +709,7 @@ public final class Parley {
         setState(State.UNCONFIGURED);
         setState(State.CONFIGURING);
 
-        configureI(callback);
+        loadInitial(callback);
     }
 
     private void resetI(final ParleyCallback callback) {
@@ -743,13 +807,18 @@ public final class Parley {
         this.registerDeviceIfNeeded(callback);
     }
 
-    private void applySslPinning(Context context) {
-        try {
-            TrustKit.initializeWithNetworkSecurityConfiguration(context, this.network.securityConfigResourceFile);
-        } catch (IllegalStateException e) {
-            // TrustKit was already initialized!
-            e.printStackTrace();
-        }
+    private void getUnseenCountI(final ParleyDataCallback<Integer> callback) {
+        new MessageRepository().getUnseen(new RepositoryCallback<>() {
+            @Override
+            public void onSuccess(Integer data) {
+                callback.onSuccess(data);
+            }
+
+            @Override
+            public void onFailed(Integer code, String message) {
+                callback.onFailure(code, message);
+            }
+        });
     }
 
     public void loadMoreMessages() {
@@ -758,9 +827,9 @@ public final class Parley {
             return;
         }
         loadingMore = true;
-        new MessageRepository().getOlder(messagesManager.getPaging(), new RepositoryCallback<ParleyResponse<List<Message>>>() {
+        new MessageRepository().getOlder(messagesManager.getPaging(), new RepositoryCallback<>() {
             @Override
-            public void onSuccess(ParleyResponse<List<Message>> data) {
+            public void onSuccess(GetMessagesResponse data) {
                 loadingMore = false;
                 messagesManager.applyPaging(data.getPaging());
                 listener.onReceivedMoreMessages(data.getData());
@@ -842,11 +911,11 @@ public final class Parley {
                 @Override
                 public void onFailed(Integer code, String errorMessage) {
                     uploading.remove(uuid);
-                    if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                    if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                         // It is cached, this will be handled later
                     } else {
                         Message updatedMessage = Message.withIdAndStatus(message, message.getId(), SEND_STATUS_FAILED);
-                        ParleyNotificationResponseType type = ParleyNotificationResponseType.from(errorMessage);
+                        NotificationType type = NotificationType.Companion.from(errorMessage);
                         if (type != null) {
                             updatedMessage.setResponseInfoType(errorMessage);
                         }
@@ -882,7 +951,7 @@ public final class Parley {
                 @Override
                 public void onFailed(Integer code, String errorMessage) {
                     uploading.remove(uuid);
-                    if (ParleyResponse.isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
+                    if (isOfflineErrorCode(code) && messagesManager.isCachingEnabled()) {
                         // It is cached, this will be handled later
                     } else {
                         Message updatedMessage = Message.withIdAndStatus(message, message.getId(), SEND_STATUS_FAILED);

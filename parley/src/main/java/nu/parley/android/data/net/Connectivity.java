@@ -2,7 +2,6 @@ package nu.parley.android.data.net;
 
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
-import com.datatheorem.android.trustkit.TrustKit;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -17,9 +16,9 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
 import nu.parley.android.Parley;
-import nu.parley.android.data.net.response.ParleyErrorResponse;
-import nu.parley.android.data.net.service.RetrofitNetworkSession;
+import nu.parley.android.data.net.response.base.ErrorResponse;
 import nu.parley.android.data.net.service.ParleyNetworkSession;
+import nu.parley.android.data.net.service.RetrofitNetworkSession;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -72,30 +71,14 @@ public final class Connectivity {
                         return chain.proceed(request);
                     }
                 })
+                .callTimeout(30, TimeUnit.SECONDS)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS);
 
         okHttpClientBuilder = addInterceptor(okHttpClientBuilder);
 
-        applySslPinning(okHttpClientBuilder);
-
         return okHttpClientBuilder.build();
-    }
-
-    private static void applySslPinning(OkHttpClient.Builder okHttpClientBuilder) {
-        URL url;
-        String serverHostname;
-        try {
-            url = new URL(Parley.getInstance().getNetwork().url);
-            serverHostname = url.getHost();
-
-            SSLSocketFactory sslSocketFactory = TrustKit.getInstance().getSSLSocketFactory(serverHostname);
-            X509TrustManager trustManager = TrustKit.getInstance().getTrustManager(serverHostname);
-            okHttpClientBuilder.sslSocketFactory(sslSocketFactory, trustManager);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
     }
 
     public static Map<String, String> getAdditionalHeaders() {
@@ -147,7 +130,7 @@ public final class Connectivity {
             if (response.errorBody() == null) {
                 return response.message();
             }
-            ParleyErrorResponse error = new Gson().fromJson(response.errorBody().string(), ParleyErrorResponse.class);
+            ErrorResponse error = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
             String message = error.getMessage();
             if (message == null) {
                 return response.message();

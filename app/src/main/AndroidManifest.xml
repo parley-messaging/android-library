@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
+        tools:replace="android:networkSecurityConfig">
 
         <activity
             android:name=".ui.SplashActivity"
@@ -33,8 +34,8 @@
         </activity>
 
         <activity
-            android:label="@string/identifier_title"
             android:name=".ui.IdentifierActivity"
+            android:label="@string/identifier_title"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.FullScreen" />
 

@@ -14,7 +14,8 @@
         </intent>
     </queries>
 
-    <application>
+    <application
+        android:networkSecurityConfig="@xml/parley_network_security_config">
         <provider
             android:name=".util.TakePictureFileProvider"
             android:authorities="${applicationId}.parley_file_provider"

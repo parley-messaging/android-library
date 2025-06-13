@@ -1,5 +1,22 @@
 # Changelog
 
+## 3.12.0 - Released 13 Jun 2025
+
+- [Source] **IMPORTANT**: Parley now enforces SSL pinning automatically. When using a custom `network_security_config.xml`, it's now needed to use `tools:replace="android:networkSecurityConfig"` in the `AndroidManifest.xml`.
+- [Source] **IMPORTANT**: ParleyNetwork has the `securityConfigResourceFile` parameter removed as this is not needed anymore.
+- [Source] **IMPORTANT**: Minimum SDK updated to API 24 (Android 7).
+- [Source] **IMPORTANT**: Target SDK updated to API 35 (Android 15).
+- [Source] Updated the way network calls are done under-the-hood.
+- [Source] Added support for clientApi 1.8 and 1.9 (latest).
+- [Chat] Now marking agent messages as read when they are rendered.
+- [Chat] Added `Parley.getUnseenCount(ParleyDataCallback<Integer> callback)` to retrieve the amount of unseen messages when using clientApi 1.9.
+- [Dependency] TrustKit is now not needed anymore and has been removed.
+- [Lightweight Configure] Added `setup()` method to setup Parley, but not configure it yet.
+- [Lightweight Configure] Added `registerDevice()` method to setup Parley, so that the current device can be registered even when `configure()` has not been called earlier.
+- [Lightweight Configure] It remains still required to call the `configure()` method when the chat needs to be shown.
+- [Example] The example project has been updated to Kotlin and to better reflect which methods Parley exposes.
+- [Example] Added a special flow (lightweight configure).
+
 ## 3.11.6 - Released 12 Jun 2025
 
 - [Chat] Resolved a memory leak when rotating the device when Parley is or was shown.
