@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.12.0 - Upcoming
+## 3.12.0 - Released 13 Jun 2025
 
 - [Source] **IMPORTANT**: Parley now enforces SSL pinning automatically. When using a custom `network_security_config.xml`, it's now needed to use `tools:replace="android:networkSecurityConfig"` in the `AndroidManifest.xml`.
 - [Source] **IMPORTANT**: ParleyNetwork has the `securityConfigResourceFile` parameter removed as this is not needed anymore.

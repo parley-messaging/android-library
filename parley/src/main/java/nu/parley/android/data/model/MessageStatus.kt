@@ -3,7 +3,7 @@ package nu.parley.android.data.model
 enum class MessageStatus(
     val key: Int,
 ) {
-    Send(2),
+    Sent(2),
     Received(3),
     Read(4),
     ;

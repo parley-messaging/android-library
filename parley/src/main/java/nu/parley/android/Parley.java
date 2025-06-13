@@ -346,6 +346,10 @@ public final class Parley {
         getInstance().setPushTokenI(pushToken, pushType, callback);
     }
 
+    /**
+     * Gets the unseen messages count.
+     * @param callback {@link ParleyCallback<Integer>} indicating the result of the unseen count call, success case contains the count in the `data` field.
+     */
     public static void getUnseenCount(
             ParleyDataCallback<Integer> callback
     ) {
