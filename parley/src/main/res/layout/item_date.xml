@@ -17,7 +17,6 @@
             android:id="@+id/date_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAllCaps="true"
             tools:text="July 11, 2019" />
     </FrameLayout>
 </FrameLayout>
