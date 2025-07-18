@@ -56,8 +56,9 @@ internal class MessagesManager {
      * @return The pending messages
      */
     fun getPendingMessages(oldestOnTop: Boolean): List<Message> {
-        val result = originalMessages
-            .filter { it.sendStatus == Message.SEND_STATUS_PENDING }
+        val result = originalMessages.filter {
+            it.sendStatus == Message.SEND_STATUS_PENDING
+        }
         return if (oldestOnTop) {
             result.sortedByDescending { it.date }
         } else {
