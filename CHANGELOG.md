@@ -10,6 +10,7 @@
 - [Chat] Fixed a case where the very first frame would show the being offline message even while the user is online.
 - [Compose] The keyboard now has the `send` ime action and handles this accordingly.
 - [Media] Fixed image not being shown initially after the successfully uploading it when using clientApi v1.9.
+- [Chat] Fixed an image-only message having the meta shadow not rounded properly.
 
 ## 3.12.0 - Released 13 Jun 2025
 

@@ -267,7 +267,7 @@ public final class BalloonView extends FrameLayout {
         int bottomCornerRadius = applyBottomCornerRadius ? imageCornerRadius : 0;
         StyleUtil.Helper.applyCornerRadius((GradientDrawable) nameShadowView.getBackground().mutate(), imageCornerRadius, 0, 0, 0);
         StyleUtil.Helper.applyCornerRadius((GradientDrawable) infoShadowView.getBackground().mutate(), 0, 0, bottomCornerRadius, bottomCornerRadius);
-        StyleUtil.Helper.applyCornerRadius((GradientDrawable) metaShadowView.getBackground().mutate(), 0, 0, bottomCornerRadius, 0);
+        StyleUtil.Helper.applyCornerRadius((GradientDrawable) metaShadowView.getBackground().mutate(), bottomCornerRadius, 0, 0, 0); // topLeft because this view is rotated 180 degrees
 
         updateNameShadowView();
         nameShadowView.setVisibility(hideName ? View.GONE : View.VISIBLE);
