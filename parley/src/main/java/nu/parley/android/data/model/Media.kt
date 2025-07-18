@@ -27,10 +27,13 @@ data class Media(
     fun getMimeType() = MimeType.fromValue(mimeType)
 
     fun getIdForUrl(): String {
-        return id
-            .split("/")
-            .drop(2)
-            .joinToString(separator = "/")
+        return if (id.contains("/")) {
+            id.split("/")
+                .drop(2)
+                .joinToString(separator = "/")
+        } else {
+            id
+        }
     }
 
     fun getUrl(): String = Connectivity.toMediaUrl(getIdForUrl())
