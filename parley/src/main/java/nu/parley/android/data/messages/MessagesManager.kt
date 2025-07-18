@@ -201,17 +201,11 @@ internal class MessagesManager {
     }
 
     fun addAgentTypingMessage() {
-        messages.add(0, Message.ofTypeAgentTyping())
+        messages.add(Message.ofTypeAgentTyping())
     }
 
     fun removeAgentTypingMessage() {
-        if (messages.isEmpty()) {
-            // Nothing to do
-            return
-        }
-        if (messages[0].typeId == MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING) {
-            messages.removeAt(0)
-        }
+        messages.removeAll { it.typeId == MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING }
     }
 
     fun applyPaging(paging: PagingResponse?) {
