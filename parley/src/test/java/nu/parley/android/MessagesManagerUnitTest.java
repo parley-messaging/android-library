@@ -31,7 +31,7 @@ public class MessagesManagerUnitTest {
 
         messagesManager.begin(MESSAGE_WELCOME_TEXT, MESSAGE_STICKY_TEXT, new ArrayList<>(), null);
 
-        List<Message> initialMessages = messagesManager.getMessages();
+        List<Message> initialMessages = messagesManager.messages;
         assertEquals("Only welcome message exists", 1, initialMessages.size());
         assertEquals("First message is the welcome message", MESSAGE_WELCOME_TEXT, initialMessages.get(0).getMessage());
     }
@@ -45,7 +45,7 @@ public class MessagesManagerUnitTest {
         String firstMessageText = "Goodmorning";
         messagesManager.add(Message.withMessageAndDate(Message.ofTypeOwnMessage(firstMessageText), firstMessageText, currentDate)); // A message of today
 
-        List<Message> currentMessages = messagesManager.getMessages();
+        List<Message> currentMessages = messagesManager.messages;
         Collections.reverse(currentMessages); // For easier testing, format it the other way around
         assertEquals("1: Welcome message", MESSAGE_WELCOME_TEXT, currentMessages.get(0).getMessage());
         assertEquals("2: The current date message", currentDate.toString(), currentMessages.get(1).getMessage());
@@ -68,7 +68,7 @@ public class MessagesManagerUnitTest {
         String todayMessageText = "Hello!";
         messagesManager.add(Message.withMessageAndDate(Message.ofTypeOwnMessage(todayMessageText), todayMessageText, todayDate));
 
-        List<Message> currentMessages = messagesManager.getMessages();
+        List<Message> currentMessages = messagesManager.messages;
         Collections.reverse(currentMessages); // For easier testing, format it the other way around
         assertEquals("1: Welcome message", MESSAGE_WELCOME_TEXT, currentMessages.get(0).getMessage());
         assertEquals("2: The yesterday date message", yesterdayDate.toString(), currentMessages.get(1).getMessage());
