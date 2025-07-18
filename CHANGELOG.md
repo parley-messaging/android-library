@@ -7,6 +7,7 @@
 - [Chat] The welcome message is now always the first message of the current day.
 - [Source] Cleaned up MessagesManager for consistency and converted to Kotlin.
 - [Device] Sending device to backend now also sends the library version and OS type (Android).
+- [Chat] Fixed a case where the very first frame would show the being offline message even while the user is online.
 
 ## 3.12.0 - Released 13 Jun 2025
 
