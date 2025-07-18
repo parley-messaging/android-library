@@ -18,7 +18,9 @@
             android:layout_gravity="center"
             android:orientation="horizontal"
             android:paddingTop="4dp"
-            android:paddingBottom="4dp">
+            android:paddingBottom="4dp"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/connection_icon"
@@ -44,7 +46,9 @@
             android:layout_gravity="center"
             android:orientation="horizontal"
             android:paddingTop="4dp"
-            android:paddingBottom="4dp">
+            android:paddingBottom="4dp"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/notifications_icon"
