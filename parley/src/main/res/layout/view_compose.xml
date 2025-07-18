@@ -24,6 +24,9 @@
             android:layout_gravity="center_vertical"
             android:background="@null"
             android:hint="@string/parley_type_message"
+            android:imeActionLabel="@string/parley_compose_send"
+            android:imeOptions="actionSend"
+            android:importantForAutofill="no"
             android:inputType="textCapSentences|textMultiLine"
             android:maxLength="5000"
             android:maxLines="4"
@@ -33,8 +36,7 @@
             android:id="@+id/image_input_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            />
+            android:layout_gravity="end|bottom" />
     </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

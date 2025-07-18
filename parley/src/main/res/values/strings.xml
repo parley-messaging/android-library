@@ -13,8 +13,11 @@
     <string name="parley_state_failed">The chat cannot be displayed at this time.</string>
     <string name="parley_general_cancel">Cancel</string>
     <string name="parley_general_ok">OK</string>
+    <string name="parley_general_open">Open</string>
     <string name="parley_error_action_open">Unfortunately this link couldn\'t be opened.</string>
     <string name="parley_error_permission_missing_camera">Camera permission is denied, please grant access to the camera in the app permissions.</string>
+
+    <string name="parley_compose_send">Send</string>
 
     <string name="parley_message_file_downloading">File is downloading…</string>
     <string name="parley_message_file_download_failed">The file could not be downloaded.</string>
@@ -51,6 +54,4 @@
     <string name="parley_accessibility_announcement_info_received">Informational message received.</string>
     <string name="parley_accessibility_announcement_quick_replies_received">Suggestions available.</string>
     <string name="parley_accessibility_announcement_agent_typing">Agent is typing.</string>
-    <string name="parley_general_open">Open</string>
-
 </resources>
