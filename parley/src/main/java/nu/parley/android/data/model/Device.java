@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Map;
 
+import nu.parley.android.BuildConfig;
+
 public final class Device {
 
     @SerializedName("pushToken")
@@ -20,6 +22,12 @@ public final class Device {
     @Nullable
     @SerializedName("referrer")
     private String referrer;
+
+    @SerializedName("type")
+    private Integer type = 1; // 1 = Android, 2 = iOS, 3 = Web, 4 = Generic (custom build)
+
+    @SerializedName("version")
+    private String version = BuildConfig.ParleyVersion;
 
     public void setPushToken(String pushToken, PushType pushType) {
         this.pushToken = pushToken;

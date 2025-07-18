@@ -10,8 +10,7 @@ In order to publish, several checks should be done.
 
 ## Example
 
-- [ ] Ensure `app/build.gradle` is updated.
-- [ ] Ensure `app/build.gradle` uses the local reference.
+- [ ] Ensure `app/build.gradle` uses the local library reference to Parley.
 
 ## Publish
 
