@@ -11,8 +11,8 @@ import java.util.Date
 import java.util.UUID
 
 internal class MessagesManager {
-    private val originalMessages = mutableListOf<Message>() // last = newest
-    private val messages = mutableListOf<Message>() // last = newest
+    private val originalMessages = mutableListOf<Message>()
+    private val messages = mutableListOf<Message>()
 
     private var dateUuids = mutableMapOf<Date, UUID>()
     private var welcomeMessageUuid = UUID.randomUUID()
@@ -37,7 +37,10 @@ internal class MessagesManager {
             paging = null
         } else {
             originalMessages.addAll(dataSource.getAll())
-            welcomeMessage = Message.ofTypeInfo(welcomeMessageUuid, dataSource.get(ParleyKeyValueDataSource.KEY_MESSAGE_INFO))
+            welcomeMessage = Message.ofTypeInfo(
+                welcomeMessageUuid,
+                dataSource.get(ParleyKeyValueDataSource.KEY_MESSAGE_INFO)
+            )
 
             dataSource.get(ParleyKeyValueDataSource.KEY_PAGING)?.let { cached ->
                 paging = Gson().fromJson(cached, PagingResponse::class.java)
@@ -53,16 +56,13 @@ internal class MessagesManager {
      * @return The pending messages
      */
     fun getPendingMessages(oldestOnTop: Boolean): List<Message> {
-        val pendingMessages = mutableListOf<Message>()
-        for (originalMessage in originalMessages) {
-            if (originalMessage.sendStatus == Message.SEND_STATUS_PENDING) {
-                pendingMessages.add(originalMessage)
-            }
+        val result = originalMessages
+            .filter { it.sendStatus == Message.SEND_STATUS_PENDING }
+        return if (oldestOnTop) {
+            result.sortedByDescending { it.date }
+        } else {
+            result.sortedBy { it.date }
         }
-        if (oldestOnTop) {
-            pendingMessages.reverse()
-        }
-        return pendingMessages
     }
 
     fun begin(
@@ -110,12 +110,8 @@ internal class MessagesManager {
         var didAddMessage = false
         messages.reverse()
 
-        var pendingMessages = 0
-        for (originalMessage in originalMessages) {
-            if (originalMessage.sendStatus == Message.SEND_STATUS_PENDING) {
-                pendingMessages += 1
-            }
-        }
+        val pendingMessages =
+            originalMessages.count { it.sendStatus == Message.SEND_STATUS_PENDING }
 
         for (message in messages) {
             var index: Int? = null
@@ -139,21 +135,12 @@ internal class MessagesManager {
     }
 
     fun update(message: Message) {
-        var messagesIndex: Int? = null
-        for (i in messages.indices) {
-            if (messages[i].uuid === message.uuid) {
-                messagesIndex = i
-            }
-        }
+        val messagesIndex = messages.indexOfFirst { it.uuid == message.uuid }
+        val originalIndex = originalMessages.indexOfFirst { it.uuid == welcomeMessageUuid }
 
-        var originalIndex: Int? = null
-        for (i in originalMessages.indices) {
-            if (originalMessages[i].uuid === message.uuid) {
-                originalIndex = i
-            }
-        }
+        require(messagesIndex != -1) { "Given non-existing message to update!" }
+        require(originalIndex != -1) { "Given non-existing message to update!" }
 
-        require(!(messagesIndex == null || originalIndex == null)) { "Given non-existing message to update!" }
         originalMessages[originalIndex] = message
         messages[messagesIndex] = message
 
@@ -161,14 +148,15 @@ internal class MessagesManager {
     }
 
     private fun findMostRecentMessage(): Message? {
-        return messages.sortedByDescending { it.date }.firstOrNull {
-            it.typeId != MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING
-        }
+        return messages
+            .sortedByDescending { it.date }
+            .firstOrNull {
+                it.typeId != MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING
+            }
     }
 
     private fun formatMessages() {
         messages.clear()
-
 
         if (originalMessages.isEmpty()) {
             addWelcomeMessage()
@@ -194,6 +182,7 @@ internal class MessagesManager {
             }
         }
     }
+
     private fun addWelcomeMessage() {
         welcomeMessage?.let {
             messages.add(it)
@@ -202,7 +191,7 @@ internal class MessagesManager {
 
     private fun addDateMessage(date: Date?) {
         val uuid = date?.let {
-            dateUuids.getOrPut(it) { UUID.randomUUID()}
+            dateUuids.getOrPut(it) { UUID.randomUUID() }
         }
         messages.add(Message.ofTypeDate(uuid, date))
     }
@@ -239,11 +228,11 @@ internal class MessagesManager {
     fun getAvailableQuickReplies() = findMostRecentMessage()?.quickReplies.orEmpty()
 
     fun clear(clearDataSource: Boolean) {
-        this.originalMessages.clear()
-        this.messages.clear()
-        this.welcomeMessage = null
-        this.stickyMessage = null
-        this.paging = null
+        originalMessages.clear()
+        messages.clear()
+        welcomeMessage = null
+        stickyMessage = null
+        paging = null
         if (clearDataSource) {
             dataSource?.clear()
         }
@@ -251,8 +240,8 @@ internal class MessagesManager {
     }
 
     fun disableCaching() {
-        this.dataSource?.clear()
-        this.dataSource = null
+        dataSource?.clear()
+        dataSource = null
     }
 
     fun updateRead(messageIds: MutableSet<Int?>) {
