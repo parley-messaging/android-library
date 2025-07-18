@@ -15,6 +15,8 @@
     <string name="parley_error_action_open">Deze link kon helaas niet geopend worden.</string>
     <string name="parley_error_permission_missing_camera">Camerarechten zijn geweigerd, verleen toegang tot de camera in de app-rechten.</string>
 
+    <string name="parley_compose_send">Verzenden</string>
+
     <string name="parley_message_file_downloading">Bestand wordt gedownload…</string>
     <string name="parley_message_file_download_failed">Het bestand kon niet gedownload worden.</string>
     <string name="parley_message_meta_failed_to_send">Versturen is mislukt</string>

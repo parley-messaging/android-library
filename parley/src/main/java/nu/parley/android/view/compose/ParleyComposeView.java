@@ -11,10 +11,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -152,6 +155,15 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
             public void afterTextChanged(Editable s) {
             }
         });
+        inputEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    submit();
+                }
+                return false;
+            }
+        });
     }
 
     private void checkSendButtonEnabled() {
@@ -192,12 +204,16 @@ public final class ParleyComposeView extends FrameLayout implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v == sendButton) {
-            String message = inputEditText.getText().toString().trim();
-            if (!message.isEmpty()) {
-                inputEditText.setText(null);
-                if (listener != null) {
-                    listener.onSendMessage(message);
-                }
+            submit();
+        }
+    }
+
+    private void submit() {
+        String message = inputEditText.getText().toString().trim();
+        if (!message.isEmpty()) {
+            inputEditText.setText(null);
+            if (listener != null) {
+                listener.onSendMessage(message);
             }
         }
     }
