@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 import nu.parley.android.util.CompareUtil;
+import nu.parley.android.util.DateUtil;
 import nu.parley.android.view.chat.MessageViewHolderFactory;
 
 /**
@@ -128,16 +129,19 @@ public final class Message {
         return message;
     }
 
-    public static Message ofTypeInfo(String text) {
+    public static Message ofTypeInfo(UUID uuid, String text) {
         Message message = ofType(MessageViewHolderFactory.MESSAGE_TYPE_INFO);
+        message.uuid = uuid;
         message.message = text;
+        message.timeStamp = DateUtil.startOfDay(DateUtil.Today).getTime() / 1000;
         return message;
     }
 
-    public static Message ofTypeDate(Date date) {
+    public static Message ofTypeDate(UUID uuid, Date date) {
         Message message = ofType(MessageViewHolderFactory.MESSAGE_TYPE_DATE);
+        message.uuid = uuid;
         message.message = date.toString();
-        message.timeStamp = date.getTime() / 1000;
+        message.timeStamp = DateUtil.startOfDay(date).getTime() / 1000;
         return message;
     }
 

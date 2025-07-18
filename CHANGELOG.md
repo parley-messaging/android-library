@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.12.1 - Released 18 Jul 2025
+
+- [Chat] The welcome message is now always the first message of the current day.
+- [Source] Cleaned up MessagesManager for consistency and converted to Kotlin.
+
 ## 3.12.0 - Released 13 Jun 2025
 
 - [Source] **IMPORTANT**: Parley now enforces SSL pinning automatically. When using a custom `network_security_config.xml`, it's now needed to use `tools:replace="android:networkSecurityConfig"` in the `AndroidManifest.xml`.

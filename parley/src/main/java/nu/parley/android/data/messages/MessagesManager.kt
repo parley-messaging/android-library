@@ -6,38 +6,41 @@ import nu.parley.android.data.model.MessageStatus
 import nu.parley.android.data.net.response.base.PagingResponse
 import nu.parley.android.util.CompareUtil
 import nu.parley.android.util.DateUtil
-import nu.parley.android.util.ListUtil
 import nu.parley.android.view.chat.MessageViewHolderFactory
-import java.util.Collections
+import java.util.Date
+import java.util.UUID
 
 internal class MessagesManager {
-    private val originalMessages: MutableList<Message> = ArrayList<Message>() // last = oldest
-    @JvmField
-    val messages: MutableList<Message> = ArrayList<Message>() // last = oldest
+    private val originalMessages = mutableListOf<Message>() // last = newest
+    private val messages = mutableListOf<Message>() // last = newest
 
-    private var welcomeMessage: String? = null
-    var stickyMessage: String? = null
-        private set
-    var paging: PagingResponse? = null
-        private set
+    private var dateUuids = mutableMapOf<Date, UUID>()
+    private var welcomeMessageUuid = UUID.randomUUID()
+    private var welcomeMessage = Message.ofTypeInfo(welcomeMessageUuid, "")
+    private var stickyMessage: String? = null
+    private var paging: PagingResponse? = null
 
     private var dataSource: ParleyDataSource? = null
 
+    fun getPaging() = paging
+    fun getStickyMessage() = stickyMessage
+    fun getMessages() = messages
+        .sortedBy { it.typeId }
+        .sortedBy { it.date }
+
     fun setDataSource(dataSource: ParleyDataSource?) {
         this.dataSource = dataSource
-        this.originalMessages.clear()
+        originalMessages.clear()
 
         if (dataSource == null) {
-            this.welcomeMessage = null
-            this.paging = null
+            welcomeMessage = null
+            paging = null
         } else {
-            this.originalMessages.addAll(dataSource.getAll())
-            this.welcomeMessage = dataSource.get(ParleyKeyValueDataSource.KEY_MESSAGE_INFO)
+            originalMessages.addAll(dataSource.getAll())
+            welcomeMessage = Message.ofTypeInfo(welcomeMessageUuid, dataSource.get(ParleyKeyValueDataSource.KEY_MESSAGE_INFO))
 
-            val cachedPaging = dataSource.get(ParleyKeyValueDataSource.KEY_PAGING)
-            if (cachedPaging != null) {
-                this.paging =
-                    Gson().fromJson<PagingResponse?>(cachedPaging, PagingResponse::class.java)
+            dataSource.get(ParleyKeyValueDataSource.KEY_PAGING)?.let { cached ->
+                paging = Gson().fromJson(cached, PagingResponse::class.java)
             }
         }
         formatMessages()
@@ -49,15 +52,15 @@ internal class MessagesManager {
      * @param oldestOnTop When `true`, oldest pending messages are on top of the returned list.
      * @return The pending messages
      */
-    fun getPendingMessages(oldestOnTop: Boolean): MutableList<Message> {
-        val pendingMessages: MutableList<Message> = ArrayList<Message>()
+    fun getPendingMessages(oldestOnTop: Boolean): List<Message> {
+        val pendingMessages = mutableListOf<Message>()
         for (originalMessage in originalMessages) {
-            if (originalMessage.getSendStatus() == Message.SEND_STATUS_PENDING) {
+            if (originalMessage.sendStatus == Message.SEND_STATUS_PENDING) {
                 pendingMessages.add(originalMessage)
             }
         }
         if (oldestOnTop) {
-            Collections.reverse(pendingMessages)
+            pendingMessages.reverse()
         }
         return pendingMessages
     }
@@ -65,64 +68,36 @@ internal class MessagesManager {
     fun begin(
         welcomeMessage: String?,
         stickyMessage: String?,
-        messages: MutableList<Message>,
+        messages: List<Message>,
         paging: PagingResponse?
     ) {
         this.originalMessages.clear()
-        this.originalMessages.addAll(messages)
+        this.originalMessages.addAll(messages.sortedBy { it.date })
         this.stickyMessage = stickyMessage
         this.applyWelcomeMessage(welcomeMessage)
         this.applyPaging(paging)
 
         formatMessages()
-
-        if (this.isCachingEnabled) {
-            dataSource!!.clear()
-            dataSource!!.add(this.originalMessages)
-        }
+        dataSource?.clear()
+        dataSource?.add(this.originalMessages)
     }
 
-    fun applyWelcomeMessage(welcomeMessage: String?) {
-        this.welcomeMessage = welcomeMessage
-        if (this.isCachingEnabled) {
-            dataSource!!.set(ParleyKeyValueDataSource.KEY_MESSAGE_INFO, welcomeMessage)
-        }
+    fun applyWelcomeMessage(message: String?) {
+        welcomeMessage = Message.ofTypeInfo(welcomeMessageUuid, message)
+        dataSource?.set(ParleyKeyValueDataSource.KEY_MESSAGE_INFO, message)
     }
-
 
     fun moreLoad(messages: MutableList<Message>) {
-        originalMessages.addAll(messages)
+        originalMessages.addAll(messages.sortedBy { it.date })
         formatMessages()
 
-        if (this.isCachingEnabled) {
-            dataSource!!.add(messages)
-        }
+        dataSource?.add(messages)
     }
 
     fun add(message: Message) {
-        var addIndex = messages.indexOf(findLatestMessage())
-        if (addIndex == -1) {
-            addIndex = 0
-        }
-        // Check if we need to add a date
-        if (messages.size == 1) {
-            // Only welcome message, add it
-            messages.add(addIndex, Message.ofTypeDate(message.getDate()))
-        } else if (findLatestMessage() == null || !DateUtil.isSameDay(
-                findLatestMessage()!!.getDate(),
-                message.getDate()
-            )
-        ) {
-            // Last message is of another day
-            messages.add(addIndex, Message.ofTypeDate(message.getDate()))
-        }
-        // Add this message
-        originalMessages.add(0, message)
-        messages.add(addIndex, message)
-
-        if (this.isCachingEnabled) {
-            dataSource!!.add(0, message)
-        }
+        originalMessages.add(message)
+        formatMessages()
+        dataSource?.add(0, message)
     }
 
     /**
@@ -133,11 +108,11 @@ internal class MessagesManager {
      */
     fun addOnlyNew(messages: MutableList<Message>): Boolean {
         var didAddMessage = false
-        Collections.reverse(messages)
+        messages.reverse()
 
         var pendingMessages = 0
         for (originalMessage in originalMessages) {
-            if (originalMessage.getSendStatus() == Message.SEND_STATUS_PENDING) {
+            if (originalMessage.sendStatus == Message.SEND_STATUS_PENDING) {
                 pendingMessages += 1
             }
         }
@@ -145,7 +120,7 @@ internal class MessagesManager {
         for (message in messages) {
             var index: Int? = null
             for (i in originalMessages.indices) {
-                if (CompareUtil.equals(originalMessages.get(i).getId(), message.getId())) {
+                if (CompareUtil.equals(originalMessages[i].id, message.id)) {
                     index = i
                 }
             }
@@ -154,9 +129,7 @@ internal class MessagesManager {
                 didAddMessage = true
                 // Add them before the pending messages, as the pending messages will be later than the retrieved ones
                 originalMessages.add(pendingMessages, message)
-                if (this.isCachingEnabled) {
-                    dataSource!!.add(pendingMessages, message)
-                }
+                dataSource?.add(pendingMessages, message)
             }
         }
         if (didAddMessage) {
@@ -168,72 +141,74 @@ internal class MessagesManager {
     fun update(message: Message) {
         var messagesIndex: Int? = null
         for (i in messages.indices) {
-            if (messages.get(i).getUuid() === message.getUuid()) {
+            if (messages[i].uuid === message.uuid) {
                 messagesIndex = i
             }
         }
 
         var originalIndex: Int? = null
         for (i in originalMessages.indices) {
-            if (originalMessages.get(i).getUuid() === message.getUuid()) {
+            if (originalMessages[i].uuid === message.uuid) {
                 originalIndex = i
             }
         }
 
         require(!(messagesIndex == null || originalIndex == null)) { "Given non-existing message to update!" }
-        originalMessages.set(originalIndex, message)
-        messages.set(messagesIndex, message)
+        originalMessages[originalIndex] = message
+        messages[messagesIndex] = message
 
-        if (this.isCachingEnabled) {
-            dataSource!!.update(message)
-        }
+        dataSource?.update(message)
     }
 
-    private fun findLatestMessage(): Message? {
-        if (messages.isEmpty()) {
-            return null
-        }
-        val firstMessage = messages.get(0)
-        if (firstMessage.getTypeId() == MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING && messages.size > 1) {
-            return messages.get(1) // The onNext message
-        } else {
-            return firstMessage
+    private fun findMostRecentMessage(): Message? {
+        return messages.sortedByDescending { it.date }.firstOrNull {
+            it.typeId != MessageViewHolderFactory.MESSAGE_TYPE_AGENT_TYPING
         }
     }
 
     private fun formatMessages() {
         messages.clear()
 
-        if (originalMessages.size == 0) {
-            addInfoMessage()
-            return
-        }
 
-        val firstDate = ListUtil.getLast<Message?>(originalMessages).getDate()
-
-        var lastDayDate = firstDate
-
-        for (message in originalMessages) {
-            if (!DateUtil.isSameDay(lastDayDate, message.getDate())) {
-                if (!DateUtil.isSameDay(lastDayDate, firstDate)) {
-                    // Add date message
-                    messages.add(Message.ofTypeDate(lastDayDate))
+        if (originalMessages.isEmpty()) {
+            addWelcomeMessage()
+        } else {
+            val sorted = originalMessages.sortedBy { it.date }
+            var workingDate = sorted.first().date
+            var addedWelcome = false
+            addDateMessage(workingDate)
+            sorted.forEach { message ->
+                val messageDate = message.date
+                if (DateUtil.isSameDay(workingDate, messageDate).not()) {
+                    addDateMessage(messageDate)
+                    workingDate = messageDate
                 }
-                lastDayDate = message.getDate()
+                if (DateUtil.isSameDay(workingDate, DateUtil.Today) && addedWelcome.not()) {
+                    addWelcomeMessage()
+                    addedWelcome = true
+                }
+                addChatMessage(message)
             }
-            messages.add(message)
+            if (addedWelcome.not()) {
+                addWelcomeMessage()
+            }
         }
-        messages.add(Message.ofTypeDate(firstDate))
-
-        if (!canLoadMore()) {
-            addInfoMessage()
+    }
+    private fun addWelcomeMessage() {
+        welcomeMessage?.let {
+            messages.add(it)
         }
     }
 
-    private fun addInfoMessage() {
-        if (welcomeMessage != null) {
-            messages.add(Message.ofTypeInfo(welcomeMessage))
+    private fun addDateMessage(date: Date?) {
+        val uuid = date?.let {
+            dateUuids.getOrPut(it) { UUID.randomUUID()}
         }
+        messages.add(Message.ofTypeDate(uuid, date))
+    }
+
+    private fun addChatMessage(message: Message) {
+        messages.add(message)
     }
 
     fun addAgentTypingMessage() {
@@ -252,25 +227,16 @@ internal class MessagesManager {
 
     fun applyPaging(paging: PagingResponse?) {
         this.paging = paging
-        if (this.isCachingEnabled) {
-            dataSource!!.set(ParleyKeyValueDataSource.KEY_PAGING, Gson().toJson(paging))
-        }
+        dataSource?.set(ParleyKeyValueDataSource.KEY_PAGING, Gson().toJson(paging))
     }
 
-    val isCachingEnabled: Boolean
-        get() = dataSource != null
+    fun isCachingEnabled() = dataSource != null
 
     fun canLoadMore(): Boolean {
         return paging != null && !paging!!.before.isBlank()
     }
 
-    val availableQuickReplies: MutableList<String?>?
-        get() {
-            if (findLatestMessage() == null || findLatestMessage()!!.getQuickReplies() == null) {
-                return ArrayList<String?>()
-            }
-            return findLatestMessage()!!.getQuickReplies()
-        }
+    fun getAvailableQuickReplies() = findMostRecentMessage()?.quickReplies.orEmpty()
 
     fun clear(clearDataSource: Boolean) {
         this.originalMessages.clear()
@@ -278,23 +244,21 @@ internal class MessagesManager {
         this.welcomeMessage = null
         this.stickyMessage = null
         this.paging = null
-        if (clearDataSource && dataSource != null) {
-            dataSource!!.clear()
+        if (clearDataSource) {
+            dataSource?.clear()
         }
         setDataSource(dataSource) // Reset cache
     }
 
     fun disableCaching() {
-        if (this.dataSource != null) {
-            this.dataSource!!.clear()
-        }
+        this.dataSource?.clear()
         this.dataSource = null
     }
 
     fun updateRead(messageIds: MutableSet<Int?>) {
         for (message in originalMessages) {
-            if (messageIds.contains(message.getId())) {
-                message.setStatus(MessageStatus.Read)
+            if (messageIds.contains(message.id)) {
+                message.status = MessageStatus.Read
             }
         }
         formatMessages()

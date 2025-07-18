@@ -1,5 +1,6 @@
 package nu.parley.android.view.chat;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import nu.parley.android.Parley;
@@ -56,6 +58,7 @@ public final class MessageAdapter extends RecyclerView.Adapter<ParleyBaseViewHol
     }
 
     public void setMessages(List<Message> messages, Boolean canLoadMore) {
+        Collections.reverse(messages);
         MessageDiffCallback callback = new MessageDiffCallback(new ArrayList<>(this.messages));
 
         this.messages.clear();

@@ -513,7 +513,7 @@ public final class ParleyView extends FrameLayout implements ParleyListener, Con
     }
 
     private void renderMessages() {
-        adapter.setMessages(getMessagesManager().messages, getMessagesManager().canLoadMore());
+        adapter.setMessages(getMessagesManager().getMessages(), getMessagesManager().canLoadMore());
 
         if (isAtBottom) {
             // Keep at bottom of the list when messages are added to the bottom
