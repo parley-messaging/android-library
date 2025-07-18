@@ -2,6 +2,10 @@
 
 ## Upcoming
 
+## 3.12.1 - Released 18 Jul 2025
+
+- [Chat] The welcome message is now always the first message of the current day.
+- [Source] Cleaned up MessagesManager for consistency and converted to Kotlin.
 - [Device] Sending device to backend now also sends the library version and OS type (Android).
 
 ## 3.12.0 - Released 13 Jun 2025
