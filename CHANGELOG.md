@@ -9,7 +9,7 @@
 - [Device] Sending device to backend now also sends the library version and OS type (Android).
 - [Chat] Fixed a case where the very first frame would show the being offline message even while the user is online.
 - [Compose] The keyboard now has the `send` ime action and handles this accordingly.
-- [Media] Fixed media upload when using clientApi v1.9.
+- [Media] Fixed image not being shown initially after the successfully uploading it when using clientApi v1.9.
 
 ## 3.12.0 - Released 13 Jun 2025
 
