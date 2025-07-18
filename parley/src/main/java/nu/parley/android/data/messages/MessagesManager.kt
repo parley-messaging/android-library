@@ -137,7 +137,7 @@ internal class MessagesManager {
 
     fun update(message: Message) {
         val messagesIndex = messages.indexOfFirst { it.uuid == message.uuid }
-        val originalIndex = originalMessages.indexOfFirst { it.uuid == welcomeMessageUuid }
+        val originalIndex = originalMessages.indexOfFirst { it.uuid == message.uuid }
 
         require(messagesIndex != -1) { "Given non-existing message to update!" }
         require(originalIndex != -1) { "Given non-existing message to update!" }
