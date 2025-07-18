@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- [Device] Sending device to backend now also sends the library version and OS type (Android).
+
 ## 3.12.0 - Released 13 Jun 2025
 
 - [Source] **IMPORTANT**: Parley now enforces SSL pinning automatically. When using a custom `network_security_config.xml`, it's now needed to use `tools:replace="android:networkSecurityConfig"` in the `AndroidManifest.xml`.
