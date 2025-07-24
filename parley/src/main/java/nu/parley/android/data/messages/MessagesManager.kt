@@ -239,7 +239,7 @@ internal class MessagesManager {
         dataSource = null
     }
 
-    fun updateRead(messageIds: MutableSet<Int?>) {
+    fun updateRead(messageIds: Set<Int>) {
         for (message in originalMessages) {
             if (messageIds.contains(message.id)) {
                 message.status = MessageStatus.Read

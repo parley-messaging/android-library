@@ -2,7 +2,7 @@
 
 ## Upcoming
 
-## 3.12.1 - Released 18 Jul 2025
+## 3.13.0 - Released 24 Jul 2025
 
 - [Chat] The welcome message is now always the first message of the current day.
 - [Source] Cleaned up MessagesManager for consistency and converted to Kotlin.
