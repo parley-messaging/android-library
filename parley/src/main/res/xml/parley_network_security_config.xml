@@ -4,8 +4,8 @@
         <domain includeSubdomains="true">parley.nu</domain>
 
         <pin-set>
-            <pin digest="SHA-256">1sZDlYipkuCiocCIY+1NHeP/GzCYj5nsxFaHYKQtFJg=</pin> <!-- Same public key for cert that expires at: 27 Jun 2024 and 28 Jun 2025 -->
             <pin digest="SHA-256">6CjoNLCiYXjhc6mdzEIRP2mszqogXLOgHRiJ24UUZkQ=</pin> <!-- Expires at: 10 Jun 2026 -->
+            <pin digest="SHA-256">9wDAyKQ7K8kgwzffm3tc768t7kqj5E2zPAqFQEmI91w=</pin> <!-- Expires at: 1 Dec 2026 -->
         </pin-set>
     </domain-config>
 </network-security-config>
