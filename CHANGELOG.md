@@ -2,6 +2,10 @@
 
 ## Upcoming
 
+## 3.13.1 - Released 18 May 2026
+
+- [Network] Updated SSL pinning certificates.
+
 ## 3.13.0 - Released 24 Jul 2025
 
 - [Chat] The welcome message is now always the first message of the current day.
