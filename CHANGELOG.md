@@ -2,6 +2,8 @@
 
 ## Upcoming
 
+- [Event] Sends the `chatOpened` event to the service(s) when the chat is displayed.
+
 ## 3.13.1 - Released 18 May 2026
 
 - [Network] Updated SSL pinning certificates.

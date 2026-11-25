@@ -55,8 +55,11 @@ public final class Parley {
     public static final String ADDITIONAL_VALUE_EMAIL = "email";
     public static final String ADDITIONAL_VALUE_ADDRESS = "address";
 
+    private static final String EVENT_CHAT_OPENED = "chatOpened";
+
     private State state = State.UNCONFIGURED;
     private ParleyListener listener;
+    private boolean chatOpenedSent = false;
     private String secret;
     private ParleyNetwork network = new ParleyNetwork();
     @Nullable
@@ -500,10 +503,24 @@ public final class Parley {
     public void setListener(ParleyListener listener) {
         this.listener = listener;
         listener.onStateChanged(state);
+        sendChatOpenedIfNeeded();
     }
 
     public void clearListener() {
         this.listener = null;
+        chatOpenedSent = false;
+    }
+
+    /**
+     * Tells the service(s) that the chat is opened. Only sent once per displayed chat, and only after
+     * the device is registered (state is configured), otherwise the API will reject it.
+     */
+    private void sendChatOpenedIfNeeded() {
+        if (listener == null || state != State.CONFIGURED || chatOpenedSent) {
+            return;
+        }
+        chatOpenedSent = true;
+        new EventRepository().fire(EVENT_CHAT_OPENED);
     }
 
     // Implementation
@@ -514,6 +531,7 @@ public final class Parley {
         if (listener != null) {
             listener.onStateChanged(state);
         }
+        sendChatOpenedIfNeeded();
     }
 
     public void triggerRefreshOnConnected() {
